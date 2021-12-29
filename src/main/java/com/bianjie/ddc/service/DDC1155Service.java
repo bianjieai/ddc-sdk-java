@@ -2,9 +2,11 @@ package com.bianjie.ddc.service;
 
 import com.bianjie.ddc.config.ConfigCache;
 import com.bianjie.ddc.constant.ErrorMessage;
+import com.bianjie.ddc.contract.DDC1155;
 import com.bianjie.ddc.exception.DDCException;
 import com.bianjie.ddc.listener.SignEventListener;
 import com.bianjie.ddc.util.AddressUtils;
+import com.bianjie.ddc.util.GasProvider;
 import lombok.extern.slf4j.Slf4j;
 //import org.fisco.bcos.web3j.tx.txdecode.InputAndOutputResult;
 //import org.fisco.bcos.web3j.utils.Strings;
@@ -21,6 +23,10 @@ public class DDC1155Service extends com.bianjie.ddc.service.BaseService {
     public DDC1155Service(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
     }
+
+    String contractAddr = ConfigCache.get().getDdc1155Address();
+    protected DDC1155 con = DDC1155.load(contractAddr, web, credentials, new GasProvider(ConfigCache.get().getGasPrice(),ConfigCache.get().getGasLimit()));
+
 
     /**
      * DDC的创建

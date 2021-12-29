@@ -2,9 +2,11 @@ package com.bianjie.ddc.service;
 
 import com.bianjie.ddc.config.ConfigCache;
 import com.bianjie.ddc.constant.ErrorMessage;
+import com.bianjie.ddc.contract.ChargeLogic;
 import com.bianjie.ddc.exception.DDCException;
 import com.bianjie.ddc.listener.SignEventListener;
 import com.bianjie.ddc.util.AddressUtils;
+import com.bianjie.ddc.util.GasProvider;
 //import com.bianjie.ddc.util.HexUtils;
 
 import java.math.BigInteger;
@@ -15,7 +17,11 @@ public class ChargeService extends BaseService {
 	public ChargeService(SignEventListener signEventListener) {
 		super.signEventListener = signEventListener;
 	}
-	
+
+	String contractAddr = ConfigCache.get().getChargeLogicAddress();
+	protected ChargeLogic con = ChargeLogic.load(contractAddr, web, credentials, new GasProvider(ConfigCache.get().getGasPrice(),ConfigCache.get().getGasLimit()));
+
+
 	/**
 	 * 运营方、平台方调用该接口为所属同一方的同一级别账户或者下级账户充值；
 	 * 

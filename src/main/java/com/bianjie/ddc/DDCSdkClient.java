@@ -13,21 +13,19 @@ import java.math.BigInteger;
 
 public class DDCSdkClient {
     private String opbGateWebAddress;
-    public DDCSdkClient(String opbGateWebAddress){}
 
     private SignEventListener signEventListener;
 
+    public DDCSdkClient(String opbGateWebAddress){ this.opbGateWebAddress=opbGateWebAddress; }
     /**
      * SDK 初始化方法，在此方法中解析SDK的配置文件，并且放到程序缓存中。
      * 四个地址可以传入自定义参数，传入将被使用，否则使用默认地址
      *
      */
     public void init(String credentials, String gasPrice, String gasLimit){
-        //ConfigInfo configInfo = ConfigUtils.loadConfigFromFile();
         ConfigCache.initCache(opbGateWebAddress,credentials,gasPrice,gasLimit,null,null,null,null);
     }
     public void init(String credentials, String gasPrice, String gasLimit, String ddc721Address, String ddc1155Address, String authorityLogicAddress, String chargeLogicAddress){
-        //ConfigInfo configInfo = ConfigUtils.loadConfigFromFile();
         ConfigCache.initCache(opbGateWebAddress,credentials,gasPrice,gasLimit,ddc721Address,ddc1155Address,authorityLogicAddress,chargeLogicAddress);
     }
 

@@ -8,9 +8,11 @@ import com.bianjie.ddc.config.ConfigCache;
 //import com.bianjie.ddc.dto.ddc.AccountState;
 //import com.bianjie.ddc.dto.taianchain.ReqJsonRpcBean;
 //import com.bianjie.ddc.dto.taianchain.RespJsonRpcBean;
+import com.bianjie.ddc.contract.AuthorityLogic;
 import com.bianjie.ddc.exception.DDCException;
 import com.bianjie.ddc.listener.SignEventListener;
 import com.bianjie.ddc.util.AddressUtils;
+import com.bianjie.ddc.util.GasProvider;
 //import org.fisco.bcos.web3j.abi.datatypes.Address;
 //import org.fisco.bcos.web3j.abi.datatypes.Utf8String;
 //import org.fisco.bcos.web3j.tx.txdecode.InputAndOutputResult;
@@ -25,7 +27,11 @@ public class AuthorityService extends com.bianjie.ddc.service.BaseService {
 		super.signEventListener = signEventListener;
 	}
 
-    /**
+
+	String contractAddr = ConfigCache.get().getAuthorityLogicAddress();
+	protected AuthorityLogic con = AuthorityLogic.load(contractAddr, web, credentials, new GasProvider(ConfigCache.get().getGasPrice(),ConfigCache.get().getGasLimit()));
+
+	/**
      * 运营方或平台方通过调用该方法进行DDC账户信息的创建，上级角色可进行下级角色账户的操作，如运营方可以为平台方添加账户、平台方可以为终端用户添加账户，但运营方不能直接为终端用户添加账户。
      * 
      * @param account DDC链账户地址

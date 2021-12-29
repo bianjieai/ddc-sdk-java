@@ -18,8 +18,11 @@ public class ConfigCache {
 		//地址验证
 		if(1==1){
 			configInfo.setCredentials(credentials);
-		}
-		if(ddc721Address!=null){
+		}if (gasPrice!=null){
+			configInfo.setGasPrice(gasPrice);
+		}if (gasLimit!=null){
+			configInfo.setGasLimit(gasLimit);
+		}if(ddc721Address!=null){
 			configInfo.setDdc721Address(ddc721Address);
 		}if(ddc1155Address!=null){
 			configInfo.setDdc1155Address(ddc1155Address);
