@@ -35,7 +35,7 @@ public class ConfigInfo {
 //
 //    private String chargeLogicBIN;
 
-    private String chargeLogicAddress = "dddddddddddddddddddddddddd";
+    private String chargeLogicAddress = "0xE3E701278bBFC7F0Af43a3a52Ebc160Ec4Bb192f";
 
 //公钥私钥
     private String privateKey;

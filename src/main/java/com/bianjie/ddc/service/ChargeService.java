@@ -7,10 +7,10 @@ import com.bianjie.ddc.exception.DDCException;
 import com.bianjie.ddc.listener.SignEventListener;
 import com.bianjie.ddc.util.AddressUtils;
 import com.bianjie.ddc.util.GasProvider;
-//import com.bianjie.ddc.util.HexUtils;
-
+import com.bianjie.ddc.util.HexUtils;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.utils.Strings;
 import java.math.BigInteger;
-import java.util.ArrayList;
 
 public class ChargeService extends BaseService {
 	
@@ -31,27 +31,22 @@ public class ChargeService extends BaseService {
 	 * @throws Exception
 	 */
 	public String recharge(String to, BigInteger amount) throws Exception {
-//		if(Strings.isEmpty(to)) {
-//    		throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
-//    	}
-//
-//		if(!AddressUtils.isValidAddress(to)) {
-//    		throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-//    	}
-//
-//		if(amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
-//			 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);
-//		}
-//
-//    	ArrayList<Object> arrayList = new ArrayList<>();
-//    	arrayList.add(new Address(to));
-//    	arrayList.add(amount);
-//
-//    	ReqJsonRpcBean reqJsonRpcBean = assembleChargeTransaction(ChargeFunctions.Recharge,arrayList);
-//    	RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(),reqJsonRpcBean, RespJsonRpcBean.class);
-//    	resultCheck(respJsonRpcBean);
-//        return (String) respJsonRpcBean.getResult();
-		return null;
+		if(Strings.isEmpty(to)) {
+    		throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+    	}
+
+		if(!AddressUtils.isValidAddress(to)) {
+    		throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+    	}
+
+		if(amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
+			 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);
+		}
+
+		TransactionReceipt res = con.recharge(to,amount).send();
+		resultCheck(res);
+
+		return res.getTransactionHash();
 	}
 	
 	/**
@@ -61,25 +56,18 @@ public class ChargeService extends BaseService {
 	 * @return 返回账户所对应的业务费余额
 	 * @throws Exception
 	 */
-	public BigInteger balanceOf(String accAddr) throws Exception {
-//		if(Strings.isEmpty(accAddr)) {
-//    		throw new DDCException(ErrorMessage.ACC_ADDR_IS_EMPTY);
-//    	}
-//
-//		if(!AddressUtils.isValidAddress(accAddr)) {
-//    		throw new DDCException(ErrorMessage.ACC_ADDR_IS_NOT_ADDRESS_FORMAT);
-//    	}
-//
-//		ArrayList<Object> arrayList = new ArrayList<>();
-//    	arrayList.add(new Address(accAddr));
-//
-//    	ReqJsonRpcBean reqJsonRpcBean = assembleChargeTransaction(ChargeFunctions.BalanceOf,arrayList);
-//    	RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(),reqJsonRpcBean, RespJsonRpcBean.class);
-//    	resultCheck(respJsonRpcBean);
-//
-//    	InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getChargeLogicABI(),ConfigCache.get().getChargeLogicBIN(),(String)respJsonRpcBean.getResult());
-//    	return (BigInteger)inputAndOutputResult.getResult().get(0).getData();
-	return null;
+	public String balanceOf(String accAddr) throws Exception {
+		if(Strings.isEmpty(accAddr)) {
+    		throw new DDCException(ErrorMessage.ACC_ADDR_IS_EMPTY);
+    	}
+
+		if(!AddressUtils.isValidAddress(accAddr)) {
+    		throw new DDCException(ErrorMessage.ACC_ADDR_IS_NOT_ADDRESS_FORMAT);
+    	}
+
+		TransactionReceipt res = con.balanceOf(accAddr).send();
+		resultCheck(res);
+		return res.toString();
 	}
 	
 	/**
@@ -91,28 +79,25 @@ public class ChargeService extends BaseService {
 	 * @throws Exception
 	 */
 	public BigInteger queryFee(String ddcAddr, String sig) throws Exception {
-//		if(Strings.isEmpty(ddcAddr)) {
-//    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
-//    	}
-//
-//		if(!AddressUtils.isValidAddress(ddcAddr)) {
-//    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
-//    	}
-//
-//		if(Strings.isEmpty(sig)) {
-//    		throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-//    	}
-//
-//		if(!HexUtils.isValid4ByteHash(sig)) {
-//			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
-//		}
-//
-//		ArrayList<Object> arrayList = new ArrayList<>();
-//    	arrayList.add(new Address(ddcAddr));
-//    	arrayList.add(sig);
-//    	resultCheck(respJsonRpcBean);
-//
-//    	InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getChargeLogicABI(),ConfigCache.get().getChargeLogicBIN(),(String)respJsonRpcBean.getResult());
+		if(Strings.isEmpty(ddcAddr)) {
+    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
+    	}
+
+		if(!AddressUtils.isValidAddress(ddcAddr)) {
+    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
+    	}
+
+		if(Strings.isEmpty(sig)) {
+    		throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+    	}
+
+		if(!HexUtils.isValid4ByteHash(sig)) {
+			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
+		}
+
+		TransactionReceipt res =con.queryFee(ddcAddr,sig.getBytes(sig)).send();
+		resultCheck(res);
+//		InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getChargeLogicABI(),ConfigCache.get().getChargeLogicBIN(),(String)respJsonRpcBean.getResult());
 //        return (BigInteger)inputAndOutputResult.getResult().get(0).getData();
 		return null;
 	}
@@ -125,7 +110,13 @@ public class ChargeService extends BaseService {
 	 * @throws Exception
 	 */
 	public String selfRecharge(BigInteger amount) throws Exception {
-		return null;
+		if(amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
+			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);
+		}
+
+		TransactionReceipt res = con.selfRecharge(amount).send();
+		resultCheck(res);
+		return res.getTransactionHash();
 	}
 	
 	/**
@@ -138,40 +129,33 @@ public class ChargeService extends BaseService {
 	 * @throws Exception
 	 */
 	public String setFee(String ddcAddr,String sig,BigInteger amount) throws Exception {
-//		if(Strings.isEmpty(ddcAddr)) {
-//    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
-//    	}
-//
-//		if(!AddressUtils.isValidAddress(ddcAddr)) {
-//    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
-//    	}
-//
-//		if(Strings.isEmpty(sig)) {
-//    		throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-//    	}
-//
-//		if(!HexUtils.isValid4ByteHash(sig)) {
-//			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
-//		}
-//
-//		if(amount == null) {
-//			 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);
-//		}
-//
-//		if(amount == null || amount.compareTo(BigInteger.valueOf(0L)) < 0) {
-//			 throw new DDCException(ErrorMessage.AMOUNT_LT_ZERO);
-//		}
-//
-//    	ArrayList<Object> arrayList = new ArrayList<>();
-//    	arrayList.add(ddcAddr);
-//    	arrayList.add(sig);
-//    	arrayList.add(amount);
-//
-//    	ReqJsonRpcBean reqJsonRpcBean = assembleChargeTransaction(ChargeFunctions.SetFee,arrayList);
-//    	RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(),reqJsonRpcBean, RespJsonRpcBean.class);
-//    	resultCheck(respJsonRpcBean);
-//        return (String) respJsonRpcBean.getResult();
-		return null;
+		if(Strings.isEmpty(ddcAddr)) {
+    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
+    	}
+
+		if(!AddressUtils.isValidAddress(ddcAddr)) {
+    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
+    	}
+
+		if(Strings.isEmpty(sig)) {
+    		throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+    	}
+
+		if(!HexUtils.isValid4ByteHash(sig)) {
+			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
+		}
+
+		if(amount == null) {
+			 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);
+		}
+
+		if(amount == null || amount.compareTo(BigInteger.valueOf(0L)) < 0) {
+			 throw new DDCException(ErrorMessage.AMOUNT_LT_ZERO);
+		}
+
+		TransactionReceipt res = con.setFee(ddcAddr,sig.getBytes(sig),amount).send();
+		resultCheck(res);
+		return res.getTransactionHash();
 	}
 	
 	/**
@@ -183,32 +167,25 @@ public class ChargeService extends BaseService {
 	 * @throws Exception
 	 */
 	public String delFee(String ddcAddr, String sig) throws Exception {
-//		if(Strings.isEmpty(ddcAddr)) {
-//    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
-//    	}
-//
-//		if(!AddressUtils.isValidAddress(ddcAddr)) {
-//    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
-//    	}
-//
-//		if(Strings.isEmpty(sig)) {
-//    		throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-//    	}
-//
-//		if(!HexUtils.isValid4ByteHash(sig)) {
-//			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
-//		}
-//
-//    	ArrayList<Object> arrayList = new ArrayList<>();
-//    	arrayList.add(ddcAddr);
-//    	arrayList.add(sig);
-//
-//
-//    	ReqJsonRpcBean reqJsonRpcBean = assembleChargeTransaction(ChargeFunctions.DeleteFee,arrayList);
-//    	RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(),reqJsonRpcBean, RespJsonRpcBean.class);
-//    	resultCheck(respJsonRpcBean);
-//        return (String) respJsonRpcBean.getResult();
-		return null;
+		if(Strings.isEmpty(ddcAddr)) {
+    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
+    	}
+
+		if(!AddressUtils.isValidAddress(ddcAddr)) {
+    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
+    	}
+
+		if(Strings.isEmpty(sig)) {
+    		throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+    	}
+
+		if(!HexUtils.isValid4ByteHash(sig)) {
+			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
+		}
+
+		TransactionReceipt res = con.deleteFee(ddcAddr,sig.getBytes(sig)).send();
+		resultCheck(res);
+		return res.getTransactionHash();
 	}
 	
 	/**
@@ -219,26 +196,17 @@ public class ChargeService extends BaseService {
 	 * @throws Exception
 	 */
 	public String delDDC(String ddcAddr) throws Exception {
-//		if(Strings.isEmpty(ddcAddr)) {
-//    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
-//    	}
-//
-//		if(!AddressUtils.isValidAddress(ddcAddr)) {
-//    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
-//    	}
-//
-//    	ArrayList<Object> arrayList = new ArrayList<>();
-//    	arrayList.add(new Address(ddcAddr));
-//
-//    	ReqJsonRpcBean reqJsonRpcBean = assembleChargeTransaction(ChargeFunctions.DeleteDDC,arrayList);
-//    	RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(),reqJsonRpcBean, RespJsonRpcBean.class);
-//    	resultCheck(respJsonRpcBean);
-//        return (String) respJsonRpcBean.getResult();
-		return null;
+		if(Strings.isEmpty(ddcAddr)) {
+    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
+    	}
+
+		if(!AddressUtils.isValidAddress(ddcAddr)) {
+    		throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
+    	}
+
+		TransactionReceipt res = con.deleteDDC(ddcAddr).send();
+		resultCheck(res);
+		return res.getTransactionHash();
 	}
-	
-	
-//    private ReqJsonRpcBean assembleChargeTransaction(String functionName, ArrayList<Object> params) throws Exception {
-//    	return assembleTransaction(getBlockNumber(),ConfigCache.get().getChargeLogicABI(), ConfigCache.get().getChargeLogicAddress(), functionName,params);
-//    }
+
 }

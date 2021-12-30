@@ -1,5 +1,9 @@
 package com.bianjie.ddc;
 
+import com.bianjie.ddc.listener.SignEventListener;
+import com.bianjie.ddc.service.AuthorityService;
+import com.bianjie.ddc.service.DDC721Service;
+
 public class DDCSdkClientTest {
    // @Test
     public void sdkInitTest() throws Exception {

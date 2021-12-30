@@ -1,18 +1,15 @@
 package com.bianjie.ddc.service;
 
 import com.bianjie.ddc.config.ConfigCache;
+import com.bianjie.ddc.constant.ErrorMessage;
+import com.bianjie.ddc.exception.DDCException;
 import com.bianjie.ddc.listener.SignEventListener;
-import com.bianjie.ddc.util.GasProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
-
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 public class BaseService {
@@ -188,18 +185,15 @@ public class BaseService {
     /**
      * 校验交易结果
      */
-    public void resultCheck(TransactionReceipt result){
+    public void resultCheck(TransactionReceipt result) {
+        if (null == result) {
+            log.error("resultCheck {}", ErrorMessage.REQUEST_FAILED);
+            throw new DDCException(ErrorMessage.REQUEST_FAILED);
+        }
 
+//        if (result.error != null) {
+//            log.error("resultCheck {}", result.getError());
+//            throw new DDCException(ErrorMessage.REQUEST_FAILED, result.getError());
+//        }
     }
-//    public void resultCheck(RespJsonRpcBean respJsonRpcBean) {
-//        if (null == respJsonRpcBean) {
-//            log.error("resultCheck {}",ErrorMessage.REQUEST_FAILED);
-//            throw new DDCException(ErrorMessage.REQUEST_FAILED);
-//        }
-//
-//        if (respJsonRpcBean.getError() != null) {
-//            log.error("resultCheck {}",respJsonRpcBean.getError());
-//            throw new DDCException(ErrorMessage.REQUEST_FAILED, respJsonRpcBean.getError());
-//        }
-//    }
 }

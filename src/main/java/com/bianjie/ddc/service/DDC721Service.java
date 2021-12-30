@@ -4,9 +4,7 @@ import com.bianjie.ddc.config.ConfigCache;
 import com.bianjie.ddc.contract.DDC721;
 import com.bianjie.ddc.listener.SignEventListener;
 import com.bianjie.ddc.util.GasProvider;
-import org.web3j.abi.datatypes.Address;
-import org.web3j.abi.datatypes.Utf8String;
-import org.web3j.abi.datatypes.generated.Uint160;
+import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.math.BigInteger;
@@ -44,7 +42,6 @@ public class DDC721Service extends BaseService {
         //发请求
 
         TransactionReceipt res =  con.mint(to, ddcURI).send();
-
         resultCheck(res);
         return res.toString();
     }
