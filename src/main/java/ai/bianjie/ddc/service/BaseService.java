@@ -12,7 +12,7 @@ import org.web3j.protocol.http.HttpService;
 public class BaseService {
 
     //protected RestTemplateUtil restTemplateUtil = new RestTemplateUtil();
-    protected Web3j web = Web3j.build(new HttpService(ConfigCache.get().getOpbGatewayAddress()));
+    protected Web3j web3j = Web3j.build(new HttpService(ConfigCache.get().getOpbGatewayAddress()));
     Credentials credentials = Credentials.create(ConfigCache.get().getCredentials());
     //String contractAddr = "";
 

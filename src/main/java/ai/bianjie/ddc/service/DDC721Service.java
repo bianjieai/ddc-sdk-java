@@ -1,6 +1,7 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.config.ConfigCache;
+import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.GasProvider;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -16,7 +17,7 @@ public class DDC721Service extends BaseService {
 	}
 
     String contractAddr = ConfigCache.get().getDdc721Address();
-    protected DDC721 con = DDC721.load(contractAddr, web, credentials, new GasProvider(ConfigCache.get().getGasPrice(),ConfigCache.get().getGasLimit()));
+    protected DDC721 ddc721 = DDC721.load(contractAddr, web3j, credentials, new GasProvider(ConfigCache.get().getGasPrice(),ConfigCache.get().getGasLimit()));
 
     /**
      * 创建DDC
@@ -39,7 +40,7 @@ public class DDC721Service extends BaseService {
 
         //发请求
 
-        TransactionReceipt res =  con.mint(to, ddcURI).send();
+        TransactionReceipt res =  ddc721.mint(to, ddcURI).send();
 
         resultCheck(res);
         return res.toString();

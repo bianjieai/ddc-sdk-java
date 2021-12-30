@@ -27,7 +27,7 @@ public class AuthorityService extends BaseService {
 
 
 	String contractAddr = ConfigCache.get().getAuthorityLogicAddress();
-	protected AuthorityLogic con = AuthorityLogic.load(contractAddr, web, credentials, new GasProvider(ConfigCache.get().getGasPrice(),ConfigCache.get().getGasLimit()));
+	protected AuthorityLogic authorityLogic = AuthorityLogic.load(contractAddr, web3j, credentials, new GasProvider(ConfigCache.get().getGasPrice(),ConfigCache.get().getGasLimit()));
 
 	/**
      * 运营方或平台方通过调用该方法进行DDC账户信息的创建，上级角色可进行下级角色账户的操作，如运营方可以为平台方添加账户、平台方可以为终端用户添加账户，但运营方不能直接为终端用户添加账户。
@@ -52,7 +52,7 @@ public class AuthorityService extends BaseService {
 //        }
 //resultCheck(respJsonRpcBean);
 //        return (String) respJsonRpcBean.getResult();
-		 TransactionReceipt res = con.addAccount(account, accName, accDID).send();
+		 TransactionReceipt res = authorityLogic.addAccount(account, accName, accDID).send();
 		return null;
     }
     
@@ -95,7 +95,7 @@ public class AuthorityService extends BaseService {
 //    	RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(),reqJsonRpcBean, RespJsonRpcBean.class);
 //    	resultCheck(respJsonRpcBean);
 //    	return (String) respJsonRpcBean.getResult();
-		TransactionReceipt res = con.addConsumerByOperator(account,accName,accDID,leaderDID).send();
+		TransactionReceipt res = authorityLogic.addConsumerByOperator(account,accName,accDID,leaderDID).send();
 		return null;
     }
     

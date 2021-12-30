@@ -1,6 +1,7 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.config.ConfigCache;
+import ai.bianjie.ddc.contract.DDC1155;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.GasProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ public class DDC1155Service extends BaseService {
     }
 
     String contractAddr = ConfigCache.get().getDdc1155Address();
-    protected DDC1155 con = DDC1155.load(contractAddr, web, credentials, new GasProvider(ConfigCache.get().getGasPrice(),ConfigCache.get().getGasLimit()));
+    protected DDC1155 ddc1155 = DDC1155.load(contractAddr, web3j, credentials, new GasProvider(ConfigCache.get().getGasPrice(),ConfigCache.get().getGasLimit()));
 
 
     /**

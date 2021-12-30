@@ -15,7 +15,7 @@ public class ChargeService extends BaseService {
 	}
 
 	String contractAddr = ConfigCache.get().getChargeLogicAddress();
-	protected ChargeLogic con = ChargeLogic.load(contractAddr, web, credentials, new GasProvider(ConfigCache.get().getGasPrice(),ConfigCache.get().getGasLimit()));
+	protected ChargeLogic chargeLogic = ChargeLogic.load(contractAddr, web3j, credentials, new GasProvider(ConfigCache.get().getGasPrice(),ConfigCache.get().getGasLimit()));
 
 
 	/**
