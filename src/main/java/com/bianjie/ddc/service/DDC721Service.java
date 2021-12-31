@@ -1,57 +1,68 @@
 package com.bianjie.ddc.service;
 
 import com.bianjie.ddc.config.ConfigCache;
+import com.bianjie.ddc.constant.ErrorMessage;
 import com.bianjie.ddc.contract.DDC721;
+import com.bianjie.ddc.exception.DDCException;
 import com.bianjie.ddc.listener.SignEventListener;
+import com.bianjie.ddc.util.AddressUtils;
 import com.bianjie.ddc.util.GasProvider;
-import org.web3j.abi.datatypes.Address;
-import org.web3j.abi.datatypes.Utf8String;
-import org.web3j.abi.datatypes.generated.Uint160;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.utils.Strings;
 
 import java.math.BigInteger;
 
 
 public class DDC721Service extends BaseService {
 
-    //唯一构造方法，传入监听者创建对象
-	public DDC721Service(SignEventListener signEventListener) {
-		super.signEventListener = signEventListener;
-	}
+    //注册签名事件
+    public DDC721Service(SignEventListener signEventListener) {
+        super.signEventListener = signEventListener;
+    }
 
-    String contractAddr = ConfigCache.get().getDdc721Address();
-    protected DDC721 con = DDC721.load(contractAddr, web, credentials, new GasProvider(ConfigCache.get().getGasPrice(),ConfigCache.get().getGasLimit()));
+    //获取合约地址
+    private String contractAddr = ConfigCache.get().getDdc721Address();
+    //加载合约，生成合约实例
+    private DDC721 ddc721 = DDC721.load(contractAddr, web, credentials, new GasProvider(ConfigCache.get().getGasPrice(), ConfigCache.get().getGasLimit()));
 
     /**
      * 创建DDC
+     *
      * @param to     接收者账户
      * @param ddcURI DDC资源标识符
      * @return 交易哈希
      * @throws Exception Exception
      */
     public String mint(String to, String ddcURI) throws Exception {
+        //1.检查接收者账户地址是否为空
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+        }
+        //2.检查接收者账户地址是否正确
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        //3.检查DDCURI是否为空
+        if (Strings.isEmpty(ddcURI)) {
+            throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
+        }
+        //4.检查签名事件是否被注册
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
 
-//        if (Strings.isEmpty(to)) {
-//            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
-//        }
-//        if (Strings.isEmpty(ddcURI)) {
-//            throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
-//        }
-//        if (!AddressUtils.isValidAddress(to)) {
-//            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-//        }
+        //调用合约上的对应方法
+        TransactionReceipt transactionReceipt = ddc721.mint(to, ddcURI).send();
 
-        //发请求
+        resultCheck(transactionReceipt);
 
-        TransactionReceipt res =  con.mint(to, ddcURI).send();
-
-        resultCheck(res);
-        return res.toString();
+        return transactionReceipt.getTransactionHash();
     }
 
 
     /**
      * 授权DDC
+     *
      * @param to    授权者账户
      * @param ddcId DDC唯一标识
      * @return 交易哈希
@@ -59,53 +70,54 @@ public class DDC721Service extends BaseService {
      */
     public String approve(String to, BigInteger ddcId) throws Exception {
 
-//        if (Strings.isEmpty(to)) {
-//            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
-//        }
-//        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
-//            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
-//        }
-//        if (!AddressUtils.isValidAddress(to)) {
-//            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-//        }
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+        }
 
-//        con.approve();
-//        resultCheck(respJsonRpcBean);
-//        return (String) respJsonRpcBean.getResult();
-        return null;
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
+            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
+        }
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+
+        TransactionReceipt transactionReceipt = ddc721.approve(to, ddcId).send();
+        resultCheck(transactionReceipt);
+
+        return transactionReceipt.getTransactionHash();
     }
 
 
     /**
-     * 授权查询
+     * 授权查询：
+     * 运营方、平台方和终端用户都可以通过调用该方法查询DDC的授权情况
      * @param ddcId DDC唯一标识
      * @return 授权的账户
      * @throws Exception Exception
      */
     public String getApproved(BigInteger ddcId) throws Exception {
 
-//        if (null == ddcId) {
-//            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
-//        }
-//
-//        if(ddcId.compareTo(new BigInteger("0")) <= 0) {
-//        	throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
-//        }
-//
-//        ArrayList<Object> arrayList = new ArrayList<>();
-//        arrayList.add(ddcId);
-//
-//        ReqJsonRpcBean reqJsonRpcBean = assembleDDC721Transaction(DDC721Functions.GET_APPROVED, arrayList);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//
-//        InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getDdc721ABI(), ConfigCache.get().getDdc721BIN(), respJsonRpcBean.getResult().toString());
-//        return inputAndOutputResult.getResult().get(0).getData().toString();
+
+        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
+            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
+        }
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+
+        ddc721.getApproved(ddcId);
+
         return null;
+
     }
 
     /**
      * 授权DDC
+     *
      * @param operator 授权者账户
      * @param approved 授权标识
      * @return 交易hash
@@ -137,7 +149,7 @@ public class DDC721Service extends BaseService {
     /**
      * DDC授权查询
      *
-     * @param owner 拥有者账户
+     * @param owner    拥有者账户
      * @param operator 授权者账户
      * @return 授权标识
      * @throws Exception Exception
