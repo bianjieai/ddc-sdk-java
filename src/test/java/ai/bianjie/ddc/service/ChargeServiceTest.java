@@ -21,15 +21,16 @@ class ChargeServiceTest {
             "WEBUzovj+TAxwvgB26tCfoqk9X2gTdjwwKh6o/hvtx66EDB9GlzgTA==\n" +
             "-----END PUBLIC KEY-----";
     static {
-        DDCSdkClient sdk = new DDCSdkClient();
-        sdk.init();
+        DDCSdkClient sdk = new DDCSdkClient("http://127.0.0.1:8545");
+        sdk.init("B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26","3","300000000");
     }
 
     @Test
-    void recharge() {
+    void recharge() throws Exception {
         ChargeService chargeService =new ChargeService(new Secp256K1SignEventListener(privateKey, publicKey));
         String to = "0x522bc3e4e29276A13f7b7BE9D404961826a82bf8";
-        BigInteger amount = new BigInteger("300000");
+        BigInteger amount;
+        amount = new BigInteger("300000");
 
         String txhash = chargeService.recharge(to, amount);
         assertNotNull(txhash);

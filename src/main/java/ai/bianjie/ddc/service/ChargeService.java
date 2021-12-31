@@ -43,9 +43,9 @@ public class ChargeService extends BaseService {
 			 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);
 		}
 
-		TransactionReceipt res = chargeLogic.recharge(to,amount).send();
+		TransactionReceipt res;
+		res = chargeLogic.recharge(to,amount).send();
 		resultCheck(res);
-
 		return res.getTransactionHash();
 	}
 	
