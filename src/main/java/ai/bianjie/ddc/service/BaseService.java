@@ -1,26 +1,119 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.config.ConfigCache;
+import ai.bianjie.ddc.constant.ErrorMessage;
+import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import lombok.extern.slf4j.Slf4j;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 
 @Slf4j
 public class BaseService {
-
-    //protected RestTemplateUtil restTemplateUtil = new RestTemplateUtil();
     protected Web3j web3j = Web3j.build(new HttpService(ConfigCache.get().getOpbGatewayAddress()));
+
     Credentials credentials = Credentials.create(ConfigCache.get().getCredentials());
-    //String contractAddr = "";
-
-    //GasProvider gasProvider = new GasProvider();
-
     protected SignEventListener signEventListener;
 
 
+    /**
+     * 获取区块信息
+     * @param blockNumber 区块高度
+     * @return 区块信息
+     */
+    public String getBlockByNumber(String blockNumber) {
+//        ReqJsonRpcBean reqGetBlockNumberBean = new ReqJsonRpcBean();
+//        reqGetBlockNumberBean.setMethod(FiscoFunctions.GetBlockByNumber);
+//        ArrayList<Object> params = new ArrayList<>();
+//        params.add(SignedTransactionsUtils.getGroupId());
+//        params.add(blockNumber);
+//        params.add(true);
+//        reqGetBlockNumberBean.setParams(params);
+//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqGetBlockNumberBean, RespJsonRpcBean.class);
+//        resultCheck(respJsonRpcBean);
+//        return JSONObject.parseObject(JSONObject.toJSONString(respJsonRpcBean.getResult()),BlockInfoBean.class);
+        return null;
+    }
+
+    /**
+     * 查询交易回执
+     * @param hash 交易哈希
+     * @return 交易回执
+     * @throws InterruptedException InterruptedException
+     */
+    public String getTransReceipt(String hash) throws InterruptedException {
+//        ReqJsonRpcBean reqJsonRpcBean = new ReqJsonRpcBean();
+//        ArrayList<Object> params = new ArrayList<>();
+//        reqJsonRpcBean.setMethod(FiscoFunctions.GetTransactionReceipt);
+//        params.add(SignedTransactionsUtils.getGroupId());
+//        params.add(hash);
+//        reqJsonRpcBean.setParams(params);
+//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
+//        resultCheck(respJsonRpcBean);
+//        return JSONObject.parseObject(JSONObject.toJSONString(respJsonRpcBean.getResult()),TransactionRecepitBean.class);
+        return null;
+    }
+
+    /**
+     * 查询交易信息
+     * @param hash 交易哈希
+     * @return 交易信息
+     */
+    public String getTransByHash(String hash) {
+//        ReqJsonRpcBean reqJsonRpcBean = new ReqJsonRpcBean();
+//        ArrayList<Object> params = new ArrayList<>();
+//        reqJsonRpcBean.setMethod(FiscoFunctions.GetTransactionByHash);
+//        params.add(SignedTransactionsUtils.getGroupId());
+//        params.add(hash);
+//        reqJsonRpcBean.setParams(params);
+//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
+//        resultCheck(respJsonRpcBean);
+//        return JSONObject.parseObject(JSONObject.toJSONString(respJsonRpcBean.getResult()),TransactionInfoBean.class);
+        return null;
+    }
+
+    /**
+     * 查询交易状态
+     * @param hash 交易哈希
+     * @return 交易状态
+     */
+    public Boolean getTransByStatus(String hash){
+        return null;
+    }
+
+    /**
+     * 根据交易hash查询交易回执并解析交易回执中的output
+     * @param hash 交易哈希
+     * @return 解析的output结果
+     * @throws InterruptedException InterruptedException
+     * @throws BaseException BaseException
+     * @throws TransactionException TransactionException
+     */
+//    public InputAndOutputResult analyzeTransactionRecepitOutput(String abi, String bin, String hash) throws InterruptedException, BaseException, TransactionException {
+//        Thread.sleep(1 * 1000);
+//        TransactionRecepitBean transactionRecepitBean = getTransactionRecepit(hash);
+//
+//        if (null == transactionRecepitBean) {
+//            log.error("analyzeTransactionRecepitOutput {}",ErrorMessage.REQUEST_FAILED);
+//            throw new DDCException(ErrorMessage.REQUEST_FAILED);
+//        }
+//
+//        if (!transactionRecepitBean.getStatus().equals("0x0")) {
+//            String errorMsg = new String(Hex.decode(transactionRecepitBean.getOutput().substring(2).getBytes(StandardCharsets.UTF_8)));
+//            log.error("analyzeTransactionRecepitOutput {}",errorMsg);
+//            throw new DDCException(ErrorMessage.REQUEST_FAILED.getCode(),errorMsg);
+//        }
+//
+//        InputAndOutputResult inputAndOutputResult = AnalyzeChainInfoUtils.analyzeTransactionOutput(abi, bin, transactionRecepitBean.getInput(), transactionRecepitBean.getOutput());
+//        if (inputAndOutputResult.getResult().size() == 0) {
+//            log.error("analyzeTransactionRecepitOutput {}",ErrorMessage.REQUEST_FAILED);
+//            throw new DDCException(ErrorMessage.REQUEST_FAILED);
+//        }
+//        return inputAndOutputResult;
+//    }
 
     /**
      * 组装交易
@@ -61,106 +154,6 @@ public class BaseService {
 //        return reqJsonRpcBean;
 //    }
 
-    /**
-     * 获取区块高度
-     * @return 区块高度
-     */
-//    public BigInteger getBlockNumber() {
-//        ReqJsonRpcBean reqGetBlockNumberBean = new ReqJsonRpcBean();
-//        reqGetBlockNumberBean.setMethod(FiscoFunctions.GetBlockNumber);
-//        ArrayList<Object> params = new ArrayList<>();
-//        params.add(SignedTransactionsUtils.getGroupId());
-//        reqGetBlockNumberBean.setParams(params);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqGetBlockNumberBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//        BigInteger blockNumber = getHeight(JSONObject.toJSONString(respJsonRpcBean));
-//        return blockNumber;
-//    }
-
-    /**
-     * 获取区块信息
-     * @param blockNumber 区块高度
-     * @return 区块信息
-     */
-//    public BlockInfoBean getBlockInfo(String blockNumber) {
-//        ReqJsonRpcBean reqGetBlockNumberBean = new ReqJsonRpcBean();
-//        reqGetBlockNumberBean.setMethod(FiscoFunctions.GetBlockByNumber);
-//        ArrayList<Object> params = new ArrayList<>();
-//        params.add(SignedTransactionsUtils.getGroupId());
-//        params.add(blockNumber);
-//        params.add(true);
-//        reqGetBlockNumberBean.setParams(params);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqGetBlockNumberBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//        return JSONObject.parseObject(JSONObject.toJSONString(respJsonRpcBean.getResult()),BlockInfoBean.class);
-//    }
-
-    /**
-     * 获取交易回执
-     * @param hash 交易哈希
-     * @return 交易回执
-     * @throws InterruptedException InterruptedException
-     */
-//    public TransactionRecepitBean getTransactionRecepit(String hash) throws InterruptedException {
-//        ReqJsonRpcBean reqJsonRpcBean = new ReqJsonRpcBean();
-//        ArrayList<Object> params = new ArrayList<>();
-//        reqJsonRpcBean.setMethod(FiscoFunctions.GetTransactionReceipt);
-//        params.add(SignedTransactionsUtils.getGroupId());
-//        params.add(hash);
-//        reqJsonRpcBean.setParams(params);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//        return JSONObject.parseObject(JSONObject.toJSONString(respJsonRpcBean.getResult()),TransactionRecepitBean.class);
-//    }
-
-    /**
-     * 根据交易hash查询交易回执并解析交易回执中的output
-     * @param hash 交易哈希
-     * @return 解析的output结果
-     * @throws InterruptedException InterruptedException
-     * @throws BaseException BaseException
-     * @throws TransactionException TransactionException
-     */
-//    public InputAndOutputResult analyzeTransactionRecepitOutput(String abi, String bin, String hash) throws InterruptedException, BaseException, TransactionException {
-//        Thread.sleep(1 * 1000);
-//        TransactionRecepitBean transactionRecepitBean = getTransactionRecepit(hash);
-//
-//        if (null == transactionRecepitBean) {
-//            log.error("analyzeTransactionRecepitOutput {}",ErrorMessage.REQUEST_FAILED);
-//            throw new DDCException(ErrorMessage.REQUEST_FAILED);
-//        }
-//
-//        if (!transactionRecepitBean.getStatus().equals("0x0")) {
-//            String errorMsg = new String(Hex.decode(transactionRecepitBean.getOutput().substring(2).getBytes(StandardCharsets.UTF_8)));
-//            log.error("analyzeTransactionRecepitOutput {}",errorMsg);
-//            throw new DDCException(ErrorMessage.REQUEST_FAILED.getCode(),errorMsg);
-//        }
-//
-//        InputAndOutputResult inputAndOutputResult = AnalyzeChainInfoUtils.analyzeTransactionOutput(abi, bin, transactionRecepitBean.getInput(), transactionRecepitBean.getOutput());
-//        if (inputAndOutputResult.getResult().size() == 0) {
-//            log.error("analyzeTransactionRecepitOutput {}",ErrorMessage.REQUEST_FAILED);
-//            throw new DDCException(ErrorMessage.REQUEST_FAILED);
-//        }
-//        return inputAndOutputResult;
-//    }
-
-    /**
-     * 获取交易信息
-     * @param hash 交易哈希
-     * @return 交易信息
-     */
-//    public TransactionInfoBean getTransactionByHash(String hash) {
-//        ReqJsonRpcBean reqJsonRpcBean = new ReqJsonRpcBean();
-//        ArrayList<Object> params = new ArrayList<>();
-//        reqJsonRpcBean.setMethod(FiscoFunctions.GetTransactionByHash);
-//        params.add(SignedTransactionsUtils.getGroupId());
-//        params.add(hash);
-//        reqJsonRpcBean.setParams(params);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//        return JSONObject.parseObject(JSONObject.toJSONString(respJsonRpcBean.getResult()),TransactionInfoBean.class);
-//    }
-
 //    private BigInteger getHeight(String result) {
 //        try {
 //            JSONObject getHeightJson = JSONObject.parseObject(result);
@@ -182,18 +175,15 @@ public class BaseService {
     /**
      * 校验交易结果
      */
-    public void resultCheck(TransactionReceipt result){
+    public void resultCheck(TransactionReceipt result) {
+        if (null == result) {
+            log.error("resultCheck {}", ErrorMessage.REQUEST_FAILED);
+            throw new DDCException(ErrorMessage.REQUEST_FAILED);
+        }
 
+//        if (result.error != null) {
+//            log.error("resultCheck {}", result.getError());
+//            throw new DDCException(ErrorMessage.REQUEST_FAILED, result.getError());
+//        }
     }
-//    public void resultCheck(RespJsonRpcBean respJsonRpcBean) {
-//        if (null == respJsonRpcBean) {
-//            log.error("resultCheck {}",ErrorMessage.REQUEST_FAILED);
-//            throw new DDCException(ErrorMessage.REQUEST_FAILED);
-//        }
-//
-//        if (respJsonRpcBean.getError() != null) {
-//            log.error("resultCheck {}",respJsonRpcBean.getError());
-//            throw new DDCException(ErrorMessage.REQUEST_FAILED, respJsonRpcBean.getError());
-//        }
-//    }
 }
