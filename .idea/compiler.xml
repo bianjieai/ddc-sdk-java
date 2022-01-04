@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ddc_sdk" />
+        <module name="ddc-sdk-java" />
         <module name="ddc_test" />
       </profile>
     </annotationProcessing>

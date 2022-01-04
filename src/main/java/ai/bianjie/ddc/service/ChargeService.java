@@ -40,7 +40,7 @@ public class ChargeService extends BaseService {
     	}
 
 		if(amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
-			 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);
+			 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
 
 		TransactionReceipt res;
@@ -111,7 +111,7 @@ public class ChargeService extends BaseService {
 	 */
 	public String selfRecharge(BigInteger amount) throws Exception {
 		if(amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
-			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);
+			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
 
 		TransactionReceipt res = chargeLogic.selfRecharge(amount).send();
@@ -146,7 +146,7 @@ public class ChargeService extends BaseService {
 		}
 
 		if(amount == null) {
-			 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);
+			 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
 
 		if(amount == null || amount.compareTo(BigInteger.valueOf(0L)) < 0) {

@@ -4,13 +4,9 @@ import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.GasProvider;
-import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.constant.ErrorMessage;
-import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.exception.DDCException;
-import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
-import ai.bianjie.ddc.util.GasProvider;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Strings;
 
@@ -27,10 +23,11 @@ public class DDC721Service extends BaseService {
     //获取合约地址
     private String contractAddr = ConfigCache.get().getDdc721Address();
     //加载合约，生成合约实例
-    private DDC721 ddc721 = DDC721.load(contractAddr, web, credentials, new GasProvider(ConfigCache.get().getGasPrice(), ConfigCache.get().getGasLimit()));
+    private DDC721 ddc721 = DDC721.load(contractAddr, web3j, credentials, new GasProvider(ConfigCache.get().getGasPrice(), ConfigCache.get().getGasLimit()));
 
     /**
      * 创建DDC
+     *
      * @param to     接收者账户
      * @param ddcURI DDC资源标识符
      * @return 交易哈希
@@ -81,7 +78,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         if (this.signEventListener == null) {
@@ -98,6 +95,7 @@ public class DDC721Service extends BaseService {
     /**
      * 授权查询：
      * 运营方、平台方和终端用户都可以通过调用该方法查询DDC的授权情况
+     *
      * @param ddcId DDC唯一标识
      * @return 授权的账户
      * @throws Exception Exception
@@ -105,46 +103,37 @@ public class DDC721Service extends BaseService {
     public String getApproved(BigInteger ddcId) throws Exception {
 
 
-        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         if (this.signEventListener == null) {
             throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
         }
 
-        ddc721.getApproved(ddcId);
-
-        return null;
-
+        return ddc721.getApproved(ddcId).send();
     }
 
     /**
      * 授权DDC
+     *
      * @param operator 授权者账户
      * @param approved 授权标识
      * @return 交易hash
      * @throws Exception
+     * @desc DDC拥有者通过该方法授权给指定用户
      */
     public String setApprovalForAll(String operator, Boolean approved) throws Exception {
 
-//        if (Strings.isEmpty(operator)) {
-//            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
-//        }
-//        if (!AddressUtils.isValidAddress(operator)) {
-//            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-//        }
-//        if (null == approved) {
-//            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-//        }
-//        ArrayList<Object> arrayList = new ArrayList<>();
-//        arrayList.add(operator);
-//        arrayList.add(approved);
-//
-//        ReqJsonRpcBean reqJsonRpcBean = assembleDDC721Transaction(DDC721Functions.SET_APPROVAL_FOR_ALL, arrayList);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//        return (String) respJsonRpcBean.getResult();
-        return null;
+        if (Strings.isEmpty(operator)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+        if (!AddressUtils.isValidAddress(operator)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+        return ddc721.setApprovalForAll(operator, approved).send().getTransactionHash();
     }
 
 
@@ -158,29 +147,22 @@ public class DDC721Service extends BaseService {
      */
     public Boolean isApprovedForAll(String owner, String operator) throws Exception {
 
-//        if (Strings.isEmpty(owner) || Strings.isEmpty(operator)) {
-//            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
-//        }
-//        if (!AddressUtils.isValidAddress(owner) || !AddressUtils.isValidAddress(operator)) {
-//            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-//        }
-//
-//        ArrayList<Object> arrayList = new ArrayList<>();
-//        arrayList.add(owner);
-//        arrayList.add(operator);
-//
-//        ReqJsonRpcBean reqJsonRpcBean = assembleDDC721Transaction(DDC721Functions.IS_APPROVED_FOR_ALL, arrayList);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//
-//        InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getDdc721ABI(), ConfigCache.get().getDdc721BIN(), respJsonRpcBean.getResult().toString());
-//        return Boolean.valueOf(inputAndOutputResult.getResult().get(0).getData().toString());
-        return null;
+        if (Strings.isEmpty(owner) || Strings.isEmpty(operator)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+        if (!AddressUtils.isValidAddress(owner) || !AddressUtils.isValidAddress(operator)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+        /*代做：根据hash返回结果（bool）*/
+        return ddc721.isApprovedForAll(owner, operator).send();
     }
 
 
     /**
-     * DDC的转移
+     * DDC的安全转移
      *
      * @param from  拥有者账户
      * @param to    授权者账户
@@ -188,35 +170,31 @@ public class DDC721Service extends BaseService {
      * @param data  附加数据
      * @return 交易hash
      * @throws Exception Exception
+     * @desc DDC的拥有者或授权者可以通过调用该方法进行DDC的安全转移。
      */
     public String safeTransferFrom(String from, String to, BigInteger ddcId, byte[] data) throws Exception {
 
-//        if (Strings.isEmpty(from)) {
-//            throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_EMPTY);
-//        }
-//        if (Strings.isEmpty(to)) {
-//            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
-//        }
-//        if (!AddressUtils.isValidAddress(from) ) {
-//            throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-//        }
-//        if (!AddressUtils.isValidAddress(to) ) {
-//            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-//        }
-//        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
-//            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
-//        }
-//        ArrayList<Object> arrayList = new ArrayList<>();
-//        arrayList.add(from);
-//        arrayList.add(to);
-//        arrayList.add(ddcId);
-//        arrayList.add(data);
-//
-//        ReqJsonRpcBean reqJsonRpcBean = assembleDDC721Transaction(DDC721Functions.SAFE_TRANSFER_FROM, arrayList);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//        return (String) respJsonRpcBean.getResult();
-        return null;
+        if (Strings.isEmpty(from)) {
+            throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_EMPTY);
+        }
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+        }
+        if (!AddressUtils.isValidAddress(from)) {
+            throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
+        }
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+
+
+        return ddc721.safeTransferFrom(from, to, ddcId, data).send().getTransactionHash();
     }
 
 
@@ -228,35 +206,30 @@ public class DDC721Service extends BaseService {
      * @param ddcId ddc唯一标识
      * @return 交易hash
      * @throws Exception Exception
+     * @desc DDC拥有者或授权者可以通过调用该方法进行DDC的转移。
      */
     public String transferFrom(String from, String to, BigInteger ddcId) throws Exception {
 
-//        if (Strings.isEmpty(from)) {
-//            throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_EMPTY);
-//        }
-//        if (Strings.isEmpty(to)) {
-//            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
-//        }
-//        if (!AddressUtils.isValidAddress(from) ) {
-//            throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-//        }
-//        if (!AddressUtils.isValidAddress(to) ) {
-//            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-//        }
-//        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
-//            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
-//        }
-//
-//        ArrayList<Object> arrayList = new ArrayList<>();
-//        arrayList.add(from);
-//        arrayList.add(to);
-//        arrayList.add(ddcId);
-//
-//        ReqJsonRpcBean reqJsonRpcBean = assembleDDC721Transaction(DDC721Functions.TRANSFER_FROM, arrayList);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//        return (String) respJsonRpcBean.getResult();
-        return null;
+        if (Strings.isEmpty(from)) {
+            throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_EMPTY);
+        }
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+        }
+        if (!AddressUtils.isValidAddress(from)) {
+            throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
+        }
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+
+        return ddc721.transferFrom(from, to, ddcId).send().getTransactionHash();
     }
 
 
@@ -266,20 +239,17 @@ public class DDC721Service extends BaseService {
      * @param ddcId DDC唯一标识
      * @return 交易hash
      * @throws Exception Exception
+     * @desc 运营方可以通过调用该方法进行DDC的冻结。
      */
     public String freeze(BigInteger ddcId) throws Exception {
 
-//        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
-//            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
-//        }
-//        ArrayList<Object> arrayList = new ArrayList<>();
-//        arrayList.add(ddcId);
-//
-//        ReqJsonRpcBean reqJsonRpcBean = assembleDDC721Transaction(DDC721Functions.FREEZE, arrayList);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//        return (String) respJsonRpcBean.getResult();
-        return null;
+        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
+        }
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+        return ddc721.freeze(ddcId).send().getTransactionHash();
     }
 
     /**
@@ -288,20 +258,18 @@ public class DDC721Service extends BaseService {
      * @param ddcId DDC唯一标识
      * @return 交易hash
      * @throws Exception Exception
+     * @desc 运营方可以通过调用该方法进行DDC的解冻。
      */
     public String unFreeze(BigInteger ddcId) throws Exception {
 
-//        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
-//            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
-//        }
-//        ArrayList<Object> arrayList = new ArrayList<>();
-//        arrayList.add(ddcId);
-//
-//        ReqJsonRpcBean reqJsonRpcBean = assembleDDC721Transaction(DDC721Functions.UNFREEZE, arrayList);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//        return (String) respJsonRpcBean.getResult();
-        return null;
+        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
+        }
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+
+        return ddc721.unFreeze(ddcId).send().getTransactionHash();
     }
 
     /**
@@ -313,17 +281,14 @@ public class DDC721Service extends BaseService {
      */
     public String burn(BigInteger ddcId) throws Exception {
 
-//        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
-//            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
-//        }
-//        ArrayList<Object> arrayList = new ArrayList<>();
-//        arrayList.add(ddcId);
-//
-//        ReqJsonRpcBean reqJsonRpcBean = assembleDDC721Transaction(DDC721Functions.BURN, arrayList);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//        return (String) respJsonRpcBean.getResult();
-        return null;
+        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
+            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
+        }
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+
+        return ddc721.burn(ddcId).send().getTransactionHash();
     }
 
     /**
@@ -335,23 +300,16 @@ public class DDC721Service extends BaseService {
      */
     public BigInteger balanceOf(String owner) throws Exception {
 
-//        if (Strings.isEmpty(owner)) {
-//            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
-//        }
-//        if (!AddressUtils.isValidAddress(owner)) {
-//            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-//        }
-//
-//        ArrayList<Object> arrayList = new ArrayList<>();
-//        arrayList.add(owner);
-//
-//        ReqJsonRpcBean reqJsonRpcBean = assembleDDC721Transaction(DDC721Functions.BALANCE_OF, arrayList);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//
-//        InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getDdc721ABI(), ConfigCache.get().getDdc721BIN(), respJsonRpcBean.getResult().toString());
-//        return new BigInteger(inputAndOutputResult.getResult().get(0).getData().toString());
-        return null;
+        if (Strings.isEmpty(owner)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+        if (!AddressUtils.isValidAddress(owner)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+        return ddc721.balanceOf(owner).send();
     }
 
     /**
@@ -360,23 +318,17 @@ public class DDC721Service extends BaseService {
      * @param ddcId ddc唯一标识
      * @return 拥有者账户
      * @throws Exception Exception
+     * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的拥有者。
      */
     public String ownerOf(BigInteger ddcId) throws Exception {
 
-//        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
-//            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
-//        }
-//
-//        ArrayList<Object> arrayList = new ArrayList<>();
-//        arrayList.add(ddcId);
-//
-//        ReqJsonRpcBean reqJsonRpcBean = assembleDDC721Transaction(DDC721Functions.OWNER_OF, arrayList);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//
-//        InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getDdc721ABI(), ConfigCache.get().getDdc721BIN(), respJsonRpcBean.getResult().toString());
-//        return inputAndOutputResult.getResult().get(0).getData().toString();
-        return null;
+        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
+            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
+        }
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+        return ddc721.ownerOf(ddcId).send();
     }
 
     /**
@@ -384,17 +336,13 @@ public class DDC721Service extends BaseService {
      *
      * @return DDC运营方名称
      * @throws Exception Exception
+     * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC运营方的名称。
      */
     public String name() throws Exception {
-
-//        ArrayList<Object> arrayList = new ArrayList<>();
-//        ReqJsonRpcBean reqJsonRpcBean = assembleDDC721Transaction(DDC721Functions.NAME, arrayList);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//
-//        InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getDdc721ABI(), ConfigCache.get().getDdc721BIN(), respJsonRpcBean.getResult().toString());
-//        return inputAndOutputResult.getResult().get(0).getData().toString();
-        return null;
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+        return ddc721.name().send();
     }
 
     /**
@@ -402,17 +350,13 @@ public class DDC721Service extends BaseService {
      *
      * @return DDC运营方符号
      * @throws Exception Exception
+     * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的符号标识。
      */
     public String symbol() throws Exception {
-
-//        ArrayList<Object> arrayList = new ArrayList<>();
-//        ReqJsonRpcBean reqJsonRpcBean = assembleDDC721Transaction(DDC721Functions.SYMBOL, arrayList);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//
-//        InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getDdc721ABI(), ConfigCache.get().getDdc721BIN(), respJsonRpcBean.getResult().toString());
-//        return inputAndOutputResult.getResult().get(0).getData().toString();
-        return null;
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+        return ddc721.symbol().send();
     }
 
     /**
@@ -420,24 +364,16 @@ public class DDC721Service extends BaseService {
      *
      * @return DDC资源标识符
      * @throws Exception Exception
+     * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的资源标识符。
      */
     public String ddcURI(BigInteger ddcId) throws Exception {
-//        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
-//            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
-//        }
-//        ArrayList<Object> arrayList = new ArrayList<>();
-//        arrayList.add(ddcId);
-//
-//        ReqJsonRpcBean reqJsonRpcBean = assembleDDC721Transaction(DDC721Functions.DDC_URI, arrayList);
-//        RespJsonRpcBean respJsonRpcBean = restTemplateUtil.sendPost(ConfigCache.get().getOpbGatewayAddress(), reqJsonRpcBean, RespJsonRpcBean.class);
-//        resultCheck(respJsonRpcBean);
-//
-//        InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getDdc721ABI(), ConfigCache.get().getDdc721BIN(), respJsonRpcBean.getResult().toString());
-//        return inputAndOutputResult.getResult().get(0).getData().toString();
-        return null;
+        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
+            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
+        }
+        if (this.signEventListener == null) {
+            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+        }
+        return ddc721.ddcURI(ddcId).send();
     }
 
-//    private ReqJsonRpcBean assembleDDC721Transaction(String functionName, ArrayList<Object> params) throws Exception {
-//        return assembleTransaction(getBlockNumber(), ConfigCache.get().getDdc721ABI(), ConfigCache.get().getDdc721Address(), functionName, params);
-//    }
 }

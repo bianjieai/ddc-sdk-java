@@ -11,6 +11,8 @@ import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 
+import java.math.BigInteger;
+
 @Slf4j
 public class BaseService {
     protected Web3j web3j = Web3j.build(new HttpService(ConfigCache.get().getOpbGatewayAddress()));
