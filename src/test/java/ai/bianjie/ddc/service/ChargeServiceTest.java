@@ -41,6 +41,17 @@ class ChargeServiceTest {
     }
 
     @Test
+    void balanceof() throws Exception {
+        ChargeService chargeService =new ChargeService(new Secp256K1SignEventListener(privateKey, publicKey));
+        String to = "1DFD9E10AA5244591ABE8FA4B0750B4B98D4F89D";
+        BigInteger amount;
+        amount = new BigInteger("300000");
+
+        String txhash = chargeService.balanceOf(to);
+        assertNotNull(txhash);
+    }
+
+    @Test
     void setFee() {
     }
 

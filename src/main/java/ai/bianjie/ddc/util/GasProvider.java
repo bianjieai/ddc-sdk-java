@@ -16,7 +16,7 @@ public class GasProvider implements ContractGasProvider {
     public BigInteger getGasPrice(String s) {
         //s.check
         //return BigInteger.valueOf(s);
-        return null;
+        return BigInteger.valueOf(Long.parseLong("3000"));
     }
 
     @Override
@@ -28,7 +28,7 @@ public class GasProvider implements ContractGasProvider {
     public BigInteger getGasLimit(String s) {
         //s.check
         //return BigInteger.valueOf(s);
-        return null;
+        return BigInteger.valueOf(Long.parseLong("3000000000000000"));
     }
 
     @Override
