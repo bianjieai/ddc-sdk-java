@@ -30,7 +30,6 @@ public class BaseService {
      * @return 区块信息
      */
     public String getBlockByNumber(String blockNumber) {
-        ArrayList<Object> params = new ArrayList<>();
         String result = blockNumber + ConfigCache.get().getOpbGatewayAddress();
         //        resultCheck(result);
         return JSON.toJSONString(result);
@@ -42,9 +41,9 @@ public class BaseService {
      * @return 交易回执
      * @throws InterruptedException InterruptedException
      */
-    public String getTransReceipt(String hash) throws InterruptedException, ExecutionException {
-        EthGetTransactionReceipt transactionReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
-        return transactionReceipt.getResult().toString();
+    public String getTxReceipt(String hash) throws InterruptedException, ExecutionException {
+        EthGetTransactionReceipt txReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
+        return txReceipt.getResult().toString();
     }
 
     /**
@@ -52,7 +51,7 @@ public class BaseService {
      * @param hash 交易哈希
      * @return 交易信息
      */
-    public String getTransByHash(String hash) {
+    public String getTxByHash(String hash) {
         String result = hash + ConfigCache.get().getOpbGatewayAddress() + web3j.ethGetBlockTransactionCountByHash(hash);
 //        resultCheck(result);
         return JSON.toJSONString(result);
@@ -63,9 +62,9 @@ public class BaseService {
      * @param hash 交易哈希
      * @return 交易状态
      */
-    public Boolean getTransByStatus(String hash) throws ExecutionException, InterruptedException {
-        EthGetTransactionReceipt transactionReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
-        if(Strings.isEmpty(transactionReceipt.toString())){
+    public Boolean getTxByStatus(String hash) throws ExecutionException, InterruptedException {
+        EthGetTransactionReceipt txReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
+        if(Strings.isEmpty(txReceipt.toString())){
             return false;
         }
         else{

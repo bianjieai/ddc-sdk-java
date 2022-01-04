@@ -72,9 +72,9 @@ public class ChargeService extends BaseService {
 //      String balance = chargeLogic.balanceOf(accAddr).toString();
 //		web3j.ethGetBalance(accAddr,10);
 //      return result;
-        TransactionReceipt res = chargeLogic.balanceOf(accAddr).send();
-        resultCheck(res);
-        return res.toString();
+        TransactionReceipt txReceipt = chargeLogic.balanceOf(accAddr).send();
+        resultCheck(txReceipt);
+        return txReceipt.toString();
     }
 
     /**
@@ -102,8 +102,8 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
         }
 
-        TransactionReceipt res = chargeLogic.queryFee(ddcAddr, sig.getBytes(sig)).send();
-        resultCheck(res);
+        TransactionReceipt txReceipt = chargeLogic.queryFee(ddcAddr, sig.getBytes(sig)).send();
+        resultCheck(txReceipt);
 //		InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getChargeLogicABI(),ConfigCache.get().getChargeLogicBIN(),(String)respJsonRpcBean.getResult());
 //        return (BigInteger)inputAndOutputResult.getResult().get(0).getData();
         return null;
@@ -121,9 +121,9 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);
         }
 
-        TransactionReceipt res = chargeLogic.selfRecharge(amount).send();
-        resultCheck(res);
-        return res.getTransactionHash();
+        TransactionReceipt txReceipt = chargeLogic.selfRecharge(amount).send();
+        resultCheck(txReceipt);
+        return txReceipt.getTransactionHash();
     }
 
     /**
@@ -160,9 +160,9 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.AMOUNT_LT_ZERO);
         }
 
-        TransactionReceipt res = chargeLogic.setFee(ddcAddr, sig.getBytes(sig), amount).send();
-        resultCheck(res);
-        return res.getTransactionHash();
+        TransactionReceipt txReceipt = chargeLogic.setFee(ddcAddr, sig.getBytes(sig), amount).send();
+        resultCheck(txReceipt);
+        return txReceipt.getTransactionHash();
     }
 
     /**
@@ -190,9 +190,9 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
         }
 
-        TransactionReceipt res = chargeLogic.deleteFee(ddcAddr, sig.getBytes(sig)).send();
-        resultCheck(res);
-        return res.getTransactionHash();
+        TransactionReceipt txReceipt = chargeLogic.deleteFee(ddcAddr, sig.getBytes(sig)).send();
+        resultCheck(txReceipt);
+        return txReceipt.getTransactionHash();
     }
 
     /**
@@ -211,9 +211,9 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
         }
 
-        TransactionReceipt res = chargeLogic.deleteDDC(ddcAddr).send();
-        resultCheck(res);
-        return res.getTransactionHash();
+        TransactionReceipt txReceipt = chargeLogic.deleteDDC(ddcAddr).send();
+        resultCheck(txReceipt);
+        return txReceipt.getTransactionHash();
     }
 
 }
