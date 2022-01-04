@@ -8,7 +8,6 @@ import ai.bianjie.ddc.config.ConfigCache;
 //import com.bianjie.ddc.dto.ddc.AccountState;
 //import com.bianjie.ddc.dto.taianchain.ReqJsonRpcBean;
 //import com.bianjie.ddc.dto.taianchain.RespJsonRpcBean;
-import ai.bianjie.ddc.contract.AuthorityLogic;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.GasProvider;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;

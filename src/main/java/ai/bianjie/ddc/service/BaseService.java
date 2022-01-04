@@ -16,6 +16,8 @@ import org.web3j.utils.Strings;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import java.math.BigInteger;
+
 @Slf4j
 public class BaseService {
     protected Web3j web3j = Web3j.build(new HttpService(ConfigCache.get().getOpbGatewayAddress()));

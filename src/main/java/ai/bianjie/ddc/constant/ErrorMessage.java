@@ -12,7 +12,7 @@ public enum ErrorMessage {
     ACCOUNT_STASTUS_IS_EMPTY(1003, "account status is empty"),
     ACCOUNT_LEADER_DID_IS_EMPTY(1004, "leader DID is empty"),
     ACCOUNT_IS_NOT_ADDRESS_FORMAT(1005, "account is not a standard address format"),
-    AMOUNT_IS_EMPOTY(1006, "amount is empty"),
+    AMOUNT_IS_EMPTY(1006, "amount is empty"),
     TO_ACCOUNT_IS_EMPTY(1007, "to account is empty"),
     TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT(1008, "to account is not a standard address format"),
     FROM_ACCOUNT_IS_EMPTY(1009, "from account is empty"),

@@ -8,13 +8,13 @@ import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.GasProvider;
 import ai.bianjie.ddc.util.HexUtils;
-import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Strings;
 
 import java.math.BigInteger;
 
 public class ChargeService extends BaseService {
+
 
     public ChargeService(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
@@ -42,7 +42,7 @@ public class ChargeService extends BaseService {
         }
 
         if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
-            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);
+            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
 
         String hash = chargeLogic.recharge(to, amount).send().getTransactionHash();
@@ -68,13 +68,7 @@ public class ChargeService extends BaseService {
         }
 
 
-//      String result = String.valueOf(chargeLogic.balanceOf(accAddr).send());
-//      String balance = chargeLogic.balanceOf(accAddr).toString();
-//		web3j.ethGetBalance(accAddr,10);
-//      return result;
-        TransactionReceipt txReceipt = chargeLogic.balanceOf(accAddr).send();
-        resultCheck(txReceipt);
-        return txReceipt.toString();
+        return chargeLogic.balanceOf(accAddr).send().toString();
     }
 
     /**
@@ -102,11 +96,8 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
         }
 
-        TransactionReceipt txReceipt = chargeLogic.queryFee(ddcAddr, sig.getBytes(sig)).send();
-        resultCheck(txReceipt);
-//		InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getChargeLogicABI(),ConfigCache.get().getChargeLogicBIN(),(String)respJsonRpcBean.getResult());
-//        return (BigInteger)inputAndOutputResult.getResult().get(0).getData();
-        return null;
+        return chargeLogic.queryFee(ddcAddr, sig.getBytes(sig)).send();
+
     }
 
     /**
@@ -118,7 +109,7 @@ public class ChargeService extends BaseService {
      */
     public String selfRecharge(BigInteger amount) throws Exception {
         if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
-            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);
+            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
 
         TransactionReceipt txReceipt = chargeLogic.selfRecharge(amount).send();
@@ -153,7 +144,7 @@ public class ChargeService extends BaseService {
         }
 
         if (amount == null) {
-            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);
+            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
 
         if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) < 0) {
