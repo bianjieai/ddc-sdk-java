@@ -1,4 +1,4 @@
-ï»¿package ai.bianjie.ddc.service;
+package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.contract.ChargeLogic;
@@ -19,11 +19,11 @@ public class ChargeService extends BaseService {
 	}
 
 	/**
-	 * è¿è¥æ–¹ã€å¹³å°æ–¹è°ƒç”¨è¯¥æ¥å£ä¸ºæ‰€å±åŒä¸€æ–¹çš„åŒä¸€çº§åˆ«è´¦æˆ·æˆ–è€…ä¸‹çº§è´¦æˆ·å……å€¼ï¼›
+	 * ÔËÓª·½¡¢Æ½Ì¨·½µ÷ÓÃ¸Ã½Ó¿ÚÎªËùÊôÍ¬Ò»·½µÄÍ¬Ò»¼¶±ğÕË»§»òÕßÏÂ¼¶ÕË»§³äÖµ£»
 	 *
-	 * @param to     å……å€¼è´¦æˆ·çš„åœ°å€
-	 * @param amount å……å€¼é‡‘é¢
-	 * @return è¿”å›äº¤æ˜“å“ˆå¸Œ
+	 * @param to     ³äÖµÕË»§µÄµØÖ·
+	 * @param amount ³äÖµ½ğ¶î
+	 * @return ·µ»Ø½»Ò×¹şÏ£
 	 * @throws Exception
 	 */
 	public String recharge(String to, BigInteger amount) throws Exception {
@@ -48,10 +48,10 @@ public class ChargeService extends BaseService {
 	}
 
 	/**
-	 * æŸ¥è¯¢æŒ‡å®šè´¦æˆ·çš„ä½™é¢ã€‚
+	 * ²éÑ¯Ö¸¶¨ÕË»§µÄÓà¶î¡£
 	 *
-	 * @param accAddr æŸ¥è¯¢çš„è´¦æˆ·åœ°å€
-	 * @return è¿”å›è´¦æˆ·æ‰€å¯¹åº”çš„ä¸šåŠ¡è´¹ä½™é¢
+	 * @param accAddr ²éÑ¯µÄÕË»§µØÖ·
+	 * @return ·µ»ØÕË»§Ëù¶ÔÓ¦µÄÒµÎñ·ÑÓà¶î
 	 * @throws Exception
 	 */
 	public String balanceOf(String accAddr) throws Exception {
@@ -70,11 +70,11 @@ public class ChargeService extends BaseService {
 	}
 
 	/**
-	 * æŸ¥è¯¢æŒ‡å®šçš„DDCä¸šåŠ¡ä¸»é€»è¾‘åˆçº¦çš„æ–¹æ³•æ‰€å¯¹åº”çš„è°ƒç”¨ä¸šåŠ¡è´¹ç”¨ã€‚
+	 * ²éÑ¯Ö¸¶¨µÄDDCÒµÎñÖ÷Âß¼­ºÏÔ¼µÄ·½·¨Ëù¶ÔÓ¦µÄµ÷ÓÃÒµÎñ·ÑÓÃ¡£
 	 *
-	 * @param ddcAddr DDCä¸šåŠ¡ä¸»é€»è¾‘åˆçº¦åœ°å€
-	 * @param sig     Hexæ ¼å¼çš„åˆçº¦æ–¹æ³•ID
-	 * @return è¿”å›DDCåˆçº¦ä¸šåŠ¡è´¹
+	 * @param ddcAddr DDCÒµÎñÖ÷Âß¼­ºÏÔ¼µØÖ·
+	 * @param sig     Hex¸ñÊ½µÄºÏÔ¼·½·¨ID
+	 * @return ·µ»ØDDCºÏÔ¼ÒµÎñ·Ñ
 	 * @throws Exception
 	 */
 	public BigInteger queryFee(String ddcAddr, String sig) throws Exception {
@@ -101,10 +101,10 @@ public class ChargeService extends BaseService {
 	}
 
 	/**
-	 * è¿è¥æ–¹è°ƒç”¨ä¸ºè‡ªå·±çš„è´¦æˆ·å¢åŠ ä¸šåŠ¡è´¹ã€‚
+	 * ÔËÓª·½µ÷ÓÃÎª×Ô¼ºµÄÕË»§Ôö¼ÓÒµÎñ·Ñ¡£
 	 *
-	 * @param amount å¯¹è¿è¥æ–¹è´¦æˆ·è¿›è¡Œå……å€¼çš„ä¸šåŠ¡è´¹
-	 * @return è¿”å›äº¤æ˜“å“ˆå¸Œ
+	 * @param amount ¶ÔÔËÓª·½ÕË»§½øĞĞ³äÖµµÄÒµÎñ·Ñ
+	 * @return ·µ»Ø½»Ò×¹şÏ£
 	 * @throws Exception
 	 */
 	public String selfRecharge(BigInteger amount) throws Exception {
@@ -120,12 +120,12 @@ public class ChargeService extends BaseService {
 	}
 
 	/**
-	 * è¿è¥æ–¹è°ƒç”¨æ¥å£è®¾ç½®æŒ‡å®šçš„DDCä¸»åˆçº¦çš„æ–¹æ³•è°ƒç”¨è´¹ç”¨ã€‚
+	 * ÔËÓª·½µ÷ÓÃ½Ó¿ÚÉèÖÃÖ¸¶¨µÄDDCÖ÷ºÏÔ¼µÄ·½·¨µ÷ÓÃ·ÑÓÃ¡£
 	 *
-	 * @param ddcAddr DDCä¸šåŠ¡ä¸»é€»è¾‘åˆçº¦åœ°å€
-	 * @param sig     Hexæ ¼å¼çš„åˆçº¦æ–¹æ³•ID
-	 * @param amount  ä¸šåŠ¡è´¹ç”¨
-	 * @return è¿”å›äº¤æ˜“å“ˆå¸Œ
+	 * @param ddcAddr DDCÒµÎñÖ÷Âß¼­ºÏÔ¼µØÖ·
+	 * @param sig     Hex¸ñÊ½µÄºÏÔ¼·½·¨ID
+	 * @param amount  ÒµÎñ·ÑÓÃ
+	 * @return ·µ»Ø½»Ò×¹şÏ£
 	 * @throws Exception
 	 */
 	public String setFee(String ddcAddr, String sig, BigInteger amount) throws Exception {
@@ -162,11 +162,11 @@ public class ChargeService extends BaseService {
 	}
 
 	/**
-	 * è¿è¥æ–¹è°ƒç”¨æ¥å£åˆ é™¤æŒ‡å®šçš„DDCä¸»åˆçº¦çš„æ–¹æ³•è°ƒç”¨è´¹ç”¨ã€‚
+	 * ÔËÓª·½µ÷ÓÃ½Ó¿ÚÉ¾³ıÖ¸¶¨µÄDDCÖ÷ºÏÔ¼µÄ·½·¨µ÷ÓÃ·ÑÓÃ¡£
 	 *
-	 * @param ddcAddr DDCä¸šåŠ¡ä¸»é€»è¾‘åˆçº¦åœ°å€
-	 * @param sig     Hexæ ¼å¼çš„åˆçº¦æ–¹æ³•ID
-	 * @return è¿”å›äº¤æ˜“å“ˆå¸Œ
+	 * @param ddcAddr DDCÒµÎñÖ÷Âß¼­ºÏÔ¼µØÖ·
+	 * @param sig     Hex¸ñÊ½µÄºÏÔ¼·½·¨ID
+	 * @return ·µ»Ø½»Ò×¹şÏ£
 	 * @throws Exception
 	 */
 	public String delFee(String ddcAddr, String sig) throws Exception {
@@ -195,10 +195,10 @@ public class ChargeService extends BaseService {
 	}
 
 	/**
-	 * è¿è¥æ–¹è°ƒç”¨è¯¥æ¥å£åˆ é™¤æŒ‡å®šçš„DDCä¸šåŠ¡ä¸»é€»è¾‘åˆçº¦æˆæƒã€‚
+	 * ÔËÓª·½µ÷ÓÃ¸Ã½Ó¿ÚÉ¾³ıÖ¸¶¨µÄDDCÒµÎñÖ÷Âß¼­ºÏÔ¼ÊÚÈ¨¡£
 	 *
-	 * @param ddcAddr DDCä¸šåŠ¡ä¸»é€»è¾‘åˆçº¦åœ°å€
-	 * @return è¿”å›äº¤æ˜“å“ˆå¸Œ
+	 * @param ddcAddr DDCÒµÎñÖ÷Âß¼­ºÏÔ¼µØÖ·
+	 * @return ·µ»Ø½»Ò×¹şÏ£
 	 * @throws Exception
 	 */
 	public String delDDC(String ddcAddr) throws Exception {
