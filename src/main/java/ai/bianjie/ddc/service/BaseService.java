@@ -41,7 +41,8 @@ public class BaseService {
      * @throws InterruptedException InterruptedException
      */
     public String getTxReceipt(String hash) throws InterruptedException, ExecutionException {
-        Web3j web3j = Web3jUtils.getWeb3j();
+        Web3jUtils web3jUtils = new Web3jUtils();
+        Web3j web3j = web3jUtils.getWeb3j();
         EthGetTransactionReceipt txReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
         return txReceipt.getResult().toString();
     }
@@ -52,7 +53,8 @@ public class BaseService {
      * @return 交易信息
      */
     public String getTxByHash(String hash) {
-        Web3j web3j = Web3jUtils.getWeb3j();
+        Web3jUtils web3jUtils = new Web3jUtils();
+        Web3j web3j = web3jUtils.getWeb3j();
         String result = hash + ConfigCache.get().getOpbGatewayAddress() + web3j.ethGetBlockTransactionCountByHash(hash);
 //        resultCheck(result);
         return JSON.toJSONString(result);
@@ -64,7 +66,8 @@ public class BaseService {
      * @return 交易状态
      */
     public Boolean getTxByStatus(String hash) throws ExecutionException, InterruptedException {
-        Web3j web3j = Web3jUtils.getWeb3j();
+        Web3jUtils web3jUtils = new Web3jUtils();
+        Web3j web3j = web3jUtils.getWeb3j();
         EthGetTransactionReceipt txReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
         if(Strings.isEmpty(txReceipt.toString())){
             return false;

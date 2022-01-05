@@ -47,7 +47,6 @@ public class BlockEventService extends BaseService {
      *
      * @param blockNumber blockNumber
      * @return ArrayList<Object>
-     * @throws BaseException BaseException
      * @throws IOException   IOException
      */
     public <T> ArrayList<T> getBlockEvent(String blockNumber) throws IOException, InterruptedException {

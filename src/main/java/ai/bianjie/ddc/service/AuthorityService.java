@@ -77,7 +77,7 @@ public class AuthorityService extends BaseService {
 		Web3jUtils web3jUtils = new Web3jUtils();
 		AuthorityLogic authorityLogic = web3jUtils.getAuthority();
 		TransactionReceipt res = authorityLogic.addConsumerByOperator(account,accName,accDID,leaderDID).send();
-		return null;
+		return res.toString();
     }
     
     /**
@@ -102,7 +102,7 @@ public class AuthorityService extends BaseService {
      * @return 返回DDC账户信息
      * @throws Exception
      */
-    public void getAccount(String account) throws Exception {
+    public String getAccount(String account) throws Exception {
     	if(Strings.isEmpty(account)) {
     		throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
     	}
@@ -110,32 +110,11 @@ public class AuthorityService extends BaseService {
     	if(!AddressUtils.isValidAddress(account)) {
     		throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
     	}
-
-//    	InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getAuthorityLogicABI(),ConfigCache.get().getAuthorityLogicBIN(),(String)respJsonRpcBean.getResult());
-//    	AccountInfo accountInfo = new AccountInfo();
-//    	accountInfo.setAccountDID(String.valueOf(inputAndOutputResult.getResult().get(0).getData()));
-//    	accountInfo.setAccountName(String.valueOf(inputAndOutputResult.getResult().get(1).getData()));
-//    	accountInfo.setLeaderDID(String.valueOf(inputAndOutputResult.getResult().get(3).getData()));
-//    	accountInfo.setField(String.valueOf(inputAndOutputResult.getResult().get(6).getData()));
-//    	String accountRole = String.valueOf(inputAndOutputResult.getResult().get(2).getData());
-//    	if(accountRole != null && !accountRole.trim().isEmpty()) {
-//    		accountInfo.setAccountRole(AccountRole.getByVal(Integer.parseInt(accountRole)));
-//    	}
-//    	String platformState = String.valueOf(inputAndOutputResult.getResult().get(5).getData());
-//    	if(platformState != null && !platformState.trim().isEmpty()) {
-//    		accountInfo.setPlatformState(AccountState.getByVal(Integer.parseInt(platformState)));
-//    	}
-//
-//    	String operatorState = String.valueOf(inputAndOutputResult.getResult().get(4).getData());
-//    	if(operatorState != null && !operatorState.trim().isEmpty()) {
-//    		accountInfo.setOperatorState(AccountState.getByVal(Integer.parseInt(operatorState)));
-//    	}
-//
-//        return accountInfo;
 		Web3jUtils web3jUtils = new Web3jUtils();
 		AuthorityLogic authorityLogic = web3jUtils.getAuthority();
 		Tuple7<String, String, BigInteger, String, BigInteger, BigInteger, String> res = authorityLogic.getAccount(account).send();
 		System.out.println(res.toString());
+		return res.toString();
     }
     
     /**
@@ -162,11 +141,7 @@ public class AuthorityService extends BaseService {
 		AuthorityLogic authorityLogic = web3jUtils.getAuthority();
 		TransactionReceipt res = authorityLogic.updateAccountState(account,state,changePlatformState).send();
 
-        return null;
+        return res.toString();
     }
-
-//    private ReqJsonRpcBean assembleAuthorityTransaction(String functionName, ArrayList<Object> params) throws Exception {
-//    	return assembleTransaction(getBlockNumber(), ConfigCache.get().getAuthorityLogicABI(), ConfigCache.get().getAuthorityLogicAddress(), functionName,params);
-//    }
     
 }
