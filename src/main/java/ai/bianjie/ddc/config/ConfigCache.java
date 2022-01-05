@@ -16,29 +16,21 @@ public class ConfigCache {
 	
 	public static void initCache(String opbGateWebAddress, String credentials, String gasPrice, String gasLimit, String ddc721Address, String ddc1155Address, String authorityLogicAddress, String chargeLogicAddress) {
 		ConfigInfo configInfo = ConfigUtils.loadConfigFromFile();
-		//opb处理，验证非空，验证有效性
-		if(Strings.isEmpty(opbGateWebAddress)){
-			throw new DDCException(ErrorMessage.OPB_GATEWAY_ADDRESS_EMPTY);
+		if(!Strings.isEmpty(opbGateWebAddress)){
+			configInfo.setOpbGatewayAddress(opbGateWebAddress);
 		}
-		configInfo.setOpbGatewayAddress(opbGateWebAddress);
-		//地址验证
-		if(1==2){
-
-		}
-		configInfo.setCredentials(credentials);
-		if (Strings.isEmpty(gasPrice)){
+		//非空验证，还缺私钥格式验证
+		if(Strings.isEmpty(credentials)){
 			throw new DDCException(ErrorMessage.UNKNOWN_ERROR);
 		}
-		configInfo.setGasPrice(gasPrice);
-		if (gasLimit!=null){
-			configInfo.setGasLimit(gasLimit);
-		}if(ddc721Address!=null){
+		configInfo.setCredentials(credentials);
+		if(!Strings.isEmpty(ddc721Address)){
 			configInfo.setDdc721Address(ddc721Address);
-		}if(ddc1155Address!=null){
+		}if(!Strings.isEmpty(ddc1155Address)){
 			configInfo.setDdc1155Address(ddc1155Address);
-		}if(authorityLogicAddress!=null){
+		}if(!Strings.isEmpty(authorityLogicAddress)){
 			configInfo.setAuthorityLogicAddress(authorityLogicAddress);
-		}if(chargeLogicAddress!=null){
+		}if(!Strings.isEmpty(chargeLogicAddress)){
 			configInfo.setChargeLogicAddress(chargeLogicAddress);
 		}
 		MAP.put(DDC_SDK_CACHE_KEY, configInfo);

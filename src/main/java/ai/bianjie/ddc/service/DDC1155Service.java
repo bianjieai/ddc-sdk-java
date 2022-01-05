@@ -1,12 +1,11 @@
 package ai.bianjie.ddc.service;
 
-import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.contract.DDC1155;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
-import ai.bianjie.ddc.util.GasProvider;
+import ai.bianjie.ddc.util.Web3jUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.web3j.utils.Strings;
 
@@ -21,10 +20,6 @@ public class DDC1155Service extends BaseService {
     public DDC1155Service(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
     }
-
-    String contractAddr = ConfigCache.get().getDdc1155Address();
-    protected DDC1155 ddc1155 = DDC1155.load(contractAddr, web3j, credentials, new GasProvider(ConfigCache.get().getGasPrice(), ConfigCache.get().getGasLimit()));
-
 
     /**
      * 创建DDC
@@ -58,6 +53,8 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
         }
 
+        Web3jUtils web3jUtils = new Web3jUtils();
+        DDC1155 ddc1155 = web3jUtils.getDDC1155();
         return ddc1155.mint(to, amount, ddcURI).send().getTransactionHash();
     }
 
@@ -100,6 +97,9 @@ public class DDC1155Service extends BaseService {
             ddcURIS.add(URI);
 
         });
+        Web3jUtils web3jUtils = new Web3jUtils();
+        DDC1155 ddc1155 = web3jUtils.getDDC1155();
+
         return ddc1155.mintBatch(to, amounts, ddcURIS).send().getTransactionHash();
 
     }
@@ -123,6 +123,8 @@ public class DDC1155Service extends BaseService {
         if (this.signEventListener == null) {
             throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
         }
+        Web3jUtils web3jUtils = new Web3jUtils();
+        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
         return ddc1155.setApprovalForAll(operator, approved).send().getTransactionHash();
     }
@@ -152,6 +154,9 @@ public class DDC1155Service extends BaseService {
         if (this.signEventListener == null) {
             throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
         }
+        Web3jUtils web3jUtils = new Web3jUtils();
+        DDC1155 ddc1155 = web3jUtils.getDDC1155();
+
         return ddc1155.isApprovedForAll(owner, operator).send();
 
     }
@@ -186,6 +191,9 @@ public class DDC1155Service extends BaseService {
         if (this.signEventListener == null) {
             throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
         }
+        Web3jUtils web3jUtils = new Web3jUtils();
+        DDC1155 ddc1155 = web3jUtils.getDDC1155();
+
         return ddc1155.safeTransferFrom(from, to, ddcId, amount, data).send().getTransactionHash();
 
     }
@@ -231,6 +239,9 @@ public class DDC1155Service extends BaseService {
             ddcIds.add(ddcId);
             amounts.add(amount);
         });
+        Web3jUtils web3jUtils = new Web3jUtils();
+        DDC1155 ddc1155 = web3jUtils.getDDC1155();
+
         return ddc1155.safeBatchTransferFrom(from, to, ddcIds, amounts, data).send().getTransactionHash();
     }
 
@@ -249,6 +260,9 @@ public class DDC1155Service extends BaseService {
         if (this.signEventListener == null) {
             throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
         }
+        Web3jUtils web3jUtils = new Web3jUtils();
+        DDC1155 ddc1155 = web3jUtils.getDDC1155();
+
         return ddc1155.freeze(ddcId).send().getTransactionHash();
     }
 
@@ -267,6 +281,9 @@ public class DDC1155Service extends BaseService {
         if (this.signEventListener == null) {
             throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
         }
+        Web3jUtils web3jUtils = new Web3jUtils();
+        DDC1155 ddc1155 = web3jUtils.getDDC1155();
+
         return ddc1155.unFreeze(ddcId).send().getTransactionHash();
     }
 
@@ -292,6 +309,9 @@ public class DDC1155Service extends BaseService {
         if (this.signEventListener == null) {
             throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
         }
+        Web3jUtils web3jUtils = new Web3jUtils();
+        DDC1155 ddc1155 = web3jUtils.getDDC1155();
+
         return ddc1155.burn(owner, ddcId).send().getTransactionHash();
     }
 
@@ -317,6 +337,8 @@ public class DDC1155Service extends BaseService {
         if (this.signEventListener == null) {
             throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
         }
+        Web3jUtils web3jUtils = new Web3jUtils();
+        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
         return ddc1155.burnBatch(owner, ddcIds).send().getTransactionHash();
     }
@@ -343,6 +365,9 @@ public class DDC1155Service extends BaseService {
         if (this.signEventListener == null) {
             throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
         }
+        Web3jUtils web3jUtils = new Web3jUtils();
+        DDC1155 ddc1155 = web3jUtils.getDDC1155();
+
         return ddc1155.balanceOf(owner, ddcId).send();
     }
 
@@ -364,6 +389,8 @@ public class DDC1155Service extends BaseService {
 
         ArrayList<String> owners = new ArrayList<>();
         ArrayList<BigInteger> ddcIds = new ArrayList<>();
+        Web3jUtils web3jUtils = new Web3jUtils();
+        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
         return ddc1155.balanceOfBatch(owners, ddcIds).send();
     }
@@ -383,6 +410,9 @@ public class DDC1155Service extends BaseService {
         if (this.signEventListener == null) {
             throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
         }
+        Web3jUtils web3jUtils = new Web3jUtils();
+        DDC1155 ddc1155 = web3jUtils.getDDC1155();
+
         return ddc1155.ddcURI(ddcId).send();
     }
 
