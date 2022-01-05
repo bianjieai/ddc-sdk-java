@@ -42,7 +42,8 @@ public class ChargeService extends BaseService {
 			 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
 
-		ChargeLogic chargeLogic = Web3jUtils.getCharge();
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
 		TransactionReceipt res;
 		res = chargeLogic.recharge(to,amount).send();
@@ -66,7 +67,8 @@ public class ChargeService extends BaseService {
     		throw new DDCException(ErrorMessage.ACC_ADDR_IS_NOT_ADDRESS_FORMAT);
     	}
 
-		ChargeLogic chargeLogic = Web3jUtils.getCharge();
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
 //		TransactionReceipt res = chargeLogic.balanceOf(accAddr).send();
 //		resultCheck(res);
@@ -98,7 +100,8 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
 		}
 
-		ChargeLogic chargeLogic = Web3jUtils.getCharge();
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
 //		TransactionReceipt res =chargeLogic.queryFee(ddcAddr,sig.getBytes(sig)).send();
 //		resultCheck(res);
@@ -119,7 +122,8 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
 
-		ChargeLogic chargeLogic = Web3jUtils.getCharge();
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
 		TransactionReceipt res = chargeLogic.selfRecharge(amount).send();
 		resultCheck(res);
@@ -160,7 +164,8 @@ public class ChargeService extends BaseService {
 			 throw new DDCException(ErrorMessage.AMOUNT_LT_ZERO);
 		}
 
-		ChargeLogic chargeLogic = Web3jUtils.getCharge();
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
 		TransactionReceipt res = chargeLogic.setFee(ddcAddr,sig.getBytes(sig),amount).send();
 		resultCheck(res);
@@ -192,7 +197,8 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
 		}
 
-		ChargeLogic chargeLogic = Web3jUtils.getCharge();
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
 		TransactionReceipt res = chargeLogic.deleteFee(ddcAddr,sig.getBytes(sig)).send();
 		resultCheck(res);
@@ -214,8 +220,8 @@ public class ChargeService extends BaseService {
 		if(!AddressUtils.isValidAddress(ddcAddr)) {
     		throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
     	}
-
-		ChargeLogic chargeLogic = Web3jUtils.getCharge();
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
 		TransactionReceipt res = chargeLogic.deleteDDC(ddcAddr).send();
 		resultCheck(res);

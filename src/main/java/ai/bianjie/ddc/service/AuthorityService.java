@@ -5,7 +5,6 @@ import ai.bianjie.ddc.contract.AuthorityLogic;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
-import ai.bianjie.ddc.util.GasProvider;
 import ai.bianjie.ddc.util.Web3jUtils;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tuples.generated.Tuple7;
@@ -42,7 +41,8 @@ public class AuthorityService extends BaseService {
         if (Strings.isEmpty(accName)) {
             throw new DDCException(ErrorMessage.ACCOUNT_NAME_IS_EMPTY);
         }
-		AuthorityLogic authorityLogic = Web3jUtils.getAuthority();
+		Web3jUtils web3jUtils = new Web3jUtils();
+		AuthorityLogic authorityLogic = web3jUtils.getAuthority();
 		TransactionReceipt res = authorityLogic.addAccount(account, accName, accDID).send();
 		return res.toString();
     }
@@ -74,7 +74,8 @@ public class AuthorityService extends BaseService {
     	if(Strings.isEmpty(leaderDID)) {
     		throw new DDCException(ErrorMessage.ACCOUNT_LEADER_DID_IS_EMPTY);
     	};
-		AuthorityLogic authorityLogic = Web3jUtils.getAuthority();
+		Web3jUtils web3jUtils = new Web3jUtils();
+		AuthorityLogic authorityLogic = web3jUtils.getAuthority();
 		TransactionReceipt res = authorityLogic.addConsumerByOperator(account,accName,accDID,leaderDID).send();
 		return null;
     }
@@ -131,7 +132,8 @@ public class AuthorityService extends BaseService {
 //    	}
 //
 //        return accountInfo;
-		AuthorityLogic authorityLogic = Web3jUtils.getAuthority();
+		Web3jUtils web3jUtils = new Web3jUtils();
+		AuthorityLogic authorityLogic = web3jUtils.getAuthority();
 		Tuple7<String, String, BigInteger, String, BigInteger, BigInteger, String> res = authorityLogic.getAccount(account).send();
 		System.out.println(res.toString());
     }
@@ -156,7 +158,8 @@ public class AuthorityService extends BaseService {
     	if(state == null) {
     		throw new DDCException(ErrorMessage.ACCOUNT_STASTUS_IS_EMPTY);
     	}
-		AuthorityLogic authorityLogic = Web3jUtils.getAuthority();
+		Web3jUtils web3jUtils = new Web3jUtils();
+		AuthorityLogic authorityLogic = web3jUtils.getAuthority();
 		TransactionReceipt res = authorityLogic.updateAccountState(account,state,changePlatformState).send();
 
         return null;
