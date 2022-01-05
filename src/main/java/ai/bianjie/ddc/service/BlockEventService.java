@@ -1,21 +1,11 @@
 package ai.bianjie.ddc.service;
 
-import ai.bianjie.ddc.constant.*;
-//import com.bianjie.ddc.dto.ddc.*;
-//import com.bianjie.ddc.dto.taianchain.BlockInfoBean;
-//import com.bianjie.ddc.dto.taianchain.TransactionInfoBean;
-//import com.bianjie.ddc.dto.taianchain.TransactionRecepitBean;
-//import com.bianjie.ddc.util.AnalyzeChainInfoUtils;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-//import org.fisco.bcos.web3j.protocol.core.methods.response.Log;
-//import org.fisco.bcos.web3j.tx.txdecode.BaseException;
-//import org.fisco.bcos.web3j.tx.txdecode.EventResultEntity;
-//import org.fisco.bcos.web3j.utils.Strings;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-
-//import static com.bianjie.ddc.util.AnalyzeChainInfoUtils.assembleBeanByReflect;
 
 /**
  * @author kuan
@@ -60,22 +50,22 @@ public class BlockEventService extends BaseService {
      * @throws BaseException BaseException
      * @throws IOException   IOException
      */
-//    public <T extends BaseEventBean> ArrayList<T> getBlockEvent(String blockNumber) throws BaseException, IOException, InterruptedException {
-//        ArrayList<T> arrayList = new ArrayList<>();
-//        // 1. 获取区块信息
-//        BlockInfoBean blockInfoBean = getBlockInfo(blockNumber);
-//
-//        // 2. 获取交易
-//        for (int i = 0; i < blockInfoBean.getTransactions().size(); i++) {
-//
+    public <T> ArrayList<T> getBlockEvent(String blockNumber) throws IOException, InterruptedException {
+        ArrayList<T> arrayList = new ArrayList<>();
+        // 1. 获取区块信息
+        String blockInfoBean = getBlockByNumber(blockNumber);
+        JSONObject blockInfo = JSONObject.parseObject(blockInfoBean);
+
+        // 2. 获取交易
+        for (int i = 0; i < blockInfo.size(); i++) {
+
 //            TransactionInfoBean transaction = blockInfoBean.getTransactions().get(i);
 //            ArrayList<T> transactionArrayList = analyzeEventsByTransaction(transaction,blockInfoBean);
 //            arrayList.addAll(transactionArrayList);
-//        }
-//        log.info("块高 {} 解析到区块事件 {}",blockNumber, JSONObject.toJSONString(arrayList));
-//        return arrayList;
-//        return null;
-//    }
+        }
+        log.info("块高 {} 解析到区块事件 {}",blockNumber, JSONObject.toJSONString(arrayList));
+        return arrayList;
+    }
 
     /**
      * 根据交易进行事件解析

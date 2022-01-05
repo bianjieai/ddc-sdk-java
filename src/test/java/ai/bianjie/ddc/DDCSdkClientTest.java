@@ -1,16 +1,25 @@
 package ai.bianjie.ddc;
 
 import ai.bianjie.ddc.service.AuthorityService;
+import org.junit.jupiter.api.Test;
 
 public class DDCSdkClientTest {
-   // @Test
+    @Test
     public void sdkInitTest() throws Exception {
-        DDCSdkClient client = new DDCSdkClient("http://192.168.31.47:8080");
-        client.init("","","");
+        //http://192.168.150.43:8545测试网地址
+        DDCSdkClient client = new DDCSdkClient("http://192.168.150.43:8545");
+        //B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26，测试账户私钥
+        client.init("B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26");
         AuthorityService authorityService = client.getAuthorityService();
-        String s = authorityService.addAccount("","","");
-        System.out.println(s);
+//        String s = authorityService.addAccount("1DFD9E10AA5244591ABE8FA4B0750B4B98D4F89D","node2","did:bsn:ConsumeriVn84Xz1YFoFfCqmaPrf");
+        authorityService.getAccount("1DFD9E10AA5244591ABE8FA4B0750B4B98D4F89D");
+
+        System.out.println("--------------------------------------");
+
         //0x629D3dBe479e4c72Bed306fE3FAE96bEc4335848
         //EE57139E049E4A6E6D71DE6988B5A65FEEE899CAAAE28DBE6DF31563C541798B
+
+        //TransactionReceipt{transactionHash='0xfd4f762f3c582d2a3688091fad880674d86c356ab083668821e0e257eb95d596', transactionIndex='0x0', blockHash='0xd5cab0ae84b27e659fa86043b9b5502ee6f500e24694634be517ce3185f23fbd', blockNumber='0x4851', cumulativeGasUsed='0x5be3', gasUsed='0x5be3', contractAddress='null', root='null', status='0x1', from='0x629d3dbe479e4c72bed306fe3fae96bec4335848', to='0xfb309ca21d6bf88d8c57d3bbc73034001524a456', logs=[], logsBloom='0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'}
+
     }
 }
