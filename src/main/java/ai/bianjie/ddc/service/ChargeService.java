@@ -1,13 +1,12 @@
 package ai.bianjie.ddc.service;
 
-import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.contract.ChargeLogic;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
-import ai.bianjie.ddc.util.GasProvider;
 import ai.bianjie.ddc.util.HexUtils;
+import ai.bianjie.ddc.util.Web3jUtils;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Strings;
 
@@ -15,193 +14,236 @@ import java.math.BigInteger;
 
 public class ChargeService extends BaseService {
 
+	public ChargeService(SignEventListener signEventListener) {
+		super.signEventListener = signEventListener;
+	}
 
-    public ChargeService(SignEventListener signEventListener) {
-        super.signEventListener = signEventListener;
-    }
+	/**
+	 * ÔËÓª·½¡¢Æ½Ì¨·½µ÷ÓÃ¸Ã½Ó¿ÚÎªËùÊôÍ¬Ò»·½µÄÍ¬Ò»¼¶±ðÕË»§»òÕßÏÂ¼¶ÕË»§³äÖµ£»
+	 *
+	 * @param to ³äÖµÕË»§µÄµØÖ·
+	 * @param amount ³äÖµ½ð¶î
+	 * @return ·µ»Ø½»Ò×¹þÏ£
+	 * @throws Exception
+	 */
+	public String recharge(String to, BigInteger amount) throws Exception {
+		if (Strings.isEmpty(to)) {
+			throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+		}
 
-    String contractAddr = ConfigCache.get().getChargeLogicAddress();
-    protected ChargeLogic chargeLogic = ChargeLogic.load(contractAddr, web3j, credentials, new GasProvider(ConfigCache.get().getGasPrice(), ConfigCache.get().getGasLimit()));
+		if (!AddressUtils.isValidAddress(to)) {
+			throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+		}
 
+		if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
+			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
+		}
 
-    /**
-     * è¿è¥æ–¹ã€å¹³å°æ–¹è°ƒç”¨è¯¥æŽ¥å£ä¸ºæ‰€å±žåŒä¸€æ–¹çš„åŒä¸€çº§åˆ«è´¦æˆ·æˆ–è€…ä¸‹çº§è´¦æˆ·å……å€¼ï¼›
-     *
-     * @param to     å……å€¼è´¦æˆ·çš„åœ°å€
-     * @param amount å……å€¼é‡‘é¢
-     * @return è¿”å›žäº¤æ˜“å“ˆå¸Œ
-     * @throws Exception
-     */
-    public String recharge(String to, BigInteger amount) throws Exception {
-        if (Strings.isEmpty(to)) {
-            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
-        }
+		if(signEventListener == null) {
+			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+		}
 
-        if (!AddressUtils.isValidAddress(to)) {
-            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-        if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
-            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
-        }
+		String hash = chargeLogic.recharge(to, amount).send().getTransactionHash();
 
-        String hash = chargeLogic.recharge(to, amount).send().getTransactionHash();
+		return hash;
+	}
 
-        return hash;
-    }
+	/**
+	 * ²éÑ¯Ö¸¶¨ÕË»§µÄÓà¶î¡£
+	 *
+	 * @param accAddr ²éÑ¯µÄÕË»§µØÖ·
+	 * @return ·µ»ØÕË»§Ëù¶ÔÓ¦µÄÒµÎñ·ÑÓà¶î
+	 * @throws Exception
+	 */
+	public String balanceOf(String accAddr) throws Exception {
+		if (Strings.isEmpty(accAddr)) {
+			throw new DDCException(ErrorMessage.ACC_ADDR_IS_EMPTY);
+		}
 
-    /**
-     * æŸ¥è¯¢æŒ‡å®šè´¦æˆ·çš„ä½™é¢ã€‚
-     *
-     * @param accAddr æŸ¥è¯¢çš„è´¦æˆ·åœ°å€
-     * @return è¿”å›žè´¦æˆ·æ‰€å¯¹åº”çš„ä¸šåŠ¡è´¹ä½™é¢
-     * @throws Exception
-     */
-    public String balanceOf(String accAddr) throws Exception {
-        if (Strings.isEmpty(accAddr)) {
-            throw new DDCException(ErrorMessage.ACC_ADDR_IS_EMPTY);
-        }
+		if (!AddressUtils.isValidAddress(accAddr)) {
+			throw new DDCException(ErrorMessage.ACC_ADDR_IS_NOT_ADDRESS_FORMAT);
+		}
 
-        if (!AddressUtils.isValidAddress(accAddr)) {
-            throw new DDCException(ErrorMessage.ACC_ADDR_IS_NOT_ADDRESS_FORMAT);
-        }
+		if(signEventListener == null) {
+			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+		}
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-        return chargeLogic.balanceOf(accAddr).send().toString();
-    }
+		return chargeLogic.balanceOf(accAddr).send().toString();
+	}
 
-    /**
-     * æŸ¥è¯¢æŒ‡å®šçš„DDCä¸šåŠ¡ä¸»é€»è¾‘åˆçº¦çš„æ–¹æ³•æ‰€å¯¹åº”çš„è°ƒç”¨ä¸šåŠ¡è´¹ç”¨ã€‚
-     *
-     * @param ddcAddr DDCä¸šåŠ¡ä¸»é€»è¾‘åˆçº¦åœ°å€
-     * @param sig     Hexæ ¼å¼çš„åˆçº¦æ–¹æ³•ID
-     * @return è¿”å›žDDCåˆçº¦ä¸šåŠ¡è´¹
-     * @throws Exception
-     */
-    public BigInteger queryFee(String ddcAddr, String sig) throws Exception {
-        if (Strings.isEmpty(ddcAddr)) {
-            throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
-        }
+	/**
+	 * ²éÑ¯Ö¸¶¨µÄDDCÒµÎñÖ÷Âß¼­ºÏÔ¼µÄ·½·¨Ëù¶ÔÓ¦µÄµ÷ÓÃÒµÎñ·ÑÓÃ¡£
+	 *
+	 * @param ddcAddr DDCÒµÎñÖ÷Âß¼­ºÏÔ¼µØÖ·
+	 * @param sig Hex¸ñÊ½µÄºÏÔ¼·½·¨ID
+	 * @return ·µ»ØDDCºÏÔ¼ÒµÎñ·Ñ
+	 * @throws Exception
+	 */
+	public BigInteger queryFee(String ddcAddr, String sig) throws Exception {
+		if (Strings.isEmpty(ddcAddr)) {
+			throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
+		}
 
-        if (!AddressUtils.isValidAddress(ddcAddr)) {
-            throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
-        }
+		if (!AddressUtils.isValidAddress(ddcAddr)) {
+			throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
+		}
 
-        if (Strings.isEmpty(sig)) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
+		if (Strings.isEmpty(sig)) {
+			throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+		}
 
-        if (!HexUtils.isValid4ByteHash(sig)) {
-            throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
-        }
+		if (!HexUtils.isValid4ByteHash(sig)) {
+			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
+		}
 
-        return chargeLogic.queryFee(ddcAddr, sig.getBytes(sig)).send();
-    }
+		if(signEventListener == null) {
+			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+		}
 
-    /**
-     * è¿è¥æ–¹è°ƒç”¨ä¸ºè‡ªå·±çš„è´¦æˆ·å¢žåŠ ä¸šåŠ¡è´¹ã€‚
-     *
-     * @param amount å¯¹è¿è¥æ–¹è´¦æˆ·è¿›è¡Œå……å€¼çš„ä¸šåŠ¡è´¹
-     * @return è¿”å›žäº¤æ˜“å“ˆå¸Œ
-     * @throws Exception
-     */
-    public String selfRecharge(BigInteger amount) throws Exception {
-        if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
-            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
-        }
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-        TransactionReceipt txReceipt = chargeLogic.selfRecharge(amount).send();
-        resultCheck(txReceipt);
-        return txReceipt.getTransactionHash();
-    }
+		return chargeLogic.queryFee(ddcAddr, sig.getBytes(sig)).send();
+	}
 
-    /**
-     * è¿è¥æ–¹è°ƒç”¨æŽ¥å£è®¾ç½®æŒ‡å®šçš„DDCä¸»åˆçº¦çš„æ–¹æ³•è°ƒç”¨è´¹ç”¨ã€‚
-     *
-     * @param ddcAddr DDCä¸šåŠ¡ä¸»é€»è¾‘åˆçº¦åœ°å€
-     * @param sig     Hexæ ¼å¼çš„åˆçº¦æ–¹æ³•ID
-     * @param amount  ä¸šåŠ¡è´¹ç”¨
-     * @return è¿”å›žäº¤æ˜“å“ˆå¸Œ
-     * @throws Exception
-     */
-    public String setFee(String ddcAddr, String sig, BigInteger amount) throws Exception {
-        if (Strings.isEmpty(ddcAddr)) {
-            throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
-        }
+	/**
+	 * ÔËÓª·½µ÷ÓÃÎª×Ô¼ºµÄÕË»§Ôö¼ÓÒµÎñ·Ñ¡£
+	 *
+	 * @param amount ¶ÔÔËÓª·½ÕË»§½øÐÐ³äÖµµÄÒµÎñ·Ñ
+	 * @return ·µ»Ø½»Ò×¹þÏ£
+	 * @throws Exception
+	 */
+	public String selfRecharge(BigInteger amount) throws Exception {
+		if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
+			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
+		}
 
-        if (!AddressUtils.isValidAddress(ddcAddr)) {
-            throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
-        }
+		if(signEventListener == null) {
+			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+		}
 
-        if (Strings.isEmpty(sig)) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-        if (!HexUtils.isValid4ByteHash(sig)) {
-            throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
-        }
+		TransactionReceipt txReceipt = chargeLogic.selfRecharge(amount).send();
+		resultCheck(txReceipt);
+		return txReceipt.getTransactionHash();
+	}
 
-        if (amount == null) {
-            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
-        }
+	/**
+	 * ÔËÓª·½µ÷ÓÃ½Ó¿ÚÉèÖÃÖ¸¶¨µÄDDCÖ÷ºÏÔ¼µÄ·½·¨µ÷ÓÃ·ÑÓÃ¡£
+	 *
+	 * @param ddcAddr DDCÒµÎñÖ÷Âß¼­ºÏÔ¼µØÖ·
+	 * @param sig Hex¸ñÊ½µÄºÏÔ¼·½·¨ID
+	 * @param amount ÒµÎñ·ÑÓÃ
+	 * @return ·µ»Ø½»Ò×¹þÏ£
+	 * @throws Exception
+	 */
+	public String setFee(String ddcAddr, String sig, BigInteger amount) throws Exception {
+		if (Strings.isEmpty(ddcAddr)) {
+			throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
+		}
 
-        if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) < 0) {
-            throw new DDCException(ErrorMessage.AMOUNT_LT_ZERO);
-        }
+		if (!AddressUtils.isValidAddress(ddcAddr)) {
+			throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
+		}
 
-        TransactionReceipt txReceipt = chargeLogic.setFee(ddcAddr, sig.getBytes(sig), amount).send();
-        resultCheck(txReceipt);
-        return txReceipt.getTransactionHash();
-    }
+		if (Strings.isEmpty(sig)) {
+			throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+		}
 
-    /**
-     * è¿è¥æ–¹è°ƒç”¨æŽ¥å£åˆ é™¤æŒ‡å®šçš„DDCä¸»åˆçº¦çš„æ–¹æ³•è°ƒç”¨è´¹ç”¨ã€‚
-     *
-     * @param ddcAddr DDCä¸šåŠ¡ä¸»é€»è¾‘åˆçº¦åœ°å€
-     * @param sig     Hexæ ¼å¼çš„åˆçº¦æ–¹æ³•ID
-     * @return è¿”å›žäº¤æ˜“å“ˆå¸Œ
-     * @throws Exception
-     */
-    public String delFee(String ddcAddr, String sig) throws Exception {
-        if (Strings.isEmpty(ddcAddr)) {
-            throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
-        }
+		if (!HexUtils.isValid4ByteHash(sig)) {
+			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
+		}
 
-        if (!AddressUtils.isValidAddress(ddcAddr)) {
-            throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
-        }
+		if (amount == null) {
+			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
+		}
 
-        if (Strings.isEmpty(sig)) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
+		if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) < 0) {
+			throw new DDCException(ErrorMessage.AMOUNT_LT_ZERO);
+		}
 
-        if (!HexUtils.isValid4ByteHash(sig)) {
-            throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
-        }
+		if(signEventListener == null) {
+			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+		}
 
-        TransactionReceipt txReceipt = chargeLogic.deleteFee(ddcAddr, sig.getBytes(sig)).send();
-        resultCheck(txReceipt);
-        return txReceipt.getTransactionHash();
-    }
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-    /**
-     * è¿è¥æ–¹è°ƒç”¨è¯¥æŽ¥å£åˆ é™¤æŒ‡å®šçš„DDCä¸šåŠ¡ä¸»é€»è¾‘åˆçº¦æŽˆæƒã€‚
-     *
-     * @param ddcAddr DDCä¸šåŠ¡ä¸»é€»è¾‘åˆçº¦åœ°å€
-     * @return è¿”å›žäº¤æ˜“å“ˆå¸Œ
-     * @throws Exception
-     */
-    public String delDDC(String ddcAddr) throws Exception {
-        if (Strings.isEmpty(ddcAddr)) {
-            throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
-        }
+		TransactionReceipt txReceipt = chargeLogic.setFee(ddcAddr, sig.getBytes(sig), amount).send();
+		resultCheck(txReceipt);
+		return txReceipt.getTransactionHash();
+	}
 
-        if (!AddressUtils.isValidAddress(ddcAddr)) {
-            throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
-        }
+	/**
+	 * ÔËÓª·½µ÷ÓÃ½Ó¿ÚÉ¾³ýÖ¸¶¨µÄDDCÖ÷ºÏÔ¼µÄ·½·¨µ÷ÓÃ·ÑÓÃ¡£
+	 *
+	 * @param ddcAddr DDCÒµÎñÖ÷Âß¼­ºÏÔ¼µØÖ·
+	 * @param sig Hex¸ñÊ½µÄºÏÔ¼·½·¨ID
+	 * @return ·µ»Ø½»Ò×¹þÏ£
+	 * @throws Exception
+	 */
+	public String delFee(String ddcAddr, String sig) throws Exception {
+		if (Strings.isEmpty(ddcAddr)) {
+			throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
+		}
 
-        TransactionReceipt txReceipt = chargeLogic.deleteDDC(ddcAddr).send();
-        resultCheck(txReceipt);
-        return txReceipt.getTransactionHash();
-    }
+		if (!AddressUtils.isValidAddress(ddcAddr)) {
+			throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
+		}
+
+		if (Strings.isEmpty(sig)) {
+			throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+		}
+
+		if (!HexUtils.isValid4ByteHash(sig)) {
+			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
+		}
+
+		if(signEventListener == null) {
+			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+		}
+
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
+
+		TransactionReceipt txReceipt = chargeLogic.deleteFee(ddcAddr, sig.getBytes(sig)).send();
+		resultCheck(txReceipt);
+		return txReceipt.getTransactionHash();
+	}
+
+	/**
+	 * ÔËÓª·½µ÷ÓÃ¸Ã½Ó¿ÚÉ¾³ýÖ¸¶¨µÄDDCÒµÎñÖ÷Âß¼­ºÏÔ¼ÊÚÈ¨¡£
+	 *
+	 * @param ddcAddr DDCÒµÎñÖ÷Âß¼­ºÏÔ¼µØÖ·
+	 * @return ·µ»Ø½»Ò×¹þÏ£
+	 * @throws Exception
+	 */
+	public String delDDC(String ddcAddr) throws Exception {
+		if (Strings.isEmpty(ddcAddr)) {
+			throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
+		}
+
+		if (!AddressUtils.isValidAddress(ddcAddr)) {
+			throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
+		}
+
+		if(signEventListener == null) {
+			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+		}
+		
+		Web3jUtils web3jUtils = new Web3jUtils();
+		ChargeLogic chargeLogic = web3jUtils.getCharge();
+
+		TransactionReceipt txReceipt = chargeLogic.deleteDDC(ddcAddr).send();
+		resultCheck(txReceipt);
+		return txReceipt.getTransactionHash();
+	}
 
 }

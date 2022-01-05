@@ -1,17 +1,18 @@
 package ai.bianjie.ddc;
-
-import ai.bianjie.ddc.service.ChargeService;
+import ai.bianjie.ddc.service.AuthorityService;
 import org.junit.jupiter.api.Test;
 
 public class DDCSdkClientTest {
-   @Test
+    @Test
     public void sdkInitTest() throws Exception {
-        DDCSdkClient client = new DDCSdkClient("http://192.168.31.47:8545");
-        client.init("FAAA797E663FA08C8DAA3972ED1FA42448AC0334FF4AAFB3C8892987D12E55C2","10","3000000000");
-        ChargeService authorityService = client.getChargeService();
-        String s = authorityService.balanceOf("FAAA797E663FA08C8DAA3972ED1FA42448AC0334FF4AAFB3C8892987D12E55C2");
-        System.out.println(s);
-        //0x629D3dBe479e4c72Bed306fE3FAE96bEc4335848
-        //EE57139E049E4A6E6D71DE6988B5A65FEEE899CAAAE28DBE6DF31563C541798B
+        //http://192.168.150.43:8545测试网地址
+        DDCSdkClient client = new DDCSdkClient("http://192.168.150.43:8545");
+        //B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26，测试账户私钥
+        client.init("B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26");
+//        AuthorityService authorityService = client.getAuthorityService();
+//        authorityService.getAccount("1DFD9E10AA5244591ABE8FA4B0750B4B98D4F89D");
+
+        System.out.println("--------------------------------------");
+
     }
 }

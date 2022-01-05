@@ -22,7 +22,7 @@ class ChargeServiceTest {
             "-----END PUBLIC KEY-----";
     static {
         DDCSdkClient sdk = new DDCSdkClient("http://127.0.0.1:8545");
-        sdk.init("B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26","3","300000000");
+        sdk.init("B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26");
     }
 
     @Test

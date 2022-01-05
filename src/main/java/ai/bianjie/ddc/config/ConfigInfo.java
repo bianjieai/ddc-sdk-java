@@ -1,23 +1,24 @@
 package ai.bianjie.ddc.config;
 
 public class ConfigInfo {
+
     private String opbGatewayAddress = "http://192.168.150.43:8545";
 
-	private String credentials;
+	private String credentials = "B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26";
 
-	private String gasPrice;
+	private String gasPrice = "10";
 
-	private String gasLimit;
+	private String gasLimit = "10000000";
 
 //721合约
     private String ddc721BIN;
 
-    private String ddc721Address = "0x1110Ea00ddbb5Db69297B578451f98CD2B8Cb802";
+    private String ddc721Address = "0xEF4Fe356008DFc222a138981873aE9BcF4d66E2E";
 
 //1155合约
     private String ddc1155BIN;
     
-    private String ddc1155Address = "0x4396F79Dc965d0a01fA144E2D0eE2dA66167589b";
+    private String ddc1155Address = "0x70a3f85cD5903BC9cff279530C0fBD6b747eAB35";
 
 //authority合约
     private String authorityLogicBIN;

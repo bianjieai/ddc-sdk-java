@@ -17,7 +17,7 @@ public class TestService {
         Web3j web3j = Web3j.build(new HttpService("http://192.168.150.43:8545"));
         Credentials credentials = Credentials.create("FAAA797E663FA08C8DAA3972ED1FA42448AC0334FF4AAFB3C8892987D12E55C2");
         String contractAddr = "0xFb7237841ea645A2f91D9B4730486A0086820270v";
-        ChargeLogic chargeLogic = ChargeLogic.load(contractAddr, web3j, credentials, new GasProvider("10","300000000"));
+        ChargeLogic chargeLogic = ChargeLogic.load(contractAddr, web3j, credentials, new GasProvider());
         BigInteger res = chargeLogic.balanceOf(account).send();
         System.out.println("002---------------------------------------------------------------------------------");
 
