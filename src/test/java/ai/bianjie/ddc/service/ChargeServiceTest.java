@@ -27,7 +27,7 @@ class ChargeServiceTest {
 
     @Test
     void recharge() throws Exception {
-        ChargeService chargeService =new ChargeService(new Secp256K1SignEventListener(privateKey, publicKey));
+        ChargeService chargeService = new ChargeService(new Secp256K1SignEventListener(privateKey, publicKey));
         String to = "0x522bc3e4e29276A13f7b7BE9D404961826a82bf8";
         BigInteger amount;
         amount = new BigInteger("300000");

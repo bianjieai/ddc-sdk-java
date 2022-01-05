@@ -1,6 +1,5 @@
 package ai.bianjie.ddc.constant;
 
-
 public enum ErrorMessage {
     // Param check  1
     // Chain error  2
@@ -77,4 +76,5 @@ public enum ErrorMessage {
         }
         return null;
     }
+
 }

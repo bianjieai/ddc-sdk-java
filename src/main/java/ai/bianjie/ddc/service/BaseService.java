@@ -13,10 +13,7 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Strings;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-
-import java.math.BigInteger;
 
 @Slf4j
 public class BaseService {

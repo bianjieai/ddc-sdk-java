@@ -46,8 +46,7 @@ public class ChargeService extends BaseService {
         }
 
         String hash = chargeLogic.recharge(to, amount).send().getTransactionHash();
-//      resultCheck(res);
-//      return res.getTransactionHash();
+
         return hash;
     }
 
@@ -66,7 +65,6 @@ public class ChargeService extends BaseService {
         if (!AddressUtils.isValidAddress(accAddr)) {
             throw new DDCException(ErrorMessage.ACC_ADDR_IS_NOT_ADDRESS_FORMAT);
         }
-
 
         return chargeLogic.balanceOf(accAddr).send().toString();
     }
@@ -97,7 +95,6 @@ public class ChargeService extends BaseService {
         }
 
         return chargeLogic.queryFee(ddcAddr, sig.getBytes(sig)).send();
-
     }
 
     /**

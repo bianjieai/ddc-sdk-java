@@ -5,7 +5,6 @@ import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.exception.DDCException;
 
 import java.io.*;
-import java.util.Map;
 
 public class ConfigUtils {
 	
@@ -27,7 +26,7 @@ public class ConfigUtils {
 
 	public static final String AUTHORITY_BIN_FILE = "contract/AuthorityLogic.bin";
 
-	public static final String RECHARGE_BIN_FILE = "contract/RechargeLogic.bin";
+	public static final String RECHARGE_BIN_FILE = "contract/ChargeLogic.bin";
 	
 	public static final String PRIVATE_KEY_FILE = "cert/privateKey.pem";
 	
