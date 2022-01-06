@@ -1,7 +1,7 @@
 package ai.bianjie.ddc.config;
 
 public class ConfigInfo {
-
+	//http://127.0.0.1:8545
     private String opbGatewayAddress = "http://192.168.150.43:8545";
 
 	private String credentials = "B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26";
@@ -24,11 +24,12 @@ public class ConfigInfo {
     private String authorityLogicBIN;
    
     private String authorityLogicAddress = "0x7754DeF40211373925F5Ea27081E2Af8803C5Da0";
+			//0xE3E701278bBFC7F0Af43a3a52Ebc160Ec4Bb192f; bendi
 
 //charge合约
     private String chargeLogicBIN;
 
-    private String chargeLogicAddress = "0xFb7237841ea645A2f91D9B4730486A0086820270v";
+    private String chargeLogicAddress = "0x0f2fC891cFd1eEeaF862F0FD59CA925BE5c30E78";
 
 //公钥私钥
     private String privateKey;

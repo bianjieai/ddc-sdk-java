@@ -9,11 +9,15 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
+import org.web3j.protocol.core.methods.response.EthTransaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Strings;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
@@ -25,14 +29,15 @@ public class BaseService {
      * @param blockNumber 区块高度
      * @return 区块信息
      */
-    public String getBlockByNumber(String blockNumber) {
+    public EthBlock.Block getBlockByNumber(String blockNumber) throws IOException {
         if(signEventListener == null) {
             throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
         }
+        Web3jUtils web3jUtils = new Web3jUtils();
+        Web3j web3j = web3jUtils.getWeb3j();
+        EthBlock.Block blockInfo = web3j.ethGetBlockByNumber(DefaultBlockParameterName.LATEST,true).send().getBlock();
 
-        String result = blockNumber + ConfigCache.get().getOpbGatewayAddress();
-        //        resultCheck(result);
-        return JSON.toJSONString(result);
+        return blockInfo;
     }
 
     /**
@@ -41,7 +46,7 @@ public class BaseService {
      * @return 交易回执
      * @throws InterruptedException InterruptedException
      */
-    public String getTransReceipt(String hash) throws InterruptedException, ExecutionException {
+    public EthGetTransactionReceipt getTransReceipt(String hash) throws InterruptedException, ExecutionException {
         if(signEventListener == null) {
             throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
         }
@@ -49,7 +54,7 @@ public class BaseService {
         Web3jUtils web3jUtils = new Web3jUtils();
         Web3j web3j = web3jUtils.getWeb3j();
         EthGetTransactionReceipt txReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
-        return txReceipt.getResult().toString();
+        return txReceipt;
     }
 
     /**
@@ -57,16 +62,15 @@ public class BaseService {
      * @param hash 交易哈希
      * @return 交易信息
      */
-    public String getTransByHash(String hash) {
+    public EthTransaction getTransByHash(String hash) throws IOException {
         if(signEventListener == null) {
             throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
         }
 
         Web3jUtils web3jUtils = new Web3jUtils();
         Web3j web3j = web3jUtils.getWeb3j();
-        String result = hash + ConfigCache.get().getOpbGatewayAddress() + web3j.ethGetBlockTransactionCountByHash(hash);
-//        resultCheck(result);
-        return JSON.toJSONString(result);
+        EthTransaction tx = web3j.ethGetTransactionByHash(hash).send();
+        return tx;
     }
 
     /**

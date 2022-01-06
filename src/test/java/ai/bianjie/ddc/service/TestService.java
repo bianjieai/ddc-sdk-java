@@ -21,7 +21,6 @@ public class TestService {
         BigInteger res = chargeLogic.balanceOf(account).send();
         System.out.println("002---------------------------------------------------------------------------------");
 
-//      RemoteCall<TransactionReceipt> account1 = authorityLogic.getAccount(account);
         System.out.println("003---------------------------------------------------------------------------------");
         return res.toString();
     }

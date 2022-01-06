@@ -52,18 +52,19 @@ public class BlockEventService extends BaseService {
     public <T> ArrayList<T> getBlockEvent(String blockNumber) throws IOException, InterruptedException {
         ArrayList<T> arrayList = new ArrayList<>();
         // 1. 获取区块信息
-        String blockInfoBean = getBlockByNumber(blockNumber);
-        JSONObject blockInfo = JSONObject.parseObject(blockInfoBean);
+//        String blockInfoBean = getBlockByNumber(blockNumber);
+//        JSONObject blockInfo = JSONObject.parseObject(blockInfoBean);
 
         // 2. 获取交易
-        for (int i = 0; i < blockInfo.size(); i++) {
-
-//            TransactionInfoBean transaction = blockInfoBean.getTransactions().get(i);
-//            ArrayList<T> transactionArrayList = analyzeEventsByTransaction(transaction,blockInfoBean);
-//            arrayList.addAll(transactionArrayList);
-        }
-        log.info("块高 {} 解析到区块事件 {}",blockNumber, JSONObject.toJSONString(arrayList));
-        return arrayList;
+//        for (int i = 0; i < blockInfo.size(); i++) {
+//
+////            TransactionInfoBean transaction = blockInfoBean.getTransactions().get(i);
+////            ArrayList<T> transactionArrayList = analyzeEventsByTransaction(transaction,blockInfoBean);
+////            arrayList.addAll(transactionArrayList);
+//        }
+//        log.info("块高 {} 解析到区块事件 {}",blockNumber, JSONObject.toJSONString(arrayList));
+//        return arrayList;
+        return null;
     }
 
     /**
