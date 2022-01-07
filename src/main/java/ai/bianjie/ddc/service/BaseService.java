@@ -1,20 +1,16 @@
 package ai.bianjie.ddc.service;
 
-import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.Web3jUtils;
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
 import org.web3j.protocol.core.methods.response.EthTransaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Strings;
 
 import java.io.IOException;
@@ -102,10 +98,5 @@ public class BaseService {
             log.error("resultCheck {}", ErrorMessage.REQUEST_FAILED);
             throw new DDCException(ErrorMessage.REQUEST_FAILED);
         }
-
-//        if (result.error != null) {
-//            log.error("resultCheck {}", result.getError());
-//            throw new DDCException(ErrorMessage.REQUEST_FAILED, result.getError());
-//        }
     }
 }
