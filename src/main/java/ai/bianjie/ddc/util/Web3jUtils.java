@@ -9,9 +9,7 @@ import org.web3j.protocol.http.HttpService;
 public class Web3jUtils {
     private Web3j web3j =  Web3j.build(new HttpService(ConfigCache.get().getOpbGatewayAddress()));
     private Credentials credentials = Credentials.create(ConfigCache.get().getCredentials());
-    public AuthorityData getAuthorityD() {
-        return AuthorityData.load("0xB389bC93Ac24ceBa1B5b6Ad4E814C607dFcc4251", web3j, credentials, new GasProvider());
-    }//   ce s 0x81C1B3B1fEA68319c89272bd3aB6Ab287eA993aF
+
     public AuthorityLogic getAuthority() {
         return AuthorityLogic.load(ConfigCache.get().getAuthorityLogicAddress(), web3j, credentials, new GasProvider());
     }public ChargeLogic getCharge() {

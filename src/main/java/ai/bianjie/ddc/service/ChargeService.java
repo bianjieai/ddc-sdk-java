@@ -67,9 +67,9 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.ACC_ADDR_IS_NOT_ADDRESS_FORMAT);
 		}
 
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-		}
+//		if(signEventListener == null) {
+//			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+//		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();

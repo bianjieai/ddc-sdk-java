@@ -70,7 +70,4 @@ public class DDCSdkClient {
         return new DDC721Service(signEventListener);
     }
 
-    public Adata getad() {
-        return new Adata();
-    }
 }
