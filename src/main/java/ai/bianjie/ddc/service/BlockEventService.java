@@ -1,11 +1,29 @@
 package ai.bianjie.ddc.service;
 
+import ai.bianjie.ddc.config.ConfigCache;
+import ai.bianjie.ddc.constant.AuthorityFunctions;
+import ai.bianjie.ddc.constant.ChargeFunctions;
+import ai.bianjie.ddc.constant.DDC1155Functions;
+import ai.bianjie.ddc.constant.DDC721Functions;
+import ai.bianjie.ddc.contract.AuthorityLogic;
+import ai.bianjie.ddc.contract.ChargeLogic;
+import ai.bianjie.ddc.contract.DDC1155;
+import ai.bianjie.ddc.contract.DDC721;
+import ai.bianjie.ddc.util.Web3jUtils;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.response.BaseEventResponse;
+import org.web3j.protocol.core.methods.response.EthBlock;
+import org.web3j.protocol.core.methods.response.Log;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.utils.Strings;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author kuan
@@ -14,30 +32,36 @@ import java.util.HashMap;
  */
 @Slf4j
 public class BlockEventService extends BaseService {
-    // 外部可通过修改hashMap内的属性增加或删除需要解析的事件
-    public HashMap<String, Class> eventBeanMap = new HashMap<>();
+//    private Web3jUtils web3jUtils;
+//    private AuthorityLogic authorityLogic;
+//    private ChargeLogic chargeLogic;
+//    private DDC721 ddc721;
+//    private DDC1155 ddc1155;
 
-    public BlockEventService() {
-        // 进行事件方法与实体类的绑定
-//        eventBeanMap.put(AuthorityFunctions.AddAccountEvent, AddAccountEventBean.class);
-//        eventBeanMap.put(AuthorityFunctions.UpdateAccountEvent, UpdateAccountEventBean.class);
-//        eventBeanMap.put(AuthorityFunctions.UpdateAccountStateEvent, UpdateAccountStateEventBean.class);
+    // 外部可通过修改hashMap内的属性增加或删除需要解析的事件
+//    public HashMap<String, Class> eventBeanMap = new HashMap<>();
 //
-//        eventBeanMap.put(ChargeFunctions.RechargeEvent,ReChargeEventBean.class);
-//        eventBeanMap.put(ChargeFunctions.PayEvent, PayEventBean.class);
-//        eventBeanMap.put(ChargeFunctions.SetFeeEvent, SetFeeEventBean.class);
-//        eventBeanMap.put(ChargeFunctions.DeleteFeeEvent, DeleteFeeEventBean.class);
-//        eventBeanMap.put(ChargeFunctions.DeleteDDCEvent, DeleteDDCEventBean.class);
+//    public BlockEventService() {
+//        // 进行事件方法与实体类的绑定
+//        eventBeanMap.put(AuthorityFunctions.AddAccountEvent, AuthorityLogic.AddAccountEventResponse.class);
+//        eventBeanMap.put(AuthorityFunctions.UpdateAccountEvent, AuthorityLogic.UpdateAccountEventResponse.class);
+//        eventBeanMap.put(AuthorityFunctions.UpdateAccountStateEvent, AuthorityLogic.UpdateAccountStateEventResponse.class);
 //
-//        eventBeanMap.put(DDC721Functions.DDC721TransferEvent, DDC721TransferEventBean.class);
-//        eventBeanMap.put(DDC721Functions.DDC721FreezeEvent, DDC721FreezeEventBean.class);
-//        eventBeanMap.put(DDC721Functions.DDC721UnFreezeEvent, DDC721UnFreezeEventBean.class);
+//        eventBeanMap.put(ChargeFunctions.RechargeEvent,ChargeLogic.RechargeEventResponse.class);
+//        eventBeanMap.put(ChargeFunctions.PayEvent, ChargeLogic.PayEventResponse.class);
+//        eventBeanMap.put(ChargeFunctions.SetFeeEvent, ChargeLogic.SetFeeEventResponse.class);
+//        eventBeanMap.put(ChargeFunctions.DeleteFeeEvent, ChargeLogic.DeleteFeeEventResponse.class);
+//        eventBeanMap.put(ChargeFunctions.DeleteDDCEvent, ChargeLogic.DeleteDDCEventResponse.class);
 //
-//        eventBeanMap.put(DDC1155Functions.DDC1155TransferSingleEvent, DDC1155TransferSingleEventBean.class);
-//        eventBeanMap.put(DDC1155Functions.DDC1155TransferBatchEvent, DDC1155TransferBatchEventBean.class);
-//        eventBeanMap.put(DDC1155Functions.DDC1155FreezeEvent, DDC1155FreezeEventBean.class);
-//        eventBeanMap.put(DDC1155Functions.DDC1155UnFreezeEvent, DDC1155UnFreezeEventBean.class);
-    }
+//        eventBeanMap.put(DDC721Functions.DDC721TransferEvent, DDC721.TransferEventResponse.class);
+//        eventBeanMap.put(DDC721Functions.DDC721FreezeEvent, DDC721.EnterBlacklistEventResponse.class);
+//        eventBeanMap.put(DDC721Functions.DDC721UnFreezeEvent, DDC721.ExitBlacklistEventResponse.class);
+//
+//        eventBeanMap.put(DDC1155Functions.DDC1155TransferSingleEvent, DDC1155.TransferSingleEventResponse.class);
+//        eventBeanMap.put(DDC1155Functions.DDC1155TransferBatchEvent, DDC1155.TransferBatchEventResponse.class);
+//        eventBeanMap.put(DDC1155Functions.DDC1155FreezeEvent, DDC1155.EnterBlacklistEventResponse.class);
+//        eventBeanMap.put(DDC1155Functions.DDC1155UnFreezeEvent, DDC1155.ExitBlacklistEventResponse.class);
+//    }
 
     /**
      * 获取区块事件并解析
@@ -49,116 +73,107 @@ public class BlockEventService extends BaseService {
      * @return ArrayList<Object>
      * @throws IOException   IOException
      */
-    public <T> ArrayList<T> getBlockEvent(String blockNumber) throws IOException, InterruptedException {
+    public <T extends BaseEventResponse> ArrayList<T> getBlockEvent(String blockNumber) throws IOException, InterruptedException {
         ArrayList<T> arrayList = new ArrayList<>();
         // 1. 获取区块信息
-//        String blockInfoBean = getBlockByNumber(blockNumber);
-//        JSONObject blockInfo = JSONObject.parseObject(blockInfoBean);
+        Web3j web3j = (new Web3jUtils()).getWeb3j();
+
+        EthBlock.Block blockInfo = web3j.ethGetBlockByNumber(DefaultBlockParameterName.LATEST,false).send().getBlock();
+        List<EthBlock.TransactionResult> txs = blockInfo.getTransactions();
 
         // 2. 获取交易
-//        for (int i = 0; i < blockInfo.size(); i++) {
-//
-////            TransactionInfoBean transaction = blockInfoBean.getTransactions().get(i);
-////            ArrayList<T> transactionArrayList = analyzeEventsByTransaction(transaction,blockInfoBean);
-////            arrayList.addAll(transactionArrayList);
-//        }
-//        log.info("块高 {} 解析到区块事件 {}",blockNumber, JSONObject.toJSONString(arrayList));
-//        return arrayList;
-        return null;
+        if (txs != null){
+            txs.forEach(tx->{
+                EthBlock.TransactionHash transaction = (EthBlock.TransactionHash) tx.get();
+                String hash = transaction.get();
+                try {
+                    ArrayList<T> arr = analyzeEventsByTxHash(hash);
+                    arrayList.addAll(arr);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        log.info("块高 {} 解析到区块事件 {}",blockNumber, JSONObject.toJSONString(arrayList));
+        return arrayList;
     }
 
-    /**
-     * 根据交易进行事件解析
-     *
-     * @param transaction transaction
-     * @return ArrayList<Object>
-     * @throws BaseException BaseException
-     * @throws IOException   IOException
-     */
-//    private <T extends BaseEventBean> ArrayList<T> analyzeEventsByTransaction(TransactionInfoBean transaction, BlockInfoBean blockInfoBean) throws BaseException, IOException, InterruptedException {
-//        ArrayList<T> arrayList = new ArrayList<>();
-//        // 获取交易回执
-//        TransactionRecepitBean transactionRecepitBean = getTransactionRecepit(transaction.getHash());
-//
-//        String abi = "";
-//        String bin = "";
-//
-//        for (int i = 0; i < transactionRecepitBean.getLogs().size(); i++) {
-//
-//            // 根据交易日志匹配需要解析的信息
-//            Log log = transactionRecepitBean.getLogs().get(i);
-//
-//            if (Strings.isEmpty(log.getAddress())) {
-//                continue;
-//            }
-//
-//            if (transaction.getTo().toLowerCase().equals(ConfigCache.get().getAuthorityLogicAddress().toLowerCase())) {
-//                abi = ConfigCache.get().getAuthorityLogicABI();
-//                bin = ConfigCache.get().getAuthorityLogicBIN();
-//            } else if (transaction.getTo().toLowerCase().equals(ConfigCache.get().getChargeLogicAddress().toLowerCase())) {
-//                abi = ConfigCache.get().getChargeLogicABI();
-//                bin = ConfigCache.get().getChargeLogicBIN();
-//            } else if (transaction.getTo().toLowerCase().equals(ConfigCache.get().getDdc721Address().toLowerCase())) {
-//                abi = ConfigCache.get().getDdc721ABI();
-//                bin = ConfigCache.get().getDdc721BIN();
-//            } else if (transaction.getTo().toLowerCase().equals(ConfigCache.get().getDdc1155Address().toLowerCase())) {
-//                abi = ConfigCache.get().getDdc1155ABI();
-//                bin = ConfigCache.get().getDdc1155BIN();
-//            } else {
-//                // 其他合约不解析
-//                continue;
-//            }
-//            ArrayList<Log> logs = new ArrayList<>();
-//            logs.add(log);
-//            arrayList.addAll(analyzeEventsByLog(abi,bin,transaction,blockInfoBean,logs));
-//        }
-//
-//        return arrayList;
-//    }
+    private <T extends BaseEventResponse>ArrayList<T> analyzeEventsByTxHash(String hash) throws Exception {
 
-    /**
-     * 通过Log解析事件
-     * @param abi
-     * @param bin
-     * @param transaction
-     * @param blockInfoBean
-     * @param logs
-     * @param <T>
-     * @return
-     * @throws BaseException
-     * @throws IOException
-     */
-//    private <T extends BaseEventBean> ArrayList<T> analyzeEventsByLog(String abi, String bin, TransactionInfoBean transaction, BlockInfoBean blockInfoBean, ArrayList<Log> logs) throws BaseException, IOException {
-//        ArrayList<T> arrayList = new ArrayList<>();
-//        // 解析交易回执中的事件
-//        Map<String, List<List<EventResultEntity>>> map = AnalyzeChainInfoUtils.analyzeEventLog(abi, bin, JSONObject.toJSONString(logs));
-//
-//        // 将回执事件转换为对象
-//        for (Map.Entry<String, Class> entry : eventBeanMap.entrySet()) {
-//            if (!map.containsKey(entry.getKey())) {
-//                continue;
-//            }
-//
-//            List<List<EventResultEntity>> eventLists = map.get(entry.getKey());
-//            for (List<EventResultEntity> eventList : eventLists) {
-//                try {
-//                    T eventBean = (T) assembleBeanByReflect(eventList, entry.getValue());
-//                    eventBean.setBlockHash(blockInfoBean.getHash());
-//                    eventBean.setTransactionInfoBean(transaction);
-//                    eventBean.setBlockNumber(blockInfoBean.getNumber());
-//                    eventBean.setTimestamp(blockInfoBean.getTimestamp());
-//                    arrayList.add(eventBean);
-//                } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException e) {
-//                    e.printStackTrace();
-//                    try {
-//                        throw e;
-//                    } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException ex) {
-//                        ex.printStackTrace();
-//                    }
-//                }
-//            }
-//        }
-//        return arrayList;
-//    }
+        ArrayList<BaseEventResponse> result = new ArrayList<>();
+        //hash获取receipt
+        Web3jUtils web3jUtils = new Web3jUtils();
+        Web3j web3j = web3jUtils.getWeb3j();
+        TransactionReceipt receipt = web3j.ethGetTransactionReceipt(hash).send().getTransactionReceipt().get();
+        for (int i = 0; i < receipt.getLogs().size(); i++) {
+            List<BaseEventResponse> list = new ArrayList<>();
+            Log log = receipt.getLogs().get(i);
+            if (Strings.isEmpty(log.getAddress())) {
+                continue;
+            }
+            if (ConfigCache.get().getAuthorityLogicAddress().equalsIgnoreCase(log.getAddress())) {
+                //List<Type> res = FunctionReturnDecoder.decode(log.getData(), AuthorityLogic.ADDACCOUNT_EVENT.getParameters());
+                AuthorityLogic authorityLogic = web3jUtils.getAuthority();
+                if (log.getTopics().get(0) == AuthorityFunctions.AddAccountEvent) {
+                    List<AuthorityLogic.AddAccountEventResponse> responses = authorityLogic.getAddAccountEvents(receipt);
+                    list.addAll(responses);
+                }if (log.getTopics().get(0) == AuthorityFunctions.UpdateAccountEvent) {
+                    List<AuthorityLogic.UpdateAccountEventResponse> responses = authorityLogic.getUpdateAccountEvents(receipt);
+                    list.addAll(responses);
+                }if (log.getTopics().get(0) == AuthorityFunctions.UpdateAccountStateEvent) {
+                    List<AuthorityLogic.UpdateAccountStateEventResponse> responses = authorityLogic.getUpdateAccountStateEvents(receipt);
+                    list.addAll(responses);
+                }
+            }if (ConfigCache.get().getChargeLogicAddress().equalsIgnoreCase(log.getAddress())) {
+                ChargeLogic chargeLogic = web3jUtils.getCharge();
+                if(log.getTopics().get(0) == ChargeFunctions.RechargeEvent) {
+                    List<ChargeLogic.RechargeEventResponse> responses =chargeLogic.getRechargeEvents(receipt);
+                    list.addAll(responses);
+                }if(log.getTopics().get(0) == ChargeFunctions.SetFeeEvent) {
+                    List<ChargeLogic.SetFeeEventResponse> responses =chargeLogic.getSetFeeEvents(receipt);
+                    list.addAll(responses);
+                }if(log.getTopics().get(0) == ChargeFunctions.PayEvent) {
+                    List<ChargeLogic.PayEventResponse> responses =chargeLogic.getPayEvents(receipt);
+                    list.addAll(responses);
+                }if(log.getTopics().get(0) == ChargeFunctions.DeleteDDCEvent) {
+                    List<ChargeLogic.DeleteDDCEventResponse> responses =chargeLogic.getDeleteDDCEvents(receipt);
+                    list.addAll(responses);
+                }if(log.getTopics().get(0) == ChargeFunctions.DeleteFeeEvent) {
+                    List<ChargeLogic.DeleteFeeEventResponse> responses =chargeLogic.getDeleteFeeEvents(receipt);
+                    list.addAll(responses);
+                }
+            }if (ConfigCache.get().getDdc721Address().equalsIgnoreCase(log.getAddress())) {
+                DDC721 ddc721 = web3jUtils.getDDC721();
+                if(log.getTopics().get(0) == DDC721Functions.DDC721TransferEvent) {
+                    List<DDC721.TransferEventResponse> responses =ddc721.getTransferEvents(receipt);
+                    list.addAll(responses);
+                }if(log.getTopics().get(0) == DDC721Functions.DDC721FreezeEvent) {
+                    List<DDC721.EnterBlacklistEventResponse> responses =ddc721.getEnterBlacklistEvents(receipt);
+                    list.addAll(responses);
+                }if(log.getTopics().get(0) == DDC721Functions.DDC721UnFreezeEvent) {
+                    List<DDC721.ExitBlacklistEventResponse> responses =ddc721.getExitBlacklistEvents(receipt);
+                    list.addAll(responses);
+                }
+            }if (ConfigCache.get().getDdc1155Address().equalsIgnoreCase(log.getAddress())) {
+                DDC1155 ddc1155 = web3jUtils.getDDC1155();
+                if(log.getTopics().get(0) == DDC1155Functions.DDC1155TransferBatchEvent) {
+                    List<DDC1155.TransferBatchEventResponse> responses = ddc1155.getTransferBatchEvents(receipt);
+                    list.addAll(responses);
+                }if(log.getTopics().get(0) == DDC1155Functions.DDC1155TransferSingleEvent) {
+                    List<DDC1155.TransferSingleEventResponse> responses = ddc1155.getTransferSingleEvents(receipt);
+                    list.addAll(responses);
+                }if(log.getTopics().get(0) == DDC1155Functions.DDC1155FreezeEvent) {
+                    List<DDC1155.EnterBlacklistEventResponse> responses = ddc1155.getEnterBlacklistEvents(receipt);
+                    list.addAll(responses);
+                }if(log.getTopics().get(0) == DDC1155Functions.DDC1155UnFreezeEvent) {
+                    List<DDC1155.ExitBlacklistEventResponse> responses = ddc1155.getExitBlacklistEvents(receipt);
+                    list.addAll(responses);
+                }
+            }
+            result.addAll(list);
 
+        }
+            return (ArrayList<T>) result;
+    }
 }

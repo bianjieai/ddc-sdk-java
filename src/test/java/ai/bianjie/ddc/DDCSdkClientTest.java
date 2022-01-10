@@ -31,7 +31,6 @@ public class DDCSdkClientTest {
 
         
         AuthorityService authorityService = client.getAuthorityService();
-
 //        String a= authorityService.addAccount("B049D49C9CCF92C2E32981C27D00E0EA57E26213","test","did:bsn:3wxYHXwAm57grc9JUr2zrPHt9HC");
         String a= authorityService.getAccount("B049D49C9CCF92C2E32981C27D00E0EA57E26213");
         System.out.println("--------------------------------------"+a+"------------");
