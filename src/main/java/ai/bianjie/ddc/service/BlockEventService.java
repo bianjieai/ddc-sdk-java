@@ -13,6 +13,7 @@ import ai.bianjie.ddc.util.Web3jUtils;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.BaseEventResponse;
 import org.web3j.protocol.core.methods.response.EthBlock;
@@ -21,6 +22,7 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Strings;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +79,7 @@ public class BlockEventService extends BaseService {
         // 1. 获取区块信息
         Web3j web3j = (new Web3jUtils()).getWeb3j();
 
-        EthBlock.Block blockInfo = web3j.ethGetBlockByNumber(DefaultBlockParameterName.LATEST,false).send().getBlock();
+        EthBlock.Block blockInfo = web3j.ethGetBlockByNumber(DefaultBlockParameter.valueOf(BigInteger.valueOf(Long.parseLong(blockNumber))),false).send().getBlock();
         List<EthBlock.TransactionResult> txs = blockInfo.getTransactions();
 
         // 2. 获取交易
