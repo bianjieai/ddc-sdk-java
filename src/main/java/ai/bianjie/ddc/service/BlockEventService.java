@@ -22,7 +22,6 @@ import org.web3j.utils.Strings;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -115,58 +114,58 @@ public class BlockEventService extends BaseService {
             if (ConfigCache.get().getAuthorityLogicAddress().equalsIgnoreCase(log.getAddress())) {
                 //List<Type> res = FunctionReturnDecoder.decode(log.getData(), AuthorityLogic.ADDACCOUNT_EVENT.getParameters());
                 AuthorityLogic authorityLogic = web3jUtils.getAuthority();
-                if (log.getTopics().get(0) == AuthorityFunctions.AddAccountEvent) {
+                if (log.getTopics().get(0).equals(AuthorityFunctions.AddAccountEvent)) {
                     List<AuthorityLogic.AddAccountEventResponse> responses = authorityLogic.getAddAccountEvents(receipt);
                     list.addAll(responses);
-                }if (log.getTopics().get(0) == AuthorityFunctions.UpdateAccountEvent) {
+                }if (log.getTopics().get(0).equals(AuthorityFunctions.UpdateAccountEvent)) {
                     List<AuthorityLogic.UpdateAccountEventResponse> responses = authorityLogic.getUpdateAccountEvents(receipt);
                     list.addAll(responses);
-                }if (log.getTopics().get(0) == AuthorityFunctions.UpdateAccountStateEvent) {
+                }if (log.getTopics().get(0).equals(AuthorityFunctions.UpdateAccountStateEvent)) {
                     List<AuthorityLogic.UpdateAccountStateEventResponse> responses = authorityLogic.getUpdateAccountStateEvents(receipt);
                     list.addAll(responses);
                 }
             }if (ConfigCache.get().getChargeLogicAddress().equalsIgnoreCase(log.getAddress())) {
                 ChargeLogic chargeLogic = web3jUtils.getCharge();
-                if(log.getTopics().get(0) == ChargeFunctions.RechargeEvent) {
+                if(log.getTopics().get(0).equals(ChargeFunctions.RechargeEvent)) {
                     List<ChargeLogic.RechargeEventResponse> responses =chargeLogic.getRechargeEvents(receipt);
                     list.addAll(responses);
-                }if(log.getTopics().get(0) == ChargeFunctions.SetFeeEvent) {
+                }if(log.getTopics().get(0).equals(ChargeFunctions.SetFeeEvent)) {
                     List<ChargeLogic.SetFeeEventResponse> responses =chargeLogic.getSetFeeEvents(receipt);
                     list.addAll(responses);
-                }if(log.getTopics().get(0) == ChargeFunctions.PayEvent) {
+                }if(log.getTopics().get(0).equals(ChargeFunctions.PayEvent)) {
                     List<ChargeLogic.PayEventResponse> responses =chargeLogic.getPayEvents(receipt);
                     list.addAll(responses);
-                }if(log.getTopics().get(0) == ChargeFunctions.DeleteDDCEvent) {
+                }if(log.getTopics().get(0).equals(ChargeFunctions.DeleteDDCEvent)) {
                     List<ChargeLogic.DeleteDDCEventResponse> responses =chargeLogic.getDeleteDDCEvents(receipt);
                     list.addAll(responses);
-                }if(log.getTopics().get(0) == ChargeFunctions.DeleteFeeEvent) {
+                }if(log.getTopics().get(0).equals(ChargeFunctions.DeleteFeeEvent)) {
                     List<ChargeLogic.DeleteFeeEventResponse> responses =chargeLogic.getDeleteFeeEvents(receipt);
                     list.addAll(responses);
                 }
             }if (ConfigCache.get().getDdc721Address().equalsIgnoreCase(log.getAddress())) {
                 DDC721 ddc721 = web3jUtils.getDDC721();
-                if(log.getTopics().get(0) == DDC721Functions.DDC721TransferEvent) {
+                if(log.getTopics().get(0).equals(DDC721Functions.DDC721TransferEvent)) {
                     List<DDC721.TransferEventResponse> responses =ddc721.getTransferEvents(receipt);
                     list.addAll(responses);
-                }if(log.getTopics().get(0) == DDC721Functions.DDC721FreezeEvent) {
+                }if(log.getTopics().get(0).equals(DDC721Functions.DDC721FreezeEvent)) {
                     List<DDC721.EnterBlacklistEventResponse> responses =ddc721.getEnterBlacklistEvents(receipt);
                     list.addAll(responses);
-                }if(log.getTopics().get(0) == DDC721Functions.DDC721UnFreezeEvent) {
+                }if(log.getTopics().get(0).equals(DDC721Functions.DDC721UnFreezeEvent)) {
                     List<DDC721.ExitBlacklistEventResponse> responses =ddc721.getExitBlacklistEvents(receipt);
                     list.addAll(responses);
                 }
             }if (ConfigCache.get().getDdc1155Address().equalsIgnoreCase(log.getAddress())) {
                 DDC1155 ddc1155 = web3jUtils.getDDC1155();
-                if(log.getTopics().get(0) == DDC1155Functions.DDC1155TransferBatchEvent) {
+                if(log.getTopics().get(0).equals(DDC1155Functions.DDC1155TransferBatchEvent)) {
                     List<DDC1155.TransferBatchEventResponse> responses = ddc1155.getTransferBatchEvents(receipt);
                     list.addAll(responses);
-                }if(log.getTopics().get(0) == DDC1155Functions.DDC1155TransferSingleEvent) {
+                }if(log.getTopics().get(0).equals(DDC1155Functions.DDC1155TransferSingleEvent)) {
                     List<DDC1155.TransferSingleEventResponse> responses = ddc1155.getTransferSingleEvents(receipt);
                     list.addAll(responses);
-                }if(log.getTopics().get(0) == DDC1155Functions.DDC1155FreezeEvent) {
+                }if(log.getTopics().get(0).equals(DDC1155Functions.DDC1155FreezeEvent)) {
                     List<DDC1155.EnterBlacklistEventResponse> responses = ddc1155.getEnterBlacklistEvents(receipt);
                     list.addAll(responses);
-                }if(log.getTopics().get(0) == DDC1155Functions.DDC1155UnFreezeEvent) {
+                }if(log.getTopics().get(0).equals(DDC1155Functions.DDC1155UnFreezeEvent)) {
                     List<DDC1155.ExitBlacklistEventResponse> responses = ddc1155.getExitBlacklistEvents(receipt);
                     list.addAll(responses);
                 }

@@ -4,7 +4,7 @@ public class ConfigInfo {
 
     private String opbGatewayAddress = "http://192.168.150.43:8545";
 
-	private String credentials = "B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26";
+	private String credentials = "443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B";
 
 	private String gasPrice = "10";
 

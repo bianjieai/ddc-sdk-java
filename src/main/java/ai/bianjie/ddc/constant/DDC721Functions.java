@@ -22,8 +22,11 @@ public class DDC721Functions {
     public static final String SYMBOL = "symbol";
     public static final String DDC_URI = "ddcURI";
 
-    public static final String DDC721TransferEvent = "Transfer(address,address,uint256)";
-    public static final String DDC721FreezeEvent = "EnterBlacklist(address,uint256)";
-    public static final String DDC721UnFreezeEvent = "ExitBlacklist(address,uint256)";
+    //public static final String DDC721TransferEvent = "Transfer(address,address,uint256)";
+    public static final String DDC721TransferEvent = "e1aaf522946f19bd4a0b6e67a2da36e45fcddca4a1a253a919ff7029a638ab16";
+    //public static final String DDC721FreezeEvent = "EnterBlacklist(address,uint256)";
+    public static final String DDC721FreezeEvent = "027b0995c9aa454830a50ece99b9507432deb5f7ff0173efc4429282c1710a36";
+    //public static final String DDC721UnFreezeEvent = "ExitBlacklist(address,uint256)";
+    public static final String DDC721UnFreezeEvent = "addb66f781fad31382e12b8ad189f90d41b9590625a6736ef67a2792f094874f";
 
 }

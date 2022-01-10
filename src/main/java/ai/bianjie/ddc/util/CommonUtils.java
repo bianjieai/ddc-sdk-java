@@ -1,6 +1,11 @@
 package ai.bianjie.ddc.util;
 
+import org.bouncycastle.crypto.digests.KeccakDigest;
+import org.bouncycastle.jcajce.provider.digest.Keccak;
+import org.web3j.protocol.Web3j;
+
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 
 public class CommonUtils {
     /**
@@ -30,5 +35,6 @@ public class CommonUtils {
             return false;
         }
     }
+
 
 }
