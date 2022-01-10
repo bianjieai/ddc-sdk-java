@@ -21,7 +21,7 @@ public class ChargeService extends BaseService {
 	/**
 	 * 运营方、平台方调用该接口为所属同一方的同一级别账户或者下级账户充值；
 	 *
-	 * @param to     充值账户的地址
+	 * @param to 充值账户的地址
 	 * @param amount 充值金额
 	 * @return 返回交易哈希
 	 * @throws Exception
@@ -37,6 +37,10 @@ public class ChargeService extends BaseService {
 
 		if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
+		}
+
+		if(signEventListener == null) {
+			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
 		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();
@@ -63,6 +67,10 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.ACC_ADDR_IS_NOT_ADDRESS_FORMAT);
 		}
 
+//		if(signEventListener == null) {
+//			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+//		}
+
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
@@ -73,7 +81,7 @@ public class ChargeService extends BaseService {
 	 * 查询指定的DDC业务主逻辑合约的方法所对应的调用业务费用。
 	 *
 	 * @param ddcAddr DDC业务主逻辑合约地址
-	 * @param sig     Hex格式的合约方法ID
+	 * @param sig Hex格式的合约方法ID
 	 * @return 返回DDC合约业务费
 	 * @throws Exception
 	 */
@@ -94,6 +102,10 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
 		}
 
+		if(signEventListener == null) {
+			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+		}
+
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
@@ -111,6 +123,11 @@ public class ChargeService extends BaseService {
 		if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
+
+		if(signEventListener == null) {
+			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+		}
+
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
@@ -123,8 +140,8 @@ public class ChargeService extends BaseService {
 	 * 运营方调用接口设置指定的DDC主合约的方法调用费用。
 	 *
 	 * @param ddcAddr DDC业务主逻辑合约地址
-	 * @param sig     Hex格式的合约方法ID
-	 * @param amount  业务费用
+	 * @param sig Hex格式的合约方法ID
+	 * @param amount 业务费用
 	 * @return 返回交易哈希
 	 * @throws Exception
 	 */
@@ -153,6 +170,10 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.AMOUNT_LT_ZERO);
 		}
 
+		if(signEventListener == null) {
+			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+		}
+
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
@@ -165,7 +186,7 @@ public class ChargeService extends BaseService {
 	 * 运营方调用接口删除指定的DDC主合约的方法调用费用。
 	 *
 	 * @param ddcAddr DDC业务主逻辑合约地址
-	 * @param sig     Hex格式的合约方法ID
+	 * @param sig Hex格式的合约方法ID
 	 * @return 返回交易哈希
 	 * @throws Exception
 	 */
@@ -184,6 +205,10 @@ public class ChargeService extends BaseService {
 
 		if (!HexUtils.isValid4ByteHash(sig)) {
 			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
+		}
+
+		if(signEventListener == null) {
+			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
 		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();
@@ -208,6 +233,10 @@ public class ChargeService extends BaseService {
 
 		if (!AddressUtils.isValidAddress(ddcAddr)) {
 			throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
+		}
+
+		if(signEventListener == null) {
+			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
 		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();

@@ -1,6 +1,5 @@
 package ai.bianjie.ddc.constant;
 
-
 public enum ErrorMessage {
     // Param check  1
     // Chain error  2
@@ -39,7 +38,6 @@ public enum ErrorMessage {
     
     SIG_IS_EMPTY(1018, "sig is empty"),
     SIG_IS_NOT_4BYTE_HASH(1019, "sig is not 4 byte hash"),
-    
     REQUEST_FAILED(2001, ""),
     ;
 
@@ -77,4 +75,5 @@ public enum ErrorMessage {
         }
         return null;
     }
+
 }

@@ -26,7 +26,7 @@ public class CommonUtils {
             return true;
         }catch(NumberFormatException e)
         {
-            System.out.println("异常：\"" + str + "\"不是数字/整数...");
+//            System.out.println("异常：\"" + str + "\"不是数字/整数...");
             return false;
         }
     }
