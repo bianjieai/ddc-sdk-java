@@ -550,6 +550,19 @@ public class DDC1155 extends Contract {
         String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new Address(160, ddc1155DataAddress)));
         return deployRemoteCall(DDC1155.class, web3j, transactionManager, contractGasProvider, BINARY, encodedConstructor);
     }
+
+    @Deprecated
+    public static RemoteCall<DDC1155> deploy(Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit, String ddc1155DataAddress) {
+        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new Address(160, ddc1155DataAddress)));
+        return deployRemoteCall(DDC1155.class, web3j, credentials, gasPrice, gasLimit, BINARY, encodedConstructor);
+    }
+
+    @Deprecated
+    public static RemoteCall<DDC1155> deploy(Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit, String ddc1155DataAddress) {
+        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new Address(160, ddc1155DataAddress)));
+        return deployRemoteCall(DDC1155.class, web3j, transactionManager, gasPrice, gasLimit, BINARY, encodedConstructor);
+    }
+
     public static class ApprovalForAllEventResponse extends BaseEventResponse {
         public String owner;
 

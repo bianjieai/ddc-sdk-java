@@ -40,10 +40,10 @@ public class DDC721Service extends BaseService {
         if (Strings.isEmpty(ddcURI)) {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
-        //4.检查签名事件是否被注册
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
+//        //4.检查签名事件是否被注册
+//        if (this.signEventListener == null) {
+//            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
+//        }
 
         Web3jUtils web3jUtils = new Web3jUtils();
         DDC721 ddc721 = web3jUtils.getDDC721();

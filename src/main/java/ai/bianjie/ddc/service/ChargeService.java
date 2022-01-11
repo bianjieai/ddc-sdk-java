@@ -39,9 +39,9 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
 
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-		}
+//		if(signEventListener == null) {
+//			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+//		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
@@ -67,9 +67,9 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.ACC_ADDR_IS_NOT_ADDRESS_FORMAT);
 		}
 
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-		}
+//		if(signEventListener == null) {
+//			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+//		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
@@ -98,18 +98,18 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
 		}
 
-		if (!HexUtils.isValid4ByteHash(sig)) {
-			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
-		}
+//		if (!HexUtils.isValid4ByteHash(sig)) {
+//			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
+//		}
 
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-		}
+//		if(signEventListener == null) {
+//			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+//		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-		return chargeLogic.queryFee(ddcAddr, sig.getBytes(sig)).send();
+		return chargeLogic.queryFee(ddcAddr, sig.getBytes()).send();
 	}
 
 	/**
@@ -123,10 +123,11 @@ public class ChargeService extends BaseService {
 		if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
-
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-		}
+BigInteger.ZERO
+		amount.intValue()
+//		if(signEventListener == null) {
+//			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+//		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
@@ -162,22 +163,18 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
 		}
 
-		if (amount == null) {
-			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
-		}
-
 		if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) < 0) {
 			throw new DDCException(ErrorMessage.AMOUNT_LT_ZERO);
 		}
 
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-		}
+//		if(signEventListener == null) {
+//			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+//		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-		TransactionReceipt txReceipt = chargeLogic.setFee(ddcAddr, sig.getBytes(sig), amount).send();
+		TransactionReceipt txReceipt = chargeLogic.setFee(ddcAddr, sig.getBytes(), amount).send();
 		resultCheck(txReceipt);
 		return txReceipt.getTransactionHash();
 	}
@@ -203,18 +200,18 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
 		}
 
-		if (!HexUtils.isValid4ByteHash(sig)) {
-			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
-		}
+//		if (!HexUtils.isValid4ByteHash(sig)) {
+//			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
+//		}
 
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-		}
+//		if(signEventListener == null) {
+//			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+//		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-		TransactionReceipt txReceipt = chargeLogic.deleteFee(ddcAddr, sig.getBytes(sig)).send();
+		TransactionReceipt txReceipt = chargeLogic.deleteFee(ddcAddr, sig.getBytes()).send();
 		resultCheck(txReceipt);
 		return txReceipt.getTransactionHash();
 	}
@@ -235,9 +232,9 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
 		}
 
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-		}
+//		if(signEventListener == null) {
+//			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+//		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();

@@ -20,6 +20,27 @@ public class AuthorityService extends BaseService {
 		super.signEventListener = signEventListener;
 	}
 
+	public TransactionReceipt addOperator(String operator, String accountName, String accountDID) throws Exception {
+		Web3jUtils web3jUtils = new Web3jUtils();
+		AuthorityLogic authorityLogic = web3jUtils.getAuthority();
+		TransactionReceipt res = authorityLogic.addOperator(operator,accountName,accountDID).send();
+		return res;
+	}
+	public String addFunction(BigInteger role, String contractAddress, byte[] sig) throws Exception {
+
+		Web3jUtils web3jUtils = new Web3jUtils();
+		AuthorityLogic authorityLogic = web3jUtils.getAuthority();
+		TransactionReceipt res = authorityLogic.addFunction(role, contractAddress, sig).send();
+		return res.toString();
+	}
+
+	public String hasper(String account, String contractAddress, byte[] sig) throws Exception {
+
+		Web3jUtils web3jUtils = new Web3jUtils();
+		AuthorityLogic authorityLogic = web3jUtils.getAuthority();
+		Boolean res = authorityLogic.hasFunctionPermission(account, contractAddress, sig).send();
+		return res.toString();
+	}
 	/**
      * 运营方或平台方通过调用该方法进行DDC账户信息的创建，上级角色可进行下级角色账户的操作，如运营方可以为平台方添加账户、平台方可以为终端用户添加账户，但运营方不能直接为终端用户添加账户。
      * 

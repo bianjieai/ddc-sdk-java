@@ -70,7 +70,19 @@ public class DDCSdkClient {
         return new DDC721Service(signEventListener);
     }
 
-    public Adata getad() {
-        return new Adata();
+    public Authoritydata getad() {
+        return new Authoritydata();
+    }
+
+    public Chargedata getcd() {
+        return new Chargedata();
+    }
+
+    public DDC721data getD7() {
+        return new DDC721data();
+    }
+
+    public DDC1155data getD1() {
+        return new DDC1155data();
     }
 }
