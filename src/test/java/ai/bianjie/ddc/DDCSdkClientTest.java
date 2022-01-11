@@ -21,7 +21,7 @@ public class DDCSdkClientTest {
 //        String account = client.getAuthorityService().getAccount("0x07B7BE76ED588CCEFB4C4A573CB28A7D2A1403CC");
 //        System.out.println(account);
 //
-//        String s = client.getAuthorityService().updateAccState("0x07B7BE76ED588CCEFB4C4A573CB28A7D2A1403CC", BigInteger.valueOf((long) 0), true);
+        String s = client.getAuthorityService().updateAccState("0x07B7BE76ED588CCEFB4C4A573CB28A7D2A1403CC", BigInteger.valueOf((long) 0), true);
 //        System.out.println(s);
     }
 }

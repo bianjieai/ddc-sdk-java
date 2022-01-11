@@ -165,7 +165,7 @@ public class DDC721Service extends BaseService {
         Web3jUtils web3jUtils = new Web3jUtils();
         DDC721 ddc721 = web3jUtils.getDDC721();
 
-        /*代做：根据hash返回结果（bool）*/
+
         return ddc721.isApprovedForAll(owner, operator).send();
     }
 

@@ -1,4 +1,4 @@
-# ddc-sdk-java
+# DDC-SDK-JAVA
 
 # 本SDK中包含平台方可调用的如下方法：
 
@@ -91,6 +91,9 @@
     DDCSdkClient client = new DDCSdkClient("http://192.168.150.43:8545");
     //填写账户私钥
     client.init("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B");
+    //
+    client.init(credentials, gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress)
+    
 ```
 
 ### 2.使用权限管理

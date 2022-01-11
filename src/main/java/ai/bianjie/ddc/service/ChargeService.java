@@ -7,7 +7,6 @@ import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.HexUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Strings;
 
 import java.math.BigInteger;
@@ -46,9 +45,7 @@ public class ChargeService extends BaseService {
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-		String hash = chargeLogic.recharge(to, amount).send().getTransactionHash();
-
-		return hash;
+		return chargeLogic.recharge(to, amount).send().getTransactionHash();
 	}
 
 	/**
@@ -58,7 +55,7 @@ public class ChargeService extends BaseService {
 	 * @return 返回账户所对应的业务费余额
 	 * @throws Exception
 	 */
-	public String balanceOf(String accAddr) throws Exception {
+	public BigInteger balanceOf(String accAddr) throws Exception {
 		if (Strings.isEmpty(accAddr)) {
 			throw new DDCException(ErrorMessage.ACC_ADDR_IS_EMPTY);
 		}
@@ -74,7 +71,7 @@ public class ChargeService extends BaseService {
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-		return chargeLogic.balanceOf(accAddr).send().toString();
+		return chargeLogic.balanceOf(accAddr).send();
 	}
 
 	/**
@@ -131,9 +128,7 @@ public class ChargeService extends BaseService {
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-		TransactionReceipt txReceipt = chargeLogic.selfRecharge(amount).send();
-		resultCheck(txReceipt);
-		return txReceipt.getTransactionHash();
+		return chargeLogic.selfRecharge(amount).send().getTransactionHash();
 	}
 
 	/**
@@ -177,9 +172,7 @@ public class ChargeService extends BaseService {
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-		TransactionReceipt txReceipt = chargeLogic.setFee(ddcAddr, sig.getBytes(sig), amount).send();
-		resultCheck(txReceipt);
-		return txReceipt.getTransactionHash();
+		return chargeLogic.setFee(ddcAddr, sig.getBytes(sig), amount).send().getTransactionHash();
 	}
 
 	/**
@@ -214,9 +207,7 @@ public class ChargeService extends BaseService {
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-		TransactionReceipt txReceipt = chargeLogic.deleteFee(ddcAddr, sig.getBytes(sig)).send();
-		resultCheck(txReceipt);
-		return txReceipt.getTransactionHash();
+		return chargeLogic.deleteFee(ddcAddr, sig.getBytes(sig)).send().getTransactionHash();
 	}
 
 	/**
@@ -242,9 +233,7 @@ public class ChargeService extends BaseService {
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-		TransactionReceipt txReceipt = chargeLogic.deleteDDC(ddcAddr).send();
-		resultCheck(txReceipt);
-		return txReceipt.getTransactionHash();
+		return chargeLogic.deleteDDC(ddcAddr).send().getTransactionHash();
 	}
 
 }

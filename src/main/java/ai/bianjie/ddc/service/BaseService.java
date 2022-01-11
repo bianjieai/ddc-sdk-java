@@ -10,7 +10,6 @@ import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
 import org.web3j.protocol.core.methods.response.EthTransaction;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Strings;
 
 import java.io.IOException;
@@ -49,8 +48,7 @@ public class BaseService {
 
         Web3jUtils web3jUtils = new Web3jUtils();
         Web3j web3j = web3jUtils.getWeb3j();
-        EthGetTransactionReceipt txReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
-        return txReceipt;
+        return web3j.ethGetTransactionReceipt(hash).sendAsync().get();
     }
 
     /**
@@ -65,8 +63,7 @@ public class BaseService {
 
         Web3jUtils web3jUtils = new Web3jUtils();
         Web3j web3j = web3jUtils.getWeb3j();
-        EthTransaction tx = web3j.ethGetTransactionByHash(hash).send();
-        return tx;
+        return web3j.ethGetTransactionByHash(hash).send();
     }
 
     /**
@@ -82,21 +79,13 @@ public class BaseService {
         Web3jUtils web3jUtils = new Web3jUtils();
         Web3j web3j = web3jUtils.getWeb3j();
         EthGetTransactionReceipt txReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
-        if(Strings.isEmpty(txReceipt.toString())){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return !Strings.isEmpty(txReceipt.toString());
+
     }
 
-    /**
-     * 校验交易结果
-     */
-    public void resultCheck(TransactionReceipt result) {
-        if (null == result) {
-            log.error("resultCheck {}", ErrorMessage.REQUEST_FAILED);
-            throw new DDCException(ErrorMessage.REQUEST_FAILED);
-        }
-    }
+//    public BigInteger setgetGasLimit(BigInteger gaslimit){
+//
+//
+//        return null;
+//    }
 }
