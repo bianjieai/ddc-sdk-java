@@ -39,11 +39,9 @@ public class DDC721Service extends BaseService {
         if (Strings.isEmpty(ddcURI)) {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
+        
 
-        //调用合约上的对应方法
-        TransactionReceipt transactionReceipt = Web3jUtils.getDDC721().mint(to, ddcURI).send();
-
-        return transactionReceipt.getTransactionHash();
+        return Web3jUtils.getDDC721().mint(to, ddcURI).send().getTransactionHash();
     }
 
 
@@ -65,13 +63,11 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        if (ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        
-        TransactionReceipt transactionReceipt = Web3jUtils.getDDC721().approve(to, ddcId).send();
 
-        return transactionReceipt.getTransactionHash();
+        return Web3jUtils.getDDC721().approve(to, ddcId).send().getTransactionHash();
     }
 
 
@@ -85,10 +81,10 @@ public class DDC721Service extends BaseService {
      */
     public String getApproved(BigInteger ddcId) throws Exception {
 
-        if (ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        
+
         return Web3jUtils.getDDC721().getApproved(ddcId).send();
     }
 
@@ -161,10 +157,10 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        
+
         return Web3jUtils.getDDC721().safeTransferFrom(from, to, ddcId, data).send().getTransactionHash();
     }
 
@@ -193,10 +189,10 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        
+
         return Web3jUtils.getDDC721().transferFrom(from, to, ddcId).send().getTransactionHash();
     }
 
@@ -211,7 +207,7 @@ public class DDC721Service extends BaseService {
      */
     public String freeze(BigInteger ddcId) throws Exception {
 
-        if (ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         return Web3jUtils.getDDC721().freeze(ddcId).send().getTransactionHash();
@@ -227,7 +223,7 @@ public class DDC721Service extends BaseService {
      */
     public String unFreeze(BigInteger ddcId) throws Exception {
 
-        if (ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         return Web3jUtils.getDDC721().unFreeze(ddcId).send().getTransactionHash();
@@ -242,7 +238,7 @@ public class DDC721Service extends BaseService {
      */
     public String burn(BigInteger ddcId) throws Exception {
 
-        if (ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         return Web3jUtils.getDDC721().burn(ddcId).send().getTransactionHash();
@@ -276,7 +272,7 @@ public class DDC721Service extends BaseService {
      */
     public String ownerOf(BigInteger ddcId) throws Exception {
 
-        if (ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         return Web3jUtils.getDDC721().ownerOf(ddcId).send();
@@ -312,7 +308,7 @@ public class DDC721Service extends BaseService {
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的资源标识符。
      */
     public String ddcURI(BigInteger ddcId) throws Exception {
-        if (ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         return Web3jUtils.getDDC721().ddcURI(ddcId).send();
