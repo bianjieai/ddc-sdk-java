@@ -39,10 +39,7 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
 
-		Web3jUtils web3jUtils = new Web3jUtils();
-		ChargeLogic chargeLogic = web3jUtils.getCharge();
-
-		return chargeLogic.recharge(to, amount).send().getTransactionHash();
+		return Web3jUtils.getCharge().recharge(to, amount).send().getTransactionHash();
 	}
 
 	/**
@@ -61,10 +58,7 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.ACC_ADDR_IS_NOT_ADDRESS_FORMAT);
 		}
 
-		Web3jUtils web3jUtils = new Web3jUtils();
-		ChargeLogic chargeLogic = web3jUtils.getCharge();
-
-		return chargeLogic.balanceOf(accAddr).send();
+		return Web3jUtils.getCharge().balanceOf(accAddr).send();
 	}
 
 
@@ -125,10 +119,7 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
 		}
 
-		Web3jUtils web3jUtils = new Web3jUtils();
-		ChargeLogic chargeLogic = web3jUtils.getCharge();
-
-		return chargeLogic.queryFee(ddcAddr, hexToByteArray(sig)).send();
+		return Web3jUtils.getCharge().queryFee(ddcAddr, hexToByteArray(sig)).send();
 	}
 
 	/**
@@ -143,10 +134,7 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
 
-		Web3jUtils web3jUtils = new Web3jUtils();
-		ChargeLogic chargeLogic = web3jUtils.getCharge();
-
-		return chargeLogic.selfRecharge(amount).send().getTransactionHash();
+		return Web3jUtils.getCharge().selfRecharge(amount).send().getTransactionHash();
 	}
 
 	/**
@@ -179,10 +167,7 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
 
-		Web3jUtils web3jUtils = new Web3jUtils();
-		ChargeLogic chargeLogic = web3jUtils.getCharge();
-
-		return chargeLogic.setFee(ddcAddr, hexToByteArray(sig), amount).send().getTransactionHash();
+		return Web3jUtils.getCharge().setFee(ddcAddr, hexToByteArray(sig), amount).send().getTransactionHash();
 	}
 
 	/**
@@ -210,10 +195,7 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
 		}
 
-		Web3jUtils web3jUtils = new Web3jUtils();
-		ChargeLogic chargeLogic = web3jUtils.getCharge();
-
-		return chargeLogic.deleteFee(ddcAddr, hexToByteArray(sig)).send().getTransactionHash();
+		return Web3jUtils.getCharge().deleteFee(ddcAddr, hexToByteArray(sig)).send().getTransactionHash();
 	}
 
 	/**
@@ -232,10 +214,7 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
 		}
 
-		Web3jUtils web3jUtils = new Web3jUtils();
-		ChargeLogic chargeLogic = web3jUtils.getCharge();
-
-		return chargeLogic.deleteDDC(ddcAddr).send().getTransactionHash();
+		return Web3jUtils.getCharge().deleteDDC(ddcAddr).send().getTransactionHash();
 	}
 
 }
