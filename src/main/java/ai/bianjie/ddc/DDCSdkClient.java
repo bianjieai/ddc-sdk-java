@@ -17,7 +17,6 @@ public class DDCSdkClient {
 
     /**
      * SDK 初始化方法
-     *
      */
     private DDCSdkClient(Builder builder) {
 
@@ -36,30 +35,44 @@ public class DDCSdkClient {
         public Builder(String opbGateWebAddress) {
             this.opbGateWebAddress = opbGateWebAddress;
         }
+
         public Builder credentials(String credentials) {
             this.credentials = credentials;
             return this;
-        }public Builder gasPrice(String gasPrice) {
+        }
+
+        public Builder gasPrice(String gasPrice) {
             this.gasPrice = gasPrice;
             return this;
-        }public Builder gasLimit(String gasLimit) {
+        }
+
+        public Builder gasLimit(String gasLimit) {
             this.gasLimit = gasLimit;
             return this;
-        }public Builder ddc721Address(String ddc721Address) {
+        }
+
+        public Builder ddc721Address(String ddc721Address) {
             this.ddc721Address = ddc721Address;
             return this;
-        }public Builder ddc1155Address(String ddc1155Address) {
+        }
+
+        public Builder ddc1155Address(String ddc1155Address) {
             this.ddc1155Address = ddc1155Address;
             return this;
-        }public Builder authorityLogicAddress(String authorityLogicAddress) {
+        }
+
+        public Builder authorityLogicAddress(String authorityLogicAddress) {
             this.authorityLogicAddress = authorityLogicAddress;
             return this;
-        }public Builder chargeLogicAddress(String chargeLogicAddress) {
+        }
+
+        public Builder chargeLogicAddress(String chargeLogicAddress) {
             this.chargeLogicAddress = chargeLogicAddress;
             return this;
         }
-        public DDCSdkClient init(){
-            ConfigCache.initCache(opbGateWebAddress,credentials,gasPrice,gasLimit,ddc721Address,ddc1155Address,authorityLogicAddress,chargeLogicAddress);
+
+        public DDCSdkClient init() {
+            ConfigCache.initCache(opbGateWebAddress, credentials, gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress);
             return new DDCSdkClient(this);
         }
     }
