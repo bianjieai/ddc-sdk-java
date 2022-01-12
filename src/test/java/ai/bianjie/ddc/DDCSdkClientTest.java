@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.math.BigInteger;
+import java.util.Locale;
 
 public class DDCSdkClientTest {
     @Test
@@ -23,5 +24,7 @@ public class DDCSdkClientTest {
 //
         String s = client.getAuthorityService().updateAccState("0x07B7BE76ED588CCEFB4C4A573CB28A7D2A1403CC", BigInteger.valueOf((long) 0), true);
 //        System.out.println(s);
+        AuthorityService authorityService = new AuthorityService(signEventListener);
+        authorityService.setgasLimit(BigInteger.valueOf(10l)).getBlockByNumber();
     }
 }

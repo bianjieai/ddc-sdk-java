@@ -20,10 +20,9 @@ public class BaseService {
 
     /**
      * 获取区块信息
-     * @param blockNumber 区块高度
      * @return 区块信息
      */
-    public EthBlock.Block getBlockByNumber(String blockNumber) throws IOException {
+    public EthBlock.Block getBlockByNumber() throws IOException {
         Web3jUtils web3jUtils = new Web3jUtils();
         Web3j web3j = web3jUtils.getWeb3j();
         EthBlock.Block blockInfo = web3j.ethGetBlockByNumber(DefaultBlockParameterName.LATEST,true).send().getBlock();
@@ -67,12 +66,8 @@ public class BaseService {
 
     }
 
-
-    public BigInteger getgasLimit(){
-        return gasLimit;
-    }
-
-    public void setgasLimit(BigInteger gasLimit) {
+    public BaseService setgasLimit(BigInteger gasLimit) {
         this.gasLimit = gasLimit;
+        return this;
     }
 }
