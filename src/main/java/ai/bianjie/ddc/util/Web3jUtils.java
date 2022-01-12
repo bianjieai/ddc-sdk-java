@@ -8,19 +8,19 @@ import org.web3j.protocol.http.HttpService;
 
 public class Web3jUtils {
     public static AuthorityLogic getAuthority() {
-        return AuthorityLogic.load(ConfigCache.get().getAuthorityLogicAddress(), Web3j.build(new HttpService(ConfigCache.get().getOpbGatewayAddress())), Credentials.create(ConfigCache.get().getCredentials()), new GasProvider());
+        return AuthorityLogic.load(ConfigCache.get().getAuthorityLogicAddress(),Web3jUtils.getWeb3j(), Credentials.create(ConfigCache.get().getCredentials()), new GasProvider());
     }
 
     public static ChargeLogic getCharge() {
-        return ChargeLogic.load(ConfigCache.get().getChargeLogicAddress(), Web3j.build(new HttpService(ConfigCache.get().getOpbGatewayAddress())), Credentials.create(ConfigCache.get().getCredentials()), new GasProvider());
+        return ChargeLogic.load(ConfigCache.get().getChargeLogicAddress(),Web3jUtils.getWeb3j(), Credentials.create(ConfigCache.get().getCredentials()), new GasProvider());
     }
 
     public static DDC1155 getDDC1155() {
-        return DDC1155.load(ConfigCache.get().getDdc1155Address(), Web3j.build(new HttpService(ConfigCache.get().getOpbGatewayAddress())), Credentials.create(ConfigCache.get().getCredentials()), new GasProvider());
+        return DDC1155.load(ConfigCache.get().getDdc1155Address(),Web3jUtils.getWeb3j(), Credentials.create(ConfigCache.get().getCredentials()), new GasProvider());
     }
 
     public static DDC721 getDDC721() {
-        return DDC721.load(ConfigCache.get().getDdc721Address(), Web3j.build(new HttpService(ConfigCache.get().getOpbGatewayAddress())), Credentials.create(ConfigCache.get().getCredentials()), new GasProvider());
+        return DDC721.load(ConfigCache.get().getDdc721Address(), Web3jUtils.getWeb3j(), Credentials.create(ConfigCache.get().getCredentials()), new GasProvider());
     }
 
     public static Web3j getWeb3j() {
