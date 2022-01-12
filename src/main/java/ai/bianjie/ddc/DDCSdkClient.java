@@ -7,23 +7,84 @@ import ai.bianjie.ddc.service.*;
 
 public class DDCSdkClient {
     private String opbGateWebAddress;
-
-    private SignEventListener signEventListener;
-
-    public DDCSdkClient(){};
-    public DDCSdkClient(String opbGateWebAddress){ this.opbGateWebAddress=opbGateWebAddress; }
+    private String credentials;
+    private String gasPrice;
+    private String gasLimit;
+    private String ddc721Address;
+    private String ddc1155Address;
+    private String authorityLogicAddress;
+    private String chargeLogicAddress;
 
     /**
-     * SDK 初始化方法，在此方法中解析SDK的配置文件，并且放到程序缓存中。
-     * 四个地址可以传入自定义参数，传入将被使用，否则使用默认地址
-     *
+     * SDK 初始化方法
      */
-    public void init(String credentials){
-        ConfigCache.initCache(opbGateWebAddress,credentials,null,null,null,null,null,null);
+    private DDCSdkClient(Builder builder) {
+        this.opbGateWebAddress = builder.opbGateWebAddress;
+        this.credentials = builder.credentials;
+        this.gasPrice = builder.gasPrice;
+        this.gasLimit = builder.gasLimit;
+        this.ddc721Address = builder.ddc721Address;
+        this.ddc1155Address = builder.ddc1155Address;
+        this.authorityLogicAddress = builder.authorityLogicAddress;
+        this.chargeLogicAddress = builder.chargeLogicAddress;
     }
-    public void init(String credentials, String gasPrice, String gasLimit, String ddc721Address, String ddc1155Address, String authorityLogicAddress, String chargeLogicAddress){
-        ConfigCache.initCache(opbGateWebAddress,credentials,gasPrice,gasLimit,ddc721Address,ddc1155Address,authorityLogicAddress,chargeLogicAddress);
+
+    public static class Builder {
+        private String opbGateWebAddress;
+        private String credentials;
+        private String gasPrice;
+        private String gasLimit;
+        private String ddc721Address;
+        private String ddc1155Address;
+        private String authorityLogicAddress;
+        private String chargeLogicAddress;
+
+        public Builder(String opbGateWebAddress) {
+            this.opbGateWebAddress = opbGateWebAddress;
+        }
+
+        public Builder credentials(String credentials) {
+            this.credentials = credentials;
+            return this;
+        }
+
+        public Builder gasPrice(String gasPrice) {
+            this.gasPrice = gasPrice;
+            return this;
+        }
+
+        public Builder gasLimit(String gasLimit) {
+            this.gasLimit = gasLimit;
+            return this;
+        }
+
+        public Builder ddc721Address(String ddc721Address) {
+            this.ddc721Address = ddc721Address;
+            return this;
+        }
+
+        public Builder ddc1155Address(String ddc1155Address) {
+            this.ddc1155Address = ddc1155Address;
+            return this;
+        }
+
+        public Builder authorityLogicAddress(String authorityLogicAddress) {
+            this.authorityLogicAddress = authorityLogicAddress;
+            return this;
+        }
+
+        public Builder chargeLogicAddress(String chargeLogicAddress) {
+            this.chargeLogicAddress = chargeLogicAddress;
+            return this;
+        }
+
+        public DDCSdkClient init() {
+            ConfigCache.initCache(opbGateWebAddress, credentials, gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress);
+            return new DDCSdkClient(this);
+        }
     }
+
+    private SignEventListener signEventListener;
 
     /**
      * SDK注册全局的签名事件，所有发起的交易将通过此事件进行签名处理

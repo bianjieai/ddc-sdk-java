@@ -4,6 +4,7 @@ import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.constant.AuthorityFunctions;
 import ai.bianjie.ddc.contract.AuthorityLogic;
 import ai.bianjie.ddc.contract.ChargeLogic;
+import ai.bianjie.ddc.util.CommonUtils;
 import ai.bianjie.ddc.util.GasProvider;
 import ai.bianjie.ddc.util.Web3jUtils;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,9 @@ public class TestService {
 
 
 //        Request<?, EthBlock> ethBlockRequest = web3j.ethGetBlockByHash("0x381b09c7503ef16bcf585878a0e8fc503475643ab3314494b91664488d0e3eab",true);
+
+
+//        Request<?, EthBlock> ethBlockRequest = web3j.ethGetBlockByNumber(CommonUtils.getDefaultBlockParamter(160506),true);
 //        EthBlock send = ethBlockRequest.send();
 //        List<EthBlock.TransactionResult> transactionResults = send.getBlock().getTransactions();
 //        if (transactionResults != null) {
@@ -45,32 +49,33 @@ public class TestService {
 //        }
 //        System.out.println("--------------------------");
 
-        List<BaseEventResponse> list = new ArrayList<>();
+//        List<BaseEventResponse> list = new ArrayList<>();
         TransactionReceipt receipt = web3j.ethGetTransactionReceipt("0x0ad7630c5336913a823e640df71460b260b7e068080b64ec2650a34e805c3184").send().getTransactionReceipt().get();
-        for (int i = 0; i < receipt.getLogs().size(); i++) {
-            Log log = receipt.getLogs().get(i);
-            String address = log.getAddress();
-            System.out.println("my topics" + log.getTopics().get(0));
-            if (ConfigCache.get().getAuthorityLogicAddress().equalsIgnoreCase(log.getAddress())) {
-                //List<Type> res = FunctionReturnDecoder.decode(log.getData(), AuthorityLogic.ADDACCOUNT_EVENT.getParameters());
-                AuthorityLogic authorityLogic = web3jUtils.getAuthority();
-                if (log.getTopics().get(0).equals(AuthorityFunctions.AddAccountEvent)) {
-                    List<AuthorityLogic.AddAccountEventResponse> responses = authorityLogic.getAddAccountEvents(receipt);
-                    list.addAll(responses);
-                }if (log.getTopics().get(0).equals(AuthorityFunctions.UpdateAccountEvent)) {
-                    List<AuthorityLogic.UpdateAccountEventResponse> responses = authorityLogic.getUpdateAccountEvents(receipt);
-                    list.addAll(responses);
-                }if (log.getTopics().get(0).equals(AuthorityFunctions.UpdateAccountStateEvent)) {
-                    List<AuthorityLogic.UpdateAccountStateEventResponse> responses = authorityLogic.getUpdateAccountStateEvents(receipt);
-                    list.addAll(responses);
-                }
-            }
-        }
-        list.forEach(l->{
-            System.out.println("----------------------------------");
-
-            System.out.println(l);
-        });
+        System.out.println(receipt);
+//        for (int i = 0; i < receipt.getLogs().size(); i++) {
+//            Log log = receipt.getLogs().get(i);
+//            String address = log.getAddress();
+//            System.out.println("my topics" + log.getTopics().get(0));
+//            if (ConfigCache.get().getAuthorityLogicAddress().equalsIgnoreCase(log.getAddress())) {
+//                //List<Type> res = FunctionReturnDecoder.decode(log.getData(), AuthorityLogic.ADDACCOUNT_EVENT.getParameters());
+//                AuthorityLogic authorityLogic = web3jUtils.getAuthority();
+//                if (log.getTopics().get(0).equals(AuthorityFunctions.AddAccountEvent)) {
+//                    List<AuthorityLogic.AddAccountEventResponse> responses = authorityLogic.getAddAccountEvents(receipt);
+//                    list.addAll(responses);
+//                }if (log.getTopics().get(0).equals(AuthorityFunctions.UpdateAccountEvent)) {
+//                    List<AuthorityLogic.UpdateAccountEventResponse> responses = authorityLogic.getUpdateAccountEvents(receipt);
+//                    list.addAll(responses);
+//                }if (log.getTopics().get(0).equals(AuthorityFunctions.UpdateAccountStateEvent)) {
+//                    List<AuthorityLogic.UpdateAccountStateEventResponse> responses = authorityLogic.getUpdateAccountStateEvents(receipt);
+//                    list.addAll(responses);
+//                }
+//            }
+//        }
+//        list.forEach(l->{
+//            System.out.println("----------------------------------");
+//
+//            System.out.println(l);
+//        });
     }
 
 }

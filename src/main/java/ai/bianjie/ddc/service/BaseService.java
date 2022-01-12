@@ -3,9 +3,11 @@ package ai.bianjie.ddc.service;
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
+import ai.bianjie.ddc.util.CommonUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
@@ -14,6 +16,7 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Strings;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
@@ -29,11 +32,7 @@ public class BaseService {
         if(signEventListener == null) {
             throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
         }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        Web3j web3j = web3jUtils.getWeb3j();
-        EthBlock.Block blockInfo = web3j.ethGetBlockByNumber(DefaultBlockParameterName.LATEST,true).send().getBlock();
-
-        return blockInfo;
+        return Web3jUtils.getWeb3j().ethGetBlockByNumber(CommonUtils.getDefaultBlockParamter(blockNumber),true).send().getBlock();
     }
 
     /**
@@ -42,14 +41,14 @@ public class BaseService {
      * @return 交易回执
      * @throws InterruptedException InterruptedException
      */
-    public EthGetTransactionReceipt getTransReceipt(String hash) throws InterruptedException, ExecutionException {
+    public TransactionReceipt getTransReceipt(String hash) throws InterruptedException, ExecutionException {
         if(signEventListener == null) {
             throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
         }
 
         Web3jUtils web3jUtils = new Web3jUtils();
         Web3j web3j = web3jUtils.getWeb3j();
-        EthGetTransactionReceipt txReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
+        TransactionReceipt txReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
         return txReceipt;
     }
 
