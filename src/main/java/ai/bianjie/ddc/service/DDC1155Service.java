@@ -1,18 +1,17 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.constant.ErrorMessage;
-import ai.bianjie.ddc.contract.DDC1155;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
+import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
 import org.web3j.utils.Strings;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 public class DDC1155Service extends BaseService {
@@ -41,7 +40,7 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
         //3.检查需要生成的DDC数量是否大于0
-        if (amount == null || amount.compareTo(new BigInteger("0")) <= 0) {
+        if (amount == null || amount.intValue() <= 0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
         //4.检查DDCURI是否为空
@@ -49,13 +48,9 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
         //5.检查签名事件是否被注册
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
 
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC1155 ddc1155 = web3jUtils.getDDC1155();
-        return ddc1155.mint(to, amount, ddcURI).send().getTransactionHash();
+
+        return Web3jUtils.getDDC1155().mint(to, amount, ddcURI).send().getTransactionHash();
     }
 
     /**
@@ -67,7 +62,7 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc 平台方或终端用户可以通过调用该方法进行批量DDC的创建。
      */
-    public String mintBatch(String to, Map<BigInteger, String> ddcInfo) throws Exception {
+    public String mintBatch(String to, Multimap<BigInteger, String> ddcInfo) throws Exception {
         //1.检查接收者账户地址信息是否为空；
         if (Strings.isEmpty(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
@@ -76,17 +71,13 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        //3.检查签名事件是否被注册；
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
 
         List<BigInteger> amounts = new ArrayList<>();
         List<String> ddcURIS = new ArrayList<>();
 
         ddcInfo.forEach((amount, URI) -> {
             //4.检查生成的DDC数量集合中每个DDC数量是否大于0；
-            if (amount == null || amount.compareTo(new BigInteger("0")) <= 0) {
+            if (amount == null || amount.intValue() <= 0) {
                 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
             }
             //5.检查生成的DDCURI集合中每个DDCURI是否为空；
@@ -97,10 +88,9 @@ public class DDC1155Service extends BaseService {
             ddcURIS.add(URI);
 
         });
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
-        return ddc1155.mintBatch(to, amounts, ddcURIS).send().getTransactionHash();
+
+        return Web3jUtils.getDDC1155().mintBatch(to, amounts, ddcURIS).send().getTransactionHash();
 
     }
 
@@ -120,13 +110,9 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(operator)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
-        return ddc1155.setApprovalForAll(operator, approved).send().getTransactionHash();
+
+        return Web3jUtils.getDDC1155().setApprovalForAll(operator, approved).send().getTransactionHash();
     }
 
     /**
@@ -151,13 +137,8 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(operator)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
-        return ddc1155.isApprovedForAll(owner, operator).send();
+        return Web3jUtils.getDDC1155().isApprovedForAll(owner, operator).send();
 
     }
 
@@ -182,19 +163,14 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(from) || !AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (amount == null || amount.compareTo(new BigInteger("0")) <= 0) {
+        if (amount == null || amount.intValue() <= 0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
-        return ddc1155.safeTransferFrom(from, to, ddcId, amount, data).send().getTransactionHash();
+        return Web3jUtils.getDDC1155().safeTransferFrom(from, to, ddcId, amount, data).send().getTransactionHash();
 
     }
 
@@ -209,7 +185,7 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc DDC拥有者或DDC授权者可以通过调用该方法进行DDC的批量转移。
      */
-    public String safeBatchTransferFrom(String from, String to, Map<BigInteger, BigInteger> ddcs, byte[] data) throws Exception {
+    public String safeBatchTransferFrom(String from, String to, Multimap<BigInteger, BigInteger> ddcs, byte[] data) throws Exception {
         if (Strings.isEmpty(from)) {
             throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_EMPTY);
         }
@@ -222,27 +198,22 @@ public class DDC1155Service extends BaseService {
         if (ddcs == null) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
 
 
         ArrayList<BigInteger> ddcIds = new ArrayList();
         ArrayList<BigInteger> amounts = new ArrayList();
         ddcs.forEach((ddcId, amount) -> {
-            if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+            if (ddcId == null || ddcId.intValue() <= 0) {
                 throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
             }
-            if (amount == null || amount.compareTo(new BigInteger("0")) <= 0) {
+            if (amount == null || amount.intValue() <= 0) {
                 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
             }
             ddcIds.add(ddcId);
             amounts.add(amount);
         });
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
-        return ddc1155.safeBatchTransferFrom(from, to, ddcIds, amounts, data).send().getTransactionHash();
+        return Web3jUtils.getDDC1155().safeBatchTransferFrom(from, to, ddcIds, amounts, data).send().getTransactionHash();
     }
 
     /**
@@ -254,16 +225,11 @@ public class DDC1155Service extends BaseService {
      * @desc 运营方可以通过调用该方法进行DDC的冻结。
      */
     public String freeze(BigInteger ddcId) throws Exception {
-        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
-        return ddc1155.freeze(ddcId).send().getTransactionHash();
+        return Web3jUtils.getDDC1155().freeze(ddcId).send().getTransactionHash();
     }
 
     /**
@@ -275,16 +241,11 @@ public class DDC1155Service extends BaseService {
      * @desc 运营方可以通过调用该方法进行DDC的解冻。
      */
     public String unFreeze(BigInteger ddcId) throws Exception {
-        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
-        return ddc1155.unFreeze(ddcId).send().getTransactionHash();
+        return Web3jUtils.getDDC1155().unFreeze(ddcId).send().getTransactionHash();
     }
 
     /**
@@ -303,16 +264,11 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(owner)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
-        return ddc1155.burn(owner, ddcId).send().getTransactionHash();
+        return Web3jUtils.getDDC1155().burn(owner, ddcId).send().getTransactionHash();
     }
 
     /**
@@ -331,16 +287,11 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(owner)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (null == ddcIds) {
+        if (ddcIds == null) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
-        return ddc1155.burnBatch(owner, ddcIds).send().getTransactionHash();
+        return Web3jUtils.getDDC1155().burnBatch(owner, ddcIds).send().getTransactionHash();
     }
 
     /**
@@ -359,16 +310,11 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(owner)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (null == ddcId) {
+        if(ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
-        return ddc1155.balanceOf(owner, ddcId).send();
+        return Web3jUtils.getDDC1155().balanceOf(owner, ddcId).send();
     }
 
     /**
@@ -379,20 +325,15 @@ public class DDC1155Service extends BaseService {
      * @throws Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法进行批量查询账户拥有的DDC的数量。
      */
-    public List<BigInteger> balanceOfBatch(Map<String, BigInteger> ddcs) throws Exception {
+    public List<BigInteger> balanceOfBatch(Multimap<String, BigInteger> ddcs) throws Exception {
         if (ddcs == null || ddcs.size() == 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
-        }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
         }
 
         ArrayList<String> owners = new ArrayList<>();
         ArrayList<BigInteger> ddcIds = new ArrayList<>();
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
-        return ddc1155.balanceOfBatch(owners, ddcIds).send();
+        return Web3jUtils.getDDC1155().balanceOfBatch(owners, ddcIds).send();
     }
 
     /**
@@ -404,16 +345,11 @@ public class DDC1155Service extends BaseService {
      * @desc 运营方、平台方以及终端用户可以通过调用该方法进行查询当前DDC的资源标识符。
      */
     public String ddcURI(BigInteger ddcId) throws Exception {
-        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC1155 ddc1155 = web3jUtils.getDDC1155();
 
-        return ddc1155.ddcURI(ddcId).send();
+        return Web3jUtils.getDDC1155().ddcURI(ddcId).send();
     }
 
 
