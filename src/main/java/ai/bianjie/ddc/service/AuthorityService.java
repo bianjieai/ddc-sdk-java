@@ -28,10 +28,6 @@ public class AuthorityService extends BaseService {
      * @throws Exception
      */
     public String addAccount(String account, String accName, String accDID) throws Exception {
-        if (signEventListener == null) {
-            throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-        }
-
         if (Strings.isEmpty(account)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
         }
@@ -58,10 +54,6 @@ public class AuthorityService extends BaseService {
      * @throws Exception
      */
     public String addConsumerByOperator(String account, String accName, String accDID, String leaderDID) throws Exception {
-        if (signEventListener == null) {
-            throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-        }
-
         if (Strings.isEmpty(account)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
         }
@@ -99,10 +91,6 @@ public class AuthorityService extends BaseService {
      * @throws Exception
      */
     public AccountInfo getAccount(String account) throws Exception {
-        if (signEventListener == null) {
-            throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-        }
-
         if (Strings.isEmpty(account)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
         }
@@ -123,10 +111,6 @@ public class AuthorityService extends BaseService {
      * @throws Exception
      */
     public String updateAccState(String account, BigInteger state, boolean changePlatformState) throws Exception {
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-		}
-
         if (Strings.isEmpty(account)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
         }

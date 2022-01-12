@@ -19,7 +19,14 @@ public class DDCSdkClient {
      * SDK 初始化方法
      */
     private DDCSdkClient(Builder builder) {
-
+        this.opbGateWebAddress = builder.opbGateWebAddress;
+        this.credentials = builder.credentials;
+        this.gasPrice = builder.gasPrice;
+        this.gasLimit = builder.gasLimit;
+        this.ddc721Address = builder.ddc721Address;
+        this.ddc1155Address = builder.ddc1155Address;
+        this.authorityLogicAddress = builder.authorityLogicAddress;
+        this.chargeLogicAddress = builder.chargeLogicAddress;
     }
 
     public static class Builder {
