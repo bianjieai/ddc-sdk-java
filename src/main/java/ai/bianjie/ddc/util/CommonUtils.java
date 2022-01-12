@@ -1,11 +1,10 @@
 package ai.bianjie.ddc.util;
 
-import org.bouncycastle.crypto.digests.KeccakDigest;
-import org.bouncycastle.jcajce.provider.digest.Keccak;
-import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameter;
+import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.request.EthFilter;
 
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 
 public class CommonUtils {
     /**
@@ -31,10 +30,16 @@ public class CommonUtils {
             return true;
         }catch(NumberFormatException e)
         {
-//            System.out.println("异常：\"" + str + "\"不是数字/整数...");
             return false;
         }
     }
 
+    public static DefaultBlockParameter getDefaultBlockParamter(String num) {
+        if (isNumeric00(num)){
+            return DefaultBlockParameter.valueOf(BigInteger.valueOf(Long.parseLong(num)));
+        }else {
+            throw new NumberFormatException();
+        }
+    }
 
 }
