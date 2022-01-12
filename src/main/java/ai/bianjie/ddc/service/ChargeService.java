@@ -67,6 +67,39 @@ public class ChargeService extends BaseService {
 		return chargeLogic.balanceOf(accAddr).send();
 	}
 
+
+	/**
+	 * Hex字符串转byte
+	 * @param inHex 待转换的Hex字符串
+	 * @return  转换后的byte
+	 */
+	public static byte hexToByte(String inHex){
+		return (byte)Integer.parseInt(inHex,16);
+	}
+
+	/**
+	 * hex字符串转byte数组
+	 * @param inHex 待转换的Hex字符串
+	 * @return  转换后的byte数组结果
+	 */
+	public static byte[] hexToByteArray(String inHex){
+		int hexlen = inHex.length();
+		byte[] result;
+		if (hexlen % 2 == 1){
+			hexlen++;
+			result = new byte[(hexlen/2)];
+			inHex="0"+inHex;
+		}else {
+			result = new byte[(hexlen/2)];
+		}
+		int j=0;
+		for (int i = 0; i < hexlen; i+=2){
+			result[j]=hexToByte(inHex.substring(i,i+2));
+			j++;
+		}
+		return result;
+	}
+
 	/**
 	 * 查询指定的DDC业务主逻辑合约的方法所对应的调用业务费用。
 	 *
@@ -95,7 +128,7 @@ public class ChargeService extends BaseService {
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-		return chargeLogic.queryFee(ddcAddr, sig.getBytes(sig)).send();
+		return chargeLogic.queryFee(ddcAddr, hexToByteArray(sig)).send();
 	}
 
 	/**
@@ -149,7 +182,7 @@ public class ChargeService extends BaseService {
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-		return chargeLogic.setFee(ddcAddr, sig.getBytes(sig), amount).send().getTransactionHash();
+		return chargeLogic.setFee(ddcAddr, hexToByteArray(sig), amount).send().getTransactionHash();
 	}
 
 	/**
@@ -180,7 +213,7 @@ public class ChargeService extends BaseService {
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
-		return chargeLogic.deleteFee(ddcAddr, sig.getBytes(sig)).send().getTransactionHash();
+		return chargeLogic.deleteFee(ddcAddr, hexToByteArray(sig)).send().getTransactionHash();
 	}
 
 	/**

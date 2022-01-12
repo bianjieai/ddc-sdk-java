@@ -1,7 +1,7 @@
 package ai.bianjie.ddc.service;
 
+import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.listener.SignEventListener;
-import ai.bianjie.ddc.util.CommonUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.web3j.protocol.Web3j;
@@ -10,13 +10,12 @@ import org.web3j.protocol.core.methods.response.*;
 import org.web3j.utils.Strings;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
 public class BaseService {
     protected SignEventListener signEventListener;
-    private BigInteger gasLimit = CommonUtils.string2BigInteger("300000");;
+    private String gasLimit = ConfigCache.get().getGasLimit();
 
     /**
      * 获取区块信息
@@ -66,7 +65,7 @@ public class BaseService {
 
     }
 
-    public BaseService setgasLimit(BigInteger gasLimit) {
+    public BaseService setgasLimit(String gasLimit) {
         this.gasLimit = gasLimit;
         return this;
     }
