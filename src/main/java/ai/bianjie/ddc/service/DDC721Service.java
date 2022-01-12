@@ -1,6 +1,5 @@
 package ai.bianjie.ddc.service;
 
-import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.exception.DDCException;
@@ -40,18 +39,9 @@ public class DDC721Service extends BaseService {
         if (Strings.isEmpty(ddcURI)) {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
-        //4.检查签名事件是否被注册
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
+        
 
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
-
-        //调用合约上的对应方法
-        TransactionReceipt transactionReceipt = ddc721.mint(to, ddcURI).send();
-
-        return transactionReceipt.getTransactionHash();
+        return Web3jUtils.getDDC721().mint(to, ddcURI).send().getTransactionHash();
     }
 
 
@@ -73,19 +63,11 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
 
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
-
-        TransactionReceipt transactionReceipt = ddc721.approve(to, ddcId).send();
-
-        return transactionReceipt.getTransactionHash();
+        return Web3jUtils.getDDC721().approve(to, ddcId).send().getTransactionHash();
     }
 
 
@@ -99,18 +81,11 @@ public class DDC721Service extends BaseService {
      */
     public String getApproved(BigInteger ddcId) throws Exception {
 
-
-        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
 
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
-
-        return ddc721.getApproved(ddcId).send();
+        return Web3jUtils.getDDC721().getApproved(ddcId).send();
     }
 
     /**
@@ -130,13 +105,9 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(operator)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
 
-        return ddc721.setApprovalForAll(operator, approved).send().getTransactionHash();
+
+        return Web3jUtils.getDDC721().setApprovalForAll(operator, approved).send().getTransactionHash();
     }
 
 
@@ -156,14 +127,8 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(owner) || !AddressUtils.isValidAddress(operator)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
 
-
-        return ddc721.isApprovedForAll(owner, operator).send();
+        return Web3jUtils.getDDC721().isApprovedForAll(owner, operator).send();
     }
 
 
@@ -192,17 +157,11 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
 
-
-        return ddc721.safeTransferFrom(from, to, ddcId, data).send().getTransactionHash();
+        return Web3jUtils.getDDC721().safeTransferFrom(from, to, ddcId, data).send().getTransactionHash();
     }
 
 
@@ -230,16 +189,11 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
 
-        return ddc721.transferFrom(from, to, ddcId).send().getTransactionHash();
+        return Web3jUtils.getDDC721().transferFrom(from, to, ddcId).send().getTransactionHash();
     }
 
 
@@ -253,16 +207,10 @@ public class DDC721Service extends BaseService {
      */
     public String freeze(BigInteger ddcId) throws Exception {
 
-        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
-
-        return ddc721.freeze(ddcId).send().getTransactionHash();
+        return Web3jUtils.getDDC721().freeze(ddcId).send().getTransactionHash();
     }
 
     /**
@@ -275,16 +223,10 @@ public class DDC721Service extends BaseService {
      */
     public String unFreeze(BigInteger ddcId) throws Exception {
 
-        if (ddcId == null || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
-
-        return ddc721.unFreeze(ddcId).send().getTransactionHash();
+        return Web3jUtils.getDDC721().unFreeze(ddcId).send().getTransactionHash();
     }
 
     /**
@@ -296,16 +238,10 @@ public class DDC721Service extends BaseService {
      */
     public String burn(BigInteger ddcId) throws Exception {
 
-        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
-
-        return ddc721.burn(ddcId).send().getTransactionHash();
+        return Web3jUtils.getDDC721().burn(ddcId).send().getTransactionHash();
     }
 
     /**
@@ -323,13 +259,7 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(owner)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
-
-        return ddc721.balanceOf(owner).send();
+        return Web3jUtils.getDDC721().balanceOf(owner).send();
     }
 
     /**
@@ -342,16 +272,10 @@ public class DDC721Service extends BaseService {
      */
     public String ownerOf(BigInteger ddcId) throws Exception {
 
-        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
-
-        return ddc721.ownerOf(ddcId).send();
+        return Web3jUtils.getDDC721().ownerOf(ddcId).send();
     }
 
     /**
@@ -362,13 +286,7 @@ public class DDC721Service extends BaseService {
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC运营方的名称。
      */
     public String name() throws Exception {
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
-
-        return ddc721.name().send();
+        return Web3jUtils.getDDC721().name().send();
     }
 
     /**
@@ -379,13 +297,7 @@ public class DDC721Service extends BaseService {
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的符号标识。
      */
     public String symbol() throws Exception {
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
-
-        return ddc721.symbol().send();
+        return Web3jUtils.getDDC721().symbol().send();
     }
 
     /**
@@ -396,16 +308,10 @@ public class DDC721Service extends BaseService {
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的资源标识符。
      */
     public String ddcURI(BigInteger ddcId) throws Exception {
-        if (null == ddcId || ddcId.compareTo(new BigInteger("0")) <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (this.signEventListener == null) {
-            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);
-        }
-        Web3jUtils web3jUtils = new Web3jUtils();
-        DDC721 ddc721 = web3jUtils.getDDC721();
-
-        return ddc721.ddcURI(ddcId).send();
+        return Web3jUtils.getDDC721().ddcURI(ddcId).send();
     }
 
 }
