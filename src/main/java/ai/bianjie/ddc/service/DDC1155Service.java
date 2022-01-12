@@ -1,19 +1,17 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.constant.ErrorMessage;
-import ai.bianjie.ddc.contract.DDC1155;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
+import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
 import org.web3j.utils.Strings;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 @Slf4j
 public class DDC1155Service extends BaseService {
 
@@ -63,7 +61,7 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc 平台方或终端用户可以通过调用该方法进行批量DDC的创建。
      */
-    public String mintBatch(String to, Map<BigInteger, String> ddcInfo) throws Exception {
+    public String mintBatch(String to, Multimap<BigInteger, String> ddcInfo) throws Exception {
         //1.检查接收者账户地址信息是否为空；
         if (Strings.isEmpty(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
@@ -186,7 +184,7 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc DDC拥有者或DDC授权者可以通过调用该方法进行DDC的批量转移。
      */
-    public String safeBatchTransferFrom(String from, String to, Map<BigInteger, BigInteger> ddcs, byte[] data) throws Exception {
+    public String safeBatchTransferFrom(String from, String to, Multimap<BigInteger, BigInteger> ddcs, byte[] data) throws Exception {
         if (Strings.isEmpty(from)) {
             throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_EMPTY);
         }
@@ -326,7 +324,7 @@ public class DDC1155Service extends BaseService {
      * @throws Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法进行批量查询账户拥有的DDC的数量。
      */
-    public List<BigInteger> balanceOfBatch(Map<String, BigInteger> ddcs) throws Exception {
+    public List<BigInteger> balanceOfBatch(Multimap<String, BigInteger> ddcs) throws Exception {
         if (ddcs == null || ddcs.size() == 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
