@@ -1,17 +1,22 @@
-# ddc-sdk-java
+# DDC-SDK-JAVA
 
-# 本SDK中包含平台方可调用的如下方法：
+## 本SDK中包含运营方可调用的如下方法：
 
 ```
 1.BSN-DDC-权限管理
     1.1添加下级账户
-    1.2查询账户
-    1.3更新账户状态
+    1.2添加终端用户
+    1.3查询账户
+    1.4更新账户状态
 
 2.BSN-DDC-费用管理
     2.1充值
     2.2链账户余额查询
     2.3DDC计费规则查询
+    2.4增加运营方业务费
+    2.5设置主合约方法调用费用
+    2.5删除主合约方法调用费用
+    2.7删除合约授权
 
 3.BSN-DDC-721
     3.1生成
@@ -83,14 +88,16 @@
 
 ```
 
+
+
 ## 怎样使用ddc-sdk-java
 
 ### 1.初始化Client (连接测试网)
 
 ```
-    DDCSdkClient client = new DDCSdkClient("http://192.168.150.43:8545");
-    //填写账户私钥
-    client.init("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B");
+    //创建客户端，导入网关，账户私钥（暂时未分离签名）
+    ////也可设置相关参数值 gasprice，gaslimit，相关合约地址（irita 中 gaslimit 设置值即消耗值）
+    DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").gasLimit("30000").gasPrice("100000000000").init(); 
 ```
 
 ### 2.使用权限管理
@@ -100,7 +107,7 @@
     //添加下级账户
     String Txhash1 = authorityService.addAccount(account, accname, accdid);
     //查询账户
-    String resultInfo = authorityService.getAccount(account);
+    AccountInfo info = authorityService.getAccount(account);
     //更新账户状态
     String Txhash2 = updateAccState(account, 2, false)
 ```
@@ -112,7 +119,7 @@
     //充值
     String Txhash3 = chargeService.recharge(toaddr, BigInteger.valueOf(10000));  
     //链账户余额查询
-    String balance = chargeService.balanceOf(accAddr);
+    BigInteger balance = chargeService.balanceOf(accAddr);
     //DDC计费规则查询
     BigInteger fee = queryFee(ddcAddr, sig);
 ```
