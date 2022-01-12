@@ -38,10 +38,6 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
 
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-		}
-
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
@@ -62,10 +58,6 @@ public class ChargeService extends BaseService {
 
 		if (!AddressUtils.isValidAddress(accAddr)) {
 			throw new DDCException(ErrorMessage.ACC_ADDR_IS_NOT_ADDRESS_FORMAT);
-		}
-
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
 		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();
@@ -99,10 +91,6 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
 		}
 
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-		}
-
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
@@ -119,10 +107,6 @@ public class ChargeService extends BaseService {
 	public String selfRecharge(BigInteger amount) throws Exception {
 		if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
-		}
-
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
 		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();
@@ -165,10 +149,6 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.AMOUNT_LT_ZERO);
 		}
 
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-		}
-
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
@@ -200,10 +180,6 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
 		}
 
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-		}
-
 		Web3jUtils web3jUtils = new Web3jUtils();
 		ChargeLogic chargeLogic = web3jUtils.getCharge();
 
@@ -224,10 +200,6 @@ public class ChargeService extends BaseService {
 
 		if (!AddressUtils.isValidAddress(ddcAddr)) {
 			throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
-		}
-
-		if(signEventListener == null) {
-			throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
 		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();

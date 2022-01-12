@@ -25,9 +25,6 @@ public class BaseService {
      * @return 区块信息
      */
     public EthBlock.Block getBlockByNumber(String blockNumber) throws IOException {
-        if(signEventListener == null) {
-            throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-        }
         Web3jUtils web3jUtils = new Web3jUtils();
         Web3j web3j = web3jUtils.getWeb3j();
         EthBlock.Block blockInfo = web3j.ethGetBlockByNumber(DefaultBlockParameterName.LATEST,true).send().getBlock();
@@ -42,10 +39,6 @@ public class BaseService {
      * @throws InterruptedException InterruptedException
      */
     public EthGetTransactionReceipt getTransReceipt(String hash) throws InterruptedException, ExecutionException {
-        if(signEventListener == null) {
-            throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-        }
-
         Web3jUtils web3jUtils = new Web3jUtils();
         Web3j web3j = web3jUtils.getWeb3j();
         return web3j.ethGetTransactionReceipt(hash).sendAsync().get();
@@ -57,10 +50,6 @@ public class BaseService {
      * @return 交易信息
      */
     public EthTransaction getTransByHash(String hash) throws IOException {
-        if(signEventListener == null) {
-            throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-        }
-
         Web3jUtils web3jUtils = new Web3jUtils();
         Web3j web3j = web3jUtils.getWeb3j();
         return web3j.ethGetTransactionByHash(hash).send();
@@ -72,10 +61,6 @@ public class BaseService {
      * @return 交易状态
      */
     public Boolean getTransByStatus(String hash) throws ExecutionException, InterruptedException {
-        if(signEventListener == null) {
-            throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-        }
-
         Web3jUtils web3jUtils = new Web3jUtils();
         Web3j web3j = web3jUtils.getWeb3j();
         EthGetTransactionReceipt txReceipt = web3j.ethGetTransactionReceipt(hash).sendAsync().get();
