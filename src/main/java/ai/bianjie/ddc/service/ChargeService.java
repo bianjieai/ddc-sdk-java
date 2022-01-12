@@ -34,7 +34,8 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
 		}
 
-		if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
+
+		if (amount == null || amount.intValue() <= 0) {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
 
@@ -105,7 +106,7 @@ public class ChargeService extends BaseService {
 	 * @throws Exception
 	 */
 	public String selfRecharge(BigInteger amount) throws Exception {
-		if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {
+		if (amount == null || amount.intValue() <= 0) {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
 
@@ -141,12 +142,8 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
 		}
 
-		if (amount == null) {
+		if (amount == null || amount.intValue() <= 0) {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
-		}
-
-		if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) < 0) {
-			throw new DDCException(ErrorMessage.AMOUNT_LT_ZERO);
 		}
 
 		Web3jUtils web3jUtils = new Web3jUtils();
