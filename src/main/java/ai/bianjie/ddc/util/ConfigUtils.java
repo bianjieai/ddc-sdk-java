@@ -33,7 +33,7 @@ public class ConfigUtils {
 	public static final String PUBLIC_KEY_FILE = "cert/publicKey.pem";
 	
 	/**
-	 * 解析默认位置的位置文件，并验证配置项，组装成配置对象
+	 * 解析默认位置的配置文件，并验证配置项，组装成配置对象
 	 * 
 	 * @return 返回配置对象
 	 */
