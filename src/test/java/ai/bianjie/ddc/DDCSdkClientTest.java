@@ -1,6 +1,6 @@
 package ai.bianjie.ddc;
 import ai.bianjie.ddc.contract.DDC721;
-import ai.bianjie.ddc.listener.SignEventListener;
+import ai.bianjie.ddc.dto.AccountInfo;
 import ai.bianjie.ddc.service.*;
 import ai.bianjie.ddc.util.CommonUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,8 +12,8 @@ import java.math.BigInteger;
 public class DDCSdkClientTest {
     @Test
     public void sdkInitTest() throws Exception {
-        DDCSdkClient client = new DDCSdkClient("http://192.168.150.43:8545");
-        client.init("B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26");
+//        DDCSdkClient client = new DDCSdkClient("http://192.168.150.43:8545");
+//        client.init("B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26");
 
 //        AuthorityService authorityService = client.getAuthorityService();
 //        TransactionReceipt a= authorityService.addOperator("8A853214BD4AEADEF6351FBFEC5E4B7A3E65703A","test","did:bsn:3wxYHXwAm57grc9JUr2zrPHt9HC");
@@ -121,7 +121,7 @@ public class DDCSdkClientTest {
 //        System.out.println("--------------------------------------" + zbalancez1 + "------------");
 
 
-        client.init("1B8C36A57CB8D7FA20594283498EF310DCA9DFECDF6E9FDD04E992A5DA164E0B");
+//        client.init("1B8C36A57CB8D7FA20594283498EF310DCA9DFECDF6E9FDD04E992A5DA164E0B");
 //        ChargeService chargeService = client.getChargeService();
 //        AuthorityService au =client.getAuthorityService();
 //        String hash =chargeService.selfRecharge(BigInteger.valueOf(1000000000));
@@ -169,9 +169,19 @@ public class DDCSdkClientTest {
 //        client.init("2F6976C530CFD2D0CC19EFC1868BD6A0AA1886D0BFCFA5A59D9B8899BE9B7241");
 //      AuthorityService authorityService = client.getAuthorityService();
 //
-        DDC721Service ddc721Service = client.getDDC721Service();
-//      String h = authorityService.hasper("918F7F275A6C2D158E5B76F769D3F1678958A334",ConfigCache.get().getDdc721Address(),DDC721.FUNC_MINT.getBytes())    ;
-        String hash = ddc721Service.mint("07B7BE76ED588CCEFB4C4A573CB28A7D2A1403CC","111111")     ;
-        System.out.println("--------------------------------------" + hash + "------------");
+//        DDC721Service ddc721Service = client.getDDC721Service();
+////      String h = authorityService.hasper("918F7F275A6C2D158E5B76F769D3F1678958A334",ConfigCache.get().getDdc721Address(),DDC721.FUNC_MINT.getBytes())    ;
+//        String hash = ddc721Service.mint("07B7BE76ED588CCEFB4C4A573CB28A7D2A1403CC","111111")     ;
+//        System.out.println("--------------------------------------" + hash + "------------");
+
+        DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("").gasLimit("30000").gasPrice("100000000000").init();
+
+//        DDCSdkClient client = new DDCSdkClient("http://192.168.150.43:8545");
+//        client.init("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B");
+//        AccountInfo info = client.getAuthorityService().getAccount("0x07B7BE76ED588CCEFB4C4A573CB28A7D2A1403CC");
+//        System.out.println(info.toString());
+//
+//        String s = client.getAuthorityService().updateAccState("0x07B7BE76ED588CCEFB4C4A573CB28A7D2A1403CC", BigInteger.valueOf((long) 1), true);
+//        System.out.println(s);
     }
 }
