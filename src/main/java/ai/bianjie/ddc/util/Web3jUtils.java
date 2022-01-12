@@ -7,6 +7,7 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 
 public class Web3jUtils {
+
     public static AuthorityLogic getAuthority() {
         return AuthorityLogic.load(ConfigCache.get().getAuthorityLogicAddress(), Web3j.build(new HttpService(ConfigCache.get().getOpbGatewayAddress())), Credentials.create(ConfigCache.get().getCredentials()), new GasProvider());
     }

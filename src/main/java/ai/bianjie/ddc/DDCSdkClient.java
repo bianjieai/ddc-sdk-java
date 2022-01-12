@@ -2,6 +2,8 @@ package ai.bianjie.ddc;
 
 
 import ai.bianjie.ddc.config.ConfigCache;
+import ai.bianjie.ddc.constant.ErrorMessage;
+import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.service.*;
 
@@ -92,6 +94,9 @@ public class DDCSdkClient {
      * @param signEventListener 签名事件
      */
     public void registerSignListener(SignEventListener signEventListener) {
+        if(signEventListener == null) {
+            throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+        }
         this.signEventListener = signEventListener;
     }
 
