@@ -1,8 +1,5 @@
 package ai.bianjie.ddc.config;
 
-
-import ai.bianjie.ddc.constant.ErrorMessage;
-import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.util.ConfigUtils;
 import org.web3j.utils.Strings;
 
@@ -19,10 +16,9 @@ public class ConfigCache {
         if (!Strings.isEmpty(opbGateWebAddress)) {
             configInfo.setOpbGatewayAddress(opbGateWebAddress);
         }
-        if (Strings.isEmpty(credentials)) {
-            throw new DDCException(ErrorMessage.UNKNOWN_ERROR);
+        if (!Strings.isEmpty(credentials)) {
+            configInfo.setCredentials(credentials);
         }
-        configInfo.setCredentials(credentials);
         if (!Strings.isEmpty(ddc721Address)) {
             configInfo.setDdc721Address(ddc721Address);
         }
