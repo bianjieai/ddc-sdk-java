@@ -67,7 +67,7 @@ public class ChargeService extends BaseService {
 	 * @param inHex 待转换的Hex字符串
 	 * @return  转换后的byte
 	 */
-	private static byte hexToByte(String inHex){
+	private byte hexToByte(String inHex){
 		return (byte)Integer.parseInt(inHex,16);
 	}
 
@@ -76,7 +76,7 @@ public class ChargeService extends BaseService {
 	 * @param inHex 待转换的Hex字符串
 	 * @return  转换后的byte数组结果
 	 */
-	private static byte[] hexToByteArray(String inHex){
+	private byte[] hexToByteArray(String inHex){
 		int hexlen = inHex.length();
 		byte[] result;
 		if (hexlen % 2 == 1){
