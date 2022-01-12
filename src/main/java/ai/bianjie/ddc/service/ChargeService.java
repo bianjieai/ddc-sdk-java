@@ -1,14 +1,13 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.constant.ErrorMessage;
-import ai.bianjie.ddc.contract.ChargeLogic;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.HexUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
+import org.web3j.utils.Numeric;
 import org.web3j.utils.Strings;
-
 import java.math.BigInteger;
 
 public class ChargeService extends BaseService {
@@ -33,7 +32,6 @@ public class ChargeService extends BaseService {
 		if (!AddressUtils.isValidAddress(to)) {
 			throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
 		}
-
 
 		if (amount == null || amount.intValue() <= 0) {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
@@ -61,39 +59,6 @@ public class ChargeService extends BaseService {
 		return Web3jUtils.getCharge().balanceOf(accAddr).send();
 	}
 
-
-	/**
-	 * Hex字符串转byte
-	 * @param inHex 待转换的Hex字符串
-	 * @return  转换后的byte
-	 */
-	private byte hexToByte(String inHex){
-		return (byte)Integer.parseInt(inHex,16);
-	}
-
-	/**
-	 * hex字符串转byte数组
-	 * @param inHex 待转换的Hex字符串
-	 * @return  转换后的byte数组结果
-	 */
-	private byte[] hexToByteArray(String inHex){
-		int hexlen = inHex.length();
-		byte[] result;
-		if (hexlen % 2 == 1){
-			hexlen++;
-			result = new byte[(hexlen/2)];
-			inHex="0"+inHex;
-		}else {
-			result = new byte[(hexlen/2)];
-		}
-		int j=0;
-		for (int i = 0; i < hexlen; i+=2){
-			result[j]=hexToByte(inHex.substring(i,i+2));
-			j++;
-		}
-		return result;
-	}
-
 	/**
 	 * 查询指定的DDC业务主逻辑合约的方法所对应的调用业务费用。
 	 *
@@ -118,8 +83,9 @@ public class ChargeService extends BaseService {
 		if (!HexUtils.isValid4ByteHash(sig)) {
 			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
 		}
+		byte[] sigInByte = Numeric.hexStringToByteArray(sig);
 
-		return Web3jUtils.getCharge().queryFee(ddcAddr, hexToByteArray(sig)).send();
+		return Web3jUtils.getCharge().queryFee(ddcAddr, sigInByte).send();
 	}
 
 	/**
@@ -166,8 +132,8 @@ public class ChargeService extends BaseService {
 		if (amount == null || amount.intValue() <= 0) {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
-
-		return Web3jUtils.getCharge().setFee(ddcAddr, hexToByteArray(sig), amount).send().getTransactionHash();
+		byte[] sigInByte = Numeric.hexStringToByteArray(sig);
+		return Web3jUtils.getCharge().setFee(ddcAddr, sigInByte, amount).send().getTransactionHash();
 	}
 
 	/**
@@ -195,7 +161,9 @@ public class ChargeService extends BaseService {
 			throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
 		}
 
-		return Web3jUtils.getCharge().deleteFee(ddcAddr, hexToByteArray(sig)).send().getTransactionHash();
+		byte[] sigInByte = Numeric.hexStringToByteArray(sig);
+
+		return Web3jUtils.getCharge().deleteFee(ddcAddr, sigInByte).send().getTransactionHash();
 	}
 
 	/**
