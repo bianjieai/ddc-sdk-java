@@ -22,8 +22,7 @@ import java.util.List;
 
 public class TestService {
     public void test() throws Exception {
-        Web3jUtils web3jUtils = new Web3jUtils();
-        Web3j web3j = web3jUtils.getWeb3j();
+        Web3j web3j = Web3jUtils.getWeb3j();
 //        Web3j web3j = Web3j.build(new HttpService("http://192.168.150.43:8545"));
 //        Credentials credentials = Credentials.create("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B");
 //        String contractAddr = "0x368d4064762a22640E8a79cA6B62F0815f3e2F9C";
