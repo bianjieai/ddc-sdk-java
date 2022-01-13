@@ -39,10 +39,10 @@ public class DDC721Service extends BaseService {
         if (Strings.isEmpty(ddcURI)) {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
-        
 
         return Web3jUtils.getDDC721().mint(to, ddcURI).send().getTransactionHash();
     }
+
 
 
     /**
