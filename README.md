@@ -7,9 +7,13 @@
 ### 1.初始化Client (连接测试网)
 
 ```
-    //创建客户端，导入网关，账户私钥（暂时未分离签名）
+    
+    //创建客户端，导入网关，账户私钥（必须入参）（暂时未分离签名）
+    DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").init();
+    
     ////也可设置相关参数值 gasprice，gaslimit，相关合约地址（irita 中 gaslimit 设置值即消耗值）
     DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").gasLimit("30000").gasPrice("100000000000").init(); 
+    
 ```
 
 ### 2.BSN-DDC-权限管理
@@ -302,33 +306,50 @@
 ### 8.BSN-DDC-数据解析
 
 ```
-    7.1权限数据
-        7.1.1添加账户
-        7.1.2更新账户状态
+5.BSN-DDC-数据解析
+    5.1权限数据
+        5.1.1添加账户
+        5.1.2更新账户状态
 
-    7.2充值数据
-        7.2.1充值
-        7.2.2DDC业务费扣除
-        7.2.3设置DDC计费规则
-        7.2.4删除DDC计费规则
-        7.2.5按合约删除DDC计费规则
+    5.2充值数据
+        5.2.1充值
+        5.2.2DDC业务费扣除
+        5.2.3设置DDC计费规则
+        5.2.4删除DDC计费规则
+        5.2.5按合约删除DDC计费规则
 
-    7.3BSN-DDC-721数据
-        7.3.1生成
-        7.3.2转移/安全转移
-        7.3.3冻结
-        7.3.4解冻
-        7.3.5销毁
+    5.3BSN-DDC-721数据
+        5.3.1生成
+        5.3.2转移/安全转移
+        5.3.3冻结
+        5.3.4解冻
+        5.3.5销毁
 
-    7.4BSN-DDC-1155数据
-        7.4.1生成
-        7.4.2批量生成
-        7.4.3安全转移
-        7.4.4批量安全转移
-        7.4.5冻结
-        7.4.6解冻
-        7.4.7销毁
-        7.4.8批量销毁
+    5.4BSN-DDC-1155数据
+        5.4.1生成
+        5.4.2批量生成
+        5.4.3安全转移
+        5.4.4批量安全转移
+        5.4.5冻结
+        5.4.6解冻
+        5.4.7销毁
+        5.4.8批量销毁
+```
+
+```
+	BlockEventService blockEventService = new BlockEventService();
+	//获取区块事件并解析
+	//1. 根据块高获取区块信息
+    //2. 根据块中交易获取交易回执
+    //3. 遍历交易回执中的事件并解析
+    //blockNumber 块高
+    //返回 ArrayList<Object>
+
+        ArrayList<BaseEventResponse> blockEvent = blockEventService.getBlockEvent("160506");
+        blockEvent.forEach(b->{
+            System.out.println(b.log.getTopics());
+        });
+        
 ```
 
 ## 平台方可调用的如下方法：
@@ -336,11 +357,12 @@
 ### 1.初始化Client (连接测试网)
 
 ```
-    DDCSdkClient client = new DDCSdkClient("http://192.168.150.43:8545");
-    //填写账户私钥
-    client.init("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B");
-    //
-    client.init(credentials, gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress)
+      
+    //创建客户端，导入网关，账户私钥（必须入参）（暂时未分离签名）
+    DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").init();
+    
+    ////也可设置相关参数值 gasprice，gaslimit，相关合约地址（irita 中 gaslimit 设置值即消耗值）
+    DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").gasLimit("30000").gasPrice("100000000000").init(); 
     
 ```
 
@@ -617,16 +639,33 @@
         7.4.8批量销毁
 ```
 
+```
+	BlockEventService blockEventService = new BlockEventService();
+	//获取区块事件并解析
+	//1. 根据块高获取区块信息
+    //2. 根据块中交易获取交易回执
+    //3. 遍历交易回执中的事件并解析
+    //blockNumber 块高
+    //返回 ArrayList<Object>
+
+        ArrayList<BaseEventResponse> blockEvent = blockEventService.getBlockEvent("160506");
+        blockEvent.forEach(b->{
+            System.out.println(b.log.getTopics());
+        });
+        
+```
+
 ## 终端账户可调用的如下方法：
 
 ### 1.初始化Client (连接测试网)
 
 ```
-    DDCSdkClient client = new DDCSdkClient("http://192.168.150.43:8545");
-    //填写账户私钥
-    client.init("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B");
-    //
-    client.init(credentials, gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress)
+    
+    //创建客户端，导入网关，账户私钥（必须入参）（暂时未分离签名）
+    DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").init();
+    
+    ////也可设置相关参数值 gasprice，gaslimit，相关合约地址（irita 中 gaslimit 设置值即消耗值）
+    DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").gasLimit("30000").gasPrice("100000000000").init(); 
     
 ```
 
@@ -848,3 +887,20 @@
         5.4.7销毁
         5.4.8批量销毁
 ```
+
+```
+	BlockEventService blockEventService = new BlockEventService();
+	//获取区块事件并解析
+	//1. 根据块高获取区块信息
+    //2. 根据块中交易获取交易回执
+    //3. 遍历交易回执中的事件并解析
+    //blockNumber 块高
+    //返回 ArrayList<Object>
+
+        ArrayList<BaseEventResponse> blockEvent = blockEventService.getBlockEvent("160506");
+        blockEvent.forEach(b->{
+            System.out.println(b.log.getTopics());
+        });
+        
+```
+
