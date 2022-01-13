@@ -1,12 +1,17 @@
 package ai.bianjie.ddc.service;
 
+import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
+import org.web3j.crypto.RawTransaction;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Strings;
+
+import org.web3j.abi.datatypes.Function;
 
 import java.math.BigInteger;
 
@@ -40,7 +45,15 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
 
-        return Web3jUtils.getDDC721().mint(to, ddcURI).send().getTransactionHash();
+        //4.获取合约实例
+        DDC721 ddc721 = Web3jUtils.getDDC721();
+
+        //5.获取待签名的方法
+        Function function = ddc721.mint(to, ddcURI);
+
+        //6.签名并发送，获取hash
+        return signAndSend(ddc721,function,signEventListener).getTransactionHash();
+
     }
 
 

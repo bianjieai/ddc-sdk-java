@@ -332,6 +332,9 @@ public class DDC1155Service extends BaseService {
 
         ArrayList<String> owners = new ArrayList<>();
         ArrayList<BigInteger> ddcIds = new ArrayList<>();
+        
+
+
 
         return Web3jUtils.getDDC1155().balanceOfBatch(owners, ddcIds).send();
     }

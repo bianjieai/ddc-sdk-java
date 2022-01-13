@@ -1,11 +1,14 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.constant.ErrorMessage;
+import ai.bianjie.ddc.contract.ChargeLogic;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
+import ai.bianjie.ddc.listener.sign;
 import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.HexUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
+import org.web3j.abi.datatypes.Function;
 import org.web3j.utils.Numeric;
 import org.web3j.utils.Strings;
 import java.math.BigInteger;
@@ -36,8 +39,11 @@ public class ChargeService extends BaseService {
 		if (amount == null || amount.intValue() <= 0) {
 			throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
 		}
+		ChargeLogic charge = Web3jUtils.getCharge();
 
-		return Web3jUtils.getCharge().recharge(to, amount).send().getTransactionHash();
+		Function function = charge.recharge(to,amount);
+
+		return signAndSend(charge,function,signEventListener).getTransactionHash();
 	}
 
 	/**

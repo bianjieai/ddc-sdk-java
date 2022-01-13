@@ -406,13 +406,13 @@ public class ChargeLogic extends Contract {
         return executeRemoteCallSingleValueReturn(function, BigInteger.class);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> recharge(String to, BigInteger value) {
+    public org.web3j.abi.datatypes.Function recharge(String to, BigInteger value) {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
                 FUNC_RECHARGE, 
                 Arrays.<Type>asList(new Address(160, to),
                 new Uint256(value)),
                 Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function);
+        return function;
     }
 
     public RemoteFunctionCall<TransactionReceipt> renounceOwnership() {
