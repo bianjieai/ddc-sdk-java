@@ -276,10 +276,18 @@
 	//hash 交易哈希
     //返回交易回执
      TransactionReceipt TxReceipt = baseService.getTransReceipt(hash)
+     
+     //查询交易信息
+     //hash 交易哈希
+     //返回交易信息
+     Transaction Tx = baseService.getTransByHash(hash)
+     
+     //查询交易状态
+     //hash 交易哈希
+     //返回交易状态
+     Boolean state = baseService.getTransByStatus(hash)
 	
 ```
-
-
 
 ### 7.BSN-DDC-区块查询
 
@@ -288,9 +296,8 @@
 	
     //获取区块信息
     EthBlock.Block blockinfo = baseService.getBlockByNumber(blockNumber)
+    
 ```
-
-
 
 ### 8.BSN-DDC-数据解析
 
@@ -548,19 +555,33 @@
 ### 6.BSN-DDC-交易查询
 
 ```
-5.BSN-DDC-交易查询
-    5.1查询交易信息
-    5.2查询交易回执
-    5.3查询交易状态
-
+	BaseService baseService = new BaseService();
+	
+	//查询交易回执
+	//hash 交易哈希
+    //返回交易回执
+     TransactionReceipt TxReceipt = baseService.getTransReceipt(hash)
+     
+     //查询交易信息
+     //hash 交易哈希
+     //返回交易信息
+     Transaction Tx = baseService.getTransByHash(hash)
+     
+     //查询交易状态
+     //hash 交易哈希
+     //返回交易状态
+     Boolean state = baseService.getTransByStatus(hash)
 
 ```
 
 ### 7.BSN-DDC-区块查询
 
 ```
-6.BSN-DDC-区块查询
-    6.1获取区块信息
+	BaseService baseService = new BaseService();
+	
+    //获取区块信息
+    EthBlock.Block blockinfo = baseService.getBlockByNumber(blockNumber)
+    
 ```
 
 ### 8.BSN-DDC-数据解析
@@ -595,8 +616,6 @@
         7.4.7销毁
         7.4.8批量销毁
 ```
-
-
 
 ## 终端账户可调用的如下方法：
 

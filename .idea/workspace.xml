@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="22982d3a-03c1-4b08-8c90-650cca36b449" name="Changes" comment="modified baseservice">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/BaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/BaseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC721Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC721Service.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,7 +225,7 @@
       <workItem from="1641549516088" duration="915000" />
       <workItem from="1641863565237" duration="22605000" />
       <workItem from="1641894157343" duration="23859000" />
-      <workItem from="1641982725116" duration="13568000" />
+      <workItem from="1641982725116" duration="14038000" />
     </task>
     <task id="LOCAL-00001" summary="modified baseservice">
       <created>1641522673112</created>

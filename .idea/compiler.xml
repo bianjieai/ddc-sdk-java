@@ -10,5 +10,8 @@
         <module name="ddc-sdk-java-ex" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ddc-sdk-java-ex" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
