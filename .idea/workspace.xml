@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="22982d3a-03c1-4b08-8c90-650cca36b449" name="Changes" comment="modified baseservice">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/BaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/BaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC721Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC721Service.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../go" />
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="develop" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="22xM9kv7ZblWzPQteDdgirmOyIT" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="go.format.on.save.advertiser.fired" value="true" />
+    <property name="go.formatter.settings.were.checked" value="true" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
+    <property name="go.sdk.automatically.set" value="true" />
+    <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ddc-sdk-java" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="ai.bianjie.ddc.service" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="ai.bianjie.ddc" />
+      <recent name="ai.bianjie.ddc.service" />
+      <recent name="com.bianjie.ddc.service" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.bianjie.ddc.util" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.ChargeServiceTest.recharge">
+    <configuration name="BaseServiceTest.getBlockByNumber" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ddc-sdk-java-ex" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ai.bianjie.ddc.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ai.bianjie.ddc.service" />
+      <option name="MAIN_CLASS_NAME" value="ai.bianjie.ddc.service.BaseServiceTest" />
+      <option name="METHOD_NAME" value="getBlockByNumber" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChargeServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ddc-sdk-java-ex" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ai.bianjie.ddc.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ai.bianjie.ddc.service" />
+      <option name="MAIN_CLASS_NAME" value="ai.bianjie.ddc.service.ChargeServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChargeServiceTest.balanceOf" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ddc-sdk-java-ex" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ai.bianjie.ddc.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ai.bianjie.ddc.service" />
+      <option name="MAIN_CLASS_NAME" value="ai.bianjie.ddc.service.ChargeServiceTest" />
+      <option name="METHOD_NAME" value="balanceOf" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChargeServiceTest.recharge" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ddc-sdk-java-ex" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ai.bianjie.ddc.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ai.bianjie.ddc.service" />
+      <option name="MAIN_CLASS_NAME" value="ai.bianjie.ddc.service.ChargeServiceTest" />
+      <option name="METHOD_NAME" value="recharge" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChargeServiceTest.recharge" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ddc_test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ai.bianjie.ddc.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ai.bianjie.ddc.service" />
+      <option name="MAIN_CLASS_NAME" value="ai.bianjie.ddc.service.ChargeServiceTest" />
+      <option name="METHOD_NAME" value="recharge" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DDCSdkClientTest.sdkInitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ddc_test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ai.bianjie.ddc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ai.bianjie.ddc" />
+      <option name="MAIN_CLASS_NAME" value="ai.bianjie.ddc.DDCSdkClientTest" />
+      <option name="METHOD_NAME" value="sdkInitTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ChargeServiceTest.recharge" />
+        <item itemvalue="JUnit.ChargeServiceTest.balanceOf" />
+        <item itemvalue="JUnit.ChargeServiceTest" />
+        <item itemvalue="JUnit.BaseServiceTest.getBlockByNumber" />
+        <item itemvalue="JUnit.DDCSdkClientTest.sdkInitTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="22982d3a-03c1-4b08-8c90-650cca36b449" name="Changes" comment="" />
+      <created>1640774636822</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1640774636822</updated>
+      <workItem from="1640774638749" duration="166000" />
+      <workItem from="1640774815466" duration="121000" />
+      <workItem from="1640775051421" duration="355000" />
+      <workItem from="1640775606390" duration="3099000" />
+      <workItem from="1640835744916" duration="43469000" />
+      <workItem from="1641267005173" duration="5187000" />
+      <workItem from="1641280907776" duration="7069000" />
+      <workItem from="1641348147772" duration="28273000" />
+      <workItem from="1641447551507" duration="12106000" />
+      <workItem from="1641468877880" duration="15281000" />
+      <workItem from="1641549516088" duration="915000" />
+      <workItem from="1641863565237" duration="22605000" />
+      <workItem from="1641894157343" duration="23859000" />
+      <workItem from="1641982725116" duration="13568000" />
+    </task>
+    <task id="LOCAL-00001" summary="modified baseservice">
+      <created>1641522673112</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1641522673112</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="modified baseservice" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified baseservice" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="11" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="ai.bianjie.ddc.exception.DDCException" package="ai.bianjie.ddc.exception" />
+          <option name="timeStamp" value="36" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/constant/ErrorMessage.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="ai.bianjie.ddc.DDCSdkClient" memberName="signEventListener" />
+        <PinnedItemInfo parentTag="java.math.BigInteger" memberName="signum" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+</project>

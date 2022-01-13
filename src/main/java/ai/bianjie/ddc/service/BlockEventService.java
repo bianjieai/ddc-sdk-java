@@ -50,8 +50,8 @@ public class BlockEventService extends BaseService {
         // 2. 获取交易
         if (txs != null) {
             txs.forEach(tx -> {
-                EthBlock.TransactionHash transaction = (EthBlock.TransactionHash) tx.get();
-                String hash = transaction.get();
+                EthBlock.TransactionObject transaction = (EthBlock.TransactionObject) tx.get();
+                String hash = transaction.get().getHash();
                 try {
                     ArrayList<BaseEventResponse> arr = analyzeEventsByTxHash(hash);
                     arrayList.addAll(arr);

@@ -1,0 +1,110 @@
+Index: src/main/java/ai/bianjie/ddc/service/ChargeService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ai.bianjie.ddc.service;\n\nimport ai.bianjie.ddc.config.ConfigCache;\nimport ai.bianjie.ddc.constant.ErrorMessage;\nimport ai.bianjie.ddc.contract.ChargeLogic;\nimport ai.bianjie.ddc.exception.DDCException;\nimport ai.bianjie.ddc.listener.SignEventListener;\nimport ai.bianjie.ddc.util.AddressUtils;\nimport ai.bianjie.ddc.util.GasProvider;\nimport ai.bianjie.ddc.util.HexUtils;\nimport org.web3j.protocol.core.DefaultBlockParameter;\nimport org.web3j.protocol.core.methods.response.TransactionReceipt;\nimport org.web3j.utils.Strings;\n\nimport java.math.BigInteger;\n\npublic class ChargeService extends BaseService {\n\n    public ChargeService(SignEventListener signEventListener) {\n        super.signEventListener = signEventListener;\n    }\n\n    String contractAddr = ConfigCache.get().getChargeLogicAddress();\n    protected ChargeLogic chargeLogic = ChargeLogic.load(contractAddr, web3j, credentials, new GasProvider(ConfigCache.get().getGasPrice(), ConfigCache.get().getGasLimit()));\n\n\n    /**\n     * 运营方、平台方调用该接口为所属同一方的同一级别账户或者下级账户充值；\n     *\n     * @param to     充值账户的地址\n     * @param amount 充值金额\n     * @return 返回交易哈希\n     * @throws Exception\n     */\n    public String recharge(String to, BigInteger amount) throws Exception {\n        if (Strings.isEmpty(to)) {\n            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);\n        }\n\n        if (!AddressUtils.isValidAddress(to)) {\n            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);\n        }\n\n        if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {\n            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);\n        }\n\n        String hash = chargeLogic.recharge(to, amount).send().getTransactionHash();\n//      resultCheck(res);\n//      return res.getTransactionHash();\n        return hash;\n    }\n\n    /**\n     * 查询指定账户的余额。\n     *\n     * @param accAddr 查询的账户地址\n     * @return 返回账户所对应的业务费余额\n     * @throws Exception\n     */\n    public String balanceOf(String accAddr) throws Exception {\n        if (Strings.isEmpty(accAddr)) {\n            throw new DDCException(ErrorMessage.ACC_ADDR_IS_EMPTY);\n        }\n\n        if (!AddressUtils.isValidAddress(accAddr)) {\n            throw new DDCException(ErrorMessage.ACC_ADDR_IS_NOT_ADDRESS_FORMAT);\n        }\n\n\n//      String result = String.valueOf(chargeLogic.balanceOf(accAddr).send());\n//      String balance = chargeLogic.balanceOf(accAddr).toString();\n//\t\tweb3j.ethGetBalance(accAddr,10);\n//      return result;\n        TransactionReceipt txReceipt = chargeLogic.balanceOf(accAddr).send();\n        resultCheck(txReceipt);\n        return txReceipt.toString();\n    }\n\n    /**\n     * 查询指定的DDC业务主逻辑合约的方法所对应的调用业务费用。\n     *\n     * @param ddcAddr DDC业务主逻辑合约地址\n     * @param sig     Hex格式的合约方法ID\n     * @return 返回DDC合约业务费\n     * @throws Exception\n     */\n    public BigInteger queryFee(String ddcAddr, String sig) throws Exception {\n        if (Strings.isEmpty(ddcAddr)) {\n            throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);\n        }\n\n        if (!AddressUtils.isValidAddress(ddcAddr)) {\n            throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);\n        }\n\n        if (Strings.isEmpty(sig)) {\n            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);\n        }\n\n        if (!HexUtils.isValid4ByteHash(sig)) {\n            throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);\n        }\n\n        TransactionReceipt txReceipt = chargeLogic.queryFee(ddcAddr, sig.getBytes(sig)).send();\n        resultCheck(txReceipt);\n//\t\tInputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getChargeLogicABI(),ConfigCache.get().getChargeLogicBIN(),(String)respJsonRpcBean.getResult());\n//        return (BigInteger)inputAndOutputResult.getResult().get(0).getData();\n        return null;\n    }\n\n    /**\n     * 运营方调用为自己的账户增加业务费。\n     *\n     * @param amount 对运营方账户进行充值的业务费\n     * @return 返回交易哈希\n     * @throws Exception\n     */\n    public String selfRecharge(BigInteger amount) throws Exception {\n        if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) <= 0) {\n            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);\n        }\n\n        TransactionReceipt txReceipt = chargeLogic.selfRecharge(amount).send();\n        resultCheck(txReceipt);\n        return txReceipt.getTransactionHash();\n    }\n\n    /**\n     * 运营方调用接口设置指定的DDC主合约的方法调用费用。\n     *\n     * @param ddcAddr DDC业务主逻辑合约地址\n     * @param sig     Hex格式的合约方法ID\n     * @param amount  业务费用\n     * @return 返回交易哈希\n     * @throws Exception\n     */\n    public String setFee(String ddcAddr, String sig, BigInteger amount) throws Exception {\n        if (Strings.isEmpty(ddcAddr)) {\n            throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);\n        }\n\n        if (!AddressUtils.isValidAddress(ddcAddr)) {\n            throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);\n        }\n\n        if (Strings.isEmpty(sig)) {\n            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);\n        }\n\n        if (!HexUtils.isValid4ByteHash(sig)) {\n            throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);\n        }\n\n        if (amount == null) {\n            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPOTY);\n        }\n\n        if (amount == null || amount.compareTo(BigInteger.valueOf(0L)) < 0) {\n            throw new DDCException(ErrorMessage.AMOUNT_LT_ZERO);\n        }\n\n        TransactionReceipt txReceipt = chargeLogic.setFee(ddcAddr, sig.getBytes(sig), amount).send();\n        resultCheck(txReceipt);\n        return txReceipt.getTransactionHash();\n    }\n\n    /**\n     * 运营方调用接口删除指定的DDC主合约的方法调用费用。\n     *\n     * @param ddcAddr DDC业务主逻辑合约地址\n     * @param sig     Hex格式的合约方法ID\n     * @return 返回交易哈希\n     * @throws Exception\n     */\n    public String delFee(String ddcAddr, String sig) throws Exception {\n        if (Strings.isEmpty(ddcAddr)) {\n            throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);\n        }\n\n        if (!AddressUtils.isValidAddress(ddcAddr)) {\n            throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);\n        }\n\n        if (Strings.isEmpty(sig)) {\n            throw new DDCException(ErrorMessage.SIG_IS_EMPTY);\n        }\n\n        if (!HexUtils.isValid4ByteHash(sig)) {\n            throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);\n        }\n\n        TransactionReceipt txReceipt = chargeLogic.deleteFee(ddcAddr, sig.getBytes(sig)).send();\n        resultCheck(txReceipt);\n        return txReceipt.getTransactionHash();\n    }\n\n    /**\n     * 运营方调用该接口删除指定的DDC业务主逻辑合约授权。\n     *\n     * @param ddcAddr DDC业务主逻辑合约地址\n     * @return 返回交易哈希\n     * @throws Exception\n     */\n    public String delDDC(String ddcAddr) throws Exception {\n        if (Strings.isEmpty(ddcAddr)) {\n            throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);\n        }\n\n        if (!AddressUtils.isValidAddress(ddcAddr)) {\n            throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);\n        }\n\n        TransactionReceipt txReceipt = chargeLogic.deleteDDC(ddcAddr).send();\n        resultCheck(txReceipt);\n        return txReceipt.getTransactionHash();\n    }\n\n}\n
+===================================================================
+diff --git a/src/main/java/ai/bianjie/ddc/service/ChargeService.java b/src/main/java/ai/bianjie/ddc/service/ChargeService.java
+--- a/src/main/java/ai/bianjie/ddc/service/ChargeService.java	
++++ b/src/main/java/ai/bianjie/ddc/service/ChargeService.java	
+@@ -104,6 +104,8 @@
+ 
+         TransactionReceipt txReceipt = chargeLogic.queryFee(ddcAddr, sig.getBytes(sig)).send();
+         resultCheck(txReceipt);
++
++        System.out.print(txReceipt.getLogs());
+ //		InputAndOutputResult inputAndOutputResult = analyzeTransactionRecepitOutput(ConfigCache.get().getChargeLogicABI(),ConfigCache.get().getChargeLogicBIN(),(String)respJsonRpcBean.getResult());
+ //        return (BigInteger)inputAndOutputResult.getResult().get(0).getData();
+         return null;
+Index: src/main/java/ai/bianjie/ddc/config/ConfigInfo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ai.bianjie.ddc.config;\n\npublic class ConfigInfo {\n    private String opbGatewayAddress = \"http://127.0.0.1:8545\";\n\n\tprivate String credentials;\n\n\tprivate String gasPrice;\n\n\tprivate String gasLimit;\n\n//721合约\n    private String ddc721BIN;\n\n    private String ddc721Address = \"0x1110Ea00ddbb5Db69297B578451f98CD2B8Cb802\";\n\n//1155合约\n    private String ddc1155BIN;\n    \n    private String ddc1155Address = \"0x4396F79Dc965d0a01fA144E2D0eE2dA66167589b\";\n\n//authority合约\n    private String authorityLogicBIN;\n   \n    private String authorityLogicAddress = \"0x7754DeF40211373925F5Ea27081E2Af8803C5Da0\";\n\n//charge合约\n    private String chargeLogicBIN;\n\n    private String chargeLogicAddress = \"0xFb7237841ea645A2f91D9B4730486A0086820270v\";\n\n//公钥私钥\n    private String privateKey;\n\n    private String publicKey;\n\n\tpublic String getOpbGatewayAddress() {\n\t\treturn opbGatewayAddress;\n\t}\n\n\tpublic void setOpbGatewayAddress(String opbGatewayAddress) {\n\t\tthis.opbGatewayAddress = opbGatewayAddress;\n\t}\n\n\tpublic String getDdc721Address() {\n\t\treturn ddc721Address;\n\t}\n\n\tpublic void setDdc721Address(String ddc721Address) {\n\t\tthis.ddc721Address = ddc721Address;\n\t}\n\n\tpublic String getDdc1155Address() {\n\t\treturn ddc1155Address;\n\t}\n\n\tpublic void setDdc1155Address(String ddc1155Address) {\n\t\tthis.ddc1155Address = ddc1155Address;\n\t}\n\n\tpublic String getAuthorityLogicAddress() {\n\t\treturn authorityLogicAddress;\n\t}\n\n\tpublic void setAuthorityLogicAddress(String authorityLogicAddress) {\n\t\tthis.authorityLogicAddress = authorityLogicAddress;\n\t}\n\n\tpublic String getChargeLogicAddress() {\n\t\treturn chargeLogicAddress;\n\t}\n\n\tpublic void setChargeLogicAddress(String chargeLogicAddress) {\n\t\tthis.chargeLogicAddress = chargeLogicAddress;\n\t}\n\n\tpublic String getPrivateKey() {\n\t\treturn privateKey;\n\t}\n\n\tpublic void setPrivateKey(String privateKey) {\n\t\tthis.privateKey = privateKey;\n\t}\n\n\tpublic String getPublicKey() {\n\t\treturn publicKey;\n\t}\n\n\tpublic void setPublicKey(String publicKey) {\n\t\tthis.publicKey = publicKey;\n\t}\n\n\tpublic String getCredentials() {\n\t\treturn credentials;\n\t}\n\n\tpublic void setCredentials(String credentials) {\n\t\tthis.credentials = credentials;\n\t}\n\n\tpublic String getGasPrice() {\n\t\treturn gasPrice;\n\t}\n\n\tpublic void setGasPrice(String gasPrice) {\n\t\tthis.gasPrice = gasPrice;\n\t}\n\n\tpublic String getGasLimit() {\n\t\treturn gasLimit;\n\t}\n\n\tpublic void setGasLimit(String gasLimit) {\n\t\tthis.gasLimit = gasLimit;\n\t}\n\n\tpublic String getDdc721BIN() {\n\t\treturn ddc721BIN;\n\t}\n\n\tpublic void setDdc721BIN(String ddc721BIN) {\n\t\tthis.ddc721BIN = ddc721BIN;\n\t}\n\n\tpublic String getDdc1155BIN() {\n\t\treturn ddc1155BIN;\n\t}\n\n\tpublic void setDdc1155BIN(String ddc1155BIN) {\n\t\tthis.ddc1155BIN = ddc1155BIN;\n\t}\n\n\tpublic String getAuthorityLogicBIN() {\n\t\treturn authorityLogicBIN;\n\t}\n\n\tpublic void setAuthorityLogicBIN(String authorityLogicBIN) {\n\t\tthis.authorityLogicBIN = authorityLogicBIN;\n\t}\n\n\tpublic String getChargeLogicBIN() {\n\t\treturn chargeLogicBIN;\n\t}\n\n\tpublic void setChargeLogicBIN(String chargeLogicBIN) {\n\t\tthis.chargeLogicBIN = chargeLogicBIN;\n\t}\n}\n
+===================================================================
+diff --git a/src/main/java/ai/bianjie/ddc/config/ConfigInfo.java b/src/main/java/ai/bianjie/ddc/config/ConfigInfo.java
+--- a/src/main/java/ai/bianjie/ddc/config/ConfigInfo.java	
++++ b/src/main/java/ai/bianjie/ddc/config/ConfigInfo.java	
+@@ -1,7 +1,7 @@
+ package ai.bianjie.ddc.config;
+ 
+ public class ConfigInfo {
+-    private String opbGatewayAddress = "http://127.0.0.1:8545";
++    private String opbGatewayAddress = "http://192.168.150.43:8545";
+ 
+ 	private String credentials;
+ 
+@@ -27,7 +27,7 @@
+ //charge合约
+     private String chargeLogicBIN;
+ 
+-    private String chargeLogicAddress = "0xFb7237841ea645A2f91D9B4730486A0086820270v";
++    private String chargeLogicAddress = "0xE3E701278bBFC7F0Af43a3a52Ebc160Ec4Bb192f";
+ 
+ //公钥私钥
+     private String privateKey;
+Index: src/test/java/ai/bianjie/ddc/DDCSdkClientTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ai.bianjie.ddc;\n\nimport ai.bianjie.ddc.service.AuthorityService;\n\npublic class DDCSdkClientTest {\n   // @Test\n    public void sdkInitTest() throws Exception {\n        DDCSdkClient client = new DDCSdkClient(\"http://192.168.31.47:8080\");\n        client.init(\"\",\"\",\"\");\n        AuthorityService authorityService = client.getAuthorityService();\n        String s = authorityService.addAccount(\"\",\"\",\"\");\n        System.out.println(s);\n        //0x629D3dBe479e4c72Bed306fE3FAE96bEc4335848\n        //EE57139E049E4A6E6D71DE6988B5A65FEEE899CAAAE28DBE6DF31563C541798B\n    }\n}\n
+===================================================================
+diff --git a/src/test/java/ai/bianjie/ddc/DDCSdkClientTest.java b/src/test/java/ai/bianjie/ddc/DDCSdkClientTest.java
+--- a/src/test/java/ai/bianjie/ddc/DDCSdkClientTest.java	
++++ b/src/test/java/ai/bianjie/ddc/DDCSdkClientTest.java	
+@@ -1,16 +1,20 @@
+ package ai.bianjie.ddc;
+ 
+ import ai.bianjie.ddc.service.AuthorityService;
++import ai.bianjie.ddc.service.TestService;
++import org.junit.jupiter.api.Test;
+ 
+ public class DDCSdkClientTest {
+-   // @Test
++    @Test
+     public void sdkInitTest() throws Exception {
+-        DDCSdkClient client = new DDCSdkClient("http://192.168.31.47:8080");
+-        client.init("","","");
+-        AuthorityService authorityService = client.getAuthorityService();
+-        String s = authorityService.addAccount("","","");
++        DDCSdkClient client = new DDCSdkClient("http://127.0.0.1:8545");
++        client.init("FAAA797E663FA08C8DAA3972ED1FA42448AC0334FF4AAFB3C8892987D12E55C2","300000","300000",null,null,"0x79768e2B3E83319f36577628191e67Abf5b2c4cb",null);
++//        AuthorityService authorityService = client.getAuthorityService();
++//        String s = authorityService.addAccount("330E8FA4FE1C2D6AD4E7541A057483497E3CC8E2","v3","did:bsn:ConsumeriVn84Xz1YFoFfCqmaPrf");
++//        System.out.println(s);
++        TestService test = new TestService();
++        String s = test.addAccount2("330E8FA4FE1C2D6AD4E7541A057483497E3CC8E2","v3","did:bsn:ConsumeriVn84Xz1YFoFfCqmaPrf");
++        System.out.println("004---------------------------------------------------------------------------------");
+         System.out.println(s);
+-        //0x629D3dBe479e4c72Bed306fE3FAE96bEc4335848
+-        //EE57139E049E4A6E6D71DE6988B5A65FEEE899CAAAE28DBE6DF31563C541798B
+     }
+ }
+Index: src/test/java/ai/bianjie/ddc/service/ChargeServiceTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ai.bianjie.ddc.service;\n\nimport ai.bianjie.ddc.DDCSdkClient;\nimport ai.bianjie.ddc.listener.Secp256K1SignEventListener;\nimport org.junit.jupiter.api.Test;\n\nimport java.math.BigInteger;\n\nimport static org.junit.jupiter.api.Assertions.*;\n\nclass ChargeServiceTest {\n\n    String privateKey = \"-----BEGIN PRIVATE KEY-----\\n\" +\n            \"MIGEAgEAMBAGByqGSM49AgEGBSuBBAAKBG0wawIBAQQgseEExMPXTcSpExzejzYZ\\n\" +\n            \"wcLWikQtoZ3BRhWergMR2LGhRANCAATCEQFr8dEbUI6ZYChl4+pE3UopdpWknZiv\\n\" +\n            \"rK7WWNymFHQQyIN15nsq5ZZat8G+iPNLtCdRSaU3h769ObArmgvB\\n\" +\n            \"-----END PRIVATE KEY-----\";\n\n    String publicKey = \"-----BEGIN PUBLIC KEY-----\\n\" +\n            \"MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEjRHf7EbOKvUwRJW/kn4N6Vmf++n/gBu0\\n\" +\n            \"WEBUzovj+TAxwvgB26tCfoqk9X2gTdjwwKh6o/hvtx66EDB9GlzgTA==\\n\" +\n            \"-----END PUBLIC KEY-----\";\n    static {\n        DDCSdkClient sdk = new DDCSdkClient(\"http://127.0.0.1:8545\");\n        sdk.init(\"B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26\",\"3\",\"300000000\");\n    }\n\n    @Test\n    void recharge() throws Exception {\n        ChargeService chargeService =new ChargeService(new Secp256K1SignEventListener(privateKey, publicKey));\n        String to = \"0x522bc3e4e29276A13f7b7BE9D404961826a82bf8\";\n        BigInteger amount;\n        amount = new BigInteger(\"300000\");\n\n        String txhash = chargeService.recharge(to, amount);\n        assertNotNull(txhash);\n    }\n\n    @Test\n    void selfRecharge() {\n    }\n\n    @Test\n    void balanceof() throws Exception {\n        ChargeService chargeService =new ChargeService(new Secp256K1SignEventListener(privateKey, publicKey));\n        String to = \"1DFD9E10AA5244591ABE8FA4B0750B4B98D4F89D\";\n        BigInteger amount;\n        amount = new BigInteger(\"300000\");\n\n        String txhash = chargeService.balanceOf(to);\n        assertNotNull(txhash);\n    }\n\n    @Test\n    void setFee() {\n    }\n\n    @Test\n    void delFee() {\n    }\n\n    @Test\n    void delDDC() {\n    }\n}
+===================================================================
+diff --git a/src/test/java/ai/bianjie/ddc/service/ChargeServiceTest.java b/src/test/java/ai/bianjie/ddc/service/ChargeServiceTest.java
+--- a/src/test/java/ai/bianjie/ddc/service/ChargeServiceTest.java	
++++ b/src/test/java/ai/bianjie/ddc/service/ChargeServiceTest.java	
+@@ -21,7 +21,7 @@
+             "WEBUzovj+TAxwvgB26tCfoqk9X2gTdjwwKh6o/hvtx66EDB9GlzgTA==\n" +
+             "-----END PUBLIC KEY-----";
+     static {
+-        DDCSdkClient sdk = new DDCSdkClient("http://127.0.0.1:8545");
++        DDCSdkClient sdk = new DDCSdkClient("http://192.168.150.43:8545");
+         sdk.init("B78DFAE7BC5AD6533004438D20D331C7B8C2FDD69340E7998DFB8D672E428A26","3","300000000");
+     }
+ 
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>./.idea
+===================================================================
+diff --git a/.gitignore b/.gitignore
+--- a/.gitignore	
++++ b/.gitignore	
+@@ -1,1 +1,2 @@
+-./.idea
+\ No newline at end of file
++./.idea
++./target
+\ No newline at end of file
