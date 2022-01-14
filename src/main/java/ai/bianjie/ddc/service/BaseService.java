@@ -1,6 +1,10 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.config.ConfigCache;
+import ai.bianjie.ddc.constant.AuthorityFunctions;
+import ai.bianjie.ddc.constant.ChargeFunctions;
+import ai.bianjie.ddc.constant.DDC1155Functions;
+import ai.bianjie.ddc.constant.DDC721Functions;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.CommonUtils;
 import ai.bianjie.ddc.util.GasProvider;
@@ -15,6 +19,8 @@ import org.web3j.utils.Strings;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
@@ -70,7 +76,13 @@ public class BaseService {
         return !Strings.isEmpty(txReceipt.toString());
     }
 
+    /**
+     * 初始化gasLimit集合
+     *
+     * @param gasLimit
+     */
     public void setCustomerGasLimit(String gasLimit) {
+        Map<String, String> map = new HashMap<>();
         ConfigCache.get().setCustomerGasLimit(gasLimit);
     }
 
@@ -93,7 +105,6 @@ public class BaseService {
 
         String callerAddr = ConfigCache.get().getFromAddress();
         String contractAddr = contract.getContractAddress();//目标合约地址
-
 
         //2. 获取调用者的交易笔数
         EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(callerAddr, DefaultBlockParameterName.LATEST).sendAsync().get();

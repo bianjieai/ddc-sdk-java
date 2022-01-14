@@ -13,7 +13,7 @@ public class GasProvider implements ContractGasProvider {
     private String gasPrice = ConfigCache.get().getGasPrice();
     private String gasLimit = ConfigCache.get().getGasLimit();
     //自定义值
-    private String customerGaslimit;
+    private String customerGaslimit = ConfigCache.get().getCustomerGasLimit();
 
     @Override
     public BigInteger getGasPrice(String s) {
@@ -27,10 +27,17 @@ public class GasProvider implements ContractGasProvider {
 
     @Override
     public BigInteger getGasLimit(String s) {
-        if(ConfigCache.get().getCustomerGasLimit().equals("0")){
-            CommonUtils.string2BigInteger(this.gasLimit);
+        if (!customerGaslimit.equals("0")) {
+            ConfigCache.get().getMap().put(s, customerGaslimit);
+            ConfigCache.get().setCustomerGasLimit("0");
+            return CommonUtils.string2BigInteger(ConfigCache.get().getMap().get(s));
+        } else {
+            BigInteger defaultLimit = CommonUtils.string2BigInteger(ConfigCache.get().getMap().get(s));
+            if (defaultLimit.intValue() == 0) {
+                return new BigInteger(this.gasLimit);
+            }
+            return defaultLimit;
         }
-        return CommonUtils.string2BigInteger(ConfigCache.get().getCustomerGasLimit());
     }
 
     @Override
