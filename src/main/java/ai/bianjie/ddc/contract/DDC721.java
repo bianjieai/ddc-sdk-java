@@ -433,13 +433,13 @@ public class DDC721 extends Contract {
         return executeRemoteCallSingleValueReturn(function, Boolean.class);
     }
 
-    public org.web3j.abi.datatypes.Function mint(String to, String ddcURI_) {
+    public RemoteFunctionCall<TransactionReceipt> mint(String to, String ddcURI_) {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
                 FUNC_MINT, 
                 Arrays.<Type>asList(new Address(160, to),
                 new Utf8String(ddcURI_)),
                 Collections.<TypeReference<?>>emptyList());
-        return function;
+        return executeRemoteCallTransaction(function);
     }
 
     public RemoteFunctionCall<String> name() {

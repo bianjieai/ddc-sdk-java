@@ -22,6 +22,7 @@ public class DDCSdkClientTest {
     public void signTest() throws Exception {
         DDCSdkClient ddcSdkClient = new DDCSdkClient.Builder("http://58.33.6.114:18545")
                 .chargeLogicAddress("0xcA65BAbCB23053B0b1Fb3bB2d79E487e56e1FBC4")
+                .gasLimit("123")
                 .init();
         ddcSdkClient.registerSignListener(new sign());
         ChargeService chargeService = ddcSdkClient.getChargeService();

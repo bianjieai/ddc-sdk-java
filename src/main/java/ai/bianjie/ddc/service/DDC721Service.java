@@ -1,5 +1,6 @@
 package ai.bianjie.ddc.service;
 
+import ai.bianjie.ddc.constant.DDC721Functions;
 import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.constant.ErrorMessage;
@@ -17,10 +18,15 @@ import java.math.BigInteger;
 
 
 public class DDC721Service extends BaseService {
+    private DDC721 ddc721;
+    private String encodedFunction;
 
     //注册签名事件
     public DDC721Service(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
+
+        //获取合约实体
+        this.ddc721 = Web3jUtils.getDDC721();
     }
 
     /**
@@ -45,17 +51,13 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
 
-        //4.获取合约实例
-        DDC721 ddc721 = Web3jUtils.getDDC721();
+        //4.获取序列化编码好的方法
+        encodedFunction = ddc721.mint(to, ddcURI).encodeFunctionCall();
 
-        //5.获取待签名的方法
-        Function function = ddc721.mint(to, ddcURI);
-
-        //6.签名并发送，获取hash
-        return signAndSend(ddc721,function,signEventListener).getTransactionHash();
+        //5.签名并发送，获取hash
+        return signAndSend(ddc721, DDC721Functions.MINT, encodedFunction, signEventListener).getTransactionHash();
 
     }
-
 
 
     /**
