@@ -9,95 +9,92 @@ import ai.bianjie.ddc.service.*;
 
 public class DDCSdkClient {
     private String opbGateWebAddress;
-    private String credentials;
+    private String fromAddress;
     private String gasPrice;
     private String gasLimit;
     private String ddc721Address;
     private String ddc1155Address;
     private String authorityLogicAddress;
     private String chargeLogicAddress;
+    private SignEventListener signEventListener;
 
     /**
      * SDK 初始化方法
      */
     private DDCSdkClient(Builder builder) {
         this.opbGateWebAddress = builder.opbGateWebAddress;
-        this.credentials = builder.credentials;
+        this.fromAddress = builder.fromAddress;
         this.gasPrice = builder.gasPrice;
         this.gasLimit = builder.gasLimit;
         this.ddc721Address = builder.ddc721Address;
         this.ddc1155Address = builder.ddc1155Address;
         this.authorityLogicAddress = builder.authorityLogicAddress;
         this.chargeLogicAddress = builder.chargeLogicAddress;
+        this.signEventListener = builder.signEventListener;
     }
 
     public static class Builder {
         private String opbGateWebAddress;
-        private String credentials;
+        private String fromAddress;
         private String gasPrice;
         private String gasLimit;
         private String ddc721Address;
         private String ddc1155Address;
         private String authorityLogicAddress;
         private String chargeLogicAddress;
+        private SignEventListener signEventListener;
 
         public Builder(String opbGateWebAddress) {
             this.opbGateWebAddress = opbGateWebAddress;
         }
 
-        public Builder credentials(String credentials) {
-            this.credentials = credentials;
+        public Builder setFromAddress(String fromAddress) {
+            this.fromAddress = fromAddress;
             return this;
         }
 
-        public Builder gasPrice(String gasPrice) {
+        public Builder setGasPrice(String gasPrice) {
             this.gasPrice = gasPrice;
             return this;
         }
 
-        public Builder gasLimit(String gasLimit) {
+        public Builder setGasLimit(String gasLimit) {
             this.gasLimit = gasLimit;
             return this;
         }
 
-        public Builder ddc721Address(String ddc721Address) {
+        public Builder setDDC721Address(String ddc721Address) {
             this.ddc721Address = ddc721Address;
             return this;
         }
 
-        public Builder ddc1155Address(String ddc1155Address) {
+        public Builder setDDC1155Address(String ddc1155Address) {
             this.ddc1155Address = ddc1155Address;
             return this;
         }
 
-        public Builder authorityLogicAddress(String authorityLogicAddress) {
+        public Builder setAuthorityLogicAddress(String authorityLogicAddress) {
             this.authorityLogicAddress = authorityLogicAddress;
             return this;
         }
 
-        public Builder chargeLogicAddress(String chargeLogicAddress) {
+        public Builder setChargeLogicAddress(String chargeLogicAddress) {
             this.chargeLogicAddress = chargeLogicAddress;
             return this;
         }
 
+        public Builder setSignEventListener(SignEventListener signEventListener) {
+            if (signEventListener == null) {
+                throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
+            }
+            this.signEventListener = signEventListener;
+            return this;
+        }
+
         public DDCSdkClient init() {
-            ConfigCache.initCache(opbGateWebAddress, credentials, gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress);
+            ConfigCache.initCache(opbGateWebAddress, fromAddress, gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress);
             return new DDCSdkClient(this);
         }
-    }
-
-    private SignEventListener signEventListener;
-
-    /**
-     * SDK注册全局的签名事件，所有发起的交易将通过此事件进行签名处理
-     *
-     * @param signEventListener 签名事件
-     */
-    public void registerSignListener(SignEventListener signEventListener) {
-        if(signEventListener == null) {
-            throw new DDCException(ErrorMessage.NO_SIGN_EVENT_LISTNER);
-        }
-        this.signEventListener = signEventListener;
     }
 
     /**

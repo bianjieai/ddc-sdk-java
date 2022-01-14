@@ -9,6 +9,7 @@ import ai.bianjie.ddc.contract.AuthorityLogic;
 import ai.bianjie.ddc.contract.ChargeLogic;
 import ai.bianjie.ddc.contract.DDC1155;
 import ai.bianjie.ddc.contract.DDC721;
+import ai.bianjie.ddc.dto.BlockEventBean;
 import ai.bianjie.ddc.util.Web3jUtils;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
@@ -38,9 +39,9 @@ public class BlockEventService extends BaseService {
      *
      * @param blockNumber blockNumber
      * @return ArrayList<Object>
-     * @throws IOException   IOException
+     * @throws IOException IOException
      */
-    public ArrayList<BaseEventResponse> getBlockEvent(String blockNumber) throws IOException, InterruptedException {
+    public BlockEventBean getBlockEvent(String blockNumber) throws IOException, InterruptedException {
         ArrayList<BaseEventResponse> arrayList = new ArrayList<>();
         // 1. 获取区块信息
         EthBlock.Block blockInfo = getBlockByNumber(blockNumber);
@@ -62,7 +63,7 @@ public class BlockEventService extends BaseService {
         }
 
         log.info("块高 {} 解析到区块事件 {}", blockNumber, JSONObject.toJSONString(arrayList));
-        return arrayList;
+        return new BlockEventBean(arrayList, blockInfo.getTimestamp().toString());
     }
 
     public ArrayList<BaseEventResponse> analyzeEventsByTxHash(String hash) throws Exception {
