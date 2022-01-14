@@ -39,7 +39,7 @@ public class BlockEventService extends BaseService {
      *
      * @param blockNumber blockNumber
      * @return ArrayList<Object>
-     * @throws IOException   IOException
+     * @throws IOException IOException
      */
     public BlockEventBean getBlockEvent(String blockNumber) throws IOException, InterruptedException {
         ArrayList<BaseEventResponse> arrayList = new ArrayList<>();
@@ -63,7 +63,7 @@ public class BlockEventService extends BaseService {
         }
 
         log.info("块高 {} 解析到区块事件 {}", blockNumber, JSONObject.toJSONString(arrayList));
-        return new BlockEventBean(arrayList,blockInfo.getTimestamp().toString());
+        return new BlockEventBean(arrayList, blockInfo.getTimestamp().toString());
     }
 
     public ArrayList<BaseEventResponse> analyzeEventsByTxHash(String hash) throws Exception {

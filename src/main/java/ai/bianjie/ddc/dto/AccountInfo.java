@@ -1,7 +1,8 @@
 package ai.bianjie.ddc.dto;
 
 public class AccountInfo {
-    public AccountInfo() {}
+    public AccountInfo() {
+    }
 
     public AccountInfo(String accountDID, String accountName, String accountRole, String leaderDID, String platformState, String operatorState, String field) {
         this.accountDID = accountDID;

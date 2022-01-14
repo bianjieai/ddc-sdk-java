@@ -34,7 +34,7 @@ public class BaseService {
      * 获取最新的块高
      */
     public BigInteger getLatestBlockNumber() throws IOException {
-        return Web3jUtils.getWeb3j().ethGetBlockByNumber(DefaultBlockParameterName.LATEST,true).send().getBlock().getNumber();
+        return Web3jUtils.getWeb3j().ethGetBlockByNumber(DefaultBlockParameterName.LATEST, true).send().getBlock().getNumber();
     }
 
     /**

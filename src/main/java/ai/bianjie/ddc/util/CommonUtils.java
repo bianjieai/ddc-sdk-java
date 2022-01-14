@@ -12,32 +12,32 @@ public class CommonUtils {
      */
     public static BigInteger string2BigInteger(String val) {
         boolean numeric00 = CommonUtils.isNumeric00(val);
-        if(numeric00){
+        if (numeric00) {
             return BigInteger.valueOf(Long.valueOf(val));
-        }else{
+        } else {
             throw new NumberFormatException();
         }
     }
 
     /**
      * 判断字符串是否由数字组成
+     *
      * @param str
      * @return
      */
     public static boolean isNumeric00(String str) {
-        try{
+        try {
             Long.parseLong(str);
             return true;
-        }catch(NumberFormatException e)
-        {
+        } catch (NumberFormatException e) {
             return false;
         }
     }
 
     public static DefaultBlockParameter getDefaultBlockParamter(String num) {
-        if (isNumeric00(num)){
+        if (isNumeric00(num)) {
             return DefaultBlockParameter.valueOf(BigInteger.valueOf(Long.parseLong(num)));
-        }else {
+        } else {
             throw new NumberFormatException();
         }
     }

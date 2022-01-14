@@ -28,15 +28,15 @@ public class Web3jUtils {
     }
 
     public static AuthorityLogic getAuthority() {
-        return AuthorityLogic.load(ConfigCache.get().getAuthorityLogicAddress(),Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
+        return AuthorityLogic.load(ConfigCache.get().getAuthorityLogicAddress(), Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
     }
 
     public static ChargeLogic getCharge() {
-        return ChargeLogic.load(ConfigCache.get().getChargeLogicAddress(),Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
+        return ChargeLogic.load(ConfigCache.get().getChargeLogicAddress(), Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
     }
 
     public static DDC1155 getDDC1155() {
-        return DDC1155.load(ConfigCache.get().getDdc1155Address(),Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
+        return DDC1155.load(ConfigCache.get().getDdc1155Address(), Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
     }
 
     public static DDC721 getDDC721() {
