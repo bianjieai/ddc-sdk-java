@@ -84,7 +84,6 @@ public class BaseService {
 
         Web3j web3j = Web3jUtils.getWeb3j();
 
-
         BigInteger gasPrice = new BigInteger("100000000");
         //这个参数后续可以改为根据方法名获取不同的limit
         BigInteger gasLimit = new BigInteger("300000");

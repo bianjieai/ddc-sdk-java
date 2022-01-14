@@ -1,6 +1,8 @@
 package ai.bianjie.ddc.service;
 
+import ai.bianjie.ddc.constant.DDC1155Functions;
 import ai.bianjie.ddc.constant.ErrorMessage;
+import ai.bianjie.ddc.contract.DDC1155;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
@@ -15,9 +17,12 @@ import java.util.List;
 
 @Slf4j
 public class DDC1155Service extends BaseService {
+    private DDC1155 ddc1155;
+    private String encodedFunction;
 
     public DDC1155Service(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
+        this.ddc1155=Web3jUtils.getDDC1155();
     }
 
     /**
@@ -47,10 +52,10 @@ public class DDC1155Service extends BaseService {
         if (Strings.isEmpty(ddcURI)) {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
-        //5.检查签名事件是否被注册
 
+        encodedFunction=ddc1155.mint(to, amount, ddcURI).encodeFunctionCall();
 
-        return Web3jUtils.getDDC1155().mint(to, amount, ddcURI).send().getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.Mint,encodedFunction,signEventListener).getTransactionHash();
     }
 
     /**
@@ -89,8 +94,9 @@ public class DDC1155Service extends BaseService {
 
         });
 
+        encodedFunction=ddc1155.mintBatch(to,amounts,ddcURIS).encodeFunctionCall();
 
-        return Web3jUtils.getDDC1155().mintBatch(to, amounts, ddcURIS).send().getTransactionHash();
+        return signAndSend(ddc1155,DDC1155Functions.MintBatch,encodedFunction,signEventListener).getTransactionHash();
 
     }
 
