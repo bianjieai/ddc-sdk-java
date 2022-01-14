@@ -65,7 +65,7 @@ public class BlockEventService extends BaseService {
         return arrayList;
     }
 
-    private ArrayList<BaseEventResponse> analyzeEventsByTxHash(String hash) throws Exception {
+    public ArrayList<BaseEventResponse> analyzeEventsByTxHash(String hash) throws Exception {
         ArrayList<BaseEventResponse> result = new ArrayList<>();
         //hash获取receipt
         TransactionReceipt receipt = getTransReceipt(hash);
