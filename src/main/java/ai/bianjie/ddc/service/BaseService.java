@@ -3,10 +3,9 @@ package ai.bianjie.ddc.service;
 import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.CommonUtils;
+import ai.bianjie.ddc.util.GasProvider;
 import ai.bianjie.ddc.util.Web3jUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.web3j.abi.FunctionEncoder;
-import org.web3j.abi.datatypes.Function;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -20,9 +19,7 @@ import java.util.concurrent.ExecutionException;
 
 @Slf4j
 public class BaseService {
-
     protected SignEventListener signEventListener;
-    private String gasLimit = ConfigCache.get().getGasLimit();
 
     /**
      * 获取区块信息
@@ -31,6 +28,13 @@ public class BaseService {
      */
     public EthBlock.Block getBlockByNumber(String blockNumber) throws IOException {
         return Web3jUtils.getWeb3j().ethGetBlockByNumber(CommonUtils.getDefaultBlockParamter(blockNumber), true).send().getBlock();
+    }
+
+    /**
+     * 获取最新的块高
+     */
+    public BigInteger getLatestBlockNumber() throws IOException {
+        return Web3jUtils.getWeb3j().ethGetBlockByNumber(DefaultBlockParameterName.LATEST,true).send().getBlock().getNumber();
     }
 
     /**
@@ -66,9 +70,8 @@ public class BaseService {
         return !Strings.isEmpty(txReceipt.toString());
     }
 
-    public BaseService setgasLimit(String gasLimit) {
-        this.gasLimit = gasLimit;
-        return this;
+    public void setCustomerGasLimit(String gasLimit) {
+        ConfigCache.get().setCustomerGasLimit(gasLimit);
     }
 
     /**
@@ -83,13 +86,12 @@ public class BaseService {
     public EthSendTransaction signAndSend(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener) throws Exception {
 
         Web3j web3j = Web3jUtils.getWeb3j();
+        GasProvider gasProvider = new GasProvider();
 
-        BigInteger gasPrice = new BigInteger("100000000");
-        //这个参数后续可以改为根据方法名获取不同的limit
-        BigInteger gasLimit = new BigInteger("300000");
+        BigInteger gasPrice = gasProvider.getGasPrice();
+        BigInteger gasLimit = gasProvider.getGasLimit(functionName);
 
-        //后续改为用户init时传入：调用者的账户地址
-        String callerAddr = "0x918F7F275A6C2D158E5B76F769D3F1678958A334";
+        String callerAddr = ConfigCache.get().getFromAddress();
         String contractAddr = contract.getContractAddress();//目标合约地址
 
 

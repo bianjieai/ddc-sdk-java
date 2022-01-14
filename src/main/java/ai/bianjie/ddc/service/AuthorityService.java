@@ -1,6 +1,9 @@
 package ai.bianjie.ddc.service;
 
+import ai.bianjie.ddc.constant.AuthorityFunctions;
+import ai.bianjie.ddc.constant.DDC721Functions;
 import ai.bianjie.ddc.constant.ErrorMessage;
+import ai.bianjie.ddc.contract.AuthorityLogic;
 import ai.bianjie.ddc.dto.AccountInfo;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
@@ -13,9 +16,12 @@ import java.math.BigInteger;
 
 
 public class AuthorityService extends BaseService {
+    private AuthorityLogic authorityLogic;
+    private String encodedFunction;
 
     public AuthorityService(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
+        this.authorityLogic = Web3jUtils.getAuthority();
     }
 
     /**
@@ -39,7 +45,9 @@ public class AuthorityService extends BaseService {
         if (Strings.isEmpty(accName)) {
             throw new DDCException(ErrorMessage.ACCOUNT_NAME_IS_EMPTY);
         }
-        return Web3jUtils.getAuthority().addAccount(account, accName, accDID).send().getTransactionHash();
+
+        encodedFunction = authorityLogic.addAccount(account, accName, accDID).encodeFunctionCall();
+        return signAndSend(authorityLogic, AuthorityFunctions.AddAccount, encodedFunction, signEventListener).getTransactionHash();
     }
 
 
@@ -69,7 +77,9 @@ public class AuthorityService extends BaseService {
         if (Strings.isEmpty(leaderDID)) {
             throw new DDCException(ErrorMessage.ACCOUNT_LEADER_DID_IS_EMPTY);
         }
-        return Web3jUtils.getAuthority().addConsumerByOperator(account, accName, accDID, leaderDID).send().getTransactionHash();
+
+        encodedFunction = authorityLogic.addConsumerByOperator(account, accName, accDID, leaderDID).encodeFunctionCall();
+        return signAndSend(authorityLogic, AuthorityFunctions.AddConsumerByOperator, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -122,7 +132,9 @@ public class AuthorityService extends BaseService {
         if (state == null) {
             throw new DDCException(ErrorMessage.ACCOUNT_STASTUS_IS_EMPTY);
         }
-        return Web3jUtils.getAuthority().updateAccountState(account, state, changePlatformState).send().getTransactionHash();
+
+        encodedFunction = authorityLogic.updateAccountState(account, state, changePlatformState).encodeFunctionCall();
+        return signAndSend(authorityLogic, AuthorityFunctions.UpdateAccountState, encodedFunction, signEventListener).getTransactionHash();
     }
 
 }

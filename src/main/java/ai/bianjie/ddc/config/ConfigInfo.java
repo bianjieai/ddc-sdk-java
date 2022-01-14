@@ -1,14 +1,18 @@
 package ai.bianjie.ddc.config;
 
+import java.math.BigInteger;
+
 public class ConfigInfo {
 
     private String opbGatewayAddress = "http://192.168.150.43:8545";
 
-    private String credentials = "443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B";
+    private String fromAddress;
 
     private String gasPrice = "10000000";
 
     private String gasLimit = "300000";
+
+    private String customerGasLimit;
 
 
     //authority合约
@@ -68,12 +72,12 @@ public class ConfigInfo {
         this.chargeLogicAddress = chargeLogicAddress;
     }
 
-    public String getCredentials() {
-        return credentials;
+    public String getFromAddress() {
+        return fromAddress;
     }
 
-    public void setCredentials(String credentials) {
-        this.credentials = credentials;
+    public void setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
     }
 
     public String getGasPrice() {
@@ -118,6 +122,14 @@ public class ConfigInfo {
 
     public String getChargeLogicBIN() {
         return chargeLogicBIN;
+    }
+
+    public String getCustomerGasLimit() {
+        return customerGasLimit;
+    }
+
+    public void setCustomerGasLimit(String customerGasLimit) {
+        this.customerGasLimit = customerGasLimit;
     }
 
     public void setChargeLogicBIN(String chargeLogicBIN) {
