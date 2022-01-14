@@ -87,31 +87,31 @@ public class DDC721 extends Contract {
 
     public static final String FUNC_UNFREEZE = "unFreeze";
 
-    public static final Event APPROVAL_EVENT = new Event("Approval", 
+    public static final Event APPROVAL_EVENT = new Event("Approval",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {}, new TypeReference<Address>(true) {}, new TypeReference<Uint256>(true) {}));
     ;
 
-    public static final Event APPROVALFORALL_EVENT = new Event("ApprovalForAll", 
+    public static final Event APPROVALFORALL_EVENT = new Event("ApprovalForAll",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {}, new TypeReference<Address>(true) {}, new TypeReference<Bool>() {}));
     ;
 
-    public static final Event ENTERBLACKLIST_EVENT = new Event("EnterBlacklist", 
+    public static final Event ENTERBLACKLIST_EVENT = new Event("EnterBlacklist",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {}, new TypeReference<Uint256>() {}));
     ;
 
-    public static final Event EXITBLACKLIST_EVENT = new Event("ExitBlacklist", 
+    public static final Event EXITBLACKLIST_EVENT = new Event("ExitBlacklist",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {}, new TypeReference<Uint256>() {}));
     ;
 
-    public static final Event INITIALIZE_EVENT = new Event("Initialize", 
+    public static final Event INITIALIZE_EVENT = new Event("Initialize",
             Arrays.<TypeReference<?>>asList(new TypeReference<Utf8String>() {}, new TypeReference<Utf8String>() {}));
     ;
 
-    public static final Event OWNERSHIPTRANSFERRED_EVENT = new Event("OwnershipTransferred", 
+    public static final Event OWNERSHIPTRANSFERRED_EVENT = new Event("OwnershipTransferred",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {}, new TypeReference<Address>(true) {}));
     ;
 
-    public static final Event TRANSFER_EVENT = new Event("Transfer", 
+    public static final Event TRANSFER_EVENT = new Event("Transfer",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {}, new TypeReference<Address>(true) {}, new TypeReference<Uint256>(true) {}));
     ;
 

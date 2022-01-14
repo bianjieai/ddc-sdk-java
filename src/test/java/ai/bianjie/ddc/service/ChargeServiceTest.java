@@ -1,20 +1,18 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.DDCSdkClient;
-import ai.bianjie.ddc.listener.SignEvent;
 import ai.bianjie.ddc.listener.SignEventListener;
 import org.junit.jupiter.api.Test;
+import org.web3j.crypto.RawTransaction;
 
 import java.math.BigInteger;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ChargeServiceTest {
 
     DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").gasLimit("30000").gasPrice("1000000").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").init();
     SignEventListener signEventListener =new SignEventListener() {
         @Override
-        public String signEvent(SignEvent event) {
+        public String signEvent(RawTransaction event) {
             return null;
         }
     };
