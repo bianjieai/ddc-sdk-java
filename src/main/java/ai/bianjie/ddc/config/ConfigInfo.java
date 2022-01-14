@@ -19,7 +19,7 @@ public class ConfigInfo {
 
     private String gasLimit = "300000";
 
-    private String customerGasLimit = "0";
+    private String funcGasLimit = "0";
 
 
     //authority合约
@@ -175,12 +175,12 @@ public class ConfigInfo {
         return chargeLogicBIN;
     }
 
-    public String getCustomerGasLimit() {
-        return customerGasLimit;
+    public String getFuncGasLimit() {
+        return funcGasLimit;
     }
 
-    public void setCustomerGasLimit(String customerGasLimit) {
-        this.customerGasLimit = customerGasLimit;
+    public void setFuncGasLimit(String customerGasLimit) {
+        this.funcGasLimit = customerGasLimit;
     }
 
     public void setChargeLogicBIN(String chargeLogicBIN) {

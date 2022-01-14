@@ -1,18 +1,32 @@
 # DDC-SDK-JAVA
 
-[TOC]
-
 ## 运营方可调用的如下方法：
 
 ### 1.初始化Client (连接测试网)
 
 ```
     
-    //创建客户端，导入网关，账户私钥（必须入参）（暂时未分离签名）
-    DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").init();
+    //创建客户端，导入网关
+    //也可设置相关参数值 gasprice，gaslimit，相关合约地址
+    //irita 中 gaslimit 设置值即消耗值，扣费换算：1 uirita = 1e12 wei
+    //建议 gaslimit 设置为300000以上，gasprice 设置为10000000以上
+    DDCSdkClient client = new DDCSdkClient.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc").authorityLogicAddress("0xdAc50c90b934AdED33b6ADc9f5855ab8a9EFB09a").chargeLogicAddress("0x52403cE9E235Cf013bA2353F0bf47834C98424c7").ddc721Address("0x503f45958F57Da55170B54796F4eD224c9fef9d7").ddc1155Address("0xe7310D2D79c67a3078DBeFA67344c7047AC28708").gasLimit("300000").gasPrice("10000000").init();
     
-    ////也可设置相关参数值 gasprice，gaslimit，相关合约地址（irita 中 gaslimit 设置值即消耗值）
-    DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").gasLimit("30000").gasPrice("100000000000").init(); 
+    //注册签名事件
+    SignEventListener signEventListener = new sign();
+        client.registerSignListener(signEventListener);
+    
+    //签名处理示例
+     public String signEvent(RawTransaction rawTransaction) {
+        Credentials credentials = Credentials.create("2F6976C530CFD2D0CC19EFC1868BD6A0AA1886D0BFCFA5A59D9B8899BE9B7241");
+        byte[] signMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+        return Numeric.toHexString(signMessage);
+    }
+    
+    //可单独为每个方法设置gaslimit
+    AuthorityService authorityService = client.getAuthorityService(); 
+    authorityService.setFuncGasLimit("100000")
+    String Txhash1 = authorityService。addAccount(account, accName, accDID);
     
 ```
 
@@ -296,6 +310,7 @@
 ### 7.BSN-DDC-区块查询
 
 ```
+
 	BaseService baseService = new BaseService();
 	
     //获取区块信息
@@ -337,6 +352,7 @@
 ```
 
 ```
+
 	BlockEventService blockEventService = new BlockEventService();
 	//获取区块事件并解析
 	//1. 根据块高获取区块信息
@@ -345,9 +361,9 @@
     //blockNumber 块高
     //返回 ArrayList<Object>
 
-        ArrayList<BaseEventResponse> blockEvent = blockEventService.getBlockEvent("160506");
-        blockEvent.forEach(b->{
-            System.out.println(b.log.getTopics());
+	ArrayList<BaseEventResponse> blockEvent = blockEventService.getBlockEvent("28684");
+	blockEvent.forEach(b->{
+            System.out.println(b.log);
         });
         
 ```
@@ -357,12 +373,28 @@
 ### 1.初始化Client (连接测试网)
 
 ```
-      
-    //创建客户端，导入网关，账户私钥（必须入参）（暂时未分离签名）
-    DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").init();
     
-    ////也可设置相关参数值 gasprice，gaslimit，相关合约地址（irita 中 gaslimit 设置值即消耗值）
-    DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").gasLimit("30000").gasPrice("100000000000").init(); 
+     //创建客户端，导入网关
+    //也可设置相关参数值 gasprice，gaslimit，相关合约地址
+    //irita 中 gaslimit 设置值即消耗值，扣费换算：1 uirita = 1e12 wei
+    //建议 gaslimit 设置为300000以上，gasprice 设置为10000000以上
+    DDCSdkClient client = new DDCSdkClient.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc").authorityLogicAddress("0xdAc50c90b934AdED33b6ADc9f5855ab8a9EFB09a").chargeLogicAddress("0x52403cE9E235Cf013bA2353F0bf47834C98424c7").ddc721Address("0x503f45958F57Da55170B54796F4eD224c9fef9d7").ddc1155Address("0xe7310D2D79c67a3078DBeFA67344c7047AC28708").gasLimit("300000").gasPrice("10000000").init();
+    
+    //注册签名事件
+    SignEventListener signEventListener = new sign();
+        client.registerSignListener(signEventListener);
+    
+    //签名处理示例
+     public String signEvent(RawTransaction rawTransaction) {
+        Credentials credentials = Credentials.create("2F6976C530CFD2D0CC19EFC1868BD6A0AA1886D0BFCFA5A59D9B8899BE9B7241");
+        byte[] signMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+        return Numeric.toHexString(signMessage);
+    }
+    
+    //可单独为每个方法设置gaslimit
+    AuthorityService authorityService = client.getAuthorityService(); 
+    authorityService.setFuncGasLimit("100000")
+    String Txhash1 = authorityService。addAccount(account, accName, accDID);
     
 ```
 
@@ -370,15 +402,7 @@
 
 ```
      AuthorityService authorityService = client.getAuthorityService(); 
-    
-    //添加下级账户
-    
-    //account DDC链账户地址
-    //accName DDC账户对应的账户名称
-    //accDID  DDC账户对应的DID信息（普通用户可为空）
-    //返回交易哈希
-    String Txhash1 = authorityService.addAccount(account, accName, accDID);
-    
+     
     //查询账户
     
 	//account DDC用户链账户地址
@@ -577,6 +601,7 @@
 ### 6.BSN-DDC-交易查询
 
 ```
+
 	BaseService baseService = new BaseService();
 	
 	//查询交易回执
@@ -599,6 +624,7 @@
 ### 7.BSN-DDC-区块查询
 
 ```
+
 	BaseService baseService = new BaseService();
 	
     //获取区块信息
@@ -640,6 +666,7 @@
 ```
 
 ```
+
 	BlockEventService blockEventService = new BlockEventService();
 	//获取区块事件并解析
 	//1. 根据块高获取区块信息
@@ -648,9 +675,9 @@
     //blockNumber 块高
     //返回 ArrayList<Object>
 
-        ArrayList<BaseEventResponse> blockEvent = blockEventService.getBlockEvent("160506");
-        blockEvent.forEach(b->{
-            System.out.println(b.log.getTopics());
+	ArrayList<BaseEventResponse> blockEvent = blockEventService.getBlockEvent("28684");
+	blockEvent.forEach(b->{
+            System.out.println(b.log);
         });
         
 ```
@@ -661,11 +688,27 @@
 
 ```
     
-    //创建客户端，导入网关，账户私钥（必须入参）（暂时未分离签名）
-    DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").init();
+     //创建客户端，导入网关
+    //也可设置相关参数值 gasprice，gaslimit，相关合约地址
+    //irita 中 gaslimit 设置值即消耗值，扣费换算：1 uirita = 1e12 wei
+    //建议 gaslimit 设置为300000以上，gasprice 设置为10000000以上
+    DDCSdkClient client = new DDCSdkClient.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc").authorityLogicAddress("0xdAc50c90b934AdED33b6ADc9f5855ab8a9EFB09a").chargeLogicAddress("0x52403cE9E235Cf013bA2353F0bf47834C98424c7").ddc721Address("0x503f45958F57Da55170B54796F4eD224c9fef9d7").ddc1155Address("0xe7310D2D79c67a3078DBeFA67344c7047AC28708").gasLimit("300000").gasPrice("10000000").init();
     
-    ////也可设置相关参数值 gasprice，gaslimit，相关合约地址（irita 中 gaslimit 设置值即消耗值）
-    DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").gasLimit("30000").gasPrice("100000000000").init(); 
+    //注册签名事件
+    SignEventListener signEventListener = new sign();
+        client.registerSignListener(signEventListener);
+    
+    //签名处理示例
+     public String signEvent(RawTransaction rawTransaction) {
+        Credentials credentials = Credentials.create("2F6976C530CFD2D0CC19EFC1868BD6A0AA1886D0BFCFA5A59D9B8899BE9B7241");
+        byte[] signMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+        return Numeric.toHexString(signMessage);
+    }
+    
+    //可单独为每个方法设置gaslimit
+    AuthorityService authorityService = client.getAuthorityService(); 
+    authorityService.setFuncGasLimit("100000")
+    String Txhash1 = authorityService。addAccount(account, accName, accDID);
     
 ```
 
@@ -889,6 +932,7 @@
 ```
 
 ```
+
 	BlockEventService blockEventService = new BlockEventService();
 	//获取区块事件并解析
 	//1. 根据块高获取区块信息
@@ -897,10 +941,23 @@
     //blockNumber 块高
     //返回 ArrayList<Object>
 
-        ArrayList<BaseEventResponse> blockEvent = blockEventService.getBlockEvent("160506");
-        blockEvent.forEach(b->{
-            System.out.println(b.log.getTopics());
+	ArrayList<BaseEventResponse> blockEvent = blockEventService.getBlockEvent("28684");
+	blockEvent.forEach(b->{
+            System.out.println(b.log);
         });
         
 ```
 
+## 测试用例
+
+[AuthorityServiceTest.java](/src/test/java/ai/bianjie/ddc/service/AuthorityServiceTest.java)
+
+[ChargeServiceTest.java](/src/test/java/ai/bianjie/ddc/service/ChargeServiceTest.java)
+
+[BaseServiceTest.java](/src/test/java/ai/bianjie/ddc/service/BaseServiceTest.java)
+
+[BlockEventServiceTest.java](/src/test/java/ai/bianjie/ddc/service/BlockEventServiceTest.java)
+
+[DDC721ServiceTest.java](/src/test/java/ai/bianjie/ddc/service/DDC721ServiceTest.java)
+
+[DDC1155ServiceTest.java](/src/test/java/ai/bianjie/ddc/service/DDC1155ServiceTest.java)

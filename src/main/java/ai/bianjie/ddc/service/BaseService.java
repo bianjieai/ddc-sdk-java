@@ -1,10 +1,6 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.config.ConfigCache;
-import ai.bianjie.ddc.constant.AuthorityFunctions;
-import ai.bianjie.ddc.constant.ChargeFunctions;
-import ai.bianjie.ddc.constant.DDC1155Functions;
-import ai.bianjie.ddc.constant.DDC721Functions;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.CommonUtils;
 import ai.bianjie.ddc.util.GasProvider;
@@ -81,9 +77,9 @@ public class BaseService {
      *
      * @param gasLimit
      */
-    public void setCustomerGasLimit(String gasLimit) {
+    public void setFuncGasLimit(String gasLimit) {
         Map<String, String> map = new HashMap<>();
-        ConfigCache.get().setCustomerGasLimit(gasLimit);
+        ConfigCache.get().setFuncGasLimit(gasLimit);
     }
 
     /**
