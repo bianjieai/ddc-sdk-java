@@ -7,12 +7,8 @@ import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
-import org.web3j.crypto.RawTransaction;
-import org.web3j.protocol.core.methods.response.EthSendTransaction;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Strings;
 
-import org.web3j.abi.datatypes.Function;
 
 import java.math.BigInteger;
 
@@ -210,9 +206,9 @@ public class DDC721Service extends BaseService {
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        encodedFunction=ddc721.transferFrom(from, to, ddcId).encodeFunctionCall();
+        encodedFunction = ddc721.transferFrom(from, to, ddcId).encodeFunctionCall();
 
-        return signAndSend(ddc721,DDC721Functions.TRANSFER_FROM,encodedFunction,signEventListener).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.TRANSFER_FROM, encodedFunction, signEventListener).getTransactionHash();
     }
 
 
@@ -229,8 +225,8 @@ public class DDC721Service extends BaseService {
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        encodedFunction=ddc721.freeze(ddcId).encodeFunctionCall();
-        return signAndSend(ddc721,DDC721Functions.FREEZE,encodedFunction,signEventListener).getTransactionHash();
+        encodedFunction = ddc721.freeze(ddcId).encodeFunctionCall();
+        return signAndSend(ddc721, DDC721Functions.FREEZE, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -246,8 +242,8 @@ public class DDC721Service extends BaseService {
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        encodedFunction=ddc721.unFreeze(ddcId).encodeFunctionCall();
-        return signAndSend(ddc721,DDC721Functions.UNFREEZE,encodedFunction,signEventListener).getTransactionHash();
+        encodedFunction = ddc721.unFreeze(ddcId).encodeFunctionCall();
+        return signAndSend(ddc721, DDC721Functions.UNFREEZE, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -262,8 +258,8 @@ public class DDC721Service extends BaseService {
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        encodedFunction=ddc721.burn(ddcId).encodeFunctionCall();
-        return signAndSend(ddc721,DDC721Functions.BURN,encodedFunction,signEventListener).getTransactionHash();
+        encodedFunction = ddc721.burn(ddcId).encodeFunctionCall();
+        return signAndSend(ddc721, DDC721Functions.BURN, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -325,6 +321,7 @@ public class DDC721Service extends BaseService {
 
     /**
      * 获取DDCURI
+     *
      * @param ddcId ddc唯一标识符
      * @return DDC资源标识符
      * @throws Exception Exception
