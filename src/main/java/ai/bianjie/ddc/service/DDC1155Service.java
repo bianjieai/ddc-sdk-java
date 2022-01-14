@@ -9,9 +9,11 @@ import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
 import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.internal.http2.ErrorCode;
 import org.web3j.utils.Strings;
 
 import java.math.BigInteger;
+import java.nio.channels.DatagramChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class DDC1155Service extends BaseService {
 
     public DDC1155Service(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
-        this.ddc1155=Web3jUtils.getDDC1155();
+        this.ddc1155 = Web3jUtils.getDDC1155();
     }
 
     /**
@@ -53,9 +55,9 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
 
-        encodedFunction=ddc1155.mint(to, amount, ddcURI).encodeFunctionCall();
+        encodedFunction = ddc1155.mint(to, amount, ddcURI).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.Mint,encodedFunction,signEventListener).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.Mint, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -94,9 +96,9 @@ public class DDC1155Service extends BaseService {
 
         });
 
-        encodedFunction=ddc1155.mintBatch(to,amounts,ddcURIS).encodeFunctionCall();
+        encodedFunction = ddc1155.mintBatch(to, amounts, ddcURIS).encodeFunctionCall();
 
-        return signAndSend(ddc1155,DDC1155Functions.MintBatch,encodedFunction,signEventListener).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.MintBatch, encodedFunction, signEventListener).getTransactionHash();
 
     }
 
@@ -116,9 +118,10 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(operator)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+        encodedFunction = ddc1155.setApprovalForAll(operator, approved).encodeFunctionCall();
 
 
-        return Web3jUtils.getDDC1155().setApprovalForAll(operator, approved).send().getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.SetApprovalForAll, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -175,8 +178,9 @@ public class DDC1155Service extends BaseService {
         if (amount == null || amount.intValue() <= 0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
+        encodedFunction = ddc1155.safeTransferFrom(from, to, ddcId, amount, data).encodeFunctionCall();
 
-        return Web3jUtils.getDDC1155().safeTransferFrom(from, to, ddcId, amount, data).send().getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.SafeTransferFrom, encodedFunction, signEventListener).getTransactionHash();
 
     }
 
@@ -219,7 +223,9 @@ public class DDC1155Service extends BaseService {
             amounts.add(amount);
         });
 
-        return Web3jUtils.getDDC1155().safeBatchTransferFrom(from, to, ddcIds, amounts, data).send().getTransactionHash();
+        encodedFunction = ddc1155.safeBatchTransferFrom(from, to, ddcIds, amounts, data).encodeFunctionCall();
+
+        return signAndSend(ddc1155, DDC1155Functions.SafeBatchTransferFrom, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -235,7 +241,9 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        return Web3jUtils.getDDC1155().freeze(ddcId).send().getTransactionHash();
+        encodedFunction = ddc1155.freeze(ddcId).encodeFunctionCall();
+
+        return signAndSend(ddc1155, DDC1155Functions.Freeze, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -251,7 +259,9 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        return Web3jUtils.getDDC1155().unFreeze(ddcId).send().getTransactionHash();
+        encodedFunction = ddc1155.unFreeze(ddcId).encodeFunctionCall();
+
+        return signAndSend(ddc1155, DDC1155Functions.UnFreeze, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -273,8 +283,9 @@ public class DDC1155Service extends BaseService {
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
+        encodedFunction = ddc1155.burn(owner, ddcId).encodeFunctionCall();
 
-        return Web3jUtils.getDDC1155().burn(owner, ddcId).send().getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.Burn, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -298,9 +309,9 @@ public class DDC1155Service extends BaseService {
         }
 
 
+        encodedFunction = ddc1155.burnBatch(owner, ddcIds).encodeFunctionCall();
 
-
-        return Web3jUtils.getDDC1155().burnBatch(owner, ddcIds).send().getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.BurnBatch, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -319,7 +330,7 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(owner)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if(ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -341,37 +352,19 @@ public class DDC1155Service extends BaseService {
 
         ArrayList<String> owners = new ArrayList<>();
         ArrayList<BigInteger> ddcIds = new ArrayList<>();
-        ddcs.forEach((owner,ddcId)->{
+        ddcs.forEach((owner, ddcId) -> {
             if (Strings.isEmpty(owner)) {
                 throw new DDCException(ErrorMessage.ACC_ADDR_IS_EMPTY);
             }
             if (!AddressUtils.isValidAddress(owner)) {
                 throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
             }
-            if(ddcId==null||ddcId.intValue()<=0){
+            if (ddcId == null || ddcId.intValue() <= 0) {
                 throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
             }
             owners.add(owner);
             ddcIds.add(ddcId);
         });
-
-
-
-
-        ddcs.forEach((owner,ddcId)->{
-            if (Strings.isEmpty(owner)) {
-                throw new DDCException(ErrorMessage.ACC_ADDR_IS_EMPTY);
-            }
-            if (!AddressUtils.isValidAddress(owner)) {
-                throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-            }
-            if(ddcId==null||ddcId.intValue()<=0){
-                throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
-            }
-            owners.add(owner);
-            ddcIds.add(ddcId);
-        });
-
 
         return Web3jUtils.getDDC1155().balanceOfBatch(owners, ddcIds).send();
     }
