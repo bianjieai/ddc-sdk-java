@@ -7,12 +7,8 @@ import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
-import org.web3j.crypto.RawTransaction;
-import org.web3j.protocol.core.methods.response.EthSendTransaction;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Strings;
 
-import org.web3j.abi.datatypes.Function;
 
 import java.math.BigInteger;
 
@@ -34,7 +30,7 @@ public class DDC721Service extends BaseService {
      *
      * @param to     接收者账户
      * @param ddcURI DDC资源标识符
-     * @return 交易哈希
+     * @return hash  交易哈希
      * @throws Exception Exception
      */
     public String mint(String to, String ddcURI) throws Exception {
@@ -82,7 +78,9 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        return Web3jUtils.getDDC721().approve(to, ddcId).send().getTransactionHash();
+        encodedFunction = ddc721.approve(to, ddcId).encodeFunctionCall();
+
+        return signAndSend(ddc721, DDC721Functions.APPROVE, encodedFunction, signEventListener).getTransactionHash();
     }
 
 
@@ -120,9 +118,9 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(operator)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+        encodedFunction = ddc721.setApprovalForAll(operator, approved).encodeFunctionCall();
 
-
-        return Web3jUtils.getDDC721().setApprovalForAll(operator, approved).send().getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.SET_APPROVAL_FOR_ALL, encodedFunction, signEventListener).getTransactionHash();
     }
 
 
@@ -175,8 +173,9 @@ public class DDC721Service extends BaseService {
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
+        encodedFunction = ddc721.safeTransferFrom(from, to, ddcId, data).encodeFunctionCall();
 
-        return Web3jUtils.getDDC721().safeTransferFrom(from, to, ddcId, data).send().getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.SAFE_TRANSFER_FROM, encodedFunction, signEventListener).getTransactionHash();
     }
 
 
@@ -207,8 +206,9 @@ public class DDC721Service extends BaseService {
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
+        encodedFunction = ddc721.transferFrom(from, to, ddcId).encodeFunctionCall();
 
-        return Web3jUtils.getDDC721().transferFrom(from, to, ddcId).send().getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.TRANSFER_FROM, encodedFunction, signEventListener).getTransactionHash();
     }
 
 
@@ -225,7 +225,8 @@ public class DDC721Service extends BaseService {
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        return Web3jUtils.getDDC721().freeze(ddcId).send().getTransactionHash();
+        encodedFunction = ddc721.freeze(ddcId).encodeFunctionCall();
+        return signAndSend(ddc721, DDC721Functions.FREEZE, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -241,7 +242,8 @@ public class DDC721Service extends BaseService {
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        return Web3jUtils.getDDC721().unFreeze(ddcId).send().getTransactionHash();
+        encodedFunction = ddc721.unFreeze(ddcId).encodeFunctionCall();
+        return signAndSend(ddc721, DDC721Functions.UNFREEZE, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -256,7 +258,8 @@ public class DDC721Service extends BaseService {
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        return Web3jUtils.getDDC721().burn(ddcId).send().getTransactionHash();
+        encodedFunction = ddc721.burn(ddcId).encodeFunctionCall();
+        return signAndSend(ddc721, DDC721Functions.BURN, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -274,6 +277,7 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(owner)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+
         return Web3jUtils.getDDC721().balanceOf(owner).send();
     }
 
@@ -318,6 +322,7 @@ public class DDC721Service extends BaseService {
     /**
      * 获取DDCURI
      *
+     * @param ddcId ddc唯一标识符
      * @return DDC资源标识符
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的资源标识符。
