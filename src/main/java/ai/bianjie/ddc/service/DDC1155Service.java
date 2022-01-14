@@ -291,6 +291,9 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
+
+
+
         return Web3jUtils.getDDC1155().burnBatch(owner, ddcIds).send().getTransactionHash();
     }
 
@@ -332,6 +335,22 @@ public class DDC1155Service extends BaseService {
 
         ArrayList<String> owners = new ArrayList<>();
         ArrayList<BigInteger> ddcIds = new ArrayList<>();
+        ddcs.forEach((owner,ddcId)->{
+            if (Strings.isEmpty(owner)) {
+                throw new DDCException(ErrorMessage.ACC_ADDR_IS_EMPTY);
+            }
+            if (!AddressUtils.isValidAddress(owner)) {
+                throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+            }
+            if(ddcId==null||ddcId.intValue()<=0){
+                throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
+            }
+            owners.add(owner);
+            ddcIds.add(ddcId);
+        });
+
+
+
 
         return Web3jUtils.getDDC1155().balanceOfBatch(owners, ddcIds).send();
     }
