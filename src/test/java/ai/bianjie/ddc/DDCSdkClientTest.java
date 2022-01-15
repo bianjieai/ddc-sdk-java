@@ -1,5 +1,6 @@
 package ai.bianjie.ddc;
 
+import ai.bianjie.ddc.listener.sign;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
@@ -25,7 +26,9 @@ class DDCSdkClientTest {
                 .setDDC1155Address("0xe7310D2D79c67a3078DBeFA67344c7047AC28708")
                 .setGasLimit("300000")
                 .setGasPrice("10000000")
+                .setSignEventListener(new sign())
                 .init();
+
         String a = client.getChargeService().recharge("918F7F275A6C2D158E5B76F769D3F1678958A334", new BigInteger("10"));
         System.out.println("================================" + a);
 //        BigInteger b = client.getChargeService().setGasLimitCharge("1").balanceOf("918F7F275A6C2D158E5B76F769D3F1678958A334");

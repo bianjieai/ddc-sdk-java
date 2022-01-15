@@ -2,6 +2,7 @@ package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.DDCSdkClient;
 import ai.bianjie.ddc.dto.BlockEventBean;
+import ai.bianjie.ddc.listener.sign;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ class BlockEventServiceTest {
             .setDDC1155Address("0xe7310D2D79c67a3078DBeFA67344c7047AC28708")
             .setGasLimit("300000")
             .setGasPrice("10000000")
+            .setSignEventListener(new sign())
             .init();
 
     @Test

@@ -2,6 +2,7 @@ package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.DDCSdkClient;
 import ai.bianjie.ddc.dto.txInfo;
+import ai.bianjie.ddc.listener.sign;
 import org.junit.jupiter.api.Test;
 import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -20,7 +21,9 @@ class BaseServiceTest {
             .setDDC1155Address("0xe7310D2D79c67a3078DBeFA67344c7047AC28708")
             .setGasLimit("300000")
             .setGasPrice("10000000")
+            .setSignEventListener(new sign())
             .init();
+
     BaseService baseService= client.getChargeService();
 
     @Test
