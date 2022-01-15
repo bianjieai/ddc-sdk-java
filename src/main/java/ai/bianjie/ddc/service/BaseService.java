@@ -1,6 +1,7 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.config.ConfigCache;
+import ai.bianjie.ddc.dto.txInfo;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.CommonUtils;
 import ai.bianjie.ddc.util.GasProvider;
@@ -57,8 +58,14 @@ public class BaseService {
      * @param hash 交易哈希
      * @return 交易信息
      */
-    public Transaction getTransByHash(String hash) throws IOException {
-        return Web3jUtils.getWeb3j().ethGetTransactionByHash(hash).send().getTransaction().get();
+    public txInfo getTransByHash(String hash) throws IOException {
+        Transaction transaction = Web3jUtils.getWeb3j().ethGetTransactionByHash(hash).send().getTransaction().get();
+        return new txInfo(transaction.getHash(), transaction.getNonceRaw(), transaction.getBlockHash(),
+                transaction.getBlockNumber().toString(), transaction.getTransactionIndex().toString(),
+                transaction.getFrom(), transaction.getTo(), transaction.getValue().toString(),
+                transaction.getGasPrice().toString(), transaction.getGas().toString(),
+                transaction.getInput(), transaction.getCreates(), transaction.getPublicKey(),
+                transaction.getRaw(), transaction.getR(), transaction.getS(), transaction.getV());
     }
 
     /**
