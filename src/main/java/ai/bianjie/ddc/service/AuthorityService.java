@@ -1,9 +1,8 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.constant.AuthorityFunctions;
-import ai.bianjie.ddc.constant.DDC721Functions;
 import ai.bianjie.ddc.constant.ErrorMessage;
-import ai.bianjie.ddc.contract.AuthorityLogic;
+import ai.bianjie.ddc.contract.Authority;
 import ai.bianjie.ddc.dto.AccountInfo;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
@@ -16,12 +15,12 @@ import java.math.BigInteger;
 
 
 public class AuthorityService extends BaseService {
-    private AuthorityLogic authorityLogic;
+    private Authority authority;
     private String encodedFunction;
 
     public AuthorityService(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
-        this.authorityLogic = Web3jUtils.getAuthority();
+        this.authority = Web3jUtils.getAuthority();
     }
 
     /**
@@ -33,26 +32,26 @@ public class AuthorityService extends BaseService {
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String addAccount(String sender,String account, String accName, String accDID) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
-
-        if (Strings.isEmpty(account)) {
-            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
-        }
-
-        if (!AddressUtils.isValidAddress(account)) {
-            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
-
-        if (Strings.isEmpty(accName)) {
-            throw new DDCException(ErrorMessage.ACCOUNT_NAME_IS_EMPTY);
-        }
-
-        encodedFunction = authorityLogic.addAccountByPlatform(account, accName, accDID).encodeFunctionCall();
-        return signAndSend(authorityLogic, AuthorityFunctions.AddAccount, encodedFunction, signEventListener,sender).getTransactionHash();
-    }
+//    public String addAccount(String sender,String account, String accName, String accDID) throws Exception {
+//        if (!AddressUtils.isValidAddress(sender)) {
+//            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+//        }
+//
+//        if (Strings.isEmpty(account)) {
+//            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+//        }
+//
+//        if (!AddressUtils.isValidAddress(account)) {
+//            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+//        }
+//
+//        if (Strings.isEmpty(accName)) {
+//            throw new DDCException(ErrorMessage.ACCOUNT_NAME_IS_EMPTY);
+//        }
+//
+//        encodedFunction = authority.addAccountByPlatform(account, accName, accDID).encodeFunctionCall();
+//        return signAndSend(authority, AuthorityFunctions.AddAccount, encodedFunction, signEventListener,sender).getTransactionHash();
+//    }
 
 
     /**
@@ -86,8 +85,8 @@ public class AuthorityService extends BaseService {
             throw new DDCException(ErrorMessage.ACCOUNT_LEADER_DID_IS_EMPTY);
         }
 
-        encodedFunction = authorityLogic.addAccountByOperator(account, accName, accDID, leaderDID).encodeFunctionCall();
-        return signAndSend(authorityLogic, AuthorityFunctions.AddConsumerByOperator, encodedFunction, signEventListener,sender).getTransactionHash();
+        encodedFunction = authority.addAccountByOperator(account, accName, accDID, leaderDID).encodeFunctionCall();
+        return signAndSend(authority, AuthorityFunctions.AddConsumerByOperator, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
     /**
@@ -149,8 +148,8 @@ public class AuthorityService extends BaseService {
             throw new DDCException(ErrorMessage.ACCOUNT_STASTUS_IS_EMPTY);
         }
 
-        encodedFunction = authorityLogic.updateAccountState(account, state, changePlatformState).encodeFunctionCall();
-        return signAndSend(authorityLogic, AuthorityFunctions.UpdateAccountState, encodedFunction, signEventListener,sender).getTransactionHash();
+        encodedFunction = authority.updateAccountState(account, state, changePlatformState).encodeFunctionCall();
+        return signAndSend(authority, AuthorityFunctions.UpdateAccountState, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
 }

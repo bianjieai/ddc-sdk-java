@@ -9,11 +9,9 @@ import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
 import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.internal.http2.ErrorCode;
 import org.web3j.utils.Strings;
 
 import java.math.BigInteger;
-import java.nio.channels.DatagramChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +35,10 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc 平台方或终端用户可以通过调用该方法进行DDC的批量创建。
      */
-    public String mint(String to, BigInteger amount, String ddcURI) throws Exception {
+    public String safeMint(String sender, String to, BigInteger amount, String ddcURI, byte[] data) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
         //1.检查接收者账户地址是否为空
         if (Strings.isEmpty(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
@@ -55,10 +56,9 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
 
-        encodedFunction = ddc1155.mint(to, amount, ddcURI).encodeFunctionCall();
+        encodedFunction = ddc1155.safeMint(to, amount, ddcURI, data).encodeFunctionCall();
 
-//        return signAndSend(ddc1155, DDC1155Functions.Mint, encodedFunction, signEventListener).getTransactionHash();
-        return null;
+        return signAndSend(ddc1155, DDC1155Functions.SafeMint, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -70,7 +70,10 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc 平台方或终端用户可以通过调用该方法进行批量DDC的创建。
      */
-    public String mintBatch(String to, Multimap<BigInteger, String> ddcInfo) throws Exception {
+    public String safeMintBatch(String sender, String to, Multimap<BigInteger, String> ddcInfo, byte[] data) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
         //1.检查接收者账户地址信息是否为空；
         if (Strings.isEmpty(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
@@ -97,10 +100,10 @@ public class DDC1155Service extends BaseService {
 
         });
 
-        encodedFunction = ddc1155.mintBatch(to, amounts, ddcURIS).encodeFunctionCall();
+        encodedFunction = ddc1155.safeMintBatch(to, amounts, ddcURIS, data).encodeFunctionCall();
 
-//        return signAndSend(ddc1155, DDC1155Functions.MintBatch, encodedFunction, signEventListener).getTransactionHash();
-        return null;
+        return signAndSend(ddc1155, DDC1155Functions.SAFE_MINT_BATCH, encodedFunction, signEventListener, sender).getTransactionHash();
+
     }
 
     /**
@@ -112,7 +115,10 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc DDC拥有者可以通过调用该方法进行账户授权，发起者需要是DDC的拥有者。
      */
-    public String setApprovalForAll(String operator, Boolean approved) throws Exception {
+    public String setApprovalForAll(String sender, String operator, Boolean approved) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
         if (Strings.isEmpty(operator)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
         }
@@ -122,10 +128,8 @@ public class DDC1155Service extends BaseService {
         encodedFunction = ddc1155.setApprovalForAll(operator, approved).encodeFunctionCall();
 
 
-//        return signAndSend(ddc1155, DDC1155Functions.SetApprovalForAll, encodedFunction, signEventListener).getTransactionHash();
-        return null;
+        return signAndSend(ddc1155, DDC1155Functions.SetApprovalForAll, encodedFunction, signEventListener, sender).getTransactionHash();
     }
-
 
     /**
      * DDC的授权查询
@@ -136,7 +140,10 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc 运营方、平台方或终端用户可以通过调用该方法进行账户授权查询。
      */
-    public Boolean isApprovedForAll(String owner, String operator) throws Exception {
+    public Boolean isApprovedForAll(String sender, String owner, String operator) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
         if (Strings.isEmpty(owner)) {
             throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_EMPTY);
         }
@@ -165,7 +172,10 @@ public class DDC1155Service extends BaseService {
      * @return 交易哈希
      * @throws Exception Exception
      */
-    public String safeTransferFrom(String from, String to, BigInteger ddcId, BigInteger amount, byte[] data) throws Exception {
+    public String safeTransferFrom(String sender, String from, String to, BigInteger ddcId, BigInteger amount, byte[] data) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
         if (Strings.isEmpty(from)) {
             throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_EMPTY);
         }
@@ -183,9 +193,8 @@ public class DDC1155Service extends BaseService {
         }
         encodedFunction = ddc1155.safeTransferFrom(from, to, ddcId, amount, data).encodeFunctionCall();
 
-//        return signAndSend(ddc1155, DDC1155Functions.SafeTransferFrom, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.SafeTransferFrom, encodedFunction, signEventListener, sender).getTransactionHash();
 
-        return null;
     }
 
     /**
@@ -199,7 +208,10 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc DDC拥有者或DDC授权者可以通过调用该方法进行DDC的批量转移。
      */
-    public String safeBatchTransferFrom(String from, String to, Multimap<BigInteger, BigInteger> ddcs, byte[] data) throws Exception {
+    public String safeBatchTransferFrom(String sender, String from, String to, Multimap<BigInteger, BigInteger> ddcs, byte[] data) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
         if (Strings.isEmpty(from)) {
             throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_EMPTY);
         }
@@ -228,9 +240,8 @@ public class DDC1155Service extends BaseService {
         });
 
         encodedFunction = ddc1155.safeBatchTransferFrom(from, to, ddcIds, amounts, data).encodeFunctionCall();
-        return null;
 
-//        return signAndSend(ddc1155, DDC1155Functions.SafeBatchTransferFrom, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.SafeBatchTransferFrom, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -241,15 +252,17 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc 运营方可以通过调用该方法进行DDC的冻结。
      */
-    public String freeze(BigInteger ddcId) throws Exception {
+    public String freeze(String sender, BigInteger ddcId) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
         encodedFunction = ddc1155.freeze(ddcId).encodeFunctionCall();
-        return null;
 
-//        return signAndSend(ddc1155, DDC1155Functions.Freeze, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.Freeze, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -260,15 +273,17 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc 运营方可以通过调用该方法进行DDC的解冻。
      */
-    public String unFreeze(BigInteger ddcId) throws Exception {
+    public String unFreeze(String sender, BigInteger ddcId) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
         encodedFunction = ddc1155.unFreeze(ddcId).encodeFunctionCall();
-        return null;
 
-//        return signAndSend(ddc1155, DDC1155Functions.UnFreeze, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.UnFreeze, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -280,7 +295,10 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc DDC拥有者或DDC授权者可以通过调用该方法进行DDC的销毁。
      */
-    public String burn(String owner, BigInteger ddcId) throws Exception {
+    public String burn(String sender, String owner, BigInteger ddcId) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
         if (Strings.isEmpty(owner)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
         }
@@ -291,9 +309,8 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         encodedFunction = ddc1155.burn(owner, ddcId).encodeFunctionCall();
-        return null;
 
-//        return signAndSend(ddc1155, DDC1155Functions.Burn, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.Burn, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -305,7 +322,10 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc DDC拥用者或DDC授权者可以通过调用该方法进行DDC的批量销毁。
      */
-    public String burnBatch(String owner, List<BigInteger> ddcIds) throws Exception {
+    public String burnBatch(String sender, String owner, List<BigInteger> ddcIds) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
         if (Strings.isEmpty(owner)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
         }
@@ -318,9 +338,8 @@ public class DDC1155Service extends BaseService {
 
 
         encodedFunction = ddc1155.burnBatch(owner, ddcIds).encodeFunctionCall();
-        return null;
 
-//        return signAndSend(ddc1155, DDC1155Functions.BurnBatch, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.BurnBatch, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -332,7 +351,10 @@ public class DDC1155Service extends BaseService {
      * @throws Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法进行查询当前账户拥有的DDC的数量。
      */
-    public BigInteger balanceOf(String owner, BigInteger ddcId) throws Exception {
+    public BigInteger balanceOf(String sender, String owner, BigInteger ddcId) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
         if (Strings.isEmpty(owner)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
         }
@@ -354,7 +376,10 @@ public class DDC1155Service extends BaseService {
      * @throws Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法进行批量查询账户拥有的DDC的数量。
      */
-    public List<BigInteger> balanceOfBatch(Multimap<String, BigInteger> ddcs) throws Exception {
+    public List<BigInteger> balanceOfBatch(String sender, Multimap<String, BigInteger> ddcs) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
         if (ddcs == null || ddcs.size() == 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
@@ -386,7 +411,10 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法进行查询当前DDC的资源标识符。
      */
-    public String ddcURI(BigInteger ddcId) throws Exception {
+    public String ddcURI(String sender, BigInteger ddcId) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }

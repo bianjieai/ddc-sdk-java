@@ -33,7 +33,7 @@ public class DDC721Service extends BaseService {
      * @return hash  交易哈希
      * @throws Exception Exception
      */
-    public String mint(String sender,String to, String ddcURI) throws Exception {
+    public String mint(String sender, String to, String ddcURI) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -54,7 +54,7 @@ public class DDC721Service extends BaseService {
         encodedFunction = ddc721.mint(to, ddcURI).encodeFunctionCall();
 
         //5.签名并发送，获取hash
-        return signAndSend(ddc721, DDC721Functions.MINT, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.MINT, encodedFunction, signEventListener, sender).getTransactionHash();
 
     }
 
@@ -67,7 +67,7 @@ public class DDC721Service extends BaseService {
      * @return 交易哈希
      * @throws Exception Exception
      */
-    public String approve(String sender,String to, BigInteger ddcId) throws Exception {
+    public String approve(String sender, String to, BigInteger ddcId) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -86,7 +86,7 @@ public class DDC721Service extends BaseService {
 
         encodedFunction = ddc721.approve(to, ddcId).encodeFunctionCall();
 
-        return signAndSend(ddc721, DDC721Functions.APPROVE, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.APPROVE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
 
@@ -98,7 +98,7 @@ public class DDC721Service extends BaseService {
      * @return 授权的账户
      * @throws Exception Exception
      */
-    public String getApproved(String sender,BigInteger ddcId) throws Exception {
+    public String getApproved(String sender, BigInteger ddcId) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -119,7 +119,7 @@ public class DDC721Service extends BaseService {
      * @throws Exception
      * @desc DDC拥有者通过该方法授权给指定用户
      */
-    public String setApprovalForAll(String sender,String operator, Boolean approved) throws Exception {
+    public String setApprovalForAll(String sender, String operator, Boolean approved) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -132,7 +132,7 @@ public class DDC721Service extends BaseService {
         }
         encodedFunction = ddc721.setApprovalForAll(operator, approved).encodeFunctionCall();
 
-        return signAndSend(ddc721, DDC721Functions.SET_APPROVAL_FOR_ALL, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.SET_APPROVAL_FOR_ALL, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
 
@@ -144,7 +144,7 @@ public class DDC721Service extends BaseService {
      * @return 授权标识
      * @throws Exception Exception
      */
-    public Boolean isApprovedForAll(String sender,String owner, String operator) throws Exception {
+    public Boolean isApprovedForAll(String sender, String owner, String operator) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -171,7 +171,7 @@ public class DDC721Service extends BaseService {
      * @throws Exception Exception
      * @desc DDC的拥有者或授权者可以通过调用该方法进行DDC的安全转移。
      */
-    public String safeTransferFrom(String sender,String from, String to, BigInteger ddcId, byte[] data) throws Exception {
+    public String safeTransferFrom(String sender, String from, String to, BigInteger ddcId, byte[] data) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -193,7 +193,7 @@ public class DDC721Service extends BaseService {
         }
         encodedFunction = ddc721.safeTransferFrom(from, to, ddcId, data).encodeFunctionCall();
 
-        return signAndSend(ddc721, DDC721Functions.SAFE_TRANSFER_FROM, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.SAFE_TRANSFER_FROM, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
 
@@ -207,7 +207,7 @@ public class DDC721Service extends BaseService {
      * @throws Exception Exception
      * @desc DDC拥有者或授权者可以通过调用该方法进行DDC的转移。
      */
-    public String transferFrom(String sender,String from, String to, BigInteger ddcId) throws Exception {
+    public String transferFrom(String sender, String from, String to, BigInteger ddcId) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -229,7 +229,7 @@ public class DDC721Service extends BaseService {
         }
         encodedFunction = ddc721.transferFrom(from, to, ddcId).encodeFunctionCall();
 
-        return signAndSend(ddc721, DDC721Functions.TRANSFER_FROM, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.TRANSFER_FROM, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
 
@@ -241,7 +241,7 @@ public class DDC721Service extends BaseService {
      * @throws Exception Exception
      * @desc 运营方可以通过调用该方法进行DDC的冻结。
      */
-    public String freeze(String sender,BigInteger ddcId) throws Exception {
+    public String freeze(String sender, BigInteger ddcId) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -250,7 +250,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         encodedFunction = ddc721.freeze(ddcId).encodeFunctionCall();
-        return signAndSend(ddc721, DDC721Functions.FREEZE, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.FREEZE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -261,7 +261,7 @@ public class DDC721Service extends BaseService {
      * @throws Exception Exception
      * @desc 运营方可以通过调用该方法进行DDC的解冻。
      */
-    public String unFreeze(String sender,BigInteger ddcId) throws Exception {
+    public String unFreeze(String sender, BigInteger ddcId) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -270,7 +270,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         encodedFunction = ddc721.unFreeze(ddcId).encodeFunctionCall();
-        return signAndSend(ddc721, DDC721Functions.UNFREEZE, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.UNFREEZE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -280,7 +280,7 @@ public class DDC721Service extends BaseService {
      * @return 交易hash
      * @throws Exception Exception
      */
-    public String burn(String sender,BigInteger ddcId) throws Exception {
+    public String burn(String sender, BigInteger ddcId) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -289,7 +289,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         encodedFunction = ddc721.burn(ddcId).encodeFunctionCall();
-        return signAndSend(ddc721, DDC721Functions.BURN, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.BURN, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -299,7 +299,7 @@ public class DDC721Service extends BaseService {
      * @return ddc的数量
      * @throws Exception Exception
      */
-    public BigInteger balanceOf(String sender,String owner) throws Exception {
+    public BigInteger balanceOf(String sender, String owner) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -322,7 +322,7 @@ public class DDC721Service extends BaseService {
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的拥有者。
      */
-    public String ownerOf(String sender,BigInteger ddcId) throws Exception {
+    public String ownerOf(String sender, BigInteger ddcId) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -371,7 +371,7 @@ public class DDC721Service extends BaseService {
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的资源标识符。
      */
-    public String ddcURI(String sender,BigInteger ddcId) throws Exception {
+    public String ddcURI(String sender, BigInteger ddcId) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }

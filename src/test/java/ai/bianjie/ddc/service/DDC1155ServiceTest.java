@@ -25,27 +25,28 @@ class DDC1155ServiceTest {
             .init();
 
     DDC1155Service ddc1155Service = client.getDDC1155Service();
+    String sender="";
 
     @Test
     void mint() throws Exception {
-        System.out.println(ddc1155Service.mint("918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("3"),"222222"));
+        System.out.println(ddc1155Service.mint(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("3"),"222222"));
     }
 
     @Test
     void mintBatch() throws Exception {
         Multimap<BigInteger, String> ddcInfo = ArrayListMultimap.create();;
         ddcInfo.put(new BigInteger("3"),"12");
-        System.out.println(ddc1155Service.mintBatch("918F7F275A6C2D158E5B76F769D3F1678958A334",ddcInfo));
+        System.out.println(ddc1155Service.mintBatch(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",ddcInfo));
     }
 
     @Test
     void setApprovalForAll() throws Exception {
-        System.out.println(ddc1155Service.setApprovalForAll("918F7F275A6C2D158E5B76F769D3F1678958A334", true));
+        System.out.println(ddc1155Service.setApprovalForAll(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334", true));
     }
 
     @Test
     void isApprovedForAll() throws Exception {
-        System.out.println(ddc1155Service.isApprovedForAll("0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721","918F7F275A6C2D158E5B76F769D3F1678958A334"));
+        System.out.println(ddc1155Service.isApprovedForAll(sender,"0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721","918F7F275A6C2D158E5B76F769D3F1678958A334"));
     }
 
     @Test
@@ -78,7 +79,7 @@ class DDC1155ServiceTest {
 
     @Test
     void balanceOf() throws Exception {
-        System.out.println(ddc1155Service.balanceOf("918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("2")));
+        System.out.println(ddc1155Service.balanceOf(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("2")));
     }
 
     @Test
@@ -87,12 +88,12 @@ class DDC1155ServiceTest {
         ddcs.put("918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("3"));
         ddcs.put("918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("5"));
         List<BigInteger> a = new ArrayList<>(2);
-        a = ddc1155Service.balanceOfBatch(ddcs);
+        a = ddc1155Service.balanceOfBatch(sender,ddcs);
         System.out.println(a);
     }
 
     @Test
     void ddcURI() throws Exception {
-        System.out.println(ddc1155Service.ddcURI(new BigInteger("3")));
+        System.out.println(ddc1155Service.ddcURI(sender,new BigInteger("3")));
     }
 }

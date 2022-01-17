@@ -1,6 +1,5 @@
 package ai.bianjie.ddc.config;
 
-import ai.bianjie.ddc.util.ConfigUtils;
 import org.web3j.utils.Strings;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,7 +11,7 @@ public class ConfigCache {
     private static final ConcurrentHashMap<String, ConfigInfo> MAP = new ConcurrentHashMap<>();
 
     public static void initCache(String opbGateWebAddress, String fromAddress, String gasPrice, String gasLimit, String ddc721Address, String ddc1155Address, String authorityLogicAddress, String chargeLogicAddress) {
-        ConfigInfo configInfo = ConfigUtils.loadConfigFromFile();
+        ConfigInfo configInfo = new ConfigInfo();
         if (!Strings.isEmpty(opbGateWebAddress)) {
             configInfo.setOpbGatewayAddress(opbGateWebAddress);
         }

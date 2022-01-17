@@ -5,8 +5,8 @@ import ai.bianjie.ddc.constant.AuthorityFunctions;
 import ai.bianjie.ddc.constant.ChargeFunctions;
 import ai.bianjie.ddc.constant.DDC1155Functions;
 import ai.bianjie.ddc.constant.DDC721Functions;
-import ai.bianjie.ddc.contract.AuthorityLogic;
-import ai.bianjie.ddc.contract.ChargeLogic;
+import ai.bianjie.ddc.contract.Authority;
+import ai.bianjie.ddc.contract.Charge;
 import ai.bianjie.ddc.contract.DDC1155;
 import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.dto.BlockEventBean;
@@ -78,21 +78,21 @@ public class BlockEventService extends BaseService {
                 continue;
             }
             if (ConfigCache.get().getAuthorityLogicAddress().equalsIgnoreCase(log.getAddress())) {
-                //List<Type> res = FunctionReturnDecoder.decode(log.getData(), AuthorityLogic.ADDACCOUNT_EVENT.getParameters());
-                AuthorityLogic authorityLogic = Web3jUtils.getAuthority();
+                //List<Type> res = FunctionReturnDecoder.decode(log.getData(), Authority.ADDACCOUNT_EVENT.getParameters());
+                Authority authority = Web3jUtils.getAuthority();
                 switch (log.getTopics().get(0)) {
                     case AuthorityFunctions.AddAccountEvent:
-                        list.addAll(authorityLogic.getAddAccountEvents(receipt));
+                        list.addAll(authority.getAddAccountEvents(receipt));
                         break;
                     case AuthorityFunctions.UpdateAccountEvent:
-                        list.addAll(authorityLogic.getUpdateAccountEvents(receipt));
+                        list.addAll(authority.getUpdateAccountEvents(receipt));
                         break;
                     case AuthorityFunctions.UpdateAccountStateEvent:
-                        list.addAll(authorityLogic.getUpdateAccountStateEvents(receipt));
+                        list.addAll(authority.getUpdateAccountStateEvents(receipt));
                         break;
                 }
             } else if (ConfigCache.get().getChargeLogicAddress().equalsIgnoreCase(log.getAddress())) {
-                ChargeLogic chargeLogic = Web3jUtils.getCharge();
+                Charge chargeLogic = Web3jUtils.getCharge();
                 switch (log.getTopics().get(0)) {
                     case ChargeFunctions.RechargeEvent:
                         list.addAll(chargeLogic.getRechargeEvents(receipt));
@@ -104,10 +104,10 @@ public class BlockEventService extends BaseService {
                         list.addAll(chargeLogic.getPayEvents(receipt));
                         break;
                     case ChargeFunctions.DeleteDDCEvent:
-                        list.addAll(chargeLogic.getDeleteDDCEvents(receipt));
+                        chargeLogic.getDelDDCEvents(receipt);
                         break;
                     case ChargeFunctions.DeleteFeeEvent:
-                        list.addAll(chargeLogic.getDeleteFeeEvents(receipt));
+                        list.addAll(chargeLogic.getDelFeeEvents(receipt));
                         break;
                 }
             } else if (ConfigCache.get().getDdc721Address().equalsIgnoreCase(log.getAddress())) {
