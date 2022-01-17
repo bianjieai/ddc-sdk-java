@@ -19,10 +19,10 @@ class BlockEventServiceTest {
             .setGasPrice("10000000")
             .setSignEventListener(new sign())
             .init();
-
-    @Test
-    void getBlockEvent() throws IOException, InterruptedException, ExecutionException {
-        BlockEventService blockEventService = new BlockEventService();
-        BlockEventBean blockEvent = blockEventService.getBlockEvent("28684");
-    }
+//
+//    @Test
+//    void getBlockEvent() throws IOException, InterruptedException, ExecutionException {
+//        BlockEventService blockEventService = new BlockEventService();
+//        BlockEventBean blockEvent = blockEventService.getBlockEvent("28684");
+//    }
 }
