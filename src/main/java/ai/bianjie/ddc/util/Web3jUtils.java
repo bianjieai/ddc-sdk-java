@@ -7,13 +7,14 @@ import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
+import org.web3j.utils.Strings;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
 public class Web3jUtils {
-    public static ECKeyPair ecKeyPair;
+    private static ECKeyPair ecKeyPair;
 
     static {
         try {
@@ -44,6 +45,10 @@ public class Web3jUtils {
     }
 
     public static Web3j getWeb3j() {
-        return Web3j.build(new HttpService(ConfigCache.get().getOpbGatewayAddress()));
+        HttpService httpService = new HttpService(ConfigCache.get().getOpbGatewayAddress());
+        if(!Strings.isEmpty(ConfigCache.get().getHeaderKey())&&!Strings.isEmpty(ConfigCache.get().getHeaderValue())){
+            httpService.addHeader(ConfigCache.get().getHeaderKey(),ConfigCache.get().getHeaderValue());
+        }
+        return Web3j.build(httpService);
     }
 }
