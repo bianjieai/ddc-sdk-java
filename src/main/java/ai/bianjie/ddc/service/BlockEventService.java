@@ -42,10 +42,10 @@ public class BlockEventService extends BaseService {
      * @return ArrayList<Object>
      * @throws IOException IOException
      */
-    public BlockEventBean getBlockEvent(String blockNumber) throws IOException, InterruptedException {
+    public BlockEventBean getBlockEvent(BigInteger blockNumber) throws IOException, InterruptedException {
         ArrayList<BaseEventResponse> arrayList = new ArrayList<>();
         // 1. 获取区块信息
-        EthBlock.Block blockInfo = getBlockByNumber(new BigInteger(blockNumber));
+        EthBlock.Block blockInfo = getBlockByNumber(blockNumber);
 
         List<EthBlock.TransactionResult> txs = blockInfo.getTransactions();
 
