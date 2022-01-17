@@ -8,12 +8,14 @@ import ai.bianjie.ddc.constant.DDC721Functions;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ConfigInfo {
+public class  ConfigInfo {
     private Map<String,String> map = new HashMap<>();
 
     private String opbGatewayAddress = "http://192.168.150.43:8545";
 
-    private String fromAddress;
+    private String headerKey;
+
+    private String headerValue;
 
     private String gasPrice = "10000000";
 
@@ -87,6 +89,22 @@ public class ConfigInfo {
         return opbGatewayAddress;
     }
 
+    public String getHeaderKey() {
+        return headerKey;
+    }
+
+    public void setHeaderKey(String headerKey) {
+        this.headerKey = headerKey;
+    }
+
+    public String getHeaderValue() {
+        return headerValue;
+    }
+
+    public void setHeaderValue(String headerValue) {
+        this.headerValue = headerValue;
+    }
+
     public void setOpbGatewayAddress(String opbGatewayAddress) {
         this.opbGatewayAddress = opbGatewayAddress;
     }
@@ -121,14 +139,6 @@ public class ConfigInfo {
 
     public void setChargeLogicAddress(String chargeLogicAddress) {
         this.chargeLogicAddress = chargeLogicAddress;
-    }
-
-    public String getFromAddress() {
-        return fromAddress;
-    }
-
-    public void setFromAddress(String fromAddress) {
-        this.fromAddress = fromAddress;
     }
 
     public String getGasPrice() {

@@ -9,7 +9,6 @@ import ai.bianjie.ddc.service.*;
 
 public class DDCSdkClient {
     private String opbGateWebAddress;
-    private String fromAddress;
     private String gasPrice;
     private String gasLimit;
     private String ddc721Address;
@@ -17,13 +16,14 @@ public class DDCSdkClient {
     private String authorityLogicAddress;
     private String chargeLogicAddress;
     private SignEventListener signEventListener;
+    private String headerKey;
+    private String headerValue;
 
     /**
      * SDK 初始化方法
      */
     private DDCSdkClient(Builder builder) {
         this.opbGateWebAddress = builder.opbGateWebAddress;
-        this.fromAddress = builder.fromAddress;
         this.gasPrice = builder.gasPrice;
         this.gasLimit = builder.gasLimit;
         this.ddc721Address = builder.ddc721Address;
@@ -31,11 +31,12 @@ public class DDCSdkClient {
         this.authorityLogicAddress = builder.authorityLogicAddress;
         this.chargeLogicAddress = builder.chargeLogicAddress;
         this.signEventListener = builder.signEventListener;
+        this.headerKey = builder.headerKey;
+        this.headerValue = builder.headerValue;
     }
 
     public static class Builder {
         private String opbGateWebAddress;
-        private String fromAddress;
         private String gasPrice;
         private String gasLimit;
         private String ddc721Address;
@@ -43,13 +44,16 @@ public class DDCSdkClient {
         private String authorityLogicAddress;
         private String chargeLogicAddress;
         private SignEventListener signEventListener;
+        private String headerKey;
+        private String headerValue;
 
         public Builder(String opbGateWebAddress) {
             this.opbGateWebAddress = opbGateWebAddress;
         }
 
-        public Builder setFromAddress(String fromAddress) {
-            this.fromAddress = fromAddress;
+        public Builder setHeader(String headerKey,String headerValue){
+            this.headerKey = headerKey;
+            this.headerValue = headerValue;
             return this;
         }
 
@@ -92,7 +96,7 @@ public class DDCSdkClient {
         }
 
         public DDCSdkClient init() {
-            ConfigCache.initCache(opbGateWebAddress, fromAddress, gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress);
+            ConfigCache.initCache(opbGateWebAddress, headerKey, headerValue, gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress);
             return new DDCSdkClient(this);
         }
     }
