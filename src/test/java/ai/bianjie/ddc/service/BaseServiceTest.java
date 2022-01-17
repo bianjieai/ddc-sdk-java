@@ -8,6 +8,7 @@ import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +29,7 @@ class BaseServiceTest {
 
     @Test
     void getBlockByNumber() throws IOException {
-        EthBlock.Block block = baseService.getBlockByNumber("1");
+        EthBlock.Block block = baseService.getBlockByNumber(new BigInteger("1"));
         System.out.println("--------------------------------------" + block);
     }
 

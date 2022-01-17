@@ -20,6 +20,7 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.utils.Strings;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class BlockEventService extends BaseService {
     public BlockEventBean getBlockEvent(String blockNumber) throws IOException, InterruptedException {
         ArrayList<BaseEventResponse> arrayList = new ArrayList<>();
         // 1. 获取区块信息
-        EthBlock.Block blockInfo = getBlockByNumber(blockNumber);
+        EthBlock.Block blockInfo = getBlockByNumber(new BigInteger(blockNumber));
 
         List<EthBlock.TransactionResult> txs = blockInfo.getTransactions();
 

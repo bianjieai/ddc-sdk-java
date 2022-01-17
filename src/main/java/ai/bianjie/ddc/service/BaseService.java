@@ -29,8 +29,8 @@ public class BaseService {
      *
      * @return 区块信息
      */
-    public EthBlock.Block getBlockByNumber(String blockNumber) throws IOException {
-        return Web3jUtils.getWeb3j().ethGetBlockByNumber(CommonUtils.getDefaultBlockParamter(blockNumber), true).send().getBlock();
+    public EthBlock.Block getBlockByNumber(BigInteger blockNumber) throws IOException {
+        return Web3jUtils.getWeb3j().ethGetBlockByNumber(CommonUtils.getDefaultBlockParamter(blockNumber.toString()), true).send().getBlock();
     }
 
     /**
