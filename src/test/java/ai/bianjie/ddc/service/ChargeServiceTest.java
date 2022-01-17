@@ -1,51 +1,65 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.DDCSdkClient;
-import ai.bianjie.ddc.listener.SignEventListener;
+import ai.bianjie.ddc.listener.sign;
 import org.junit.jupiter.api.Test;
-import org.web3j.crypto.RawTransaction;
 
 import java.math.BigInteger;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class ChargeServiceTest {
 
-    DDCSdkClient client = new DDCSdkClient.Builder("http://192.168.150.43:8545").gasLimit("30000").gasPrice("1000000").credentials("443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B").init();
-    SignEventListener signEventListener =new SignEventListener() {
-        @Override
-        public String signEvent(RawTransaction event) {
-            return null;
-        }
-    };
-    ChargeService chargeService = new ChargeService(signEventListener);
+    DDCSdkClient client = new DDCSdkClient.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc")
+            .setAuthorityLogicAddress("0xdAc50c90b934AdED33b6ADc9f5855ab8a9EFB09a")
+            .setChargeLogicAddress("0x52403cE9E235Cf013bA2353F0bf47834C98424c7")
+            .setDDC721Address("0x503f45958F57Da55170B54796F4eD224c9fef9d7")
+            .setDDC1155Address("0xe7310D2D79c67a3078DBeFA67344c7047AC28708")
+            .setGasLimit("300000")
+            .setGasPrice("10000000")
+            .setSignEventListener(new sign())
+            .init();
+    ChargeService chargeService = client.getChargeService();
+
     @Test
     void recharge() throws Exception {
-        String hash = chargeService.recharge("59F2175B2380AAA12F512360D43CBD77B7841A51",new BigInteger("100"));
-        System .out.print(hash);
+        String hash = chargeService.recharge("918F7F275A6C2D158E5B76F769D3F1678958A334", new BigInteger("100000"));
+        System.out.print(hash);
     }
 
     @Test
     void balanceOf() throws Exception {
-        BigInteger balance = chargeService.balanceOf("59F2175B2380AAA12F512360D43CBD77B7841A51");
-        System .out.print(balance);
+        BigInteger balance = chargeService.balanceOf("918F7F275A6C2D158E5B76F769D3F1678958A334");
+        System.out.print(balance);
     }
 
     @Test
-    void queryFee() {
+    void queryFee() throws Exception {
+        BigInteger fee = chargeService.queryFee("", "");
+        System.out.print(fee);
     }
 
     @Test
-    void selfRecharge() {
+    void selfRecharge() throws Exception {
+        String hash = chargeService.selfRecharge(new BigInteger("1000"));
+        System.out.print(hash);
     }
 
     @Test
-    void setFee() {
+    void setFee() throws Exception {
+        String hash = chargeService.setFee("0x503f45958F57Da55170B54796F4eD224c9fef9d7", "0xe985e9c5", new BigInteger("1000"));
+        System.out.print(hash);
     }
 
     @Test
-    void delFee() {
+    void delFee() throws Exception {
+        String hash = chargeService.delFee("0x503f45958F57Da55170B54796F4eD224c9fef9d7", "0xe985e9c5");
+        System.out.print(hash);
     }
 
     @Test
-    void delDDC() {
+    void delDDC() throws Exception {
+        String hash = chargeService.delDDC("");
+        System.out.print(hash);
     }
 }

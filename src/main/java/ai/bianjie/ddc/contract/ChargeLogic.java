@@ -365,7 +365,7 @@ public class ChargeLogic extends Contract {
         return executeRemoteCallSingleValueReturn(function, BigInteger.class);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> deleteDDC(String ddcAddr) {
+    public RemoteFunctionCall<TransactionReceipt> delDDC(String ddcAddr) {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
                 FUNC_DELETEDDC, 
                 Arrays.<Type>asList(new Address(160, ddcAddr)),
@@ -373,7 +373,7 @@ public class ChargeLogic extends Contract {
         return executeRemoteCallTransaction(function);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> deleteFee(String ddcAddr, byte[] sig) {
+    public RemoteFunctionCall<TransactionReceipt> delFee(String ddcAddr, byte[] sig) {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
                 FUNC_DELETEFEE, 
                 Arrays.<Type>asList(new Address(160, ddcAddr),

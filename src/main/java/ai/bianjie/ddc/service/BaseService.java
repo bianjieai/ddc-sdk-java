@@ -1,12 +1,12 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.config.ConfigCache;
+import ai.bianjie.ddc.dto.txInfo;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.CommonUtils;
+import ai.bianjie.ddc.util.GasProvider;
 import ai.bianjie.ddc.util.Web3jUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.web3j.abi.FunctionEncoder;
-import org.web3j.abi.datatypes.Function;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -16,22 +16,28 @@ import org.web3j.utils.Strings;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.net.CacheRequest;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
 public class BaseService {
-
     protected SignEventListener signEventListener;
-    private String gasLimit = ConfigCache.get().getGasLimit();
 
     /**
      * 获取区块信息
      *
      * @return 区块信息
      */
-    public EthBlock.Block getBlockByNumber(String blockNumber) throws IOException {
-        return Web3jUtils.getWeb3j().ethGetBlockByNumber(CommonUtils.getDefaultBlockParamter(blockNumber), true).send().getBlock();
+    public EthBlock.Block getBlockByNumber(BigInteger blockNumber) throws IOException {
+        return Web3jUtils.getWeb3j().ethGetBlockByNumber(CommonUtils.getDefaultBlockParamter(blockNumber.toString()), true).send().getBlock();
+    }
+
+    /**
+     * 获取最新的块高
+     */
+    public BigInteger getLatestBlockNumber() throws IOException {
+        return Web3jUtils.getWeb3j().ethGetBlockByNumber(DefaultBlockParameterName.LATEST, true).send().getBlock().getNumber();
     }
 
     /**
@@ -52,8 +58,14 @@ public class BaseService {
      * @param hash 交易哈希
      * @return 交易信息
      */
-    public Transaction getTransByHash(String hash) throws IOException {
-        return Web3jUtils.getWeb3j().ethGetTransactionByHash(hash).send().getTransaction().get();
+    public txInfo getTransByHash(String hash) throws IOException {
+        Transaction transaction = Web3jUtils.getWeb3j().ethGetTransactionByHash(hash).send().getTransaction().get();
+        return new txInfo(transaction.getHash(), transaction.getNonceRaw(), transaction.getBlockHash(),
+                transaction.getBlockNumber().toString(), transaction.getTransactionIndex().toString(),
+                transaction.getFrom(), transaction.getTo(), transaction.getValue().toString(),
+                transaction.getGasPrice().toString(), transaction.getGas().toString(),
+                transaction.getInput(), transaction.getCreates(), transaction.getPublicKey(),
+                transaction.getRaw(), transaction.getR(), transaction.getS(), transaction.getV());
     }
 
     /**
@@ -67,9 +79,14 @@ public class BaseService {
         return !Strings.isEmpty(txReceipt.toString());
     }
 
-    public BaseService setgasLimit(String gasLimit) {
-        this.gasLimit = gasLimit;
-        return this;
+    /**
+     * 初始化gasLimit集合
+     *
+     * @param gasLimit
+     */
+    public void setFuncGasLimit(String gasLimit) {
+        Map<String, String> map = new HashMap<>();
+        ConfigCache.get().setFuncGasLimit(gasLimit);
     }
 
     /**
@@ -81,30 +98,22 @@ public class BaseService {
      * @param signEventListener 负责签名的实例
      * @return EthSendTransaction 交易的结果
      */
-    public EthSendTransaction signAndSend(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener) throws Exception {
+    public EthSendTransaction signAndSend(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener,String sender) throws Exception {
 
         Web3j web3j = Web3jUtils.getWeb3j();
+        GasProvider gasProvider = new GasProvider();
 
-        BigInteger gasPrice = new BigInteger("10000000");
-        //这个参数后续可以改为根据方法名获取不同的limit
-        BigInteger gasLimit = new BigInteger("300000");
+        BigInteger gasPrice = gasProvider.getGasPrice();
+        BigInteger gasLimit = gasProvider.getGasLimit(functionName);
 
-        System.out.println("Price=========="+ConfigCache.get().getGasPrice());
-        System.out.println("Limit=========="+ConfigCache.get().getGasLimit());
-
-        //后续改为用户init时传入：调用者的账户地址
-        String callerAddr = "0x8A853214BD4AEADEF6351FBFEC5E4B7A3E65703A";
         String contractAddr = contract.getContractAddress();//目标合约地址
 
-
         //2. 获取调用者的交易笔数
-        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(callerAddr, DefaultBlockParameterName.LATEST).sendAsync().get();
+        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.LATEST).sendAsync().get();
         BigInteger nonce = ethGetTransactionCount.getTransactionCount();
 
-        System.out.println("nonce:-------------"+nonce);
-
         //3. 生成待签名的交易
-        RawTransaction rawTransaction = RawTransaction.createTransaction(new BigInteger("5"), gasPrice, gasLimit, contractAddr, encodedFunction);
+        RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddr, encodedFunction);
 
         //4. 调用签名方法，获取签名后的hexString
         String hexString_signedMessage = signEventListener.signEvent(rawTransaction);
@@ -112,10 +121,6 @@ public class BaseService {
         //5. 返回交易结果
         return web3j.ethSendRawTransaction(hexString_signedMessage).sendAsync().get();
 
-    }
-
-    public void setGasLimit(String gasLimit){
-        ConfigCache.get().setGasLimit(gasLimit);
     }
 
 

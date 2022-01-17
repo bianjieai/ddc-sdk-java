@@ -1,42 +1,37 @@
 package ai.bianjie.ddc;
 
 import ai.bianjie.ddc.listener.sign;
-import ai.bianjie.ddc.service.ChargeService;
-import ai.bianjie.ddc.service.DDC721Service;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 
+import static org.junit.jupiter.api.Assertions.*;
 
-public class DDCSdkClientTest {
-    @Test
-    public void chargeTest(){
-        DDCSdkClient ddcSdkClient = new DDCSdkClient.Builder("http://58.33.6.114:18545")
-                .ddc721Address("0x02d40d287C851b760342126922f5D239321Dc4BC")
-                .chargeLogicAddress("0xcA65BAbCB23053B0b1Fb3bB2d79E487e56e1FBC4")
-                .init();
-
-    }
+class DDCSdkClientTest {
 
     @Test
-    public void signTest() throws Exception {
-        DDCSdkClient ddcSdkClient = new DDCSdkClient.Builder("http://58.33.6.114:18545")
-                .chargeLogicAddress("0xcA65BAbCB23053B0b1Fb3bB2d79E487e56e1FBC4")
+    public void sdkInitTest() throws Exception {
+//        DDCSdkClient client = new DDCSdkClient.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc").authorityLogicAddress("0xdAc50c90b934AdED33b6ADc9f5855ab8a9EFB09a").chargeLogicAddress("0x52403cE9E235Cf013bA2353F0bf47834C98424c7").ddc721Address("0x503f45958F57Da55170B54796F4eD224c9fef9d7").ddc1155Address("0xe7310D2D79c67a3078DBeFA67344c7047AC28708").gasLimit("300000").gasPrice("10000000").init();
+//        SignEventListener signEventListener = new sign();
+//        client.registerSignListener(signEventListener);
+//        String a = client.getChargeService().recharge("918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("10"));
+//        System.out.println("================================"+a);
+//        BigInteger b = client.getChargeService().setGasLimitCharge("1").balanceOf("918F7F275A6C2D158E5B76F769D3F1678958A334");
+//        System.out.println("========================"+b);
+
+        DDCSdkClient client = new DDCSdkClient.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc")
+                .setAuthorityLogicAddress("0xdAc50c90b934AdED33b6ADc9f5855ab8a9EFB09a")
+                .setChargeLogicAddress("0x52403cE9E235Cf013bA2353F0bf47834C98424c7")
+                .setDDC721Address("0x503f45958F57Da55170B54796F4eD224c9fef9d7")
+                .setDDC1155Address("0xe7310D2D79c67a3078DBeFA67344c7047AC28708")
+                .setGasLimit("300000")
+                .setGasPrice("10000000")
+                .setSignEventListener(new sign())
                 .init();
-        ddcSdkClient.registerSignListener(new sign());
-        ChargeService chargeService = ddcSdkClient.getChargeService();
-        String hash = chargeService.recharge("59F2175B2380AAA12F512360D43CBD77B7841A51", new BigInteger("100"));
 
-        System.out.println("Recharge:======" + hash);
-
-        chargeService.recharge("59F2175B2380AAA12F512360D43CBD77B7841A51", new BigInteger("10"));
-        chargeService.setGasLimit("1");
-        chargeService.recharge("59F2175B2380AAA12F512360D43CBD77B7841A51", new BigInteger("10"));
-        chargeService.setGasLimit("2");
-        chargeService.recharge("59F2175B2380AAA12F512360D43CBD77B7841A51", new BigInteger("10"));
-
-
-
+        String a = client.getChargeService().recharge("918F7F275A6C2D158E5B76F769D3F1678958A334", new BigInteger("10"));
+        System.out.println("================================" + a);
+//        BigInteger b = client.getChargeService().setGasLimitCharge("1").balanceOf("918F7F275A6C2D158E5B76F769D3F1678958A334");
+//        System.out.println("========================"+b);
     }
-
 }

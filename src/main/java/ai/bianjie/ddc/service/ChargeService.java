@@ -29,7 +29,11 @@ public class ChargeService extends BaseService {
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String recharge(String to, BigInteger amount) throws Exception {
+    public String recharge(String sender,String to, BigInteger amount) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
         if (Strings.isEmpty(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
         }
@@ -45,7 +49,7 @@ public class ChargeService extends BaseService {
 
         String encodedFunction = charge.recharge(to, amount).encodeFunctionCall();
 
-        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
     /**
@@ -55,7 +59,11 @@ public class ChargeService extends BaseService {
      * @return 返回账户所对应的业务费余额
      * @throws Exception
      */
-    public BigInteger balanceOf(String accAddr) throws Exception {
+    public BigInteger balanceOf(String sender,String accAddr) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
         if (Strings.isEmpty(accAddr)) {
             throw new DDCException(ErrorMessage.ACC_ADDR_IS_EMPTY);
         }
@@ -75,7 +83,11 @@ public class ChargeService extends BaseService {
      * @return 返回DDC合约业务费
      * @throws Exception
      */
-    public BigInteger queryFee(String ddcAddr, String sig) throws Exception {
+    public BigInteger queryFee(String sender,String ddcAddr, String sig) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
         if (Strings.isEmpty(ddcAddr)) {
             throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
         }
@@ -103,7 +115,11 @@ public class ChargeService extends BaseService {
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String selfRecharge(BigInteger amount) throws Exception {
+    public String selfRecharge(String sender,BigInteger amount) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
         if (amount == null || amount.intValue() <= 0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
@@ -120,7 +136,11 @@ public class ChargeService extends BaseService {
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String setFee(String ddcAddr, String sig, BigInteger amount) throws Exception {
+    public String setFee(String sender,String ddcAddr, String sig, BigInteger amount) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
         if (Strings.isEmpty(ddcAddr)) {
             throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
         }
@@ -152,7 +172,11 @@ public class ChargeService extends BaseService {
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String delFee(String ddcAddr, String sig) throws Exception {
+    public String delFee(String sender,String ddcAddr, String sig) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
         if (Strings.isEmpty(ddcAddr)) {
             throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
         }
@@ -171,7 +195,7 @@ public class ChargeService extends BaseService {
 
         byte[] sigInByte = Numeric.hexStringToByteArray(sig);
 
-        return Web3jUtils.getCharge().deleteFee(ddcAddr, sigInByte).send().getTransactionHash();
+        return Web3jUtils.getCharge().delFee(ddcAddr, sigInByte).send().getTransactionHash();
     }
 
     /**
@@ -181,7 +205,11 @@ public class ChargeService extends BaseService {
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String delDDC(String ddcAddr) throws Exception {
+    public String delDDC(String sender,String ddcAddr) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
         if (Strings.isEmpty(ddcAddr)) {
             throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
         }
@@ -190,7 +218,7 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
         }
 
-        return Web3jUtils.getCharge().deleteDDC(ddcAddr).send().getTransactionHash();
+        return Web3jUtils.getCharge().delDDC(ddcAddr).send().getTransactionHash();
     }
 
 }

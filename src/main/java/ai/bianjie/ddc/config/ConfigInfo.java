@@ -1,15 +1,25 @@
 package ai.bianjie.ddc.config;
 
+import ai.bianjie.ddc.constant.AuthorityFunctions;
+import ai.bianjie.ddc.constant.ChargeFunctions;
+import ai.bianjie.ddc.constant.DDC1155Functions;
+import ai.bianjie.ddc.constant.DDC721Functions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConfigInfo {
+    private Map<String,String> map = new HashMap<>();
 
     private String opbGatewayAddress = "http://192.168.150.43:8545";
 
-    private String credentials = "443E5162AAB8D1E0B262068CE74C4CD4BD58268A95911140E03BCD5ED6FC788B";
+    private String fromAddress;
 
     private String gasPrice = "10000000";
 
     private String gasLimit = "300000";
+
+    private String funcGasLimit = "0";
 
 
     //authority合约
@@ -28,6 +38,50 @@ public class ConfigInfo {
     private String ddc1155BIN;
     private String ddc1155Address = "0xf6Bc71043a176114A8E4cfF686D6F417b971d5bA";
 
+    public ConfigInfo() {
+        map.put(AuthorityFunctions.GetAccount,"0");
+        map.put(AuthorityFunctions.AddAccount,"0");
+        map.put(AuthorityFunctions.AddConsumerByOperator,"0");
+        map.put(AuthorityFunctions.UpdateAccountState,"0");
+        map.put(AuthorityFunctions.GetAccount,"0");
+        map.put(AuthorityFunctions.AddAccount,"0");
+        map.put(AuthorityFunctions.AddConsumerByOperator,"0");
+        map.put(AuthorityFunctions.UpdateAccountState,"0");
+        map.put(ChargeFunctions.Recharge,"0");
+        map.put(ChargeFunctions.BalanceOf,"0");
+        map.put(ChargeFunctions.QueryFee,"0");
+        map.put(ChargeFunctions.SelfRecharge,"0");
+        map.put(ChargeFunctions.SetFee,"0");
+        map.put(ChargeFunctions.DeleteFee,"0");
+        map.put(DDC721Functions.MINT,"0");
+        map.put(DDC721Functions.APPROVE,"0");
+        map.put(DDC721Functions.GET_APPROVED,"0");
+        map.put(DDC721Functions.SET_APPROVAL_FOR_ALL,"0");
+        map.put(DDC721Functions.IS_APPROVED_FOR_ALL,"0");
+        map.put(DDC721Functions.SAFE_TRANSFER_FROM,"0");
+        map.put(DDC721Functions.TRANSFER_FROM,"0");
+        map.put(DDC721Functions.FREEZE,"0");
+        map.put(DDC721Functions.UNFREEZE,"0");
+        map.put(DDC721Functions.BURN,"0");
+        map.put(DDC721Functions.BALANCE_OF,"0");
+        map.put(DDC721Functions.OWNER_OF,"0");
+        map.put(DDC721Functions.NAME,"0");
+        map.put(DDC721Functions.SYMBOL,"0");
+        map.put(DDC721Functions.DDC_URI,"0");
+        map.put(DDC1155Functions.Mint,"0");
+        map.put(DDC1155Functions.MintBatch,"0");
+        map.put(DDC1155Functions.SetApprovalForAll,"0");
+        map.put(DDC1155Functions.IsApprovedForAll,"0");
+        map.put(DDC1155Functions.SafeTransferFrom,"0");
+        map.put(DDC1155Functions.SafeBatchTransferFrom,"0");
+        map.put(DDC1155Functions.Freeze,"0");
+        map.put(DDC1155Functions.UnFreeze,"0");
+        map.put(DDC1155Functions.Burn,"0");
+        map.put(DDC1155Functions.BurnBatch,"0");
+        map.put(DDC1155Functions.BalanceOf,"0");
+        map.put(DDC1155Functions.BalanceOfBatch,"0");
+        map.put(DDC1155Functions.DDCURI,"0");
+    }
 
     public String getOpbGatewayAddress() {
         return opbGatewayAddress;
@@ -69,12 +123,12 @@ public class ConfigInfo {
         this.chargeLogicAddress = chargeLogicAddress;
     }
 
-    public String getCredentials() {
-        return credentials;
+    public String getFromAddress() {
+        return fromAddress;
     }
 
-    public void setCredentials(String credentials) {
-        this.credentials = credentials;
+    public void setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
     }
 
     public String getGasPrice() {
@@ -121,7 +175,23 @@ public class ConfigInfo {
         return chargeLogicBIN;
     }
 
+    public String getFuncGasLimit() {
+        return funcGasLimit;
+    }
+
+    public void setFuncGasLimit(String customerGasLimit) {
+        this.funcGasLimit = customerGasLimit;
+    }
+
     public void setChargeLogicBIN(String chargeLogicBIN) {
         this.chargeLogicBIN = chargeLogicBIN;
+    }
+
+    public Map<String, String> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<String, String> map) {
+        this.map = map;
     }
 }

@@ -14,6 +14,7 @@ public enum ErrorMessage {
     AMOUNT_IS_EMPTY(1006, "amount is empty"),
     TO_ACCOUNT_IS_EMPTY(1007, "to account is empty"),
     TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT(1008, "to account is not a standard address format"),
+    SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT(1029, "sender account is not a standard address format"),
     FROM_ACCOUNT_IS_EMPTY(1009, "from account is empty"),
     FROM_ACCOUNT_IS_NOT_ADDRESS_FORMAT(1010, "from account is not a standard address format"),
     ACC_ADDR_IS_EMPTY(1011, "accAddr is empty"),
