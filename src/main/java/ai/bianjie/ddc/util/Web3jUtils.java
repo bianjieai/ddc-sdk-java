@@ -27,12 +27,12 @@ public class Web3jUtils {
         }
     }
 
-    public static AuthorityLogic getAuthority() {
-        return AuthorityLogic.load(ConfigCache.get().getAuthorityLogicAddress(), Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
+    public static Authority getAuthority() {
+        return Authority.load(ConfigCache.get().getAuthorityLogicAddress(), Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
     }
 
-    public static ChargeLogic getCharge() {
-        return ChargeLogic.load(ConfigCache.get().getChargeLogicAddress(), Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
+    public static Charge getCharge() {
+        return Charge.load(ConfigCache.get().getChargeLogicAddress(), Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
     }
 
     public static DDC1155 getDDC1155() {
