@@ -3,6 +3,7 @@ package ai.bianjie.ddc.service;
 import ai.bianjie.ddc.constant.ChargeFunctions;
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.contract.ChargeLogic;
+import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.listener.sign;
@@ -16,10 +17,14 @@ import org.web3j.utils.Strings;
 import java.math.BigInteger;
 
 public class ChargeService extends BaseService {
+    private ChargeLogic chargeLogic;
+    private String encodedFunction;
 
     public ChargeService(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
+        this.chargeLogic = Web3jUtils.getCharge();
     }
+
 
     /**
      * 运营方、平台方调用该接口为所属同一方的同一级别账户或者下级账户充值；
@@ -45,11 +50,9 @@ public class ChargeService extends BaseService {
         if (amount == null || amount.intValue() <= 0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
-        ChargeLogic charge = Web3jUtils.getCharge();
+        encodedFunction = chargeLogic.recharge(to, amount).encodeFunctionCall();
 
-        String encodedFunction = charge.recharge(to, amount).encodeFunctionCall();
-
-        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(chargeLogic, ChargeFunctions.Recharge, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
     /**
@@ -123,8 +126,9 @@ public class ChargeService extends BaseService {
         if (amount == null || amount.intValue() <= 0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
+        encodedFunction = chargeLogic.selfRecharge(amount).encodeFunctionCall();
 
-        return Web3jUtils.getCharge().selfRecharge(amount).send().getTransactionHash();
+        return signAndSend(chargeLogic, ChargeFunctions.Recharge, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
     /**
@@ -161,7 +165,9 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
         byte[] sigInByte = Numeric.hexStringToByteArray(sig);
-        return Web3jUtils.getCharge().setFee(ddcAddr, sigInByte, amount).send().getTransactionHash();
+        encodedFunction = chargeLogic.setFee(ddcAddr, sigInByte, amount).encodeFunctionCall();
+
+        return signAndSend(chargeLogic, ChargeFunctions.Recharge, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
     /**
@@ -194,8 +200,9 @@ public class ChargeService extends BaseService {
         }
 
         byte[] sigInByte = Numeric.hexStringToByteArray(sig);
+        encodedFunction = chargeLogic.delFee(ddcAddr, sigInByte).encodeFunctionCall();
 
-        return Web3jUtils.getCharge().delFee(ddcAddr, sigInByte).send().getTransactionHash();
+        return signAndSend(chargeLogic, ChargeFunctions.Recharge, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
     /**
@@ -218,7 +225,9 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
         }
 
-        return Web3jUtils.getCharge().delDDC(ddcAddr).send().getTransactionHash();
+        encodedFunction = chargeLogic.delDDC(ddcAddr).encodeFunctionCall();
+
+        return signAndSend(chargeLogic, ChargeFunctions.Recharge, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
 }
