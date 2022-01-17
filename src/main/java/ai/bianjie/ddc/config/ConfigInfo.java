@@ -68,8 +68,8 @@ public class ConfigInfo {
         map.put(DDC721Functions.NAME,"0");
         map.put(DDC721Functions.SYMBOL,"0");
         map.put(DDC721Functions.DDC_URI,"0");
-        map.put(DDC1155Functions.Mint,"0");
-        map.put(DDC1155Functions.MintBatch,"0");
+        map.put(DDC1155Functions.SafeMint,"0");
+        map.put(DDC1155Functions.SAFE_MINT_BATCH,"0");
         map.put(DDC1155Functions.SetApprovalForAll,"0");
         map.put(DDC1155Functions.IsApprovedForAll,"0");
         map.put(DDC1155Functions.SafeTransferFrom,"0");

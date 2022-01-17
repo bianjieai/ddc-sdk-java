@@ -9,11 +9,9 @@ import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
 import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.internal.http2.ErrorCode;
 import org.web3j.utils.Strings;
 
 import java.math.BigInteger;
-import java.nio.channels.DatagramChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +58,7 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.safeMint(to, amount, ddcURI, data).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.Mint, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.SafeMint, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -104,7 +102,7 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.safeMintBatch(to, amounts, ddcURIS, data).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.MintBatch, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155Functions.SAFE_MINT_BATCH, encodedFunction, signEventListener, sender).getTransactionHash();
 
     }
 
