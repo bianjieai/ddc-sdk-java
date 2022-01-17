@@ -195,7 +195,7 @@ public class ChargeService extends BaseService {
 
         byte[] sigInByte = Numeric.hexStringToByteArray(sig);
 
-        return Web3jUtils.getCharge().deleteFee(ddcAddr, sigInByte).send().getTransactionHash();
+        return Web3jUtils.getCharge().delFee(ddcAddr, sigInByte).send().getTransactionHash();
     }
 
     /**
@@ -218,7 +218,7 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.DDC_ADDR_IS_NOT_ADDRESS_FORMAT);
         }
 
-        return Web3jUtils.getCharge().deleteDDC(ddcAddr).send().getTransactionHash();
+        return Web3jUtils.getCharge().delDDC(ddcAddr).send().getTransactionHash();
     }
 
 }
