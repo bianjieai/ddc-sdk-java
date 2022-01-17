@@ -323,7 +323,7 @@ public class AuthorityLogic extends Contract {
         return executeRemoteCallSingleValueReturn(function, Boolean.class);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> addAccount(String account, String accountName, String accountDID) {
+    public RemoteFunctionCall<TransactionReceipt> addAccountByPlatform(String account, String accountName, String accountDID) {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
                 FUNC_ADDACCOUNT, 
                 Arrays.<Type>asList(new Address(160, account),
@@ -333,7 +333,7 @@ public class AuthorityLogic extends Contract {
         return executeRemoteCallTransaction(function);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> addConsumerByOperator(String account, String accountName, String accountDID, String leaderDID) {
+    public RemoteFunctionCall<TransactionReceipt> addAccountByOperator(String account, String accountName, String accountDID, String leaderDID) {
         final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(
                 FUNC_ADDCONSUMERBYOPERATOR, 
                 Arrays.<Type>asList(new Address(160, account),

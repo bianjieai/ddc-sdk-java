@@ -33,7 +33,11 @@ public class AuthorityService extends BaseService {
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String addAccount(String account, String accName, String accDID) throws Exception {
+    public String addAccount(String sender,String account, String accName, String accDID) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
         if (Strings.isEmpty(account)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
         }
@@ -46,7 +50,7 @@ public class AuthorityService extends BaseService {
             throw new DDCException(ErrorMessage.ACCOUNT_NAME_IS_EMPTY);
         }
 
-        encodedFunction = authorityLogic.addAccount(account, accName, accDID).encodeFunctionCall();
+        encodedFunction = authorityLogic.addAccountByPlatform(account, accName, accDID).encodeFunctionCall();
         return signAndSend(authorityLogic, AuthorityFunctions.AddAccount, encodedFunction, signEventListener).getTransactionHash();
     }
 
@@ -61,7 +65,11 @@ public class AuthorityService extends BaseService {
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String addConsumerByOperator(String account, String accName, String accDID, String leaderDID) throws Exception {
+    public String addAccountByOperator(String sender,String account, String accName, String accDID, String leaderDID) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
         if (Strings.isEmpty(account)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
         }
@@ -78,7 +86,7 @@ public class AuthorityService extends BaseService {
             throw new DDCException(ErrorMessage.ACCOUNT_LEADER_DID_IS_EMPTY);
         }
 
-        encodedFunction = authorityLogic.addConsumerByOperator(account, accName, accDID, leaderDID).encodeFunctionCall();
+        encodedFunction = authorityLogic.addAccountByOperator(account, accName, accDID, leaderDID).encodeFunctionCall();
         return signAndSend(authorityLogic, AuthorityFunctions.AddConsumerByOperator, encodedFunction, signEventListener).getTransactionHash();
     }
 
@@ -89,7 +97,7 @@ public class AuthorityService extends BaseService {
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String delAccount(String account) throws Exception {
+    public String delAccount(String sender,String account) throws Exception {
         throw new DDCException(ErrorMessage.UNKNOWN_ERROR);
     }
 
@@ -100,7 +108,11 @@ public class AuthorityService extends BaseService {
      * @return 返回DDC账户信息
      * @throws Exception
      */
-    public AccountInfo getAccount(String account) throws Exception {
+    public AccountInfo getAccount(String sender,String account) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
         if (Strings.isEmpty(account)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
         }
@@ -120,7 +132,11 @@ public class AuthorityService extends BaseService {
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String updateAccState(String account, BigInteger state, boolean changePlatformState) throws Exception {
+    public String updateAccState(String sender,String account, BigInteger state, boolean changePlatformState) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
         if (Strings.isEmpty(account)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
         }
