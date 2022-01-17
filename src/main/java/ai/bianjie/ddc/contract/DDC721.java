@@ -1,6 +1,5 @@
 package ai.bianjie.ddc.contract;
 
-.;
 
 import io.reactivex.Flowable;
 import io.reactivex.functions.Function;
