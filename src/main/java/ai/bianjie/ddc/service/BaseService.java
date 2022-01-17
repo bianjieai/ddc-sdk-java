@@ -12,6 +12,7 @@ import org.bitcoinj.crypto.*;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
+import org.web3j.crypto.MnemonicUtils;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -29,6 +30,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import static org.web3j.crypto.Hash.sha256;
 
 @Slf4j
 public class BaseService {
@@ -142,22 +145,28 @@ public class BaseService {
      * @return 返回
      * @throws Exception
      */
-    public String createAccount() throws InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, MnemonicException.MnemonicLengthException {
+    public String createAccount() throws  MnemonicException.MnemonicLengthException {
+//        SecureRandom secureRandom = new SecureRandom();
+//        byte[] entropy = new byte[DeterministicSeed.DEFAULT_SEED_ENTROPY_BITS / 8];
+//        secureRandom.nextBytes(entropy);
+//        //生成12位助记词
+//        List<String> str = MnemonicCode.INSTANCE.toMnemonic(entropy);
+//        //使用助记词生成钱包种子
+//        byte[] seed = MnemonicCode.toSeed(str, "");
+//        DeterministicKey masterPrivateKey = HDKeyDerivation.createMasterPrivateKey(seed);
+//        DeterministicHierarchy deterministicHierarchy = new DeterministicHierarchy(masterPrivateKey);
+//        DeterministicKey deterministicKey = deterministicHierarchy
+//                .deriveChild(BIP44_ETH_ACCOUNT_ZERO_PATH, false, true, new ChildNumber(0));
+//        byte[] bytes = deterministicKey.getPrivKeyBytes();
+//        ECKeyPair keyPair = ECKeyPair.create(bytes);
+        byte[] initialEntropy = new byte[16];
         SecureRandom secureRandom = new SecureRandom();
-        byte[] entropy = new byte[DeterministicSeed.DEFAULT_SEED_ENTROPY_BITS / 8];
-        secureRandom.nextBytes(entropy);
-        //生成12位助记词
-        List<String> str = MnemonicCode.INSTANCE.toMnemonic(entropy);
-        //使用助记词生成钱包种子
-        byte[] seed = MnemonicCode.toSeed(str, "");
-        DeterministicKey masterPrivateKey = HDKeyDerivation.createMasterPrivateKey(seed);
-        DeterministicHierarchy deterministicHierarchy = new DeterministicHierarchy(masterPrivateKey);
-        DeterministicKey deterministicKey = deterministicHierarchy
-                .deriveChild(BIP44_ETH_ACCOUNT_ZERO_PATH, false, true, new ChildNumber(0));
-        byte[] bytes = deterministicKey.getPrivKeyBytes();
-        ECKeyPair keyPair = ECKeyPair.create(bytes);
+        secureRandom.nextBytes(initialEntropy);
+        String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
+        byte[] seed = MnemonicUtils.generateSeed(mnemonic, "");
+        ECKeyPair keyPair = ECKeyPair.create(sha256(seed));
         String addr = Keys.getAddress(keyPair);
-        return str.toString() + ' ' +"PrivateKey :"+ keyPair.getPrivateKey().toString()
+        return "Keyseed :" + mnemonic + ' ' +"PrivateKey :"+ keyPair.getPrivateKey().toString()
                 + ' ' + "PublicKey :" + keyPair.getPublicKey().toString()
                 + ' ' + "Address :"+ addr;
     }
