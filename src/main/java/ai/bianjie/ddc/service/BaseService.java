@@ -16,6 +16,7 @@ import org.web3j.utils.Strings;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.CacheRequest;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
@@ -84,12 +85,15 @@ public class BaseService {
 
         Web3j web3j = Web3jUtils.getWeb3j();
 
-        BigInteger gasPrice = new BigInteger("100000000");
+        BigInteger gasPrice = new BigInteger("10000000");
         //这个参数后续可以改为根据方法名获取不同的limit
         BigInteger gasLimit = new BigInteger("300000");
 
+        System.out.println("Price=========="+ConfigCache.get().getGasPrice());
+        System.out.println("Limit=========="+ConfigCache.get().getGasLimit());
+
         //后续改为用户init时传入：调用者的账户地址
-        String callerAddr = "0x918F7F275A6C2D158E5B76F769D3F1678958A334";
+        String callerAddr = "0x8A853214BD4AEADEF6351FBFEC5E4B7A3E65703A";
         String contractAddr = contract.getContractAddress();//目标合约地址
 
 
@@ -97,8 +101,10 @@ public class BaseService {
         EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(callerAddr, DefaultBlockParameterName.LATEST).sendAsync().get();
         BigInteger nonce = ethGetTransactionCount.getTransactionCount();
 
+        System.out.println("nonce:-------------"+nonce);
+
         //3. 生成待签名的交易
-        RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddr, encodedFunction);
+        RawTransaction rawTransaction = RawTransaction.createTransaction(new BigInteger("5"), gasPrice, gasLimit, contractAddr, encodedFunction);
 
         //4. 调用签名方法，获取签名后的hexString
         String hexString_signedMessage = signEventListener.signEvent(rawTransaction);
@@ -106,6 +112,10 @@ public class BaseService {
         //5. 返回交易结果
         return web3j.ethSendRawTransaction(hexString_signedMessage).sendAsync().get();
 
+    }
+
+    public void setGasLimit(String gasLimit){
+        ConfigCache.get().setGasLimit(gasLimit);
     }
 
 

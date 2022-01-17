@@ -1,5 +1,6 @@
 package ai.bianjie.ddc.config;
 
+
 public class ConfigInfo {
 
     private String opbGatewayAddress = "http://192.168.150.43:8545";
