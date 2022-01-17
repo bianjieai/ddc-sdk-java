@@ -26,12 +26,13 @@ public class ChargeService extends BaseService {
     /**
      * 运营方、平台方调用该接口为所属同一方的同一级别账户或者下级账户充值；
      *
+     * @param sender 调用者地址
      * @param to     充值账户的地址
      * @param amount 充值金额
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String recharge(String sender,String to, BigInteger amount) throws Exception {
+    public String recharge(String sender, String to, BigInteger amount) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -49,17 +50,18 @@ public class ChargeService extends BaseService {
         }
         encodedFunction = charge.recharge(to, amount).encodeFunctionCall();
 
-        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
      * 查询指定账户的余额。
      *
+     * @param sender  调用者地址
      * @param accAddr 查询的账户地址
      * @return 返回账户所对应的业务费余额
      * @throws Exception
      */
-    public BigInteger balanceOf(String sender,String accAddr) throws Exception {
+    public BigInteger balanceOf(String sender, String accAddr) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -78,12 +80,13 @@ public class ChargeService extends BaseService {
     /**
      * 查询指定的DDC业务主逻辑合约的方法所对应的调用业务费用。
      *
+     * @param sender  调用者地址
      * @param ddcAddr DDC业务主逻辑合约地址
      * @param sig     Hex格式的合约方法ID
      * @return 返回DDC合约业务费
      * @throws Exception
      */
-    public BigInteger queryFee(String sender,String ddcAddr, String sig) throws Exception {
+    public BigInteger queryFee(String sender, String ddcAddr, String sig) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -111,11 +114,12 @@ public class ChargeService extends BaseService {
     /**
      * 运营方调用为自己的账户增加业务费。
      *
+     * @param sender 调用者地址
      * @param amount 对运营方账户进行充值的业务费
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String selfRecharge(String sender,BigInteger amount) throws Exception {
+    public String selfRecharge(String sender, BigInteger amount) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -125,19 +129,20 @@ public class ChargeService extends BaseService {
         }
         encodedFunction = charge.selfRecharge(amount).encodeFunctionCall();
 
-        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
      * 运营方调用接口设置指定的DDC主合约的方法调用费用。
      *
+     * @param sender  调用者地址
      * @param ddcAddr DDC业务主逻辑合约地址
      * @param sig     Hex格式的合约方法ID
      * @param amount  业务费用
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String setFee(String sender,String ddcAddr, String sig, BigInteger amount) throws Exception {
+    public String setFee(String sender, String ddcAddr, String sig, BigInteger amount) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -164,18 +169,19 @@ public class ChargeService extends BaseService {
         byte[] sigInByte = Numeric.hexStringToByteArray(sig);
         encodedFunction = charge.setFee(ddcAddr, sigInByte, amount).encodeFunctionCall();
 
-        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
      * 运营方调用接口删除指定的DDC主合约的方法调用费用。
      *
+     * @param sender  调用者地址
      * @param ddcAddr DDC业务主逻辑合约地址
      * @param sig     Hex格式的合约方法ID
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String delFee(String sender,String ddcAddr, String sig) throws Exception {
+    public String delFee(String sender, String ddcAddr, String sig) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -199,17 +205,18 @@ public class ChargeService extends BaseService {
         byte[] sigInByte = Numeric.hexStringToByteArray(sig);
         encodedFunction = charge.delFee(ddcAddr, sigInByte).encodeFunctionCall();
 
-        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
      * 运营方调用该接口删除指定的DDC业务主逻辑合约授权。
      *
+     * @param sender  调用者地址'
      * @param ddcAddr DDC业务主逻辑合约地址
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String delDDC(String sender,String ddcAddr) throws Exception {
+    public String delDDC(String sender, String ddcAddr) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -224,7 +231,7 @@ public class ChargeService extends BaseService {
 
         encodedFunction = charge.delDDC(ddcAddr).encodeFunctionCall();
 
-        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
 }

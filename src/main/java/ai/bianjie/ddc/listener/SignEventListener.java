@@ -11,7 +11,6 @@ public interface SignEventListener {
 	 * @param rawTransaction 签名事件参数
 	 * @return 返回签名交易串
 	 */
-	public String signEvent(RawTransaction rawTransaction);
-
+	public String signEvent(String sender,RawTransaction rawTransaction);
 
 }
