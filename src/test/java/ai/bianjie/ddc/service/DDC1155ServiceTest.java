@@ -29,14 +29,14 @@ class DDC1155ServiceTest {
 
     @Test
     void mint() throws Exception {
-        System.out.println(ddc1155Service.mint(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("3"),"222222"));
+//        System.out.println(ddc1155Service.mint(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("3"),"222222"));
     }
 
     @Test
     void mintBatch() throws Exception {
         Multimap<BigInteger, String> ddcInfo = ArrayListMultimap.create();;
         ddcInfo.put(new BigInteger("3"),"12");
-        System.out.println(ddc1155Service.mintBatch(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",ddcInfo));
+//        System.out.println(ddc1155Service.mintBatch(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",ddcInfo));
     }
 
     @Test

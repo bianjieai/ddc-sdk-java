@@ -6,7 +6,12 @@ import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.CommonUtils;
 import ai.bianjie.ddc.util.GasProvider;
 import ai.bianjie.ddc.util.Web3jUtils;
+import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
+import org.bitcoinj.crypto.*;
+import org.bitcoinj.wallet.DeterministicSeed;
+import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Keys;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -16,7 +21,12 @@ import org.web3j.utils.Strings;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -123,5 +133,32 @@ public class BaseService {
 
     }
 
-
+    private final static ImmutableList<ChildNumber> BIP44_ETH_ACCOUNT_ZERO_PATH =
+            ImmutableList.of(new ChildNumber(44, true), new ChildNumber(60, true),
+                    ChildNumber.ZERO_HARDENED, ChildNumber.ZERO);
+    /**
+     * 平台方或终端用户通过该方法进行离线账户生成。
+     *
+     * @return 返回
+     * @throws Exception
+     */
+    public String createAccount() throws InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, MnemonicException.MnemonicLengthException {
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] entropy = new byte[DeterministicSeed.DEFAULT_SEED_ENTROPY_BITS / 8];
+        secureRandom.nextBytes(entropy);
+        //生成12位助记词
+        List<String> str = MnemonicCode.INSTANCE.toMnemonic(entropy);
+        //使用助记词生成钱包种子
+        byte[] seed = MnemonicCode.toSeed(str, "");
+        DeterministicKey masterPrivateKey = HDKeyDerivation.createMasterPrivateKey(seed);
+        DeterministicHierarchy deterministicHierarchy = new DeterministicHierarchy(masterPrivateKey);
+        DeterministicKey deterministicKey = deterministicHierarchy
+                .deriveChild(BIP44_ETH_ACCOUNT_ZERO_PATH, false, true, new ChildNumber(0));
+        byte[] bytes = deterministicKey.getPrivKeyBytes();
+        ECKeyPair keyPair = ECKeyPair.create(bytes);
+        String addr = Keys.getAddress(keyPair);
+        return str.toString() + ' ' +"PrivateKey :"+ keyPair.getPrivateKey().toString()
+                + ' ' + "PublicKey :" + keyPair.getPublicKey().toString()
+                + ' ' + "Address :"+ addr;
+    }
 }

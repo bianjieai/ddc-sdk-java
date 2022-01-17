@@ -84,9 +84,6 @@ public class BlockEventService extends BaseService {
                     case AuthorityFunctions.AddAccountEvent:
                         list.addAll(authority.getAddAccountEvents(receipt));
                         break;
-                    case AuthorityFunctions.UpdateAccountEvent:
-                        list.addAll(authority.getUpdateAccountEvents(receipt));
-                        break;
                     case AuthorityFunctions.UpdateAccountStateEvent:
                         list.addAll(authority.getUpdateAccountStateEvents(receipt));
                         break;
