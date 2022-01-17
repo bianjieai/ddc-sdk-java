@@ -29,80 +29,80 @@ class DDC721ServiceTest {
 //        .gasLimit("300000")
 //        .gasPrice("10000000").init();
 
-    DDC721Service ddc721Service = client.getDDC721Service();
-
-    @Test
-    void mint() throws Exception {
-        System.out.println(ddc721Service.mint("0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721","11111"));
-    }
-
-    @Test
-    void approve() throws Exception {
-        System.out.println(ddc721Service.approve("6F561802FDAD741EDA7254C3F5651DAAAB266A90",new BigInteger("11")));
-    }
-
-    @Test
-    void getApproved() throws Exception {
-        System.out.println(ddc721Service.getApproved(new BigInteger("2")));
-    }
-
-    @Test
-    void setApprovalForAll() throws Exception {
-        System.out.println(ddc721Service.setApprovalForAll("6F561802FDAD741EDA7254C3F5651DAAAB266A90",true));
-    }
-
-    @Test
-    void isApprovedForAll() throws Exception {
-        System.out.println(ddc721Service.isApprovedForAll("0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721","6F561802FDAD741EDA7254C3F5651DAAAB266A90"));
-    }
-
-    @Test
-    void safeTransferFrom() throws Exception {
-        System.out.println(ddc721Service.safeTransferFrom("","",new BigInteger("2"),new byte[]{}));
-    }
-
-    @Test
-    void transferFrom() throws Exception {
-        System.out.println(ddc721Service.transferFrom("","",new BigInteger("2")));
-    }
-
-    @Test
-    void freeze() throws Exception {
-        System.out.println(ddc721Service.freeze(new BigInteger("2")));
-    }
-
-    @Test
-    void unFreeze() throws Exception {
-        System.out.println(ddc721Service.unFreeze(new BigInteger("2")));
-    }
-
-    @Test
-    void burn() throws Exception {
-        System.out.println(ddc721Service.burn(new BigInteger("4")));
-    }
-
-    @Test
-    void balanceOf() throws Exception {
-        System.out.println(ddc721Service.balanceOf("0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721"));
-    }
-
-    @Test
-    void ownerOf() throws Exception {
-        System.out.println(ddc721Service.ownerOf(new BigInteger("2")));
-    }
-
-    @Test
-    void name() throws Exception {
-        System.out.println(ddc721Service.name());
-    }
-
-    @Test
-    void symbol() throws Exception {
-        System.out.println(ddc721Service.symbol());
-    }
-
-    @Test
-    void ddcURI() throws Exception {
-        System.out.println(ddc721Service.ddcURI(new BigInteger("1")));
-    }
+//    DDC721Service ddc721Service = client.getDDC721Service();
+//
+//    @Test
+//    void mint() throws Exception {
+//        System.out.println(ddc721Service.mint("0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721","11111"));
+//    }
+//
+//    @Test
+//    void approve() throws Exception {
+//        System.out.println(ddc721Service.approve("6F561802FDAD741EDA7254C3F5651DAAAB266A90",new BigInteger("11")));
+//    }
+//
+//    @Test
+//    void getApproved() throws Exception {
+//        System.out.println(ddc721Service.getApproved(new BigInteger("2")));
+//    }
+//
+//    @Test
+//    void setApprovalForAll() throws Exception {
+//        System.out.println(ddc721Service.setApprovalForAll("6F561802FDAD741EDA7254C3F5651DAAAB266A90",true));
+//    }
+//
+//    @Test
+//    void isApprovedForAll() throws Exception {
+//        System.out.println(ddc721Service.isApprovedForAll("0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721","6F561802FDAD741EDA7254C3F5651DAAAB266A90"));
+//    }
+//
+//    @Test
+//    void safeTransferFrom() throws Exception {
+//        System.out.println(ddc721Service.safeTransferFrom("","",new BigInteger("2"),new byte[]{}));
+//    }
+//
+//    @Test
+//    void transferFrom() throws Exception {
+//        System.out.println(ddc721Service.transferFrom("","",new BigInteger("2")));
+//    }
+//
+//    @Test
+//    void freeze() throws Exception {
+//        System.out.println(ddc721Service.freeze(new BigInteger("2")));
+//    }
+//
+//    @Test
+//    void unFreeze() throws Exception {
+//        System.out.println(ddc721Service.unFreeze(new BigInteger("2")));
+//    }
+//
+//    @Test
+//    void burn() throws Exception {
+//        System.out.println(ddc721Service.burn(new BigInteger("4")));
+//    }
+//
+//    @Test
+//    void balanceOf() throws Exception {
+//        System.out.println(ddc721Service.balanceOf("0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721"));
+//    }
+//
+//    @Test
+//    void ownerOf() throws Exception {
+//        System.out.println(ddc721Service.ownerOf(new BigInteger("2")));
+//    }
+//
+//    @Test
+//    void name() throws Exception {
+//        System.out.println(ddc721Service.name());
+//    }
+//
+//    @Test
+//    void symbol() throws Exception {
+//        System.out.println(ddc721Service.symbol());
+//    }
+//
+//    @Test
+//    void ddcURI() throws Exception {
+//        System.out.println(ddc721Service.ddcURI(new BigInteger("1")));
+//    }
 }

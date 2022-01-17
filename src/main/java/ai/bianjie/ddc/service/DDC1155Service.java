@@ -57,7 +57,8 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.mint(to, amount, ddcURI).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.Mint, encodedFunction, signEventListener).getTransactionHash();
+//        return signAndSend(ddc1155, DDC1155Functions.Mint, encodedFunction, signEventListener).getTransactionHash();
+        return null;
     }
 
     /**
@@ -98,8 +99,8 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.mintBatch(to, amounts, ddcURIS).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.MintBatch, encodedFunction, signEventListener).getTransactionHash();
-
+//        return signAndSend(ddc1155, DDC1155Functions.MintBatch, encodedFunction, signEventListener).getTransactionHash();
+        return null;
     }
 
     /**
@@ -121,8 +122,10 @@ public class DDC1155Service extends BaseService {
         encodedFunction = ddc1155.setApprovalForAll(operator, approved).encodeFunctionCall();
 
 
-        return signAndSend(ddc1155, DDC1155Functions.SetApprovalForAll, encodedFunction, signEventListener).getTransactionHash();
+//        return signAndSend(ddc1155, DDC1155Functions.SetApprovalForAll, encodedFunction, signEventListener).getTransactionHash();
+        return null;
     }
+
 
     /**
      * DDC的授权查询
@@ -180,8 +183,9 @@ public class DDC1155Service extends BaseService {
         }
         encodedFunction = ddc1155.safeTransferFrom(from, to, ddcId, amount, data).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.SafeTransferFrom, encodedFunction, signEventListener).getTransactionHash();
+//        return signAndSend(ddc1155, DDC1155Functions.SafeTransferFrom, encodedFunction, signEventListener).getTransactionHash();
 
+        return null;
     }
 
     /**
@@ -224,8 +228,9 @@ public class DDC1155Service extends BaseService {
         });
 
         encodedFunction = ddc1155.safeBatchTransferFrom(from, to, ddcIds, amounts, data).encodeFunctionCall();
+        return null;
 
-        return signAndSend(ddc1155, DDC1155Functions.SafeBatchTransferFrom, encodedFunction, signEventListener).getTransactionHash();
+//        return signAndSend(ddc1155, DDC1155Functions.SafeBatchTransferFrom, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -242,8 +247,9 @@ public class DDC1155Service extends BaseService {
         }
 
         encodedFunction = ddc1155.freeze(ddcId).encodeFunctionCall();
+        return null;
 
-        return signAndSend(ddc1155, DDC1155Functions.Freeze, encodedFunction, signEventListener).getTransactionHash();
+//        return signAndSend(ddc1155, DDC1155Functions.Freeze, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -260,8 +266,9 @@ public class DDC1155Service extends BaseService {
         }
 
         encodedFunction = ddc1155.unFreeze(ddcId).encodeFunctionCall();
+        return null;
 
-        return signAndSend(ddc1155, DDC1155Functions.UnFreeze, encodedFunction, signEventListener).getTransactionHash();
+//        return signAndSend(ddc1155, DDC1155Functions.UnFreeze, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -284,8 +291,9 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         encodedFunction = ddc1155.burn(owner, ddcId).encodeFunctionCall();
+        return null;
 
-        return signAndSend(ddc1155, DDC1155Functions.Burn, encodedFunction, signEventListener).getTransactionHash();
+//        return signAndSend(ddc1155, DDC1155Functions.Burn, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
@@ -310,8 +318,9 @@ public class DDC1155Service extends BaseService {
 
 
         encodedFunction = ddc1155.burnBatch(owner, ddcIds).encodeFunctionCall();
+        return null;
 
-        return signAndSend(ddc1155, DDC1155Functions.BurnBatch, encodedFunction, signEventListener).getTransactionHash();
+//        return signAndSend(ddc1155, DDC1155Functions.BurnBatch, encodedFunction, signEventListener).getTransactionHash();
     }
 
     /**
