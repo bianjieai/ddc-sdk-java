@@ -49,7 +49,7 @@ public class ChargeService extends BaseService {
 
         String encodedFunction = charge.recharge(to, amount).encodeFunctionCall();
 
-        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
     /**

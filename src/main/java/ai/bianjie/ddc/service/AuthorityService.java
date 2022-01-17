@@ -51,7 +51,7 @@ public class AuthorityService extends BaseService {
         }
 
         encodedFunction = authorityLogic.addAccountByPlatform(account, accName, accDID).encodeFunctionCall();
-        return signAndSend(authorityLogic, AuthorityFunctions.AddAccount, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(authorityLogic, AuthorityFunctions.AddAccount, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
 
@@ -87,7 +87,7 @@ public class AuthorityService extends BaseService {
         }
 
         encodedFunction = authorityLogic.addAccountByOperator(account, accName, accDID, leaderDID).encodeFunctionCall();
-        return signAndSend(authorityLogic, AuthorityFunctions.AddConsumerByOperator, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(authorityLogic, AuthorityFunctions.AddConsumerByOperator, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
     /**
@@ -150,7 +150,7 @@ public class AuthorityService extends BaseService {
         }
 
         encodedFunction = authorityLogic.updateAccountState(account, state, changePlatformState).encodeFunctionCall();
-        return signAndSend(authorityLogic, AuthorityFunctions.UpdateAccountState, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(authorityLogic, AuthorityFunctions.UpdateAccountState, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
 }

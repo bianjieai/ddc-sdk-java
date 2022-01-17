@@ -98,7 +98,7 @@ public class BaseService {
      * @param signEventListener 负责签名的实例
      * @return EthSendTransaction 交易的结果
      */
-    public EthSendTransaction signAndSend(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener) throws Exception {
+    public EthSendTransaction signAndSend(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener,String sender) throws Exception {
 
         Web3j web3j = Web3jUtils.getWeb3j();
         GasProvider gasProvider = new GasProvider();
@@ -106,11 +106,10 @@ public class BaseService {
         BigInteger gasPrice = gasProvider.getGasPrice();
         BigInteger gasLimit = gasProvider.getGasLimit(functionName);
 
-        String callerAddr = ConfigCache.get().getFromAddress();
         String contractAddr = contract.getContractAddress();//目标合约地址
 
         //2. 获取调用者的交易笔数
-        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(callerAddr, DefaultBlockParameterName.LATEST).sendAsync().get();
+        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.LATEST).sendAsync().get();
         BigInteger nonce = ethGetTransactionCount.getTransactionCount();
 
         //3. 生成待签名的交易

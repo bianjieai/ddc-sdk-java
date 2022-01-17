@@ -54,7 +54,7 @@ public class DDC721Service extends BaseService {
         encodedFunction = ddc721.mint(to, ddcURI).encodeFunctionCall();
 
         //5.签名并发送，获取hash
-        return signAndSend(ddc721, DDC721Functions.MINT, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.MINT, encodedFunction, signEventListener,sender).getTransactionHash();
 
     }
 
@@ -86,7 +86,7 @@ public class DDC721Service extends BaseService {
 
         encodedFunction = ddc721.approve(to, ddcId).encodeFunctionCall();
 
-        return signAndSend(ddc721, DDC721Functions.APPROVE, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.APPROVE, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
 
@@ -132,7 +132,7 @@ public class DDC721Service extends BaseService {
         }
         encodedFunction = ddc721.setApprovalForAll(operator, approved).encodeFunctionCall();
 
-        return signAndSend(ddc721, DDC721Functions.SET_APPROVAL_FOR_ALL, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.SET_APPROVAL_FOR_ALL, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
 
@@ -193,7 +193,7 @@ public class DDC721Service extends BaseService {
         }
         encodedFunction = ddc721.safeTransferFrom(from, to, ddcId, data).encodeFunctionCall();
 
-        return signAndSend(ddc721, DDC721Functions.SAFE_TRANSFER_FROM, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.SAFE_TRANSFER_FROM, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
 
@@ -229,7 +229,7 @@ public class DDC721Service extends BaseService {
         }
         encodedFunction = ddc721.transferFrom(from, to, ddcId).encodeFunctionCall();
 
-        return signAndSend(ddc721, DDC721Functions.TRANSFER_FROM, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.TRANSFER_FROM, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
 
@@ -250,7 +250,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         encodedFunction = ddc721.freeze(ddcId).encodeFunctionCall();
-        return signAndSend(ddc721, DDC721Functions.FREEZE, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.FREEZE, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
     /**
@@ -270,7 +270,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         encodedFunction = ddc721.unFreeze(ddcId).encodeFunctionCall();
-        return signAndSend(ddc721, DDC721Functions.UNFREEZE, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.UNFREEZE, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
     /**
@@ -289,7 +289,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         encodedFunction = ddc721.burn(ddcId).encodeFunctionCall();
-        return signAndSend(ddc721, DDC721Functions.BURN, encodedFunction, signEventListener).getTransactionHash();
+        return signAndSend(ddc721, DDC721Functions.BURN, encodedFunction, signEventListener,sender).getTransactionHash();
     }
 
     /**
