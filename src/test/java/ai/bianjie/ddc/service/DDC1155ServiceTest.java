@@ -46,7 +46,7 @@ class DDC1155ServiceTest {
 
     @Test
     void isApprovedForAll() throws Exception {
-        System.out.println(ddc1155Service.isApprovedForAll(sender,"0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721","918F7F275A6C2D158E5B76F769D3F1678958A334"));
+        System.out.println(ddc1155Service.isApprovedForAll("0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721","918F7F275A6C2D158E5B76F769D3F1678958A334"));
     }
 
     @Test
@@ -79,7 +79,7 @@ class DDC1155ServiceTest {
 
     @Test
     void balanceOf() throws Exception {
-        System.out.println(ddc1155Service.balanceOf(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("2")));
+        System.out.println(ddc1155Service.balanceOf("918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("2")));
     }
 
     @Test
@@ -88,12 +88,12 @@ class DDC1155ServiceTest {
         ddcs.put("918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("3"));
         ddcs.put("918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("5"));
         List<BigInteger> a = new ArrayList<>(2);
-        a = ddc1155Service.balanceOfBatch(sender,ddcs);
+        a = ddc1155Service.balanceOfBatch(ddcs);
         System.out.println(a);
     }
 
     @Test
     void ddcURI() throws Exception {
-        System.out.println(ddc1155Service.ddcURI(sender,new BigInteger("3")));
+        System.out.println(ddc1155Service.ddcURI(new BigInteger("3")));
     }
 }
