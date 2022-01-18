@@ -19,25 +19,20 @@ class AuthorityServiceTest {
             .init();
 
     AuthorityService authorityService = client.getAuthorityService();
+    String sender="";
 
+    @Test
+    void addConsumerByOperator() throws Exception {
+//        System.out.println(authorityService.addAccountByOperator("", "", "", ""));
+    }
 
-//    @Test
-//    void addAccount() throws Exception {
-//        System.out.println(client.getAuthorityService().addAccount("918F7F275A6C2D158E5B76F769D3F1678958A334", "12", "did"));
-//    }
-//
-//    @Test
-//    void addConsumerByOperator() throws Exception {
-//        System.out.println(authorityService.addConsumerByOperator("", "", "", ""));
-//    }
-//
-//    @Test
-//    void getAccount() throws Exception {
-//        System.out.println(authorityService.getAccount("0x5804A5F927CE7382AD194FD25BCAA189DAD92A39"));
-//    }
-//
-//    @Test
-//    void updateAccState() throws Exception {
-//        System.out.println(authorityService.updateAccState("0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", new BigInteger("0"), true));
-//    }
+    @Test
+    void getAccount() throws Exception {
+        System.out.println(authorityService.getAccount("0x5804A5F927CE7382AD194FD25BCAA189DAD92A39"));
+    }
+
+    @Test
+    void updateAccState() throws Exception {
+        System.out.println(authorityService.updateAccState(sender,"0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", new BigInteger("0"), true));
+    }
 }
