@@ -29,10 +29,10 @@ class DDCSdkClientTest {
                 .setSignEventListener(new sign())
                 .init();
 
-        String a = client.getChargeService().setFee("0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721","0x52403cE9E235Cf013bA2353F0bf47834C98424c7","0x36351c7c", new BigInteger("10"));
-        System.out.println("================================" + a);
-        Account acc = client.getAuthorityService().createAccount();
-        System.out.println("================================" + acc);
+//                client.getChargeService().setFee("0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721","0x52403cE9E235Cf013bA2353F0bf47834C98424c7","0x36351c7c", new BigInteger("10"));
+//        System.out.println("================================" + a);
+//        Account acc = client.getAuthorityService().createAccount();
+//        System.out.println("================================" + acc);
 //        BigInteger b = client.getChargeService().setGasLimitCharge("1").balanceOf("918F7F275A6C2D158E5B76F769D3F1678958A334");
 //        System.out.println("========================"+b);
     }

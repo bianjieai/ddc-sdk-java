@@ -1,19 +1,6 @@
 package ai.bianjie.ddc.constant;
 
 public class DDC1155Functions {
-    public static final String SafeMint = "safeMint";
-    public static final String SAFE_MINT_BATCH = "safeMintBatch";
-    public static final String SetApprovalForAll = "setApprovalForAll";
-    public static final String IsApprovedForAll = "isApprovedForAll";
-    public static final String SafeTransferFrom = "safeTransferFrom";
-    public static final String SafeBatchTransferFrom = "safeBatchTransferFrom";
-    public static final String Freeze  = "freeze";
-    public static final String UnFreeze  = "unFreeze";
-    public static final String Burn = "burn";
-    public static final String BurnBatch = "burnBatch";
-    public static final String BalanceOf = "balanceOf";
-    public static final String BalanceOfBatch = "balanceOfBatch";
-    public static final String DDCURI = "ddcURI";
 
     //public static final String DDC1155TransferSingleEvent = "TransferSingle(address,address,address,uint256,uint256)";
     public static final String DDC1155TransferSingleEvent = "0xc3d58168c5ae7397731d063d5bbf3d657854427343f4c083240f7aacaa2d0f62";

@@ -1,19 +1,6 @@
 package ai.bianjie.ddc.constant;
 
 public class ChargeFunctions {
-	public static final String Recharge = "recharge";
-	
-	public static final String BalanceOf = "balanceOf";
-	
-	public static final String QueryFee = "queryFee";
-    
-	public static final String SelfRecharge = "selfRecharge";
-	
-	public static final String SetFee = "setFee";
-	
-	public static final String DeleteFee = "delFee";
-	
-	public static final String DeleteDDC = "delDDC";
 
 
 	//public static final String RechargeEvent = "Recharge(address,address,uint256)";

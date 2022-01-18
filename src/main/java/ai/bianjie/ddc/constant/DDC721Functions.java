@@ -6,21 +6,6 @@ package ai.bianjie.ddc.constant;
  * @description DDC-721 合约方法
  */
 public class DDC721Functions {
-    public static final String MINT = "mint";
-    public static final String APPROVE = "approve";
-    public static final String GET_APPROVED = "getApproved";
-    public static final String SET_APPROVAL_FOR_ALL = "setApprovalForAll";
-    public static final String IS_APPROVED_FOR_ALL = "isApprovedForAll";
-    public static final String SAFE_TRANSFER_FROM = "safeTransferFrom";
-    public static final String TRANSFER_FROM = "transferFrom";
-    public static final String FREEZE = "freeze";
-    public static final String UNFREEZE = "unFreeze";
-    public static final String BURN = "burn";
-    public static final String BALANCE_OF = "balanceOf";
-    public static final String OWNER_OF = "ownerOf";
-    public static final String NAME = "name";
-    public static final String SYMBOL = "symbol";
-    public static final String DDC_URI = "ddcURI";
 
     //public static final String DDC721TransferEvent = "Transfer(address,address,uint256)";
     public static final String DDC721TransferEvent = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
