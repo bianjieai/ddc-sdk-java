@@ -3,6 +3,7 @@ package ai.bianjie.ddc.service;
 import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.dto.Account;
 import ai.bianjie.ddc.dto.txInfo;
+import ai.bianjie.ddc.listener.SignEvent;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.CommonUtils;
 import ai.bianjie.ddc.util.GasProvider;
@@ -122,14 +123,18 @@ public class BaseService {
         //3. 生成待签名的交易
         RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddr, encodedFunction);
 
+        SignEvent signEvent = new SignEvent();
+
+
+        signEvent.setSender(sender);
+        signEvent.setRawTransaction(rawTransaction);
+
         //4. 调用签名方法，获取签名后的hexString
-        String hexString_signedMessage = signEventListener.signEvent(sender, rawTransaction);
+        String hexString_signedMessage = signEventListener.signEvent(signEvent);
 
         //5. 返回交易结果
         return web3j.ethSendRawTransaction(hexString_signedMessage).sendAsync().get();
-
     }
-
     /**
      * 平台方或终端用户通过该方法进行离线账户生成。
      *

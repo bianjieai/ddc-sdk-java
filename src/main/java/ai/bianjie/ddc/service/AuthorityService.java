@@ -89,10 +89,6 @@ public class AuthorityService extends BaseService {
             throw new DDCException(ErrorMessage.ACCOUNT_NAME_IS_EMPTY);
         }
 
-        if (Strings.isEmpty(leaderDID)) {
-            throw new DDCException(ErrorMessage.ACCOUNT_LEADER_DID_IS_EMPTY);
-        }
-
         encodedFunction = authority.addAccountByOperator(account, accName, accDID, leaderDID).encodeFunctionCall();
         return signAndSend(authority, AuthorityFunctions.AddConsumerByOperator, encodedFunction, signEventListener, sender).getTransactionHash();
     }
