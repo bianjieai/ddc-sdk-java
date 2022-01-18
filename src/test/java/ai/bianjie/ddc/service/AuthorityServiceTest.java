@@ -22,7 +22,7 @@ class AuthorityServiceTest {
     String sender="";
 
     @Test
-    void addConsumerByOperator() throws Exception {
+    void addAccountByOperator() throws Exception {
         System.out.println(authorityService.addAccountByOperator("", "", "", "",""));
     }
 
