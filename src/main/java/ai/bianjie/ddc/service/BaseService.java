@@ -135,6 +135,46 @@ public class BaseService {
         //5. 返回交易结果
         return web3j.ethSendRawTransaction(hexString_signedMessage).sendAsync().get();
     }
+
+    /**
+     * 签名并发送
+     *
+     * @param contract          合约实例
+     * @param functionName      调用的方法名
+     * @param encodedFunction   经过RLP序列化编码的function
+     * @param signEventListener 负责签名的实例
+     * @return EthSendTransaction 交易的结果
+     */
+    public EthSendTransaction Send(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener, String sender) throws Exception {
+
+        Web3j web3j = Web3jUtils.getWeb3j();
+        GasProvider gasProvider = new GasProvider();
+
+        BigInteger gasPrice = gasProvider.getGasPrice();
+        BigInteger gasLimit = gasProvider.getGasLimit(functionName);
+
+        String contractAddr = contract.getContractAddress();//目标合约地址
+
+        //2. 获取调用者的交易笔数
+        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.LATEST).sendAsync().get();
+        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+
+        //3. 生成待签名的交易
+        RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddr, encodedFunction);
+
+        SignEvent signEvent = new SignEvent();
+
+
+        signEvent.setSender(sender);
+        signEvent.setRawTransaction(rawTransaction);
+
+        //4. 调用签名方法，获取签名后的hexString
+        String hexString_signedMessage = signEventListener.signEvent(signEvent);
+
+        //5. 返回交易结果
+        return web3j.ethSendRawTransaction(hexString_signedMessage).send();
+    }
+
     /**
      * 平台方或终端用户通过该方法进行离线账户生成。
      *

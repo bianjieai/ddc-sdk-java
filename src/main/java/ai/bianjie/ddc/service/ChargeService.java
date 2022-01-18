@@ -8,9 +8,6 @@ import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.HexUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
-import org.web3j.crypto.WalletUtils;
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.Web3jService;
 import org.web3j.utils.Numeric;
 import org.web3j.utils.Strings;
 
@@ -53,7 +50,7 @@ public class ChargeService extends BaseService {
         }
         encodedFunction = charge.recharge(to, amount).encodeFunctionCall();
 
-        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(charge, Charge.FUNC_RECHARGE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -132,7 +129,7 @@ public class ChargeService extends BaseService {
         }
         encodedFunction = charge.selfRecharge(amount).encodeFunctionCall();
 
-        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(charge, Charge.FUNC_SELFRECHARGE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -172,7 +169,7 @@ public class ChargeService extends BaseService {
         byte[] sigInByte = Numeric.hexStringToByteArray(sig);
         encodedFunction = charge.setFee(ddcAddr, sigInByte, amount).encodeFunctionCall();
 
-        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(charge, Charge.FUNC_SETFEE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -208,7 +205,7 @@ public class ChargeService extends BaseService {
         byte[] sigInByte = Numeric.hexStringToByteArray(sig);
         encodedFunction = charge.delFee(ddcAddr, sigInByte).encodeFunctionCall();
 
-        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(charge, Charge.FUNC_DELFEE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -234,7 +231,7 @@ public class ChargeService extends BaseService {
 
         encodedFunction = charge.delDDC(ddcAddr).encodeFunctionCall();
 
-        return signAndSend(charge, ChargeFunctions.Recharge, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(charge, Charge.FUNC_DELDDC, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
 }

@@ -90,7 +90,7 @@ public class AuthorityService extends BaseService {
         }
 
         encodedFunction = authority.addAccountByOperator(account, accName, accDID, leaderDID).encodeFunctionCall();
-        return signAndSend(authority, AuthorityFunctions.AddConsumerByOperator, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(authority, Authority.FUNC_ADDACCOUNTBYOPERATOR, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -157,7 +157,7 @@ public class AuthorityService extends BaseService {
         }
 
         encodedFunction = authority.updateAccountState(account, state, changePlatformState).encodeFunctionCall();
-        return signAndSend(authority, AuthorityFunctions.UpdateAccountState, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(authority, Authority.FUNC_UPDATEACCOUNTSTATE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
 }

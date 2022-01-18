@@ -59,7 +59,7 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.safeMint(to, amount, ddcURI, data).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.SafeMint, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_SAFEMINT, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -104,7 +104,7 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.safeMintBatch(to, amounts, ddcURIS, data).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.SAFE_MINT_BATCH, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_SAFEMINTBATCH, encodedFunction, signEventListener, sender).getTransactionHash();
 
     }
 
@@ -130,8 +130,7 @@ public class DDC1155Service extends BaseService {
         }
         encodedFunction = ddc1155.setApprovalForAll(operator, approved).encodeFunctionCall();
 
-
-        return signAndSend(ddc1155, DDC1155Functions.SetApprovalForAll, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_SETAPPROVALFORALL, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -162,7 +161,6 @@ public class DDC1155Service extends BaseService {
         }
 
         return Web3jUtils.getDDC1155().isApprovedForAll(owner, operator).send();
-
     }
 
     /**
@@ -199,7 +197,7 @@ public class DDC1155Service extends BaseService {
         }
         encodedFunction = ddc1155.safeTransferFrom(from, to, ddcId, amount, data).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.SafeTransferFrom, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_SAFETRANSFERFROM, encodedFunction, signEventListener, sender).getTransactionHash();
 
     }
 
@@ -248,7 +246,7 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.safeBatchTransferFrom(from, to, ddcIds, amounts, data).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.SafeBatchTransferFrom, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_SAFEBATCHTRANSFERFROM, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -270,7 +268,7 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.freeze(ddcId).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.Freeze, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_FREEZE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -292,7 +290,7 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.unFreeze(ddcId).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.UnFreeze, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_UNFREEZE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -320,7 +318,7 @@ public class DDC1155Service extends BaseService {
         }
         encodedFunction = ddc1155.burn(owner, ddcId).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.Burn, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_BURN, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -350,7 +348,7 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.burnBatch(owner, ddcIds).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.BurnBatch, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_BURNBATCH, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
