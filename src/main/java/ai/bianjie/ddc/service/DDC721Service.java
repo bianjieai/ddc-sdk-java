@@ -289,7 +289,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         encodedFunction = ddc721.freeze(ddcId).encodeFunctionCall();
-        return signAndSend(ddc721, DDC721Functions.FREEZE, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721.FUNC_FREEZE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
