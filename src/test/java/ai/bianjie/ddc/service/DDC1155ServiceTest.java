@@ -29,14 +29,16 @@ class DDC1155ServiceTest {
 
     @Test
     void mint() throws Exception {
-//        System.out.println(ddc1155Service.mint(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("3"),"222222"));
+        byte[] data = {10,10,10};
+        System.out.println(ddc1155Service.safeMint(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("3"),"222222",data));
     }
 
     @Test
     void mintBatch() throws Exception {
         Multimap<BigInteger, String> ddcInfo = ArrayListMultimap.create();;
         ddcInfo.put(new BigInteger("3"),"12");
-//        System.out.println(ddc1155Service.mintBatch(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",ddcInfo));
+        byte[] data = {10,10,10};
+        System.out.println(ddc1155Service.safeMintBatch(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",ddcInfo,data));
     }
 
     @Test
@@ -50,31 +52,8 @@ class DDC1155ServiceTest {
     }
 
     @Test
-    void safeTransferFrom() {
-    }
-
-    @Test
-    void safeBatchTransferFrom() {
-    }
-
-    @Test
-    void freeze() {
-
-    }
-
-    @Test
-    void unFreeze() {
-
-    }
-
-    @Test
-    void burn() {
-//        System.out.println(ddc1155Service.burn("",new BigInteger("2")));
-    }
-
-    @Test
-    void burnBatch() {
-//        System.out.println(ddc1155Service.burnBatch("",new BigInteger("2")));
+    void burn() throws Exception {
+        System.out.println(ddc1155Service.burn(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("2")));
     }
 
     @Test

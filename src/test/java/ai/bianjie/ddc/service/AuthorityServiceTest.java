@@ -23,7 +23,7 @@ class AuthorityServiceTest {
 
     @Test
     void addConsumerByOperator() throws Exception {
-//        System.out.println(authorityService.addAccountByOperator("", "", "", ""));
+        System.out.println(authorityService.addAccountByOperator("", "", "", "",""));
     }
 
     @Test

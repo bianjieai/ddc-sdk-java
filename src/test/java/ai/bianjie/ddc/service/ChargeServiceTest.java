@@ -60,7 +60,7 @@ class ChargeServiceTest {
 
     @Test
     void delDDC() throws Exception {
-        String hash = chargeService.delDDC(sender,"");
+        String hash = chargeService.delDDC(sender,"0x503f45958F57Da55170B54796F4eD224c9fef9d7");
         System.out.print(hash);
     }
 }
