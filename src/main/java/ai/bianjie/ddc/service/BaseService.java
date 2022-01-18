@@ -2,6 +2,7 @@ package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.dto.Account;
+import ai.bianjie.ddc.config.ConfigInfo;
 import ai.bianjie.ddc.dto.txInfo;
 import ai.bianjie.ddc.listener.SignEvent;
 import ai.bianjie.ddc.listener.SignEventListener;

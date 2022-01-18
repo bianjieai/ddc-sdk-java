@@ -2,7 +2,6 @@ package ai.bianjie.ddc.listener;
 
 import org.web3j.crypto.RawTransaction;
 
-import java.math.BigInteger;
 
 public class SignEvent {
     String sender;
