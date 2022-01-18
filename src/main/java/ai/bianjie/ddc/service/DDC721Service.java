@@ -20,14 +20,15 @@ public class DDC721Service extends BaseService {
     //注册签名事件
     public DDC721Service(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
-
         //获取合约实体
         this.ddc721 = Web3jUtils.getDDC721();
     }
 
     /**
-     * 创建DDC
+     * 生成DDC
+     * 平台方或终端用户可以通过调用该方法进行DDC的生成
      *
+     * @param sender 调用者地址
      * @param to     接收者账户
      * @param ddcURI DDC资源标识符
      * @return hash  交易哈希
@@ -54,16 +55,51 @@ public class DDC721Service extends BaseService {
         encodedFunction = ddc721.mint(to, ddcURI).encodeFunctionCall();
 
         //5.签名并发送，获取hash
-        return signAndSend(ddc721, DDC721Functions.MINT, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721.FUNC_MINT, encodedFunction, signEventListener, sender).getTransactionHash();
 
     }
 
-
     /**
-     * 授权DDC
+     * 安全生成
+     * 平台方或终端用户可以通过调用该方法进行DDC的安全生成
      *
-     * @param to    授权者账户
-     * @param ddcId DDC唯一标识
+     * @param sender 调用者地址
+     * @param to     接收者账户
+     * @param ddcURI DDC资源标识符
+     * @return hash  交易哈希
+     * @throws Exception Exception
+     */
+    public String safeMint(String sender, String to, String ddcURI,byte[] data) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        //1.检查接收者账户地址是否为空
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+        }
+        //2.检查接收者账户地址是否正确
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        //3.检查DDCURI是否为空
+        if (Strings.isEmpty(ddcURI)) {
+            throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
+        }
+
+        //4.获取序列化编码好的方法
+        encodedFunction = ddc721.safeMint(to, ddcURI,data).encodeFunctionCall();
+
+        //5.签名并发送，获取hash
+        return signAndSend(ddc721, DDC721.FUNC_SAFEMINT, encodedFunction, signEventListener, sender).getTransactionHash();
+
+    }
+    /**
+     * DDC授权
+     * DDC拥有者可以通过调用该方法进行DDC的授权，发起者需要是DDC的拥有者
+     *
+     * @param sender 调用者地址
+     * @param to     授权者账户
+     * @param ddcId  DDC唯一标识
      * @return 交易哈希
      * @throws Exception Exception
      */
@@ -86,15 +122,16 @@ public class DDC721Service extends BaseService {
 
         encodedFunction = ddc721.approve(to, ddcId).encodeFunctionCall();
 
-        return signAndSend(ddc721, DDC721Functions.APPROVE, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721.FUNC_APPROVE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
 
     /**
-     * 授权查询：
+     * DDC授权查询
      * 运营方、平台方和终端用户都可以通过调用该方法查询DDC的授权情况
      *
-     * @param ddcId DDC唯一标识
+     * @param sender 调用者地址
+     * @param ddcId  DDC唯一标识
      * @return 授权的账户
      * @throws Exception Exception
      */
@@ -111,8 +148,10 @@ public class DDC721Service extends BaseService {
     }
 
     /**
-     * 授权DDC
+     * 账户授权
+     * DDC拥有者可以通过调用该方法进行账户授权，发起者需要是DDC的拥有者。
      *
+     * @param sender   调用者地址
      * @param operator 授权者账户
      * @param approved 授权标识
      * @return 交易hash
@@ -132,13 +171,15 @@ public class DDC721Service extends BaseService {
         }
         encodedFunction = ddc721.setApprovalForAll(operator, approved).encodeFunctionCall();
 
-        return signAndSend(ddc721, DDC721Functions.SET_APPROVAL_FOR_ALL, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721.FUNC_SETAPPROVALFORALL, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
 
     /**
-     * DDC授权查询
+     * 账户授权查询
+     * 运营方、平台方或终端用户可以通过调用该方法进行账户授权查询。
      *
+     * @param sender   调用者地址
      * @param owner    拥有者账户
      * @param operator 授权者账户
      * @return 授权标识
@@ -162,11 +203,13 @@ public class DDC721Service extends BaseService {
 
     /**
      * DDC的安全转移
+     * DDC的拥有者或授权者可以通过调用该方法进行DDC的转移。
      *
-     * @param from  拥有者账户
-     * @param to    授权者账户
-     * @param ddcId DDC唯一标识
-     * @param data  附加数据
+     * @param sender 调用者地址
+     * @param from   拥有者账户
+     * @param to     授权者账户
+     * @param ddcId  DDC唯一标识
+     * @param data   附加数据
      * @return 交易hash
      * @throws Exception Exception
      * @desc DDC的拥有者或授权者可以通过调用该方法进行DDC的安全转移。
@@ -193,16 +236,18 @@ public class DDC721Service extends BaseService {
         }
         encodedFunction = ddc721.safeTransferFrom(from, to, ddcId, data).encodeFunctionCall();
 
-        return signAndSend(ddc721, DDC721Functions.SAFE_TRANSFER_FROM, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721.FUNC_SAFETRANSFERFROM, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
 
     /**
      * 转移
+     * DDC拥有者或授权者可以通过调用该方法进行DDC的转移。
      *
-     * @param from  拥有者账户
-     * @param to    接收者账户
-     * @param ddcId ddc唯一标识
+     * @param sender 调用者地址
+     * @param from   拥有者账户
+     * @param to     接收者账户
+     * @param ddcId  ddc唯一标识
      * @return 交易hash
      * @throws Exception Exception
      * @desc DDC拥有者或授权者可以通过调用该方法进行DDC的转移。
@@ -229,14 +274,16 @@ public class DDC721Service extends BaseService {
         }
         encodedFunction = ddc721.transferFrom(from, to, ddcId).encodeFunctionCall();
 
-        return signAndSend(ddc721, DDC721Functions.TRANSFER_FROM, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721.FUNC_TRANSFERFROM, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
 
     /**
      * 冻结
+     * 运营方可以通过调用该方法进行DDC的冻结。
      *
-     * @param ddcId DDC唯一标识
+     * @param sender 调用者地址
+     * @param ddcId  DDC唯一标识
      * @return 交易hash
      * @throws Exception Exception
      * @desc 运营方可以通过调用该方法进行DDC的冻结。
@@ -255,8 +302,10 @@ public class DDC721Service extends BaseService {
 
     /**
      * 解冻
+     * 运营方可以通过调用该方法进行DDC的解冻。
      *
-     * @param ddcId DDC唯一标识
+     * @param sender 调用者地址
+     * @param ddcId  DDC唯一标识
      * @return 交易hash
      * @throws Exception Exception
      * @desc 运营方可以通过调用该方法进行DDC的解冻。
@@ -270,13 +319,15 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         encodedFunction = ddc721.unFreeze(ddcId).encodeFunctionCall();
-        return signAndSend(ddc721, DDC721Functions.UNFREEZE, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721.FUNC_UNFREEZE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
      * 销毁
+     * DDC拥有者或DDC授权者可以通过调用该方法进行DDC的销毁。
      *
-     * @param ddcId DDC唯一标识
+     * @param sender 调用者地址
+     * @param ddcId  DDC唯一标识
      * @return 交易hash
      * @throws Exception Exception
      */
@@ -289,13 +340,15 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         encodedFunction = ddc721.burn(ddcId).encodeFunctionCall();
-        return signAndSend(ddc721, DDC721Functions.BURN, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc721, DDC721.FUNC_BURN, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
      * 查询数量
+     * 运营方、平台方以及终端用户可以通过调用该方法进行查询当前账户拥有的DDC的数量。
      *
-     * @param owner 拥有者账户
+     * @param sender 调用者地址
+     * @param owner  拥有者账户
      * @return ddc的数量
      * @throws Exception Exception
      */
@@ -317,7 +370,8 @@ public class DDC721Service extends BaseService {
     /**
      * 查询拥有者
      *
-     * @param ddcId ddc唯一标识
+     * @param sender 调用者地址
+     * @param ddcId  ddc唯一标识
      * @return 拥有者账户
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的拥有者。
@@ -334,11 +388,12 @@ public class DDC721Service extends BaseService {
     }
 
     /**
-     * DDC运营方名称
+     * 获取名称
      *
+     * @param sender 调用者地址
      * @return DDC运营方名称
      * @throws Exception Exception
-     * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC运营方的名称。
+     * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的名称。
      */
     public String name(String sender) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
@@ -349,8 +404,9 @@ public class DDC721Service extends BaseService {
     }
 
     /**
-     * 获取DDC运营方符号
+     * 获取符号
      *
+     * @param sender 调用者地址
      * @return DDC运营方符号
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的符号标识。
@@ -366,7 +422,8 @@ public class DDC721Service extends BaseService {
     /**
      * 获取DDCURI
      *
-     * @param ddcId ddc唯一标识符
+     * @param sender 调用者地址
+     * @param ddcId  ddc唯一标识符
      * @return DDC资源标识符
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的资源标识符。

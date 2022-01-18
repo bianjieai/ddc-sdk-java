@@ -26,14 +26,15 @@ public class DDC1155Service extends BaseService {
     }
 
     /**
-     * 创建DDC
+     * 安全生成
      *
+     * @param sender 调用者地址
      * @param to     接收者账户
      * @param amount DDC数量
      * @param ddcURI DDCURI
      * @return 交易哈希
      * @throws Exception Exception
-     * @desc 平台方或终端用户可以通过调用该方法进行DDC的批量创建。
+     * @desc 平台方或终端用户可以通过调用该方法进行DDC的安全生成。
      */
     public String safeMint(String sender, String to, BigInteger amount, String ddcURI, byte[] data) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
@@ -58,17 +59,18 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.safeMint(to, amount, ddcURI, data).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.SafeMint, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_SAFEMINT, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
-     * 批量DDC的创建
+     * 批量安全生成
      *
+     * @param sender 调用者地址
      * @param to      接收者账户
      * @param ddcInfo DDC信息
      * @return 交易哈希
      * @throws Exception Exception
-     * @desc 平台方或终端用户可以通过调用该方法进行批量DDC的创建。
+     * @desc 平台方或终端用户可以通过调用该方法进行DDC的批量安全生成。
      */
     public String safeMintBatch(String sender, String to, Multimap<BigInteger, String> ddcInfo, byte[] data) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
@@ -102,13 +104,14 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.safeMintBatch(to, amounts, ddcURIS, data).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.SAFE_MINT_BATCH, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_SAFEMINTBATCH, encodedFunction, signEventListener, sender).getTransactionHash();
 
     }
 
     /**
-     * DDC的授权
+     * 账户授权
      *
+     * @param sender 调用者地址
      * @param operator 授权者账户
      * @param approved 授权标识
      * @return 交易哈希
@@ -127,13 +130,13 @@ public class DDC1155Service extends BaseService {
         }
         encodedFunction = ddc1155.setApprovalForAll(operator, approved).encodeFunctionCall();
 
-
-        return signAndSend(ddc1155, DDC1155Functions.SetApprovalForAll, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_SETAPPROVALFORALL, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
-     * DDC的授权查询
+     * 账户授权查询
      *
+     * @param sender 调用者地址
      * @param owner    拥有者账户
      * @param operator 授权者账户
      * @return 授权结果（boolean）
@@ -158,12 +161,12 @@ public class DDC1155Service extends BaseService {
         }
 
         return Web3jUtils.getDDC1155().isApprovedForAll(owner, operator).send();
-
     }
 
     /**
-     * DDC的安全转移
+     * 安全转移
      *
+     * @param sender 调用者地址
      * @param from   拥有者账户
      * @param to     接收者账户
      * @param ddcId  DDCID
@@ -171,6 +174,7 @@ public class DDC1155Service extends BaseService {
      * @param data   附加数据
      * @return 交易哈希
      * @throws Exception Exception
+     * @desc DDC拥有者或DDC授权者可以通过调用该方法进行DDC的转移。
      */
     public String safeTransferFrom(String sender, String from, String to, BigInteger ddcId, BigInteger amount, byte[] data) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
@@ -193,13 +197,14 @@ public class DDC1155Service extends BaseService {
         }
         encodedFunction = ddc1155.safeTransferFrom(from, to, ddcId, amount, data).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.SafeTransferFrom, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_SAFETRANSFERFROM, encodedFunction, signEventListener, sender).getTransactionHash();
 
     }
 
     /**
-     * DDC的批量转移
+     * 批量安全转移
      *
+     * @param sender 调用者地址
      * @param from 拥有者账户
      * @param to   接收者账户
      * @param ddcs 拥有者DDCID集合
@@ -241,12 +246,13 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.safeBatchTransferFrom(from, to, ddcIds, amounts, data).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.SafeBatchTransferFrom, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_SAFEBATCHTRANSFERFROM, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
-     * DDC的冻结
+     * 冻结
      *
+     * @param sender 调用者地址
      * @param ddcId DDC唯一标识
      * @return 交易哈希
      * @throws Exception Exception
@@ -262,12 +268,13 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.freeze(ddcId).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.Freeze, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_FREEZE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
-     * DDC的解冻
+     * 解冻
      *
+     * @param sender 调用者地址
      * @param ddcId DDC唯一标识
      * @return 交易哈希
      * @throws Exception Exception
@@ -283,12 +290,13 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.unFreeze(ddcId).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.UnFreeze, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_UNFREEZE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
-     * DDC的销毁
+     * 销毁
      *
+     * @param sender 调用者地址
      * @param owner 拥有者账户
      * @param ddcId DDCID
      * @return 交易哈希
@@ -310,12 +318,13 @@ public class DDC1155Service extends BaseService {
         }
         encodedFunction = ddc1155.burn(owner, ddcId).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.Burn, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_BURN, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
-     * DDC的批量销毁
+     * 批量销毁
      *
+     * @param sender 调用者地址
      * @param owner  拥有者账户
      * @param ddcIds DDCID集合
      * @return 交易哈希
@@ -339,12 +348,13 @@ public class DDC1155Service extends BaseService {
 
         encodedFunction = ddc1155.burnBatch(owner, ddcIds).encodeFunctionCall();
 
-        return signAndSend(ddc1155, DDC1155Functions.BurnBatch, encodedFunction, signEventListener, sender).getTransactionHash();
+        return signAndSend(ddc1155, DDC1155.FUNC_BURNBATCH, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
-     * 查询当前账户拥有的DDC的数量
+     * 查询数量
      *
+     * @param sender 调用者地址
      * @param owner 拥有者账户
      * @param ddcId DDCID
      * @return 拥有者账户所对应的DDCID所拥用的数量
@@ -369,8 +379,9 @@ public class DDC1155Service extends BaseService {
     }
 
     /**
-     * 批量查询账户拥有的DDC的数量
+     * 批量查询数量
      *
+     * @param sender 调用者地址
      * @param ddcs 拥有者DDCID集合
      * @return 拥有者账户所对应的每个DDCID所拥用的数量
      * @throws Exception
@@ -406,6 +417,7 @@ public class DDC1155Service extends BaseService {
     /**
      * 获取ddcURI
      *
+     * @param sender 调用者地址
      * @param ddcId ddcId
      * @return DDCURI
      * @throws Exception Exception
@@ -421,6 +433,4 @@ public class DDC1155Service extends BaseService {
 
         return Web3jUtils.getDDC1155().ddcURI(ddcId).send();
     }
-
-
 }

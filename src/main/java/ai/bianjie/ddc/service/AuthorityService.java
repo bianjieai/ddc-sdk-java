@@ -30,8 +30,9 @@ public class AuthorityService extends BaseService {
     }
 
     /**
-     * 运营方或平台方通过调用该方法进行DDC账户信息的创建，上级角色可进行下级角色账户的操作，如运营方可以为平台方添加账户、平台方可以为终端用户添加账户，但运营方不能直接为终端用户添加账户。
+     * 平台方可以通过调用该方法进行DDC账户信息的创建，上级角色可进行下级角色账户的操作，平台方通过该方法只能添加终端账户。
      *
+     * @param sender 调用者地址
      * @param account DDC链账户地址
      * @param accName DDC账户对应的账户名称
      * @param accDID  DDC账户对应的DID信息（普通用户可为空）
@@ -61,8 +62,9 @@ public class AuthorityService extends BaseService {
 
 
     /**
-     * 运营方通过调用该方法可以直接对平台方的终端用户进行创建。
+     * 运营方可以通过调用该方法直接对平台方或平台方的终端用户进行创建。
      *
+     * @param sender    调用者地址
      * @param account   DDC链账户地址
      * @param accName   DDC账户对应的账户名称
      * @param accDID    DDC账户对应的DID信息
@@ -70,7 +72,7 @@ public class AuthorityService extends BaseService {
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String addAccountByOperator(String sender,String account, String accName, String accDID, String leaderDID) throws Exception {
+    public String addAccountByOperator(String sender, String account, String accName, String accDID, String leaderDID) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -87,12 +89,8 @@ public class AuthorityService extends BaseService {
             throw new DDCException(ErrorMessage.ACCOUNT_NAME_IS_EMPTY);
         }
 
-        if (Strings.isEmpty(leaderDID)) {
-            throw new DDCException(ErrorMessage.ACCOUNT_LEADER_DID_IS_EMPTY);
-        }
-
         encodedFunction = authority.addAccountByOperator(account, accName, accDID, leaderDID).encodeFunctionCall();
-        return signAndSend(authority, AuthorityFunctions.AddConsumerByOperator, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(authority, Authority.FUNC_ADDACCOUNTBYOPERATOR, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -102,18 +100,20 @@ public class AuthorityService extends BaseService {
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String delAccount(String sender,String account) throws Exception {
+    public String delAccount(String sender, String account) throws Exception {
         throw new DDCException(ErrorMessage.UNKNOWN_ERROR);
     }
 
+
     /**
-     * 运营方或平台方通过该方法进行DDC账户信息的查询，上级角色可进行下级角色账户的操作。
+     * 运营方、平台方以及终端用户可以通过调用该方法进行DDC账户信息的查询。
      *
+     * @param sender  调用者地址
      * @param account DDC用户链账户地址
      * @return 返回DDC账户信息
      * @throws Exception
      */
-    public AccountInfo getAccount(String sender,String account) throws Exception {
+    public AccountInfo getAccount(String sender, String account) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -130,14 +130,16 @@ public class AuthorityService extends BaseService {
     }
 
     /**
-     * 运营方或平台方通过该方法进行DDC账户信息状态的更改。
+     * 运营方或平台方可以通过调用该方法对终端用户进行DDC账户信息状态的更改。
      *
-     * @param account DDC用户链账户地址
-     * @param state   状态 ：Frozen - 冻结状态 ； Active - 活跃状态
+     * @param sender              调用者地址
+     * @param account             DDC用户链账户地址
+     * @param state               状态 ：Frozen - 冻结状态 ； Active - 活跃状态
+     * @param changePlatformState 修改平台方状态标识
      * @return 返回交易哈希
      * @throws Exception
      */
-    public String updateAccState(String sender,String account, BigInteger state, boolean changePlatformState) throws Exception {
+    public String updateAccState(String sender, String account, BigInteger state, boolean changePlatformState) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -155,7 +157,7 @@ public class AuthorityService extends BaseService {
         }
 
         encodedFunction = authority.updateAccountState(account, state, changePlatformState).encodeFunctionCall();
-        return signAndSend(authority, AuthorityFunctions.UpdateAccountState, encodedFunction, signEventListener,sender).getTransactionHash();
+        return signAndSend(authority, Authority.FUNC_UPDATEACCOUNTSTATE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
 }
