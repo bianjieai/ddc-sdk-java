@@ -130,15 +130,11 @@ public class DDC721Service extends BaseService {
      * DDC授权查询
      * 运营方、平台方和终端用户都可以通过调用该方法查询DDC的授权情况
      *
-     * @param sender 调用者地址
      * @param ddcId  DDC唯一标识
      * @return 授权的账户
      * @throws Exception Exception
      */
-    public String getApproved(String sender, BigInteger ddcId) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+    public String getApproved(BigInteger ddcId) throws Exception {
 
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
@@ -179,16 +175,12 @@ public class DDC721Service extends BaseService {
      * 账户授权查询
      * 运营方、平台方或终端用户可以通过调用该方法进行账户授权查询。
      *
-     * @param sender   调用者地址
      * @param owner    拥有者账户
      * @param operator 授权者账户
      * @return 授权标识
      * @throws Exception Exception
      */
-    public Boolean isApprovedForAll(String sender, String owner, String operator) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+    public Boolean isApprovedForAll(String owner, String operator) throws Exception {
 
         if (Strings.isEmpty(owner) || Strings.isEmpty(operator)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
@@ -347,15 +339,11 @@ public class DDC721Service extends BaseService {
      * 查询数量
      * 运营方、平台方以及终端用户可以通过调用该方法进行查询当前账户拥有的DDC的数量。
      *
-     * @param sender 调用者地址
      * @param owner  拥有者账户
      * @return ddc的数量
      * @throws Exception Exception
      */
-    public BigInteger balanceOf(String sender, String owner) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+    public BigInteger balanceOf(String owner) throws Exception {
 
         if (Strings.isEmpty(owner)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
@@ -370,16 +358,12 @@ public class DDC721Service extends BaseService {
     /**
      * 查询拥有者
      *
-     * @param sender 调用者地址
      * @param ddcId  ddc唯一标识
      * @return 拥有者账户
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的拥有者。
      */
-    public String ownerOf(String sender, BigInteger ddcId) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+    public String ownerOf(BigInteger ddcId) throws Exception {
 
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
@@ -390,15 +374,11 @@ public class DDC721Service extends BaseService {
     /**
      * 获取名称
      *
-     * @param sender 调用者地址
      * @return DDC运营方名称
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的名称。
      */
-    public String name(String sender) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+    public String name() throws Exception {
 
         return Web3jUtils.getDDC721().name().send();
     }
@@ -406,15 +386,11 @@ public class DDC721Service extends BaseService {
     /**
      * 获取符号
      *
-     * @param sender 调用者地址
      * @return DDC运营方符号
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的符号标识。
      */
-    public String symbol(String sender) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+    public String symbol() throws Exception {
 
         return Web3jUtils.getDDC721().symbol().send();
     }
@@ -422,16 +398,12 @@ public class DDC721Service extends BaseService {
     /**
      * 获取DDCURI
      *
-     * @param sender 调用者地址
      * @param ddcId  ddc唯一标识符
      * @return DDC资源标识符
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的资源标识符。
      */
-    public String ddcURI(String sender, BigInteger ddcId) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+    public String ddcURI(BigInteger ddcId) throws Exception {
 
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
