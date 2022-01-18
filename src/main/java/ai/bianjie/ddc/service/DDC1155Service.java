@@ -136,17 +136,14 @@ public class DDC1155Service extends BaseService {
     /**
      * 账户授权查询
      *
-     * @param sender 调用者地址
      * @param owner    拥有者账户
      * @param operator 授权者账户
      * @return 授权结果（boolean）
      * @throws Exception Exception
      * @desc 运营方、平台方或终端用户可以通过调用该方法进行账户授权查询。
      */
-    public Boolean isApprovedForAll(String sender, String owner, String operator) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+    public Boolean isApprovedForAll(String owner, String operator) throws Exception {
+
         if (Strings.isEmpty(owner)) {
             throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_EMPTY);
         }
@@ -354,17 +351,14 @@ public class DDC1155Service extends BaseService {
     /**
      * 查询数量
      *
-     * @param sender 调用者地址
      * @param owner 拥有者账户
      * @param ddcId DDCID
      * @return 拥有者账户所对应的DDCID所拥用的数量
      * @throws Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法进行查询当前账户拥有的DDC的数量。
      */
-    public BigInteger balanceOf(String sender, String owner, BigInteger ddcId) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+    public BigInteger balanceOf(String owner, BigInteger ddcId) throws Exception {
+
         if (Strings.isEmpty(owner)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
         }
@@ -381,16 +375,13 @@ public class DDC1155Service extends BaseService {
     /**
      * 批量查询数量
      *
-     * @param sender 调用者地址
      * @param ddcs 拥有者DDCID集合
      * @return 拥有者账户所对应的每个DDCID所拥用的数量
      * @throws Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法进行批量查询账户拥有的DDC的数量。
      */
-    public List<BigInteger> balanceOfBatch(String sender, Multimap<String, BigInteger> ddcs) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+    public List<BigInteger> balanceOfBatch(Multimap<String, BigInteger> ddcs) throws Exception {
+
         if (ddcs == null || ddcs.size() == 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
@@ -417,16 +408,12 @@ public class DDC1155Service extends BaseService {
     /**
      * 获取ddcURI
      *
-     * @param sender 调用者地址
      * @param ddcId ddcId
      * @return DDCURI
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法进行查询当前DDC的资源标识符。
      */
-    public String ddcURI(String sender, BigInteger ddcId) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+    public String ddcURI(BigInteger ddcId) throws Exception {
         if (ddcId == null || ddcId.intValue() <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }

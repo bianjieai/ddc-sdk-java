@@ -1,6 +1,5 @@
 package ai.bianjie.ddc.service;
 
-import ai.bianjie.ddc.constant.AuthorityFunctions;
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.contract.Authority;
 import ai.bianjie.ddc.dto.AccountInfo;
@@ -8,16 +7,10 @@ import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
-import org.web3j.crypto.ECKeyPair;
-import org.web3j.crypto.Keys;
 import org.web3j.tuples.generated.Tuple7;
 import org.web3j.utils.Strings;
 
 import java.math.BigInteger;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.util.concurrent.ExecutionException;
 
 
 public class AuthorityService extends BaseService {
@@ -108,16 +101,11 @@ public class AuthorityService extends BaseService {
     /**
      * 运营方、平台方以及终端用户可以通过调用该方法进行DDC账户信息的查询。
      *
-     * @param sender  调用者地址
      * @param account DDC用户链账户地址
      * @return 返回DDC账户信息
      * @throws Exception
      */
-    public AccountInfo getAccount(String sender, String account) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
-
+    public AccountInfo getAccount(String account) throws Exception {
         if (Strings.isEmpty(account)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
         }

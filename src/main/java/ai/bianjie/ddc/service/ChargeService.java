@@ -1,6 +1,5 @@
 package ai.bianjie.ddc.service;
 
-import ai.bianjie.ddc.constant.ChargeFunctions;
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.contract.Charge;
 import ai.bianjie.ddc.exception.DDCException;
@@ -56,15 +55,11 @@ public class ChargeService extends BaseService {
     /**
      * 查询指定账户的余额。
      *
-     * @param sender  调用者地址
      * @param accAddr 查询的账户地址
      * @return 返回账户所对应的业务费余额
      * @throws Exception
      */
-    public BigInteger balanceOf(String sender, String accAddr) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+    public BigInteger balanceOf(String accAddr) throws Exception {
 
         if (Strings.isEmpty(accAddr)) {
             throw new DDCException(ErrorMessage.ACC_ADDR_IS_EMPTY);
@@ -80,16 +75,12 @@ public class ChargeService extends BaseService {
     /**
      * 查询指定的DDC业务主逻辑合约的方法所对应的调用业务费用。
      *
-     * @param sender  调用者地址
      * @param ddcAddr DDC业务主逻辑合约地址
      * @param sig     Hex格式的合约方法ID
      * @return 返回DDC合约业务费
      * @throws Exception
      */
-    public BigInteger queryFee(String sender, String ddcAddr, String sig) throws Exception {
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
+    public BigInteger queryFee(String ddcAddr, String sig) throws Exception {
 
         if (Strings.isEmpty(ddcAddr)) {
             throw new DDCException(ErrorMessage.DDC_ADDR_IS_EMPTY);
