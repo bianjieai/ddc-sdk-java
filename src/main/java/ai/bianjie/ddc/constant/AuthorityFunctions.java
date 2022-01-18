@@ -1,17 +1,6 @@
 package ai.bianjie.ddc.constant;
 
 public class AuthorityFunctions {
-    public static final String AddAccount = "addAccount";
-    
-    public static final String AddConsumerByOperator = "addConsumerByOperator";
-    
-    public static final String DelAccount = "DelAccount";
-    
-    public static final String GetAccount = "getAccount";
-    
-    public static final String UpdateAccountState = "updateAccountState";
-
-
     //public static final String AddAccountEvent = "AddAccount(address,address)";
     public static final String AddAccountEvent = "0xd246aa772c5574778b374ed1202c22bac9c87a04fd3624439c2642fa6ca62171";
     //public static final String DelAccountEvent = "DelAccount(address)";
