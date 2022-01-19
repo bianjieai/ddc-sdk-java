@@ -4,7 +4,6 @@ import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.contract.Charge;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
-import ai.bianjie.ddc.service.BaseService;
 import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.HexUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
