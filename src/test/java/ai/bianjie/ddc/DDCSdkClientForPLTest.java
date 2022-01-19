@@ -1,6 +1,5 @@
 package ai.bianjie.ddc;
 
-import ai.bianjie.ddc.DDCSdkClient;
 import ai.bianjie.ddc.dto.txInfo;
 import ai.bianjie.ddc.listener.sign;
 import ai.bianjie.ddc.service.BaseService;
@@ -22,7 +21,7 @@ class DDCSdkClientForPLTest {
 //        BigInteger b = client.getChargeService().setGasLimitCharge("1").balanceOf("918F7F275A6C2D158E5B76F769D3F1678958A334");
 //        System.out.println("========================"+b);
 
-        DDCSdkClient client = new DDCSdkClient.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc")
+        DDCSdkClientForPL client = new DDCSdkClientForPL.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc")
                 .setAuthorityLogicAddress("0xdAc50c90b934AdED33b6ADc9f5855ab8a9EFB09a")
                 .setChargeLogicAddress("0x52403cE9E235Cf013bA2353F0bf47834C98424c7")
                 .setDDC721Address("0x503f45958F57Da55170B54796F4eD224c9fef9d7")

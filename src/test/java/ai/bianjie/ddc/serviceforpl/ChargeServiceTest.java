@@ -1,15 +1,14 @@
 package ai.bianjie.ddc.serviceforpl;
 
-import ai.bianjie.ddc.DDCSdkClient;
+import ai.bianjie.ddc.DDCSdkClientForPL;
 import ai.bianjie.ddc.listener.sign;
-import ai.bianjie.ddc.service.ChargeService;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 
 class ChargeServiceTest {
 
-    DDCSdkClient client = new DDCSdkClient.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc")
+    DDCSdkClientForPL client = new DDCSdkClientForPL.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc")
             .setAuthorityLogicAddress("0xdAc50c90b934AdED33b6ADc9f5855ab8a9EFB09a")
             .setChargeLogicAddress("0x52403cE9E235Cf013bA2353F0bf47834C98424c7")
             .setDDC721Address("0x503f45958F57Da55170B54796F4eD224c9fef9d7")
