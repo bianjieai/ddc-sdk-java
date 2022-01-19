@@ -392,15 +392,15 @@
     //也可设置相关参数值 gasprice，gaslimit，相关合约地址
     //irita 中 gaslimit 设置值即消耗值，扣费换算：1 uirita = 1e12 wei
     //建议 gaslimit 设置为300000以上，gasprice 设置为10000000以上
-    DDCSdkClient client = new DDCSdkClient.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc")
-            .setAuthorityLogicAddress("0xdAc50c90b934AdED33b6ADc9f5855ab8a9EFB09a")
-            .setChargeLogicAddress("0x52403cE9E235Cf013bA2353F0bf47834C98424c7")
-            .setDDC721Address("0x503f45958F57Da55170B54796F4eD224c9fef9d7")
-            .setDDC1155Address("0xe7310D2D79c67a3078DBeFA67344c7047AC28708")
-            .setGasLimit("300000")
-            .setGasPrice("10000000")
-            .setSignEventListener(new sign())
-            .init();
+   DDCSdkClientForPL client = new DDCSdkClientForPL.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc")
+                .setAuthorityLogicAddress("0xdAc50c90b934AdED33b6ADc9f5855ab8a9EFB09a")
+                .setChargeLogicAddress("0x52403cE9E235Cf013bA2353F0bf47834C98424c7")
+                .setDDC721Address("0x503f45958F57Da55170B54796F4eD224c9fef9d7")
+                .setDDC1155Address("0xe7310D2D79c67a3078DBeFA67344c7047AC28708")
+                .setGasLimit("300000")
+                .setGasPrice("10000000")
+                .setSignEventListener(new sign())
+                .init();
     
     //可单独为每个方法设置gaslimit
     AuthorityService authorityService = client.getAuthorityService(); 
@@ -710,15 +710,15 @@
     //也可设置相关参数值 gasprice，gaslimit，相关合约地址
     //irita 中 gaslimit 设置值即消耗值，扣费换算：1 uirita = 1e12 wei
     //建议 gaslimit 设置为300000以上，gasprice 设置为10000000以上
-    DDCSdkClient client = new DDCSdkClient.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc")
-            .setAuthorityLogicAddress("0xdAc50c90b934AdED33b6ADc9f5855ab8a9EFB09a")
-            .setChargeLogicAddress("0x52403cE9E235Cf013bA2353F0bf47834C98424c7")
-            .setDDC721Address("0x503f45958F57Da55170B54796F4eD224c9fef9d7")
-            .setDDC1155Address("0xe7310D2D79c67a3078DBeFA67344c7047AC28708")
-            .setGasLimit("300000")
-            .setGasPrice("10000000")
-            .setSignEventListener(new sign())
-            .init();
+    DDCSdkClientForPL client = new DDCSdkClientForPL.Builder("https://opbtest.bsngate.com:18602/api/IRISnetrest/evmrpc")
+                .setAuthorityLogicAddress("0xdAc50c90b934AdED33b6ADc9f5855ab8a9EFB09a")
+                .setChargeLogicAddress("0x52403cE9E235Cf013bA2353F0bf47834C98424c7")
+                .setDDC721Address("0x503f45958F57Da55170B54796F4eD224c9fef9d7")
+                .setDDC1155Address("0xe7310D2D79c67a3078DBeFA67344c7047AC28708")
+                .setGasLimit("300000")
+                .setGasPrice("10000000")
+                .setSignEventListener(new sign())
+                .init();
     
     //可单独为每个方法设置gaslimit
     AuthorityService authorityService = client.getAuthorityService(); 
