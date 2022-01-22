@@ -3,6 +3,7 @@ package ai.bianjie.ddc.service;
 import ai.bianjie.ddc.constant.DDC1155Functions;
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.contract.DDC1155;
+import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
@@ -65,7 +66,7 @@ public class DDC1155Service extends BaseService {
     /**
      * 批量安全生成
      *
-     * @param sender 调用者地址
+     * @param sender  调用者地址
      * @param to      接收者账户
      * @param ddcInfo DDC信息
      * @return 交易哈希
@@ -111,7 +112,7 @@ public class DDC1155Service extends BaseService {
     /**
      * 账户授权
      *
-     * @param sender 调用者地址
+     * @param sender   调用者地址
      * @param operator 授权者账户
      * @param approved 授权标识
      * @return 交易哈希
@@ -202,10 +203,10 @@ public class DDC1155Service extends BaseService {
      * 批量安全转移
      *
      * @param sender 调用者地址
-     * @param from 拥有者账户
-     * @param to   接收者账户
-     * @param ddcs 拥有者DDCID集合
-     * @param data 附加数据
+     * @param from   拥有者账户
+     * @param to     接收者账户
+     * @param ddcs   拥有者DDCID集合
+     * @param data   附加数据
      * @return 交易哈希
      * @throws Exception Exception
      * @desc DDC拥有者或DDC授权者可以通过调用该方法进行DDC的批量转移。
@@ -250,7 +251,7 @@ public class DDC1155Service extends BaseService {
      * 冻结
      *
      * @param sender 调用者地址
-     * @param ddcId DDC唯一标识
+     * @param ddcId  DDC唯一标识
      * @return 交易哈希
      * @throws Exception Exception
      * @desc 运营方可以通过调用该方法进行DDC的冻结。
@@ -272,7 +273,7 @@ public class DDC1155Service extends BaseService {
      * 解冻
      *
      * @param sender 调用者地址
-     * @param ddcId DDC唯一标识
+     * @param ddcId  DDC唯一标识
      * @return 交易哈希
      * @throws Exception Exception
      * @desc 运营方可以通过调用该方法进行DDC的解冻。
@@ -294,8 +295,8 @@ public class DDC1155Service extends BaseService {
      * 销毁
      *
      * @param sender 调用者地址
-     * @param owner 拥有者账户
-     * @param ddcId DDCID
+     * @param owner  拥有者账户
+     * @param ddcId  DDCID
      * @return 交易哈希
      * @throws Exception Exception
      * @desc DDC拥有者或DDC授权者可以通过调用该方法进行DDC的销毁。
@@ -419,5 +420,37 @@ public class DDC1155Service extends BaseService {
         }
 
         return Web3jUtils.getDDC1155().ddcURI(ddcId).send();
+    }
+
+    /**
+     * URI设置
+     *
+     * @param sender 调用者地址
+     * @param owner  拥有者
+     * @param ddcId  DDC唯一标识
+     * @param ddcURI DDC资源标识符
+     * @return 返回交易哈希
+     * @throws Exception Exception
+     * @desc DDC拥有者或DDC授权者通过调用该方法对DDC的资源标识符进行设置。
+     */
+    public String setURI(String sender, String owner, BigInteger ddcId, String ddcURI) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        if (!AddressUtils.isValidAddress(owner)) {
+            throw new DDCException(ErrorMessage.OWNER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        if (ddcId == null || ddcId.intValue() <= 0) {
+            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
+        }
+
+        if (Strings.isEmpty(ddcURI)) {
+            throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
+        }
+
+        encodedFunction = ddc1155.setURI(owner,ddcId,ddcURI).encodeFunctionCall();
+        return signAndSend(ddc1155, DDC1155.FUNC_SETURI, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 }

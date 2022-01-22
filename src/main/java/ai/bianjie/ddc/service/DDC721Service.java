@@ -69,7 +69,7 @@ public class DDC721Service extends BaseService {
      * @return hash  交易哈希
      * @throws Exception Exception
      */
-    public String safeMint(String sender, String to, String ddcURI,byte[] data) throws Exception {
+    public String safeMint(String sender, String to, String ddcURI, byte[] data) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -87,12 +87,13 @@ public class DDC721Service extends BaseService {
         }
 
         //4.获取序列化编码好的方法
-        encodedFunction = ddc721.safeMint(to, ddcURI,data).encodeFunctionCall();
+        encodedFunction = ddc721.safeMint(to, ddcURI, data).encodeFunctionCall();
 
         //5.签名并发送，获取hash
         return signAndSend(ddc721, DDC721.FUNC_SAFEMINT, encodedFunction, signEventListener, sender).getTransactionHash();
 
     }
+
     /**
      * DDC授权
      * DDC拥有者可以通过调用该方法进行DDC的授权，发起者需要是DDC的拥有者
@@ -130,7 +131,7 @@ public class DDC721Service extends BaseService {
      * DDC授权查询
      * 运营方、平台方和终端用户都可以通过调用该方法查询DDC的授权情况
      *
-     * @param ddcId  DDC唯一标识
+     * @param ddcId DDC唯一标识
      * @return 授权的账户
      * @throws Exception Exception
      */
@@ -339,7 +340,7 @@ public class DDC721Service extends BaseService {
      * 查询数量
      * 运营方、平台方以及终端用户可以通过调用该方法进行查询当前账户拥有的DDC的数量。
      *
-     * @param owner  拥有者账户
+     * @param owner 拥有者账户
      * @return ddc的数量
      * @throws Exception Exception
      */
@@ -358,7 +359,7 @@ public class DDC721Service extends BaseService {
     /**
      * 查询拥有者
      *
-     * @param ddcId  ddc唯一标识
+     * @param ddcId ddc唯一标识
      * @return 拥有者账户
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的拥有者。
@@ -398,7 +399,7 @@ public class DDC721Service extends BaseService {
     /**
      * 获取DDCURI
      *
-     * @param ddcId  ddc唯一标识符
+     * @param ddcId ddc唯一标识符
      * @return DDC资源标识符
      * @throws Exception Exception
      * @desc 运营方、平台方以及终端用户可以通过调用该方法查询当前DDC的资源标识符。
@@ -411,4 +412,30 @@ public class DDC721Service extends BaseService {
         return Web3jUtils.getDDC721().ddcURI(ddcId).send();
     }
 
+    /**
+     * URI设置
+     *
+     * @param sender 调用者地址
+     * @param ddcId DDC唯一标识
+     * @param ddcURI DDC资源标识符
+     * @return  返回交易哈希
+     * @throws Exception Exception
+     * @desc DDC拥有者或DDC授权者通过调用该方法对DDC的资源标识符进行设置。
+     */
+    public String setURI(String sender, BigInteger ddcId, String ddcURI) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        if (ddcId == null || ddcId.intValue() <= 0) {
+            throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
+        }
+
+        if (Strings.isEmpty(ddcURI)) {
+            throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
+        }
+
+        encodedFunction = ddc721.setURI(ddcId,ddcURI).encodeFunctionCall();
+        return signAndSend(ddc721, DDC721.FUNC_SETURI, encodedFunction, signEventListener, sender).getTransactionHash();
+    }
 }

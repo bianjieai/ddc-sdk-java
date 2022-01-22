@@ -75,9 +75,9 @@ public class ChargeService extends BaseService {
     /**
      * 查询指定的DDC业务主逻辑合约的方法所对应的调用业务费用。
      *
-     * @param ddcAddr DDC业务主逻辑合约地址
+     * @param ddcAddr DDC业务合约地址
      * @param sig     Hex格式的合约方法ID
-     * @return 返回DDC合约业务费
+     * @return 返回查询的DDC合约业务费
      * @throws Exception
      */
     public BigInteger queryFee(String ddcAddr, String sig) throws Exception {
@@ -127,7 +127,7 @@ public class ChargeService extends BaseService {
      * 运营方调用接口设置指定的DDC主合约的方法调用费用。
      *
      * @param sender  调用者地址
-     * @param ddcAddr DDC业务主逻辑合约地址
+     * @param ddcAddr DDC业务合约地址
      * @param sig     Hex格式的合约方法ID
      * @param amount  业务费用
      * @return 返回交易哈希
@@ -167,7 +167,7 @@ public class ChargeService extends BaseService {
      * 运营方调用接口删除指定的DDC主合约的方法调用费用。
      *
      * @param sender  调用者地址
-     * @param ddcAddr DDC业务主逻辑合约地址
+     * @param ddcAddr DDC业务合约地址
      * @param sig     Hex格式的合约方法ID
      * @return 返回交易哈希
      * @throws Exception
@@ -203,7 +203,7 @@ public class ChargeService extends BaseService {
      * 运营方调用该接口删除指定的DDC业务主逻辑合约授权。
      *
      * @param sender  调用者地址'
-     * @param ddcAddr DDC业务主逻辑合约地址
+     * @param ddcAddr DDC业务合约地址
      * @return 返回交易哈希
      * @throws Exception
      */
