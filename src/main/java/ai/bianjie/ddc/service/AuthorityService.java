@@ -50,7 +50,7 @@ public class AuthorityService extends BaseService {
 //        }
 //
 //        encodedFunction = authority.addAccountByPlatform(account, accName, accDID).encodeFunctionCall();
-//        return signAndSend(authority, AuthorityFunctions.AddAccount, encodedFunction, signEventListener,sender).getTransactionHash();
+//        return signAndSend(authority, "", encodedFunction, signEventListener,sender).getTransactionHash();
 //    }
 
 

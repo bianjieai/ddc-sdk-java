@@ -1,6 +1,5 @@
 package ai.bianjie.ddc.service;
 
-import ai.bianjie.ddc.constant.DDC721Functions;
 import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.constant.ErrorMessage;

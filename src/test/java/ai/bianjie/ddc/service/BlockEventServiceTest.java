@@ -24,6 +24,6 @@ class BlockEventServiceTest {
     @Test
     void getBlockEvent() throws IOException, InterruptedException, ExecutionException {
         BlockEventService blockEventService = new BlockEventService();
-        BlockEventBean blockEvent = blockEventService.getBlockEvent(new BigInteger("28684"));
+        BlockEventBean blockEvent = blockEventService.getBlockEvent(new BigInteger("3058179"));
     }
 }

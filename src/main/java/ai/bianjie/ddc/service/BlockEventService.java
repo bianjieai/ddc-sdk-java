@@ -1,10 +1,6 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.config.ConfigCache;
-import ai.bianjie.ddc.constant.AuthorityFunctions;
-import ai.bianjie.ddc.constant.ChargeFunctions;
-import ai.bianjie.ddc.constant.DDC1155Functions;
-import ai.bianjie.ddc.constant.DDC721Functions;
 import ai.bianjie.ddc.contract.Authority;
 import ai.bianjie.ddc.contract.Charge;
 import ai.bianjie.ddc.contract.DDC1155;
@@ -13,6 +9,7 @@ import ai.bianjie.ddc.dto.BlockEventBean;
 import ai.bianjie.ddc.util.Web3jUtils;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.web3j.abi.EventEncoder;
 import org.web3j.protocol.core.methods.response.BaseEventResponse;
 import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.Log;
@@ -78,63 +75,50 @@ public class BlockEventService extends BaseService {
                 continue;
             }
             if (ConfigCache.get().getAuthorityLogicAddress().equalsIgnoreCase(log.getAddress())) {
-                //List<Type> res = FunctionReturnDecoder.decode(log.getData(), Authority.ADDACCOUNT_EVENT.getParameters());
                 Authority authority = Web3jUtils.getAuthority();
-                switch (log.getTopics().get(0)) {
-                    case AuthorityFunctions.AddAccountEvent:
-                        list.addAll(authority.getAddAccountEvents(receipt));
-                        break;
-                    case AuthorityFunctions.UpdateAccountStateEvent:
-                        list.addAll(authority.getUpdateAccountStateEvents(receipt));
-                        break;
+                if (log.getTopics().get(0).equals(EventEncoder.encode(Authority.ADDACCOUNT_EVENT))) {
+                    list.addAll(authority.getAddAccountEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Authority.UPDATEACCOUNTSTATE_EVENT))) {
+                    list.addAll(authority.getUpdateAccountStateEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Authority.CROSSPLATFORMAPPROVAL_EVENT))) {
+                    list.addAll(authority.getAdminChangedEvents(receipt));
                 }
             } else if (ConfigCache.get().getChargeLogicAddress().equalsIgnoreCase(log.getAddress())) {
-                Charge chargeLogic = Web3jUtils.getCharge();
-                switch (log.getTopics().get(0)) {
-                    case ChargeFunctions.RechargeEvent:
-                        list.addAll(chargeLogic.getRechargeEvents(receipt));
-                        break;
-                    case ChargeFunctions.SetFeeEvent:
-                        list.addAll(chargeLogic.getSetFeeEvents(receipt));
-                        break;
-                    case ChargeFunctions.PayEvent:
-                        list.addAll(chargeLogic.getPayEvents(receipt));
-                        break;
-                    case ChargeFunctions.DeleteDDCEvent:
-                        chargeLogic.getDelDDCEvents(receipt);
-                        break;
-                    case ChargeFunctions.DeleteFeeEvent:
-                        list.addAll(chargeLogic.getDelFeeEvents(receipt));
-                        break;
+                Charge charge = Web3jUtils.getCharge();
+                if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.RECHARGE_EVENT))) {
+                    list.addAll(charge.getRechargeEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.SETFEE_EVENT))) {
+                    list.addAll(charge.getSetFeeEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.PAY_EVENT))) {
+                    list.addAll(charge.getPayEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.DELDDC_EVENT))) {
+                    list.addAll(charge.getDelDDCEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.DELFEE_EVENT))) {
+                    list.addAll(charge.getDelFeeEvents(receipt));
                 }
             } else if (ConfigCache.get().getDdc721Address().equalsIgnoreCase(log.getAddress())) {
                 DDC721 ddc721 = Web3jUtils.getDDC721();
-                switch (log.getTopics().get(0)) {
-                    case DDC721Functions.DDC721TransferEvent:
-                        list.addAll(ddc721.getTransferEvents(receipt));
-                        break;
-                    case DDC721Functions.DDC721FreezeEvent:
-                        list.addAll(ddc721.getEnterBlacklistEvents(receipt));
-                        break;
-                    case DDC721Functions.DDC721UnFreezeEvent:
-                        list.addAll(ddc721.getExitBlacklistEvents(receipt));
-                        break;
+                if (log.getTopics().get(0).equals(EventEncoder.encode(DDC721.TRANSFER_EVENT))) {
+                    list.addAll(ddc721.getTransferEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC721.ENTERBLACKLIST_EVENT))) {
+                    list.addAll(ddc721.getEnterBlacklistEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC721.EXITBLACKLIST_EVENT))) {
+                    list.addAll(ddc721.getExitBlacklistEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC721.SETURI_EVENT))) {
+                    list.addAll(ddc721.getSetURIEvents(receipt));
                 }
             } else if (ConfigCache.get().getDdc1155Address().equalsIgnoreCase(log.getAddress())) {
                 DDC1155 ddc1155 = Web3jUtils.getDDC1155();
-                switch (log.getTopics().get(0)) {
-                    case DDC1155Functions.DDC1155TransferBatchEvent:
-                        list.addAll(ddc1155.getTransferBatchEvents(receipt));
-                        break;
-                    case DDC1155Functions.DDC1155TransferSingleEvent:
-                        list.addAll(ddc1155.getTransferSingleEvents(receipt));
-                        break;
-                    case DDC1155Functions.DDC1155FreezeEvent:
-                        list.addAll(ddc1155.getEnterBlacklistEvents(receipt));
-                        break;
-                    case DDC1155Functions.DDC1155UnFreezeEvent:
-                        list.addAll(ddc1155.getExitBlacklistEvents(receipt));
-                        break;
+                if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.TRANSFERBATCH_EVENT))) {
+                    list.addAll(ddc1155.getTransferBatchEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.TRANSFERSINGLE_EVENT))) {
+                    list.addAll(ddc1155.getTransferSingleEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.ENTERBLACKLIST_EVENT))) {
+                    list.addAll(ddc1155.getEnterBlacklistEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.EXITBLACKLIST_EVENT))) {
+                    list.addAll(ddc1155.getExitBlacklistEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.SETURI_EVENT))) {
+                    list.addAll(ddc1155.getSetURIEvents(receipt));
                 }
             }
             result.addAll(list);
