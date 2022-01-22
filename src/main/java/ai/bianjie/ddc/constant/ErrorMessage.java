@@ -35,8 +35,7 @@ public enum ErrorMessage {
     READ_FILE_FAILED(1026,"raed file is failed"),
     SIGN_METHOD_EMPTY(1027,"sign method is empty"),
     NO_SIGN_EVENT_LISTNER(1028,"not register sign event listener"),
-    
-    
+    OWNER_ACCOUNT_IS_NOT_ADDRESS_FORMAT(1029,"owner account is not a standard address format"),
     SIG_IS_EMPTY(1018, "sig is empty"),
     SIG_IS_NOT_4BYTE_HASH(1019, "sig is not 4 byte hash"),
     REQUEST_FAILED(2001, ""),

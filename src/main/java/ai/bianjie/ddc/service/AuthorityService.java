@@ -148,4 +148,39 @@ public class AuthorityService extends BaseService {
         return signAndSend(authority, Authority.FUNC_UPDATEACCOUNTSTATE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
+    /**
+     * 运营方可以通过调用该方法对DDC的跨平台操作进行授权。
+     *
+     * @param sender   调用者地址
+     * @param from     授权者
+     * @param to       接收者
+     * @param approved 授权标识
+     * @return 返回交易哈希
+     * @throws Exception
+     */
+    public String crossPlatformApproval(String sender, String from, String to, Boolean approved) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        if (Strings.isEmpty(from)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
+        if (!AddressUtils.isValidAddress(from)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        encodedFunction = authority.crossPlatformApproval(from,to,approved).encodeFunctionCall();
+        return signAndSend(authority, Authority.FUNC_CROSSPLATFORMAPPROVAL, encodedFunction, signEventListener, sender).getTransactionHash();
+    }
+
 }

@@ -58,6 +58,9 @@ public class  ConfigInfo {
         map.put(Authority.FUNC_UPGRADETO,"0");
         map.put(Authority.FUNC_UPDATEACCOUNTSTATE,"0");
         map.put(Authority.FUNC_UPGRADETOANDCALL,"0");
+        map.put(Authority.FUNC_CROSSPLATFORMAPPROVAL,"0");
+        map.put(Authority.FUNC_CROSSPLATFORMCHECK,"0");
+
         map.put(Charge.FUNC_BALANCEOF,"0");
         map.put(Charge.FUNC_DELDDC,"0");
         map.put(Charge.FUNC_DELFEE,"0");
@@ -101,6 +104,7 @@ public class  ConfigInfo {
         map.put(DDC721.FUNC_UNFREEZE,"0");
         map.put(DDC721.FUNC_UPGRADETO,"0");
         map.put(DDC721.FUNC_UPGRADETOANDCALL,"0");
+        map.put(DDC721.FUNC_SETURI,"0");
         map.put(DDC1155.FUNC_BALANCEOF,"0");
         map.put(DDC1155.FUNC_BALANCEOFBATCH,"0");
         map.put(DDC1155.FUNC_BURN,"0");
@@ -123,6 +127,7 @@ public class  ConfigInfo {
         map.put(DDC1155.FUNC_UNFREEZE,"0");
         map.put(DDC1155.FUNC_UPGRADETO,"0");
         map.put(DDC1155.FUNC_UPGRADETOANDCALL,"0");
+        map.put(DDC1155.FUNC_SETURI,"0");
     }
 
     public String getOpbGatewayAddress() {
