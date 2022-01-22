@@ -26,6 +26,6 @@ class BlockEventServiceTest {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
         BlockEventService blockEventService = new BlockEventService();
-        BlockEventBean blockEvent = blockEventService.getBlockEvent(new BigInteger("28684"));
+        BlockEventBean blockEvent = blockEventService.getBlockEvent(new BigInteger("3058179"));
     }
 }

@@ -180,23 +180,6 @@ public class BaseService {
     /**
      * 平台方或终端用户通过该方法进行离线账户生成。
      *
-     * @return 返回 AccountHEX
-     * @throws Exception
-     */
-    public Account createAccountHex() {
-        byte[] initialEntropy = new byte[16];
-        SecureRandom secureRandom = new SecureRandom();
-        secureRandom.nextBytes(initialEntropy);
-        String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
-        byte[] seed = MnemonicUtils.generateSeed(mnemonic, "");
-        ECKeyPair keyPair = ECKeyPair.create(sha256(seed));
-        String addr = Hex.toHexString(Keys.getAddress(keyPair).getBytes());
-        return new Account(mnemonic, keyPair.getPublicKey(), keyPair.getPrivateKey(), addr);
-    }
-
-    /**
-     * 平台方或终端用户通过该方法进行离线账户生成。
-     *
      * @return 返回 AccountIA
      * @throws Exception
      */
@@ -207,8 +190,26 @@ public class BaseService {
         String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
         byte[] seed = MnemonicUtils.generateSeed(mnemonic, "");
         ECKeyPair keyPair = ECKeyPair.create(sha256(seed));
-        String addr = Keys.getAddress(keyPair);
+        byte[] addr =  Keys.getAddress(keyPair).getBytes();
+
         return new Account(mnemonic, keyPair.getPublicKey(), keyPair.getPrivateKey(), addr);
+    }
+
+    /**
+     * 平台方或终端用户通过该方法进行离线账户生成。
+     *
+     * @return 返回 Account
+     * @throws Exception
+     */
+    public Account createAccountHex() {
+        byte[] initialEntropy = new byte[16];
+        SecureRandom secureRandom = new SecureRandom();
+        secureRandom.nextBytes(initialEntropy);
+        String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
+        byte[] seed = MnemonicUtils.generateSeed(mnemonic, "");
+        ECKeyPair keyPair = ECKeyPair.create(sha256(seed));
+        String addr = Keys.getAddress(keyPair);
+        return new Account(mnemonic, keyPair.getPublicKey(), keyPair.getPrivateKey(), "0x" + addr);
     }
 
 }

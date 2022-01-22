@@ -31,7 +31,7 @@ class BaseServiceTest {
     void getBlockByNumber() throws IOException {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
-        EthBlock.Block block = baseService.getBlockByNumber(new BigInteger("1"));
+        EthBlock.Block block = baseService.getBlockByNumber(new BigInteger("3058179"));
         System.out.println("--------------------------------------" + block);
     }
 
@@ -39,7 +39,7 @@ class BaseServiceTest {
     void getTransReceipt() throws ExecutionException, InterruptedException {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
-        TransactionReceipt transactionReceipt = baseService.getTransReceipt("0xb5b02d47f961b9c86d1dd313c40cb88e255fe162c4ddd8b204cf161bc89f0e70");
+        TransactionReceipt transactionReceipt = baseService.getTransReceipt("0x79bc4b5128e4b663876a3d4b097bd160fa512c1c5e93a615df45a86ccf0422ad");
         System.out.println("--------------------------------------" + transactionReceipt);
     }
 
@@ -57,5 +57,10 @@ class BaseServiceTest {
         client.setGatewayApiKey("");
         Boolean state = baseService.getTransByStatus("0xb5b02d47f961b9c86d1dd313c40cb88e255fe162c4ddd8b204cf161bc89f0e70");
         System.out.println("--------------------------------------" + state);
+    }
+
+    @Test
+    void getLatestBlockNumber() throws IOException {
+        System.out.println(baseService.getLatestBlockNumber());
     }
 }
