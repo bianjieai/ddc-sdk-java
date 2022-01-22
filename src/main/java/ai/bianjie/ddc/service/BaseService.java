@@ -10,6 +10,7 @@ import ai.bianjie.ddc.util.CommonUtils;
 import ai.bianjie.ddc.util.GasProvider;
 import ai.bianjie.ddc.util.Web3jUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.util.encoders.Hex;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.MnemonicUtils;
@@ -176,13 +177,30 @@ public class BaseService {
         return web3j.ethSendRawTransaction(hexString_signedMessage).send();
     }
 
+//    /**
+//     * 平台方或终端用户通过该方法进行离线账户生成。
+//     *
+//     * @return 返回 AccountIA
+//     * @throws Exception
+//     */
+//    public Account createAccountIA() {
+//        byte[] initialEntropy = new byte[16];
+//        SecureRandom secureRandom = new SecureRandom();
+//        secureRandom.nextBytes(initialEntropy);
+//        String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
+//        byte[] seed = MnemonicUtils.generateSeed(mnemonic, "");
+//        ECKeyPair keyPair = ECKeyPair.create(sha256(seed));
+//        byte[] addr =  Keys.getAddress(keyPair).getBytes();
+//        return new Account(mnemonic, keyPair.getPublicKey(), keyPair.getPrivateKey(), addr);
+//    }
+
     /**
      * 平台方或终端用户通过该方法进行离线账户生成。
      *
      * @return 返回 Account
      * @throws Exception
      */
-    public Account createAccount() {
+    public Account createAccountHex() {
         byte[] initialEntropy = new byte[16];
         SecureRandom secureRandom = new SecureRandom();
         secureRandom.nextBytes(initialEntropy);
@@ -192,4 +210,5 @@ public class BaseService {
         String addr = Keys.getAddress(keyPair);
         return new Account(mnemonic, keyPair.getPublicKey(), keyPair.getPrivateKey(), addr);
     }
+
 }
