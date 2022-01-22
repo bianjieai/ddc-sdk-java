@@ -29,13 +29,13 @@ class BaseServiceTest {
 
     @Test
     void getBlockByNumber() throws IOException {
-        EthBlock.Block block = baseService.getBlockByNumber(new BigInteger("1"));
+        EthBlock.Block block = baseService.getBlockByNumber(new BigInteger("3058179"));
         System.out.println("--------------------------------------" + block);
     }
 
     @Test
     void getTransReceipt() throws ExecutionException, InterruptedException {
-        TransactionReceipt transactionReceipt = baseService.getTransReceipt("0xb5b02d47f961b9c86d1dd313c40cb88e255fe162c4ddd8b204cf161bc89f0e70");
+        TransactionReceipt transactionReceipt = baseService.getTransReceipt("0x79bc4b5128e4b663876a3d4b097bd160fa512c1c5e93a615df45a86ccf0422ad");
         System.out.println("--------------------------------------" + transactionReceipt);
     }
 
@@ -49,5 +49,10 @@ class BaseServiceTest {
     void getTransByStatus() throws ExecutionException, InterruptedException {
         Boolean state = baseService.getTransByStatus("0xb5b02d47f961b9c86d1dd313c40cb88e255fe162c4ddd8b204cf161bc89f0e70");
         System.out.println("--------------------------------------" + state);
+    }
+
+    @Test
+    void getLatestBlockNumber() throws IOException {
+        System.out.println(baseService.getLatestBlockNumber());
     }
 }

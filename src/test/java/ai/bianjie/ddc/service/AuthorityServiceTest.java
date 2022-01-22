@@ -19,16 +19,16 @@ class AuthorityServiceTest {
             .init();
 
     AuthorityService authorityService = client.getAuthorityService();
-    String sender="";
+    String sender="0x953488F7E292A7D6CB0BFF81BA806B82E5FD47A2";
 
     @Test
     void addConsumerByOperator() throws Exception {
-        System.out.println(authorityService.addAccountByOperator("", "", "", "",""));
+        System.out.println(authorityService.addAccountByOperator(sender, "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", "test1", "did:wenchangoperator","did:wenchangoperator"));
     }
 
     @Test
     void getAccount() throws Exception {
-        System.out.println(authorityService.getAccount("0x5804A5F927CE7382AD194FD25BCAA189DAD92A39"));
+        System.out.println(authorityService.getAccount("0x953488F7E292A7D6CB0BFF81BA806B82E5FD47A2"));
     }
 
     @Test
