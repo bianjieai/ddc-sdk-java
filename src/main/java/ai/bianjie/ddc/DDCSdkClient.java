@@ -46,16 +46,9 @@ public class DDCSdkClient {
         private SignEventListener signEventListener;
         private String headerKey;
         private String headerValue;
-
-        public Builder(String opbGateWebAddress) {
-            this.opbGateWebAddress = opbGateWebAddress;
+        public Builder(){
         }
 
-        public Builder setHeader(String headerKey,String headerValue){
-            this.headerKey = headerKey;
-            this.headerValue = headerValue;
-            return this;
-        }
 
         public Builder setGasPrice(String gasPrice) {
             this.gasPrice = gasPrice;
@@ -100,6 +93,25 @@ public class DDCSdkClient {
             return new DDCSdkClient(this);
         }
     }
+    
+    public Boolean setGatewayUrl(String gatewayUrl){
+        if(gatewayUrl.isEmpty()){
+            return false;
+        }
+        ConfigCache.get().setOpbGatewayAddress(gatewayUrl);
+        return true;
+    }
+
+    public Boolean setGatewayApiKey(String apiKey){
+        if(apiKey.isEmpty()){
+            return false;
+        }
+        ConfigCache.get().setHeaderKey(apiKey);
+        return true;
+    }
+
+
+
 
     /**
      * 获取权限管理服务的示例
