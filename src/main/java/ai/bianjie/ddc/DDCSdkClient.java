@@ -93,7 +93,7 @@ public class DDCSdkClient {
             return new DDCSdkClient(this);
         }
     }
-    
+
     public Boolean setGatewayUrl(String gatewayUrl){
         if(gatewayUrl.isEmpty()){
             return false;
