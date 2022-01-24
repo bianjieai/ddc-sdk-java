@@ -1,8 +1,10 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.DDCSdkClient;
+import ai.bianjie.ddc.dto.Account;
 import ai.bianjie.ddc.dto.txInfo;
 import ai.bianjie.ddc.listener.sign;
+import org.bitcoinj.crypto.MnemonicException;
 import org.junit.jupiter.api.Test;
 import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -62,5 +64,16 @@ class BaseServiceTest {
     @Test
     void getLatestBlockNumber() throws IOException {
         System.out.println(baseService.getLatestBlockNumber());
+    }
+
+    @Test
+    void CreateAccountHex() throws IOException, MnemonicException.MnemonicLengthException {
+        System.out.println(baseService.createAccountHex());
+    }
+
+    @Test
+    void AccoutHexToBech32() throws IOException, MnemonicException.MnemonicLengthException {
+       Account acc = baseService.createAccountHex();
+        System.out.println(baseService.AccountHexToBech32(acc.getAddress()));
     }
 }
