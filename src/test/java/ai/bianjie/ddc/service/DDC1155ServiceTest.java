@@ -91,4 +91,11 @@ class DDC1155ServiceTest {
         client.setGatewayApiKey("");
         System.out.println(ddc1155Service.ddcURI(new BigInteger("3")));
     }
+
+    @Test
+    void setURI() throws Exception {
+        client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
+        client.setGatewayApiKey("");
+        System.out.println(ddc1155Service.setURI(sender,"918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger(""),""));
+    }
 }

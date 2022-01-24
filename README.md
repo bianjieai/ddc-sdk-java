@@ -39,6 +39,7 @@
     authorityService.setGasLimitAuthority("100000")
     String Txhash1 = authorityService。addAccount(account, accName, accDID);
     
+    //进行交易的方法需要传入sender参数，即方法调用者地址
 ```
 
 ### 2.BSN-DDC-权限管理
@@ -226,6 +227,9 @@
     //返回DDC资源标识符
     String ddcURI = ddc721Service.ddcURI(ddcId);
     
+    //设置ddcURL
+    //ddc拥有者或授权者，ddcid，ddcURL
+    ddc721Service.setURI(sender,new BigInteger(""),"")
 ```
 
 ### 5.BSN-DDC-1155
@@ -293,6 +297,10 @@
     
     //获取DDCURI
     String ddcURI = ddcURI(ddcId);
+    
+    //设置ddcURL
+    //调用者，ddc拥有者或授权者，ddcid，ddcURL
+    ddc721Service.setURI(sender,owner，new BigInteger(""),"")
     
 ```
 
@@ -376,6 +384,22 @@
         });
         
 ```
+
+### 9.离线账户创建
+
+```
+//创建Hex格式账户
+//返回包含助记词，公钥，私钥，hex格式地址的Account对象
+BaseService baseService=new BaseService();
+        Account acc = baseService.createAccountHex();
+        System.out.println("================================" + acc.getAddress());
+        
+//Hex格式账户转换为Bech32格式账户
+        String addHex= baseService.AccountHexToBech32(acc.getAddress());
+        System.out.println("================================" + addHex);
+```
+
+
 
 ## 平台方可调用的如下方法：
 
@@ -555,6 +579,9 @@
     //返回DDC资源标识符
     String ddcURI = ddc721Service.ddcURI(ddcId);
     
+    //设置ddcURL
+    //ddc拥有者或授权者，ddcid，ddcURL
+    ddc721Service.setURI(sender,new BigInteger(""),"")
 ```
 
 ### 5.BSN-DDC-1155
@@ -615,6 +642,10 @@
     
     //获取DDCURI
     String ddcURI = ddcURI(ddcId);
+    
+    //设置ddcURL
+    //调用者，ddc拥有者或授权者，ddcid，ddcURL
+    ddc721Service.setURI(sender,owner，new BigInteger(""),"")
     
 ```
 
@@ -698,6 +729,22 @@
         });
         
 ```
+
+### 9.离线账户创建
+
+```
+//创建Hex格式账户
+//返回包含助记词，公钥，私钥，hex格式地址的Account对象
+BaseService baseService=new BaseService();
+        Account acc = baseService.createAccountHex();
+        System.out.println("================================" + acc.getAddress());
+        
+//Hex格式账户转换为Bech32格式账户
+        String addHex= baseService.AccountHexToBech32(acc.getAddress());
+        System.out.println("================================" + addHex);
+```
+
+
 
 ## 终端账户可调用的如下方法：
 
@@ -863,6 +910,9 @@
     //返回DDC资源标识符
     String ddcURI = ddc721Service.ddcURI(ddcId);
     
+    //设置ddcURL
+    //ddc拥有者或授权者，ddcid，ddcURL
+    ddc721Service.setURI(sender,new BigInteger(""),"")
 ```
 
 ### 5.BSN-DDC-1155
@@ -924,6 +974,9 @@
     //获取DDCURI
     String ddcURI = ddcURI(ddcId);
     
+    //设置ddcURL
+    //调用者，ddc拥有者或授权者，ddcid，ddcURL
+    ddc721Service.setURI(sender,owner，new BigInteger(""),"")
 ```
 
 ### 6.BSN-DDC-数据解析
@@ -973,6 +1026,20 @@
             System.out.println(b.log);
         });
         
+```
+
+### 9.离线账户创建
+
+```
+//创建Hex格式账户
+//返回包含助记词，公钥，私钥，hex格式地址的Account对象
+BaseService baseService=new BaseService();
+        Account acc = baseService.createAccountHex();
+        System.out.println("================================" + acc.getAddress());
+        
+//Hex格式账户转换为Bech32格式账户
+        String addHex= baseService.AccountHexToBech32(acc.getAddress());
+        System.out.println("================================" + addHex);
 ```
 
 ## 测试用例

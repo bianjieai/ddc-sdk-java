@@ -128,4 +128,11 @@ class DDC721ServiceTest {
         client.setGatewayApiKey("");
         System.out.println(ddc721Service.ddcURI(new BigInteger("1")));
     }
+
+    @Test
+    void setURI() throws Exception {
+        client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
+        client.setGatewayApiKey("");
+        System.out.println(ddc721Service.setURI(sender,new BigInteger(""),""));
+    }
 }
