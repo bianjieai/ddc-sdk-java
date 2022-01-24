@@ -201,4 +201,8 @@ public class BaseService {
         String hrp = "iaa";
         return Bech32Utils.hexToBech32(hrp, addr);
     }
+
+    public String AccountBech32ToHex(String addr) {
+        return Bech32Utils.bech32ToHex(addr);
+    }
 }
