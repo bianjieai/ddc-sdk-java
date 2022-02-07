@@ -46,7 +46,8 @@ public class DDCSdkClient {
         private SignEventListener signEventListener;
         private String headerKey;
         private String headerValue;
-        public Builder(){
+
+        public Builder() {
         }
 
 
@@ -94,24 +95,29 @@ public class DDCSdkClient {
         }
     }
 
-    public Boolean setGatewayUrl(String gatewayUrl){
-        if(gatewayUrl.isEmpty()){
+    public Boolean setGatewayUrl(String gatewayUrl) {
+        if (gatewayUrl.isEmpty()) {
             return false;
         }
         ConfigCache.get().setOpbGatewayAddress(gatewayUrl);
         return true;
     }
 
-    public Boolean setGatewayApiKey(String apiKey){
-        if(apiKey.isEmpty()){
+    public Boolean setGatewayApiKey(String apiKey) {
+        if (apiKey.isEmpty()) {
             return false;
         }
         ConfigCache.get().setHeaderKey(apiKey);
         return true;
     }
 
-
-
+    public Boolean setGatewayApiValue(String apiValue) {
+        if (apiValue.isEmpty()) {
+            return false;
+        }
+        ConfigCache.get().setHeaderValue(apiValue);
+        return true;
+    }
 
     /**
      * 获取权限管理服务的示例

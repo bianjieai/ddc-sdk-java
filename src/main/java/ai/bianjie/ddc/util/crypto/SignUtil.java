@@ -5,6 +5,7 @@ import java.math.BigInteger;
 public class SignUtil {
 
     private static final String HEX_PREFIX = "0x";
+
     public static String toHexStringNoPrefixZeroPadded(BigInteger value, int size) {
         return toHexStringZeroPadded(value, size, false);
     }
@@ -12,6 +13,7 @@ public class SignUtil {
     public static String toHexStringNoPrefix(BigInteger value) {
         return value.toString(16);
     }
+
     private static String toHexStringZeroPadded(BigInteger value, int size, boolean withPrefix) {
         String result = toHexStringNoPrefix(value);
 

@@ -15,7 +15,7 @@ public class ConfigCache {
         if (!Strings.isEmpty(opbGateWebAddress)) {
             configInfo.setOpbGatewayAddress(opbGateWebAddress);
         }
-        if (!Strings.isEmpty(headerKey)&&!Strings.isEmpty(headerValue)) {
+        if (!Strings.isEmpty(headerKey) && !Strings.isEmpty(headerValue)) {
             configInfo.setHeaderKey(headerKey);
             configInfo.setHeaderValue(headerValue);
         }

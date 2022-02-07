@@ -179,7 +179,7 @@ public class AuthorityService extends BaseService {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        encodedFunction = authority.crossPlatformApproval(from,to,approved).encodeFunctionCall();
+        encodedFunction = authority.crossPlatformApproval(from, to, approved).encodeFunctionCall();
         return signAndSend(authority, Authority.FUNC_CROSSPLATFORMAPPROVAL, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 

@@ -1,7 +1,7 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.DDCSdkClient;
-import ai.bianjie.ddc.listener.sign;
+import ai.bianjie.ddc.SignTest;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
@@ -15,18 +15,19 @@ class AuthorityServiceTest {
             .setDDC1155Address("0xe5d3b9E7D16E03A4A1060c72b5D1cb7806DD9070")
             .setGasLimit("300000")
             .setGasPrice("10000000")
-            .setSignEventListener(new sign())
+            .setSignEventListener(new SignTest())
             .init();
 
 
     AuthorityService authorityService = client.getAuthorityService();
-    String sender="0x953488F7E292A7D6CB0BFF81BA806B82E5FD47A2";
+    String sender = "0x953488F7E292A7D6CB0BFF81BA806B82E5FD47A2";
 
     @Test
     void addConsumerByOperator() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
-        System.out.println(authorityService.addAccountByOperator(sender, "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", "test1", "did:wenchangoperator","did:wenchangoperator"));
+        client.setGatewayApiValue("");
+        System.out.println(authorityService.addAccountByOperator(sender, "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", "test1", "did:wenchangoperator", "did:wenchangoperator"));
 
     }
 
@@ -34,6 +35,7 @@ class AuthorityServiceTest {
     void getAccount() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
+        client.setGatewayApiValue("");
         System.out.println(authorityService.getAccount("0x953488F7E292A7D6CB0BFF81BA806B82E5FD47A2"));
 
     }
@@ -42,6 +44,7 @@ class AuthorityServiceTest {
     void updateAccState() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
-        System.out.println(authorityService.updateAccState(sender,"0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", new BigInteger("0"), true));
+        client.setGatewayApiValue("");
+        System.out.println(authorityService.updateAccState(sender, "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", new BigInteger("0"), true));
     }
 }

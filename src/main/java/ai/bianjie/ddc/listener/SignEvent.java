@@ -5,7 +5,7 @@ import org.web3j.crypto.RawTransaction;
 
 public class SignEvent {
     String sender;
-    RawTransaction rawTransaction;
+    public RawTransaction rawTransaction;
 
     public String getSender() {
         return sender;

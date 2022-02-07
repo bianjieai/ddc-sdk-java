@@ -46,8 +46,8 @@ public class Web3jUtils {
 
     public static Web3j getWeb3j() {
         HttpService httpService = new HttpService(ConfigCache.get().getOpbGatewayAddress());
-        if(!Strings.isEmpty(ConfigCache.get().getHeaderKey())&&!Strings.isEmpty(ConfigCache.get().getHeaderValue())){
-            httpService.addHeader(ConfigCache.get().getHeaderKey(),ConfigCache.get().getHeaderValue());
+        if (!Strings.isEmpty(ConfigCache.get().getHeaderKey()) && !Strings.isEmpty(ConfigCache.get().getHeaderValue())) {
+            httpService.addHeader(ConfigCache.get().getHeaderKey(), ConfigCache.get().getHeaderValue());
         }
         return Web3j.build(httpService);
     }

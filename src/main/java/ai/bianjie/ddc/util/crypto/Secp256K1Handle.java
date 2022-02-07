@@ -66,8 +66,8 @@ public class Secp256K1Handle implements ISignHandle {
         this.priKey = pri;
         this.pubKey = pub;
 
-        this.privateKey = SignUtil.isEmpty(this.priKey)?null:this.loadPrivateKey(priKey);
-        this.publicKey =  SignUtil.isEmpty(this.pubKey)?null:this.loadPublicKey(pubKey);
+        this.privateKey = SignUtil.isEmpty(this.priKey) ? null : this.loadPrivateKey(priKey);
+        this.publicKey = SignUtil.isEmpty(this.pubKey) ? null : this.loadPublicKey(pubKey);
 
         initECKeyPair();
     }
@@ -82,7 +82,7 @@ public class Secp256K1Handle implements ISignHandle {
         Signature signer = Signature.getInstance("SHA256withECDSA");
         signer.initSign(this.privateKey);
         signer.update(data);
-        return  signer.sign();
+        return signer.sign();
     }
 
     @Override
@@ -97,7 +97,8 @@ public class Secp256K1Handle implements ISignHandle {
     }
 
 
-    public byte[] hash(byte[] data){
+    @Override
+    public byte[] hash(byte[] data) {
         //Keccak256 hash
         //Keccak256 sha =new Keccak256()
         //org.fisco.bcos.web3j.abi.datatypes.Address
@@ -112,24 +113,26 @@ public class Secp256K1Handle implements ISignHandle {
     public String getAddress() {
         //去掉 0x
         String publicKeyNoPrefix = SignUtil.cleanHexPrefix(this.getHexedPublicKey());
-        String publicKeyHash =  Hex.toHexString(hash(Hex.decode(publicKeyNoPrefix)));
+        String publicKeyHash = Hex.toHexString(hash(Hex.decode(publicKeyNoPrefix)));
         // right most 160 bits
         return "0x" + publicKeyHash.substring(publicKeyHash.length() - 40);
 
     }
 
+    @Override
     public int getEncryptType() {
         //return encryptType.getEncryptType();
         return 0;
     }
 
+    @Override
     public ECKeyPair getKeyPair() {
         return this.keyPair;
     }
 
-    private void initECKeyPair(){
-        BCECPrivateKey privateKey = (BCECPrivateKey)this.privateKey;
-        BCECPublicKey publicKey = (BCECPublicKey)this.publicKey;
+    private void initECKeyPair() {
+        BCECPrivateKey privateKey = (BCECPrivateKey) this.privateKey;
+        BCECPublicKey publicKey = (BCECPublicKey) this.publicKey;
         BigInteger privateKeyValue = privateKey.getD();
         byte[] publicKeyBytes = publicKey.getQ().getEncoded(false);
         BigInteger publicKeyValue = new BigInteger(1, Arrays.copyOfRange(publicKeyBytes, 1, publicKeyBytes.length));
@@ -150,11 +153,11 @@ public class Secp256K1Handle implements ISignHandle {
         return SignUtil.toHexStringNoPrefixZeroPadded(this.keyPair.getPrivateKey(), 64);
     }
 
-    public String getPrivateKeyPEMString(){
+    public String getPrivateKeyPEMString() {
         return this.priKey;
     }
 
-    public String getPublicKeyPEMString(){
+    public String getPublicKeyPEMString() {
         return this.pubKey;
     }
 
@@ -186,13 +189,13 @@ public class Secp256K1Handle implements ISignHandle {
         sb.append(beginEcPrivateKey);
         sb.append("\r\n");
         int i = 0;
-        for (; i<(content.length() - (content.length() % 64)); i+=64) {
+        for (; i < (content.length() - (content.length() % 64)); i += 64) {
             sb.append(content.substring(i, i + 64));
             sb.append("\r\n");
         }
         //System.out.println();
-       //System.out.println(i);
-        if (i!=content.length()) {
+        //System.out.println(i);
+        if (i != content.length()) {
             sb.append(content.substring(i));
             sb.append("\r\n");
         }
