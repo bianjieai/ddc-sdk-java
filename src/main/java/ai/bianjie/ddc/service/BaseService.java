@@ -123,10 +123,10 @@ public class BaseService {
         signEvent.setRawTransaction(rawTransaction);
 
         //4. 调用签名方法，获取签名后的hexString
-        String hexStringsignedMessage = signEventListener.signEvent(signEvent);
+        String signedMessage = signEventListener.signEvent(signEvent);
 
         //5. 返回交易结果
-        return web3j.ethSendRawTransaction(hexStringsignedMessage).sendAsync().get();
+        return web3j.ethSendRawTransaction(signedMessage).sendAsync().get();
     }
 
     /**
