@@ -4,13 +4,12 @@ import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPrivateKey;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jcajce.provider.digest.Keccak;
 import org.bouncycastle.util.encoders.Hex;
-//import org.fisco.bcos.web3j.crypto.ECKeyPair;
-//import org.fisco.bcos.web3j.crypto.EncryptType;
 import org.web3j.crypto.ECKeyPair;
 
 import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
@@ -33,25 +32,21 @@ public class Secp256K1Handle implements ISignHandle {
     private PublicKey publicKey;
 
     private ECKeyPair keyPair;
-//    private EncryptType encryptType;
 
     static {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
     }
 
-    public Secp256K1Handle() throws Exception {
-//        this.encryptType = new EncryptType(0);
-
-        //KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("EC");
+    public Secp256K1Handle() throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("ECDSA", "BC");
         ECGenParameterSpec ecGenParameterSpec = new ECGenParameterSpec("secp256k1");
 
 
         keyPairGenerator.initialize(ecGenParameterSpec, new SecureRandom());
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+        KeyPair keyvPair = keyPairGenerator.generateKeyPair();
 
-        this.privateKey = keyPair.getPrivate();
-        this.publicKey = keyPair.getPublic();
+        this.privateKey = keyvPair.getPrivate();
+        this.publicKey = keyvPair.getPublic();
 
         this.priKey = this.savePrivateKeyByPEM(this.privateKey);
         this.pubKey = this.savePublicKeyByPEM(this.publicKey);
@@ -60,9 +55,7 @@ public class Secp256K1Handle implements ISignHandle {
 
     }
 
-    public Secp256K1Handle(String pri, String pub) throws Exception {
-//        this.encryptType = new EncryptType(0);
-
+    public Secp256K1Handle(String pri, String pub) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchProviderException {
         this.priKey = pri;
         this.pubKey = pub;
 
@@ -74,7 +67,7 @@ public class Secp256K1Handle implements ISignHandle {
 
     //使用SHA256withECDSA的签名方式，非ETh或者FISCO的签名，只用于门户秘钥上传时的验证
     @Override
-    public byte[] sign(byte[] data) throws Exception {
+    public byte[] sign(byte[] data) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         if (this.privateKey == null) {
             throw new SignException("private key cannot be empty");
         }
@@ -86,7 +79,7 @@ public class Secp256K1Handle implements ISignHandle {
     }
 
     @Override
-    public boolean verify(byte[] data, byte[] mac) throws Exception {
+    public boolean verify(byte[] data, byte[] mac) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         if (this.publicKey == null) {
             throw new SignException("public key cannot be empty");
         }
@@ -121,7 +114,6 @@ public class Secp256K1Handle implements ISignHandle {
 
     @Override
     public int getEncryptType() {
-        //return encryptType.getEncryptType();
         return 0;
     }
 
@@ -131,10 +123,10 @@ public class Secp256K1Handle implements ISignHandle {
     }
 
     private void initECKeyPair() {
-        BCECPrivateKey privateKey = (BCECPrivateKey) this.privateKey;
-        BCECPublicKey publicKey = (BCECPublicKey) this.publicKey;
-        BigInteger privateKeyValue = privateKey.getD();
-        byte[] publicKeyBytes = publicKey.getQ().getEncoded(false);
+        BCECPrivateKey privatevKey = (BCECPrivateKey) this.privateKey;
+        BCECPublicKey publicvKey = (BCECPublicKey) this.publicKey;
+        BigInteger privateKeyValue = privatevKey.getD();
+        byte[] publicKeyBytes = publicvKey.getQ().getEncoded(false);
         BigInteger publicKeyValue = new BigInteger(1, Arrays.copyOfRange(publicKeyBytes, 1, publicKeyBytes.length));
 
         ECKeyPair ecKeyPair = new ECKeyPair(privateKeyValue, publicKeyValue);
@@ -142,10 +134,7 @@ public class Secp256K1Handle implements ISignHandle {
     }
 
     public String getHexedPublicKey() {
-
-        byte[] publicKeyBytes = ((BCECPublicKey) publicKey).getQ().getEncoded(false);
         BigInteger publicKeyValue = this.keyPair.getPublicKey();
-        //new BigInteger(1, Arrays.copyOfRange(publicKeyBytes, 1, publicKeyBytes.length));
         return SignUtil.toHexStringNoPrefixZeroPadded(publicKeyValue, 128);
     }
 
@@ -161,25 +150,25 @@ public class Secp256K1Handle implements ISignHandle {
         return this.pubKey;
     }
 
-    private PrivateKey loadPrivateKey(String priKey) throws Exception {
-        String privateKeyPEM = priKey.replaceAll(BEGIN_EC_PRIVATE_KEY, "")
-                .replaceAll(END_EC_PRIVATE_KEY, "").replace("\r", "").replace("\n", "");
+    private PrivateKey loadPrivateKey(String priKey) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
+        String privateKeyPEM = priKey.replace(BEGIN_EC_PRIVATE_KEY, "")
+                .replace(END_EC_PRIVATE_KEY, "").replace("\r", "").replace("\n", "");
         byte[] asBytes = decoder.decode(privateKeyPEM.replace("\r\n", ""));
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(asBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("ECDSA", "BC");
         return keyFactory.generatePrivate(spec);
     }
 
-    private PublicKey loadPublicKey(String pubKey) throws Exception {
-        String strPublicKey = pubKey.replaceAll(BEGIN_EC_PUBLIC_KEY, "")
-                .replaceAll(END_EC_PUBLIC_KEY, "").replace("\r", "").replace("\n", "");
+    private PublicKey loadPublicKey(String pubKey) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
+        String strPublicKey = pubKey.replace(BEGIN_EC_PUBLIC_KEY, "")
+                .replace(END_EC_PUBLIC_KEY, "").replace("\r", "").replace("\n", "");
         byte[] asBytes = decoder.decode(strPublicKey.replace("\r\n", ""));
         X509EncodedKeySpec spec = new X509EncodedKeySpec(asBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("ECDSA", "BC");
         return keyFactory.generatePublic(spec);
     }
 
-    private String savePrivateKeyByPEM(PrivateKey privateKey) throws Exception {
+    private String savePrivateKeyByPEM(PrivateKey privateKey) {
         return getEncodeString(privateKey.getEncoded(), BEGIN_EC_PRIVATE_KEY, END_EC_PRIVATE_KEY);
     }
 
@@ -193,8 +182,7 @@ public class Secp256K1Handle implements ISignHandle {
             sb.append(content.substring(i, i + 64));
             sb.append("\r\n");
         }
-        //System.out.println();
-        //System.out.println(i);
+
         if (i != content.length()) {
             sb.append(content.substring(i));
             sb.append("\r\n");
@@ -203,7 +191,7 @@ public class Secp256K1Handle implements ISignHandle {
         return sb.toString();
     }
 
-    private String savePublicKeyByPEM(PublicKey publicKey) throws Exception {
+    private String savePublicKeyByPEM(PublicKey publicKey) {
         return getEncodeString(publicKey.getEncoded(), BEGIN_EC_PUBLIC_KEY, END_EC_PUBLIC_KEY);
     }
 }

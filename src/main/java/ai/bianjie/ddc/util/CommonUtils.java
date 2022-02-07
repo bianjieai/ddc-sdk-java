@@ -1,12 +1,10 @@
 package ai.bianjie.ddc.util;
 
 import org.web3j.protocol.core.DefaultBlockParameter;
-import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.methods.request.EthFilter;
-
 import java.math.BigInteger;
 
 public class CommonUtils {
+    private CommonUtils(){}
     /**
      * String转换为BigInteger
      */

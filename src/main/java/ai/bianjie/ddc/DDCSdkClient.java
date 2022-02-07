@@ -8,31 +8,13 @@ import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.service.*;
 
 public class DDCSdkClient {
-    private String opbGateWebAddress;
-    private String gasPrice;
-    private String gasLimit;
-    private String ddc721Address;
-    private String ddc1155Address;
-    private String authorityLogicAddress;
-    private String chargeLogicAddress;
     private SignEventListener signEventListener;
-    private String headerKey;
-    private String headerValue;
 
     /**
      * SDK 初始化方法
      */
     private DDCSdkClient(Builder builder) {
-        this.opbGateWebAddress = builder.opbGateWebAddress;
-        this.gasPrice = builder.gasPrice;
-        this.gasLimit = builder.gasLimit;
-        this.ddc721Address = builder.ddc721Address;
-        this.ddc1155Address = builder.ddc1155Address;
-        this.authorityLogicAddress = builder.authorityLogicAddress;
-        this.chargeLogicAddress = builder.chargeLogicAddress;
         this.signEventListener = builder.signEventListener;
-        this.headerKey = builder.headerKey;
-        this.headerValue = builder.headerValue;
     }
 
     public static class Builder {
@@ -48,6 +30,7 @@ public class DDCSdkClient {
         private String headerValue;
 
         public Builder() {
+            throw new UnsupportedOperationException();
         }
 
 

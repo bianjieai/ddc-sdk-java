@@ -2,51 +2,51 @@ package ai.bianjie.ddc.dto;
 
 public class Account {
 
-    private String Keyseed;
-    private String PubulicKey;
-    private String PrivateKey;
-    private String Address;
+    private String keyseed;
+    private String pubulicKey;
+    private String privateKey;
+    private String address;
 
     public Account() {
     }
 
     public String getKeyseed() {
-        return Keyseed;
+        return keyseed;
     }
 
     public void setKeyseed(String keyseed) {
-        Keyseed = keyseed;
+        this.keyseed = keyseed;
     }
 
     public String getPubulicKey() {
-        return PubulicKey;
+        return pubulicKey;
     }
 
     public void setPubulicKey(String pubulicKey) {
-        PubulicKey = pubulicKey;
+        this.pubulicKey = pubulicKey;
     }
 
     public String getPrivateKey() {
-        return PrivateKey;
+        return privateKey;
     }
 
     public void setPrivateKey(String privateKey) {
-        PrivateKey = privateKey;
+        this.privateKey = privateKey;
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
     public void setAddress(String address) {
-        Address = address;
+        this.address = address;
     }
 
-    public Account(String Keyseed, String PubulicKey, String PrivateKey, String Address) {
-        this.Keyseed = Keyseed;
-        this.PubulicKey = PubulicKey;
-        this.PrivateKey = PrivateKey;
-        this.Address = Address;
+    public Account(String keyseed, String pubulicKey, String privateKey, String address) {
+        this.keyseed = keyseed;
+        this.pubulicKey = pubulicKey;
+        this.privateKey = privateKey;
+        this.address = address;
     }
 
 }

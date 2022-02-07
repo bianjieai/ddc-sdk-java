@@ -5,6 +5,7 @@ import org.web3j.utils.Strings;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ConfigCache {
+    private ConfigCache(){}
 
     private static final String DDC_SDK_CACHE_KEY = "ddc_sdk_config";
 

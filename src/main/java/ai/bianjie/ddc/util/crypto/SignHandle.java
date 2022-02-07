@@ -1,5 +1,10 @@
 package ai.bianjie.ddc.util.crypto;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
+import java.util.Arrays;
+
 public class SignHandle {
 
     ISignHandle sign;
@@ -16,12 +21,9 @@ public class SignHandle {
             default:
                 throw new SignException("Not implemented");
         }
-        //signType = st;
-
-
     }
 
-    public String Sign(byte[] data) throws Exception {
+    public String Sign(byte[] data) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         if (this.sign == null) {
             throw new SignException("this sign is null");
         }
@@ -29,10 +31,10 @@ public class SignHandle {
         byte[] s = this.sign.sign(data);
         //todo 返回格式化的签名字符串
         // HEX OR Base64
-        return s.toString();
+        return Arrays.toString(s);
     }
 
-    public boolean Verify(byte[] data, String mac) throws Exception {
+    public boolean Verify(byte[] data, String mac) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
 
         //todo 签名格式
         byte[] s = mac.getBytes();
@@ -40,7 +42,7 @@ public class SignHandle {
     }
 
 
-    public String Address() throws Exception {
+    public String Address() throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         return this.sign.getAddress();
     }
 

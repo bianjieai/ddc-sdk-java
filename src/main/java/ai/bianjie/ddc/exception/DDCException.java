@@ -3,8 +3,8 @@ package ai.bianjie.ddc.exception;
 import ai.bianjie.ddc.constant.ErrorMessage;
 
 public class DDCException extends RuntimeException {
-    private int code;
-    private String msg;
+    private final int code;
+    private final String msg;
 
     public DDCException(ErrorMessage errorMessage) {
         this.code = errorMessage.getCode();

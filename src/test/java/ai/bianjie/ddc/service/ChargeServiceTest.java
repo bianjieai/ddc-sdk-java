@@ -27,6 +27,8 @@ class ChargeServiceTest {
     void recharge() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
+        client.setGatewayApiValue("");
+        assertNull(chargeService.recharge(sender, "918F7F275A6C2D158E5B76F769D3F1678958A334", new BigInteger("100000")));
         String hash = chargeService.recharge(sender, "918F7F275A6C2D158E5B76F769D3F1678958A334", new BigInteger("100000"));
         System.out.print(hash);
     }
@@ -35,6 +37,8 @@ class ChargeServiceTest {
     void balanceOf() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
+        client.setGatewayApiValue("");
+        assertNull(chargeService.balanceOf("918F7F275A6C2D158E5B76F769D3F1678958A334"));
         BigInteger balance = chargeService.balanceOf("918F7F275A6C2D158E5B76F769D3F1678958A334");
         System.out.print(balance);
     }
@@ -43,6 +47,8 @@ class ChargeServiceTest {
     void queryFee() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
+        client.setGatewayApiValue("");
+        assertNull(chargeService.queryFee("", ""));
         BigInteger fee = chargeService.queryFee("", "");
         System.out.print(fee);
     }
@@ -51,6 +57,8 @@ class ChargeServiceTest {
     void selfRecharge() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
+        client.setGatewayApiValue("");
+        assertNull(chargeService.selfRecharge(sender, new BigInteger("1000")));
         String hash = chargeService.selfRecharge(sender, new BigInteger("1000"));
         System.out.print(hash);
     }
@@ -59,6 +67,8 @@ class ChargeServiceTest {
     void setFee() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
+        client.setGatewayApiValue("");
+        assertNull(chargeService.setFee(sender, "0x503f45958F57Da55170B54796F4eD224c9fef9d7", "0xe985e9c5", new BigInteger("1000")));
         String hash = chargeService.setFee(sender, "0x503f45958F57Da55170B54796F4eD224c9fef9d7", "0xe985e9c5", new BigInteger("1000"));
         System.out.print(hash);
     }
@@ -67,6 +77,8 @@ class ChargeServiceTest {
     void delFee() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
+        client.setGatewayApiValue("");
+        assertNull(chargeService.delFee(sender, "0x503f45958F57Da55170B54796F4eD224c9fef9d7", "0xe985e9c5"));
         String hash = chargeService.delFee(sender, "0x503f45958F57Da55170B54796F4eD224c9fef9d7", "0xe985e9c5");
         System.out.print(hash);
     }
@@ -75,6 +87,8 @@ class ChargeServiceTest {
     void delDDC() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
+        client.setGatewayApiValue("");
+        assertNull(chargeService.delDDC(sender, "0x503f45958F57Da55170B54796F4eD224c9fef9d7"));
         String hash = chargeService.delDDC(sender, "0x503f45958F57Da55170B54796F4eD224c9fef9d7");
         System.out.print(hash);
     }

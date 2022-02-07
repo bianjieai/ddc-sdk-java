@@ -58,8 +58,7 @@ public class BaseService {
      * @throws InterruptedException InterruptedException
      */
     public TransactionReceipt getTransReceipt(String hash) throws InterruptedException, ExecutionException {
-        TransactionReceipt txReceipt = Web3jUtils.getWeb3j().ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
-        return txReceipt;
+        return Web3jUtils.getWeb3j().ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
     }
 
     /**
@@ -95,7 +94,6 @@ public class BaseService {
      * @param gasLimit
      */
     public void setFuncGasLimit(String gasLimit) {
-        Map<String, String> map = new HashMap<>();
         ConfigCache.get().setFuncGasLimit(gasLimit);
     }
 
@@ -108,7 +106,7 @@ public class BaseService {
      * @param signEventListener 负责签名的实例
      * @return EthSendTransaction 交易的结果
      */
-    public EthSendTransaction signAndSend(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener, String sender) throws Exception {
+    public EthSendTransaction signAndSend(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener, String sender) throws ExecutionException, InterruptedException {
 
         Web3j web3j = Web3jUtils.getWeb3j();
         GasProvider gasProvider = new GasProvider();
@@ -132,49 +130,10 @@ public class BaseService {
         signEvent.setRawTransaction(rawTransaction);
 
         //4. 调用签名方法，获取签名后的hexString
-        String hexString_signedMessage = signEventListener.signEvent(signEvent);
+        String hexStringsignedMessage = signEventListener.signEvent(signEvent);
 
         //5. 返回交易结果
-        return web3j.ethSendRawTransaction(hexString_signedMessage).sendAsync().get();
-    }
-
-    /**
-     * 签名并发送
-     *
-     * @param contract          合约实例
-     * @param functionName      调用的方法名
-     * @param encodedFunction   经过RLP序列化编码的function
-     * @param signEventListener 负责签名的实例
-     * @return EthSendTransaction 交易的结果
-     */
-    public EthSendTransaction Send(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener, String sender) throws Exception {
-
-        Web3j web3j = Web3jUtils.getWeb3j();
-        GasProvider gasProvider = new GasProvider();
-
-        BigInteger gasPrice = gasProvider.getGasPrice();
-        BigInteger gasLimit = gasProvider.getGasLimit(functionName);
-
-        String contractAddr = contract.getContractAddress();//目标合约地址
-
-        //2. 获取调用者的交易笔数
-        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.LATEST).sendAsync().get();
-        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-
-        //3. 生成待签名的交易
-        RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddr, encodedFunction);
-
-        SignEvent signEvent = new SignEvent();
-
-
-        signEvent.setSender(sender);
-        signEvent.setRawTransaction(rawTransaction);
-
-        //4. 调用签名方法，获取签名后的hexString
-        String hexString_signedMessage = signEventListener.signEvent(signEvent);
-
-        //5. 返回交易结果
-        return web3j.ethSendRawTransaction(hexString_signedMessage).send();
+        return web3j.ethSendRawTransaction(hexStringsignedMessage).sendAsync().get();
     }
 
     /**
@@ -193,16 +152,14 @@ public class BaseService {
         String addr = Keys.getAddress(keyPair);
 
         return new Account(mnemonic, keyPair.getPublicKey().toString(16), keyPair.getPrivateKey().toString(16), addr);
-        //privatekey: "0x"+keyPair.getPrivateKey().toString(16)
-        //publickey: keyPair.getPublicKey().toString(16)
     }
 
-    public String AccountHexToBech32(String addr) {
+    public String accountHexToBech32(String addr) {
         String hrp = "iaa";
         return Bech32Utils.hexToBech32(hrp, addr);
     }
 
-    public String AccountBech32ToHex(String addr) {
+    public String accountBech32ToHex(String addr) {
         return Bech32Utils.bech32ToHex(addr);
     }
 }

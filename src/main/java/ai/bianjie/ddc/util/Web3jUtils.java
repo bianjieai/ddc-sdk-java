@@ -14,16 +14,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
 public class Web3jUtils {
+    private Web3jUtils(){}
     private static ECKeyPair ecKeyPair;
 
     static {
         try {
             ecKeyPair = Keys.createEcKeyPair();
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
+        } catch (InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchProviderException e) {
             e.printStackTrace();
         }
     }

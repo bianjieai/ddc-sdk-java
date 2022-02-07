@@ -7,7 +7,7 @@ import ai.bianjie.ddc.contract.DDC1155;
 import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.dto.BlockEventBean;
 import ai.bianjie.ddc.util.Web3jUtils;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.web3j.abi.EventEncoder;
 import org.web3j.protocol.core.methods.response.BaseEventResponse;
@@ -60,7 +60,7 @@ public class BlockEventService extends BaseService {
             });
         }
 
-        log.info("块高 {} 解析到区块事件 {}", blockNumber, JSONObject.toJSONString(arrayList));
+        log.info("块高 {} 解析到区块事件 {}", blockNumber, JSON.toJSONString(arrayList));
         return new BlockEventBean(arrayList, blockInfo.getTimestamp().toString());
     }
 

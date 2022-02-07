@@ -24,8 +24,7 @@ public class txInfo {
     private String s;
     private long v;
 
-    public txInfo() {
-    }
+    public txInfo() {}
 
     public txInfo(String hash, String nonce, String blockHash, String blockNumber, String transactionIndex, String from, String to, String value, String gas, String gasPrice, String input, String creates, String publicKey, String raw, String r, String s, long v) {
         this.hash = hash;

@@ -5,6 +5,7 @@ import org.web3j.utils.Numeric;
 import java.math.BigInteger;
 
 public class HexUtils {
+    private HexUtils(){}
 
     /**
      * 验证传入参数 是否为 有效的4位Byte的哈希格式字符串

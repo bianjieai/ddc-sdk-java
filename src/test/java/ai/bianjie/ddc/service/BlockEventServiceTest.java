@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class BlockEventServiceTest {
 
@@ -25,7 +26,9 @@ class BlockEventServiceTest {
     void getBlockEvent() throws IOException, InterruptedException, ExecutionException {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("");
+        client.setGatewayApiValue("");
         BlockEventService blockEventService = new BlockEventService();
+        assertNull(blockEventService.getBlockEvent(new BigInteger("3058179")));
         BlockEventBean blockEvent = blockEventService.getBlockEvent(new BigInteger("3058179"));
     }
 }

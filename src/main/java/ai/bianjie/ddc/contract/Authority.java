@@ -89,7 +89,6 @@ public class Authority extends Contract {
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {
             }, new TypeReference<Address>(true) {
             }));
-    ;
 
     public static final Event ADDFUNCTION_EVENT = new Event("AddFunction",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {
@@ -97,25 +96,21 @@ public class Authority extends Contract {
             }, new TypeReference<Address>() {
             }, new TypeReference<Bytes4>() {
             }));
-    ;
 
     public static final Event ADMINCHANGED_EVENT = new Event("AdminChanged",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {
             }, new TypeReference<Address>() {
             }));
-    ;
 
     public static final Event BEACONUPGRADED_EVENT = new Event("BeaconUpgraded",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {
             }));
-    ;
 
     public static final Event CROSSPLATFORMAPPROVAL_EVENT = new Event("CrossPlatformApproval",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {
             }, new TypeReference<Address>(true) {
             }, new TypeReference<Bool>() {
             }));
-    ;
 
     public static final Event DELFUNCTION_EVENT = new Event("DelFunction",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {
@@ -123,38 +118,24 @@ public class Authority extends Contract {
             }, new TypeReference<Address>() {
             }, new TypeReference<Bytes4>() {
             }));
-    ;
 
     public static final Event OWNERSHIPTRANSFERRED_EVENT = new Event("OwnershipTransferred",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {
             }, new TypeReference<Address>(true) {
             }));
-    ;
 
     public static final Event UPDATEACCOUNTSTATE_EVENT = new Event("UpdateAccountState",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {
             }, new TypeReference<Uint8>() {
             }, new TypeReference<Uint8>() {
             }));
-    ;
 
     public static final Event UPGRADED_EVENT = new Event("Upgraded",
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {
             }));
-    ;
-
-    @Deprecated
-    protected Authority(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        super(BINARY, contractAddress, web3j, credentials, gasPrice, gasLimit);
-    }
 
     protected Authority(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
-    }
-
-    @Deprecated
-    protected Authority(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        super(BINARY, contractAddress, web3j, transactionManager, gasPrice, gasLimit);
     }
 
     protected Authority(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
@@ -175,16 +156,13 @@ public class Authority extends Contract {
     }
 
     public Flowable<AddAccountEventResponse> addAccountEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(new Function<Log, AddAccountEventResponse>() {
-            @Override
-            public AddAccountEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(ADDACCOUNT_EVENT, log);
-                AddAccountEventResponse typedResponse = new AddAccountEventResponse();
-                typedResponse.log = log;
-                typedResponse.caller = (String) eventValues.getIndexedValues().get(0).getValue();
-                typedResponse.account = (String) eventValues.getIndexedValues().get(1).getValue();
-                return typedResponse;
-            }
+        return web3j.ethLogFlowable(filter).map(log -> {
+            EventValuesWithLog eventValues = extractEventParametersWithLog(ADDACCOUNT_EVENT, log);
+            AddAccountEventResponse typedResponse = new AddAccountEventResponse();
+            typedResponse.log = log;
+            typedResponse.caller = (String) eventValues.getIndexedValues().get(0).getValue();
+            typedResponse.account = (String) eventValues.getIndexedValues().get(1).getValue();
+            return typedResponse;
         });
     }
 
@@ -210,18 +188,15 @@ public class Authority extends Contract {
     }
 
     public Flowable<AddFunctionEventResponse> addFunctionEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(new Function<Log, AddFunctionEventResponse>() {
-            @Override
-            public AddFunctionEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(ADDFUNCTION_EVENT, log);
-                AddFunctionEventResponse typedResponse = new AddFunctionEventResponse();
-                typedResponse.log = log;
-                typedResponse.operator = (String) eventValues.getIndexedValues().get(0).getValue();
-                typedResponse.role = (BigInteger) eventValues.getIndexedValues().get(1).getValue();
-                typedResponse.contractAddress = (String) eventValues.getNonIndexedValues().get(0).getValue();
-                typedResponse.sig = (byte[]) eventValues.getNonIndexedValues().get(1).getValue();
-                return typedResponse;
-            }
+        return web3j.ethLogFlowable(filter).map(log -> {
+            EventValuesWithLog eventValues = extractEventParametersWithLog(ADDFUNCTION_EVENT, log);
+            AddFunctionEventResponse typedResponse = new AddFunctionEventResponse();
+            typedResponse.log = log;
+            typedResponse.operator = (String) eventValues.getIndexedValues().get(0).getValue();
+            typedResponse.role = (BigInteger) eventValues.getIndexedValues().get(1).getValue();
+            typedResponse.contractAddress = (String) eventValues.getNonIndexedValues().get(0).getValue();
+            typedResponse.sig = (byte[]) eventValues.getNonIndexedValues().get(1).getValue();
+            return typedResponse;
         });
     }
 
@@ -245,16 +220,13 @@ public class Authority extends Contract {
     }
 
     public Flowable<AdminChangedEventResponse> adminChangedEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(new Function<Log, AdminChangedEventResponse>() {
-            @Override
-            public AdminChangedEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(ADMINCHANGED_EVENT, log);
-                AdminChangedEventResponse typedResponse = new AdminChangedEventResponse();
-                typedResponse.log = log;
-                typedResponse.previousAdmin = (String) eventValues.getNonIndexedValues().get(0).getValue();
-                typedResponse.newAdmin = (String) eventValues.getNonIndexedValues().get(1).getValue();
-                return typedResponse;
-            }
+        return web3j.ethLogFlowable(filter).map(log -> {
+            EventValuesWithLog eventValues = extractEventParametersWithLog(ADMINCHANGED_EVENT, log);
+            AdminChangedEventResponse typedResponse = new AdminChangedEventResponse();
+            typedResponse.log = log;
+            typedResponse.previousAdmin = (String) eventValues.getNonIndexedValues().get(0).getValue();
+            typedResponse.newAdmin = (String) eventValues.getNonIndexedValues().get(1).getValue();
+            return typedResponse;
         });
     }
 
@@ -277,15 +249,12 @@ public class Authority extends Contract {
     }
 
     public Flowable<BeaconUpgradedEventResponse> beaconUpgradedEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(new Function<Log, BeaconUpgradedEventResponse>() {
-            @Override
-            public BeaconUpgradedEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(BEACONUPGRADED_EVENT, log);
-                BeaconUpgradedEventResponse typedResponse = new BeaconUpgradedEventResponse();
-                typedResponse.log = log;
-                typedResponse.beacon = (String) eventValues.getIndexedValues().get(0).getValue();
-                return typedResponse;
-            }
+        return web3j.ethLogFlowable(filter).map(log -> {
+            EventValuesWithLog eventValues = extractEventParametersWithLog(BEACONUPGRADED_EVENT, log);
+            BeaconUpgradedEventResponse typedResponse = new BeaconUpgradedEventResponse();
+            typedResponse.log = log;
+            typedResponse.beacon = (String) eventValues.getIndexedValues().get(0).getValue();
+            return typedResponse;
         });
     }
 
@@ -310,17 +279,14 @@ public class Authority extends Contract {
     }
 
     public Flowable<CrossPlatformApprovalEventResponse> crossPlatformApprovalEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(new Function<Log, CrossPlatformApprovalEventResponse>() {
-            @Override
-            public CrossPlatformApprovalEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(CROSSPLATFORMAPPROVAL_EVENT, log);
-                CrossPlatformApprovalEventResponse typedResponse = new CrossPlatformApprovalEventResponse();
-                typedResponse.log = log;
-                typedResponse.from = (String) eventValues.getIndexedValues().get(0).getValue();
-                typedResponse.to = (String) eventValues.getIndexedValues().get(1).getValue();
-                typedResponse.approved = (Boolean) eventValues.getNonIndexedValues().get(0).getValue();
-                return typedResponse;
-            }
+        return web3j.ethLogFlowable(filter).map(log -> {
+            EventValuesWithLog eventValues = extractEventParametersWithLog(CROSSPLATFORMAPPROVAL_EVENT, log);
+            CrossPlatformApprovalEventResponse typedResponse = new CrossPlatformApprovalEventResponse();
+            typedResponse.log = log;
+            typedResponse.from = (String) eventValues.getIndexedValues().get(0).getValue();
+            typedResponse.to = (String) eventValues.getIndexedValues().get(1).getValue();
+            typedResponse.approved = (Boolean) eventValues.getNonIndexedValues().get(0).getValue();
+            return typedResponse;
         });
     }
 
@@ -346,18 +312,15 @@ public class Authority extends Contract {
     }
 
     public Flowable<DelFunctionEventResponse> delFunctionEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(new Function<Log, DelFunctionEventResponse>() {
-            @Override
-            public DelFunctionEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(DELFUNCTION_EVENT, log);
-                DelFunctionEventResponse typedResponse = new DelFunctionEventResponse();
-                typedResponse.log = log;
-                typedResponse.operator = (String) eventValues.getIndexedValues().get(0).getValue();
-                typedResponse.role = (BigInteger) eventValues.getIndexedValues().get(1).getValue();
-                typedResponse.contractAddress = (String) eventValues.getNonIndexedValues().get(0).getValue();
-                typedResponse.sig = (byte[]) eventValues.getNonIndexedValues().get(1).getValue();
-                return typedResponse;
-            }
+        return web3j.ethLogFlowable(filter).map(log -> {
+            EventValuesWithLog eventValues = extractEventParametersWithLog(DELFUNCTION_EVENT, log);
+            DelFunctionEventResponse typedResponse = new DelFunctionEventResponse();
+            typedResponse.log = log;
+            typedResponse.operator = (String) eventValues.getIndexedValues().get(0).getValue();
+            typedResponse.role = (BigInteger) eventValues.getIndexedValues().get(1).getValue();
+            typedResponse.contractAddress = (String) eventValues.getNonIndexedValues().get(0).getValue();
+            typedResponse.sig = (byte[]) eventValues.getNonIndexedValues().get(1).getValue();
+            return typedResponse;
         });
     }
 
@@ -381,16 +344,13 @@ public class Authority extends Contract {
     }
 
     public Flowable<OwnershipTransferredEventResponse> ownershipTransferredEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(new Function<Log, OwnershipTransferredEventResponse>() {
-            @Override
-            public OwnershipTransferredEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(OWNERSHIPTRANSFERRED_EVENT, log);
-                OwnershipTransferredEventResponse typedResponse = new OwnershipTransferredEventResponse();
-                typedResponse.log = log;
-                typedResponse.previousOwner = (String) eventValues.getIndexedValues().get(0).getValue();
-                typedResponse.newOwner = (String) eventValues.getIndexedValues().get(1).getValue();
-                return typedResponse;
-            }
+        return web3j.ethLogFlowable(filter).map(log -> {
+            EventValuesWithLog eventValues = extractEventParametersWithLog(OWNERSHIPTRANSFERRED_EVENT, log);
+            OwnershipTransferredEventResponse typedResponse = new OwnershipTransferredEventResponse();
+            typedResponse.log = log;
+            typedResponse.previousOwner = (String) eventValues.getIndexedValues().get(0).getValue();
+            typedResponse.newOwner = (String) eventValues.getIndexedValues().get(1).getValue();
+            return typedResponse;
         });
     }
 
@@ -415,17 +375,14 @@ public class Authority extends Contract {
     }
 
     public Flowable<UpdateAccountStateEventResponse> updateAccountStateEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(new Function<Log, UpdateAccountStateEventResponse>() {
-            @Override
-            public UpdateAccountStateEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(UPDATEACCOUNTSTATE_EVENT, log);
-                UpdateAccountStateEventResponse typedResponse = new UpdateAccountStateEventResponse();
-                typedResponse.log = log;
-                typedResponse.account = (String) eventValues.getIndexedValues().get(0).getValue();
-                typedResponse.platformState = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
-                typedResponse.operatorState = (BigInteger) eventValues.getNonIndexedValues().get(1).getValue();
-                return typedResponse;
-            }
+        return web3j.ethLogFlowable(filter).map(log -> {
+            EventValuesWithLog eventValues = extractEventParametersWithLog(UPDATEACCOUNTSTATE_EVENT, log);
+            UpdateAccountStateEventResponse typedResponse = new UpdateAccountStateEventResponse();
+            typedResponse.log = log;
+            typedResponse.account = (String) eventValues.getIndexedValues().get(0).getValue();
+            typedResponse.platformState = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
+            typedResponse.operatorState = (BigInteger) eventValues.getNonIndexedValues().get(1).getValue();
+            return typedResponse;
         });
     }
 
@@ -448,15 +405,12 @@ public class Authority extends Contract {
     }
 
     public Flowable<UpgradedEventResponse> upgradedEventFlowable(EthFilter filter) {
-        return web3j.ethLogFlowable(filter).map(new Function<Log, UpgradedEventResponse>() {
-            @Override
-            public UpgradedEventResponse apply(Log log) {
-                EventValuesWithLog eventValues = extractEventParametersWithLog(UPGRADED_EVENT, log);
-                UpgradedEventResponse typedResponse = new UpgradedEventResponse();
-                typedResponse.log = log;
-                typedResponse.implementation = (String) eventValues.getIndexedValues().get(0).getValue();
-                return typedResponse;
-            }
+        return web3j.ethLogFlowable(filter).map(log -> {
+            EventValuesWithLog eventValues = extractEventParametersWithLog(UPGRADED_EVENT, log);
+            UpgradedEventResponse typedResponse = new UpgradedEventResponse();
+            typedResponse.log = log;
+            typedResponse.implementation = (String) eventValues.getIndexedValues().get(0).getValue();
+            return typedResponse;
         });
     }
 
@@ -666,16 +620,6 @@ public class Authority extends Contract {
         return executeRemoteCallTransaction(function);
     }
 
-    @Deprecated
-    public static Authority load(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        return new Authority(contractAddress, web3j, credentials, gasPrice, gasLimit);
-    }
-
-    @Deprecated
-    public static Authority load(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        return new Authority(contractAddress, web3j, transactionManager, gasPrice, gasLimit);
-    }
-
     public static Authority load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
         return new Authority(contractAddress, web3j, credentials, contractGasProvider);
     }
@@ -690,16 +634,6 @@ public class Authority extends Contract {
 
     public static RemoteCall<Authority> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
         return deployRemoteCall(Authority.class, web3j, transactionManager, contractGasProvider, BINARY, "");
-    }
-
-    @Deprecated
-    public static RemoteCall<Authority> deploy(Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        return deployRemoteCall(Authority.class, web3j, credentials, gasPrice, gasLimit, BINARY, "");
-    }
-
-    @Deprecated
-    public static RemoteCall<Authority> deploy(Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        return deployRemoteCall(Authority.class, web3j, transactionManager, gasPrice, gasLimit, BINARY, "");
     }
 
     public static class AddAccountEventResponse extends BaseEventResponse {
