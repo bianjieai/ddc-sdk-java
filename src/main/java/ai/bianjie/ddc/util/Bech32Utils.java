@@ -4,10 +4,12 @@ import org.bitcoinj.core.Bech32;
 import org.bouncycastle.util.encoders.Hex;
 
 public class Bech32Utils {
-    private Bech32Utils(){}
+    private Bech32Utils() {
+    }
+
     public static String toBech32(String hrp, byte[] pubkeyHex) {
         byte[] bits = AddressUtils.convertBits(pubkeyHex, 0, pubkeyHex.length, 8, 5, true);
-        return Bech32.encode(null,hrp, bits);
+        return Bech32.encode(null, hrp, bits);
     }
 
     public static byte[] fromBech32(String address) {

@@ -25,7 +25,8 @@ public class TxInfo {
     private String s;
     private long v;
 
-    public TxInfo() {}
+    public TxInfo() {
+    }
 
     public TxInfo(Transaction transaction) {
         this.hash = transaction.getHash();

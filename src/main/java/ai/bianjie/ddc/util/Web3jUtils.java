@@ -14,7 +14,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
 public class Web3jUtils {
-    private Web3jUtils(){}
+    private Web3jUtils() {
+    }
+
     private static ECKeyPair ecKeyPair;
 
     static {

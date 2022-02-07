@@ -3,7 +3,8 @@ package ai.bianjie.ddc.util.crypto;
 import java.math.BigInteger;
 
 public class SignUtil {
-    private SignUtil(){}
+    private SignUtil() {
+    }
 
     private static final String HEX_PREFIX = "0x";
 

@@ -1,10 +1,13 @@
 package ai.bianjie.ddc.util;
 
 import org.web3j.protocol.core.DefaultBlockParameter;
+
 import java.math.BigInteger;
 
 public class CommonUtils {
-    private CommonUtils(){}
+    private CommonUtils() {
+    }
+
     /**
      * String转换为BigInteger
      */

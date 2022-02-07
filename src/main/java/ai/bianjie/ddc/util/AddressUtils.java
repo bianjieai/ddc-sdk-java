@@ -7,7 +7,8 @@ import java.io.ByteArrayOutputStream;
 
 public class AddressUtils {
 
-    private AddressUtils(){}
+    private AddressUtils() {
+    }
 
     /**
      * 验证传入参数是否为有效的区块链账户地址格式
