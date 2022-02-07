@@ -3,7 +3,7 @@ package ai.bianjie.ddc.dto;
 public class Account {
 
     private String keyseed;
-    private String pubulicKey;
+    private String publicKey;
     private String privateKey;
     private String address;
 
@@ -19,11 +19,11 @@ public class Account {
     }
 
     public String getPubulicKey() {
-        return pubulicKey;
+        return publicKey;
     }
 
     public void setPubulicKey(String pubulicKey) {
-        this.pubulicKey = pubulicKey;
+        this.publicKey = pubulicKey;
     }
 
     public String getPrivateKey() {
@@ -42,9 +42,9 @@ public class Account {
         this.address = address;
     }
 
-    public Account(String keyseed, String pubulicKey, String privateKey, String address) {
+    public Account(String keyseed, String publicKey, String privateKey, String address) {
         this.keyseed = keyseed;
-        this.pubulicKey = pubulicKey;
+        this.publicKey = publicKey;
         this.privateKey = privateKey;
         this.address = address;
     }
