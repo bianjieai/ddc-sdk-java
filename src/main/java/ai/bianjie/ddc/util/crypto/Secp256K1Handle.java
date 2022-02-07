@@ -23,7 +23,7 @@ public class Secp256K1Handle implements ISignHandle {
     private static final String END_EC_PRIVATE_KEY = "-----END PRIVATE KEY-----";
     private static final String BEGIN_EC_PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----";
     private static final String END_EC_PUBLIC_KEY = "-----END PUBLIC KEY-----";
-
+    private static final String ALGO_RITHM = "ECDSA";
 
     private String priKey;
     private String pubKey;
@@ -38,7 +38,7 @@ public class Secp256K1Handle implements ISignHandle {
     }
 
     public Secp256K1Handle() throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("ECDSA", "BC");
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGO_RITHM, "BC");
         ECGenParameterSpec ecGenParameterSpec = new ECGenParameterSpec("secp256k1");
 
 
@@ -155,7 +155,7 @@ public class Secp256K1Handle implements ISignHandle {
                 .replace(END_EC_PRIVATE_KEY, "").replace("\r", "").replace("\n", "");
         byte[] asBytes = decoder.decode(privateKeyPEM.replace("\r\n", ""));
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(asBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance("ECDSA", "BC");
+        KeyFactory keyFactory = KeyFactory.getInstance(ALGO_RITHM, "BC");
         return keyFactory.generatePrivate(spec);
     }
 
@@ -164,7 +164,7 @@ public class Secp256K1Handle implements ISignHandle {
                 .replace(END_EC_PUBLIC_KEY, "").replace("\r", "").replace("\n", "");
         byte[] asBytes = decoder.decode(strPublicKey.replace("\r\n", ""));
         X509EncodedKeySpec spec = new X509EncodedKeySpec(asBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance("ECDSA", "BC");
+        KeyFactory keyFactory = KeyFactory.getInstance(ALGO_RITHM, "BC");
         return keyFactory.generatePublic(spec);
     }
 
