@@ -10,39 +10,33 @@ public class SignHandle {
     ISignHandle sign;
 
     public SignHandle(SignType st, String prvKey, String pubKey) {
-        switch (st) {
-            case SECP256K1:
-                try {
-                    this.sign = new Secp256K1Handle(prvKey, pubKey);
-                } catch (Exception e) {
-                    throw new SignException(e.toString());
-                }
-                break;
-            default:
-                throw new SignException("Not implemented");
+        if (st == SignType.SECP256K1) {
+            try {
+                this.sign = new Secp256K1Handle(prvKey, pubKey);
+            } catch (Exception e) {
+                throw new SignException(e.toString());
+            }
+        } else {
+            throw new SignException("Not implemented");
         }
     }
 
-    public String Sign(byte[] data) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
+    public String sign(byte[] data) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         if (this.sign == null) {
             throw new SignException("this sign is null");
         }
 
         byte[] s = this.sign.sign(data);
-        //todo 返回格式化的签名字符串
-        // HEX OR Base64
         return Arrays.toString(s);
     }
 
-    public boolean Verify(byte[] data, String mac) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
-
-        //todo 签名格式
+    public boolean verify(byte[] data, String mac) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         byte[] s = mac.getBytes();
         return this.sign.verify(data, s);
     }
 
 
-    public String Address() throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
+    public String address() throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         return this.sign.getAddress();
     }
 

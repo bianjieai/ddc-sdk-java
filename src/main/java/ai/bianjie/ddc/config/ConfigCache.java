@@ -11,15 +11,9 @@ public class ConfigCache {
 
     private static final ConcurrentHashMap<String, ConfigInfo> MAP = new ConcurrentHashMap<>();
 
-    public static void initCache(String opbGateWebAddress, String headerKey, String headerValue, String gasPrice, String gasLimit, String ddc721Address, String ddc1155Address, String authorityLogicAddress, String chargeLogicAddress) {
+    public static void initCache(String gasPrice, String gasLimit, String ddc721Address, String ddc1155Address, String authorityLogicAddress, String chargeLogicAddress) {
         ConfigInfo configInfo = new ConfigInfo();
-        if (!Strings.isEmpty(opbGateWebAddress)) {
-            configInfo.setOpbGatewayAddress(opbGateWebAddress);
-        }
-        if (!Strings.isEmpty(headerKey) && !Strings.isEmpty(headerValue)) {
-            configInfo.setHeaderKey(headerKey);
-            configInfo.setHeaderValue(headerValue);
-        }
+
         if (!Strings.isEmpty(ddc721Address)) {
             configInfo.setDdc721Address(ddc721Address);
         }

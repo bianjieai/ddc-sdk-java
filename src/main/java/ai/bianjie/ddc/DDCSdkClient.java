@@ -18,7 +18,6 @@ public class DDCSdkClient {
     }
 
     public static class Builder {
-        private String opbGateWebAddress;
         private String gasPrice;
         private String gasLimit;
         private String ddc721Address;
@@ -26,8 +25,6 @@ public class DDCSdkClient {
         private String authorityLogicAddress;
         private String chargeLogicAddress;
         private SignEventListener signEventListener;
-        private String headerKey;
-        private String headerValue;
 
         public Builder() {
             throw new UnsupportedOperationException();
@@ -73,7 +70,7 @@ public class DDCSdkClient {
         }
 
         public DDCSdkClient init() {
-            ConfigCache.initCache(opbGateWebAddress, headerKey, headerValue, gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress);
+            ConfigCache.initCache(gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress);
             return new DDCSdkClient(this);
         }
     }

@@ -2,7 +2,7 @@ package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.dto.Account;
-import ai.bianjie.ddc.dto.txInfo;
+import ai.bianjie.ddc.dto.TxInfo;
 import ai.bianjie.ddc.listener.SignEvent;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.Bech32Utils;
@@ -24,8 +24,6 @@ import org.web3j.utils.Strings;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import static org.web3j.crypto.Hash.sha256;
@@ -67,14 +65,9 @@ public class BaseService {
      * @param hash 交易哈希
      * @return 交易信息
      */
-    public txInfo getTransByHash(String hash) throws IOException {
+    public TxInfo getTransByHash(String hash) throws IOException {
         Transaction transaction = Web3jUtils.getWeb3j().ethGetTransactionByHash(hash).send().getTransaction().get();
-        return new txInfo(transaction.getHash(), transaction.getNonceRaw(), transaction.getBlockHash(),
-                transaction.getBlockNumber().toString(), transaction.getTransactionIndex().toString(),
-                transaction.getFrom(), transaction.getTo(), transaction.getValue().toString(),
-                transaction.getGasPrice().toString(), transaction.getGas().toString(),
-                transaction.getInput(), transaction.getCreates(), transaction.getPublicKey(),
-                transaction.getRaw(), transaction.getR(), transaction.getS(), transaction.getV());
+        return new TxInfo(transaction);
     }
 
     /**

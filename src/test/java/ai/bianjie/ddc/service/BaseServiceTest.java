@@ -2,7 +2,7 @@ package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.DDCSdkClient;
 import ai.bianjie.ddc.dto.Account;
-import ai.bianjie.ddc.dto.txInfo;
+import ai.bianjie.ddc.dto.TxInfo;
 import ai.bianjie.ddc.SignTest;
 import org.bitcoinj.crypto.MnemonicException;
 import org.junit.jupiter.api.Test;
@@ -55,7 +55,7 @@ class BaseServiceTest {
         client.setGatewayApiKey("");
         client.setGatewayApiValue("");
         assertNull(baseService.getTransByHash("0xb5b02d47f961b9c86d1dd313c40cb88e255fe162c4ddd8b204cf161bc89f0e70"));
-        txInfo transaction = baseService.getTransByHash("0xb5b02d47f961b9c86d1dd313c40cb88e255fe162c4ddd8b204cf161bc89f0e70");
+        TxInfo transaction = baseService.getTransByHash("0xb5b02d47f961b9c86d1dd313c40cb88e255fe162c4ddd8b204cf161bc89f0e70");
         System.out.println("--------------------------------------" + transaction);
     }
 
