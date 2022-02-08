@@ -22,6 +22,15 @@ public class AddressUtils {
 
     /**
      * Helper for re-arranging bits into groups.
+     *
+     * @param in 数组
+     * @param inStart 开始
+     * @param inLen 数组长度
+     * @param fromBits 转换前
+     * @param toBits  转换后
+     * @param pad 是否转换
+     * @return 返回byte数组
+     * @throws AddressFormatException
      */
     public static byte[] convertBits(final byte[] in, final int inStart, final int inLen, final int fromBits,
                                      final int toBits, final boolean pad) throws AddressFormatException {
