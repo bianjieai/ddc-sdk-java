@@ -1,5 +1,36 @@
 # DDC-SDK-JAVA
 
+- [DDC-SDK-JAVA](#ddc-sdk-java)
+  - [运营方可调用的如下方法：](#运营方可调用的如下方法)
+    - [1.初始化Client (连接测试网)](#1初始化client-连接测试网)
+    - [2.BSN-DDC-权限管理](#2bsn-ddc-权限管理)
+    - [3.BSN-DDC-费用管理](#3bsn-ddc-费用管理)
+    - [4.BSN-DDC-721](#4bsn-ddc-721)
+    - [5.BSN-DDC-1155](#5bsn-ddc-1155)
+    - [6.BSN-DDC-交易查询](#6bsn-ddc-交易查询)
+    - [7.BSN-DDC-区块查询](#7bsn-ddc-区块查询)
+    - [8.BSN-DDC-数据解析](#8bsn-ddc-数据解析)
+    - [9.离线账户创建](#9离线账户创建)
+  - [平台方可调用的如下方法：](#平台方可调用的如下方法)
+    - [1.初始化Client (连接测试网)](#1初始化client-连接测试网-1)
+    - [2.BSN-DDC-权限管理](#2bsn-ddc-权限管理-1)
+    - [3.BSN-DDC-费用管理](#3bsn-ddc-费用管理-1)
+    - [4.BSN-DDC-721](#4bsn-ddc-721-1)
+    - [5.BSN-DDC-1155](#5bsn-ddc-1155-1)
+    - [6.BSN-DDC-交易查询](#6bsn-ddc-交易查询-1)
+    - [7.BSN-DDC-区块查询](#7bsn-ddc-区块查询-1)
+    - [8.BSN-DDC-数据解析](#8bsn-ddc-数据解析-1)
+    - [9.离线账户创建](#9离线账户创建-1)
+  - [终端账户可调用的如下方法：](#终端账户可调用的如下方法)
+    - [1.初始化Client (连接测试网)](#1初始化client-连接测试网-2)
+    - [2.BSN-DDC-权限管理](#2bsn-ddc-权限管理-2)
+    - [3.BSN-DDC-费用管理](#3bsn-ddc-费用管理-2)
+    - [4.BSN-DDC-721](#4bsn-ddc-721-2)
+    - [5.BSN-DDC-1155](#5bsn-ddc-1155-2)
+    - [6.BSN-DDC-数据解析](#6bsn-ddc-数据解析)
+    - [9.离线账户创建](#9离线账户创建-2)
+  - [测试用例](#测试用例)
+
 ## 运营方可调用的如下方法：
 
 ### 1.初始化Client (连接测试网)
@@ -33,11 +64,13 @@
      client.setGatewayUrl("192.168.42.1");
      //设置key
      client.setGatewayApiKey("x-api-key");
+     //设置value
+     client.setGatewayValue("xxxxx");
     
+
     //可单独为每个方法设置gaslimit
-    AuthorityService authorityService = client.getAuthorityService(); 
-    authorityService.setGasLimitAuthority("100000")
-    String Txhash1 = authorityService。addAccount(account, accName, accDID);
+    BaseService baseService = new BaseService();
+    baseService.setFuncGasLimit("100000");
     
     //进行交易的方法需要传入sender参数，即方法调用者地址
 ```
@@ -432,12 +465,15 @@ BaseService baseService=new BaseService();
      client.setGatewayUrl("192.168.42.1");
      //设置key
      client.setGatewayApiKey("x-api-key");
+     //设置value
+     client.setGatewayValue("xxxxx");
     
+
     //可单独为每个方法设置gaslimit
-    AuthorityService authorityService = client.getAuthorityService(); 
-    authorityService.setGasLimitAuthority("100000")
-    String Txhash1 = authorityService。addAccount(account, accName, accDID);
-        
+    BaseService baseService = new BaseService();
+    baseService.setFuncGasLimit("100000");
+    
+    //进行交易的方法需要传入sender参数，即方法调用者地址
 ```
 
 ### 2.BSN-DDC-权限管理
@@ -498,7 +534,12 @@ BaseService baseService=new BaseService();
     //返回交易哈希
     String Txhash = ddc721Service.mint(toaddr, ddcURI);
     
-    //安全生成（合约未更新）
+    //安全生成
+    
+    //sender 调用者地址
+    //to     接收者账户
+    //ddcURI DDC资源标识符
+    ddc721Service.safeMint(sender, to, ddcURI,data);
     
     //DDC授权
     
@@ -775,12 +816,15 @@ BaseService baseService=new BaseService();
      client.setGatewayUrl("192.168.42.1");
      //设置key
      client.setGatewayApiKey("x-api-key");
+     //设置value
+     client.setGatewayValue("xxxxx");
     
+
     //可单独为每个方法设置gaslimit
-    AuthorityService authorityService = client.getAuthorityService(); 
-    authorityService.setGasLimitAuthority("100000")
-    String Txhash1 = authorityService。addAccount(account, accName, accDID);
+    BaseService baseService = new BaseService();
+    baseService.setFuncGasLimit("100000");
     
+    //进行交易的方法需要传入sender参数，即方法调用者地址
 ```
 
 ### 2.BSN-DDC-权限管理
@@ -827,7 +871,12 @@ BaseService baseService=new BaseService();
     //返回交易哈希
     String Txhash = ddc721Service.mint(toaddr, ddcURI);
     
-    //安全生成（合约未更新）
+    //安全生成
+
+    //sender 调用者地址
+    //to     接收者账户
+    //ddcURI DDC资源标识符
+    ddc721Service.safeMint(sender, to, ddcURI,data);
     
     //DDC授权
     
@@ -1051,3 +1100,5 @@ BaseService baseService=new BaseService();
 [DDC721ServiceTest.java](/src/test/java/ai/bianjie/ddc/service/DDC721ServiceTest.java)
 
 [DDC1155ServiceTest.java](/src/test/java/ai/bianjie/ddc/service/DDC1155ServiceTest.java)
+
+[SignEventTest.java](/src/test/java/ai/bianjie/ddc/SignEventTest.java)

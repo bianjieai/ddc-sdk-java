@@ -27,7 +27,6 @@ public class DDCSdkClient {
         private SignEventListener signEventListener;
 
         public Builder() {
-            throw new UnsupportedOperationException();
         }
 
 
