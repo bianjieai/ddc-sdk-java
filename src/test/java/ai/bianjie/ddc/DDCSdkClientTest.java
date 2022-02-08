@@ -26,6 +26,7 @@ class DDCSdkClientTest {
         client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
 
         BaseService baseService = new BaseService();
+        baseService.setFuncGasLimit("100000");
         Account acc = baseService.createAccountHex();
         System.out.println("================================" + acc.getAddress());
         System.out.println("================================" + acc.getPrivateKey());
