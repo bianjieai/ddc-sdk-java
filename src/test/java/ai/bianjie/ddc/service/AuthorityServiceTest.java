@@ -1,7 +1,7 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.DDCSdkClient;
-import ai.bianjie.ddc.SignTest;
+import ai.bianjie.ddc.SignEvent;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
@@ -17,7 +17,7 @@ class AuthorityServiceTest {
             .setDDC1155Address("0xe5d3b9E7D16E03A4A1060c72b5D1cb7806DD9070")
             .setGasLimit("300000")
             .setGasPrice("10000000")
-            .setSignEventListener(new SignTest())
+            .setSignEventListener(new SignEvent())
             .init();
 
 
@@ -27,9 +27,8 @@ class AuthorityServiceTest {
     @Test
     void addConsumerByOperator() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
-        client.setGatewayApiKey("");
-        client.setGatewayApiValue("");
-        assertNull(authorityService.addAccountByOperator(sender, "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", "test1", "did:wenchangoperator", "did:wenchangoperator"));
+        client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
+        client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
         System.out.println(authorityService.addAccountByOperator(sender, "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", "test1", "did:wenchangoperator", "did:wenchangoperator"));
 
     }
@@ -37,9 +36,8 @@ class AuthorityServiceTest {
     @Test
     void getAccount() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
-        client.setGatewayApiKey("");
-        client.setGatewayApiValue("");
-        assertNull(authorityService.getAccount("0x953488F7E292A7D6CB0BFF81BA806B82E5FD47A2"));
+        client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
+        client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
         System.out.println(authorityService.getAccount("0x953488F7E292A7D6CB0BFF81BA806B82E5FD47A2"));
 
     }
@@ -47,8 +45,8 @@ class AuthorityServiceTest {
     @Test
     void updateAccState() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
-        client.setGatewayApiKey("");
-        client.setGatewayApiValue("");
+        client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
+        client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
         assertNull(authorityService.updateAccState(sender, "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", new BigInteger("0"), true));
         System.out.println(authorityService.updateAccState(sender, "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", new BigInteger("0"), true));
     }

@@ -28,6 +28,10 @@
                     <groupId>com.google.guava</groupId>
                 </exclusion>
                 <exclusion>
+                    <artifactId>okhttp</artifactId>
+                    <groupId>com.squareup.okhttp3</groupId>
+                </exclusion>
+                <exclusion>
                     <artifactId>slf4j-api</artifactId>
                     <groupId>org.slf4j</groupId>
                 </exclusion>
@@ -78,12 +82,17 @@
             <version>1.7.25</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.16.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-to-slf4j</artifactId>
+            <version>2.16.0</version>
         </dependency>
     </dependencies>
+
 
 </project>
