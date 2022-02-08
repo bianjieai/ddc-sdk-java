@@ -1091,4 +1091,4 @@ BaseService baseService=new BaseService();
 
 [DDC1155ServiceTest.java](/src/test/java/ai/bianjie/ddc/service/DDC1155ServiceTest.java)
 
-[SignEvent.java](/src/test/java/ai/bianjie/ddc/service/SignEvent.java)
+[SignEvent.java](/src/test/java/ai/bianjie/ddc/SignEvent.java)
