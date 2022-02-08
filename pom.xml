@@ -97,7 +97,8 @@
 
 
 
-    <name>ddc-sdk</name>
+    <name>ddc-sdk-java</name>
+    <url>https://github.com/bianjieai/ddc-sdk-java</url>
     <licenses>
         <license>
             <name>Apache License</name>
@@ -107,7 +108,8 @@
     </licenses>
     <scm>
         <url>https://github.com/bianjieai/ddc-sdk-java</url>
-        <connection>https://github.com/bianjieai/ddc-sdk-java.git/tree/master</connection>
+        <connection>scm:svn:https://github.com/bianjieai/ddc-sdk-java.git</connection>
+        <developerConnection>scm:svn:https://github.com/bianjieai/ddc-sdk-java.git</developerConnection>
     </scm>
     <developers>
         <developer>
