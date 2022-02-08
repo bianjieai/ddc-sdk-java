@@ -87,17 +87,17 @@ public class DDC1155Service extends BaseService {
         List<BigInteger> amounts = new ArrayList<>();
         List<String> ddcURIS = new ArrayList<>();
 
-        ddcInfo.forEach((amount, URI) -> {
+        ddcInfo.forEach((amount, uRI) -> {
             //4.检查生成的DDC数量集合中每个DDC数量是否大于0；
             if (amount == null || amount.intValue() <= 0) {
                 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
             }
             //5.检查生成的DDCURI集合中每个DDCURI是否为空；
-            if (Strings.isEmpty(URI)) {
+            if (Strings.isEmpty(uRI)) {
                 throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
             }
             amounts.add(amount);
-            ddcURIS.add(URI);
+            ddcURIS.add(uRI);
 
         });
 
@@ -227,8 +227,8 @@ public class DDC1155Service extends BaseService {
         }
 
 
-        ArrayList<BigInteger> ddcIds = new ArrayList();
-        ArrayList<BigInteger> amounts = new ArrayList();
+        ArrayList<BigInteger> ddcIds = new ArrayList<>();
+        ArrayList<BigInteger> amounts = new ArrayList<>();
         ddcs.forEach((ddcId, amount) -> {
             if (ddcId == null || ddcId.intValue() <= 0) {
                 throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
@@ -448,7 +448,7 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
 
-        encodedFunction = ddc1155.setURI(owner,ddcId,ddcURI).encodeFunctionCall();
+        encodedFunction = ddc1155.setURI(owner, ddcId, ddcURI).encodeFunctionCall();
         return signAndSend(ddc1155, DDC1155.FUNC_SETURI, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 }

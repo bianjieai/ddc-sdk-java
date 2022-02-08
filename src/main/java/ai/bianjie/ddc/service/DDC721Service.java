@@ -415,9 +415,9 @@ public class DDC721Service extends BaseService {
      * URI设置
      *
      * @param sender 调用者地址
-     * @param ddcId DDC唯一标识
+     * @param ddcId  DDC唯一标识
      * @param ddcURI DDC资源标识符
-     * @return  返回交易哈希
+     * @return 返回交易哈希
      * @throws Exception Exception
      * @desc DDC拥有者或DDC授权者通过调用该方法对DDC的资源标识符进行设置。
      */
@@ -434,7 +434,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
 
-        encodedFunction = ddc721.setURI(ddcId,ddcURI).encodeFunctionCall();
+        encodedFunction = ddc721.setURI(ddcId, ddcURI).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_SETURI, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 }

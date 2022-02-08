@@ -399,8 +399,6 @@ BaseService baseService=new BaseService();
         System.out.println("================================" + addHex);
 ```
 
-
-
 ## 平台方可调用的如下方法：
 
 ### 1.初始化Client (连接测试网)
@@ -743,8 +741,6 @@ BaseService baseService=new BaseService();
         String addHex= baseService.AccountHexToBech32(acc.getAddress());
         System.out.println("================================" + addHex);
 ```
-
-
 
 ## 终端账户可调用的如下方法：
 
