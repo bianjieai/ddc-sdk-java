@@ -18,7 +18,7 @@ class DDCSdkClientTest {
                 .setDDC1155Address("0xe5d3b9E7D16E03A4A1060c72b5D1cb7806DD9070")
                 .setGasLimit("300000")
                 .setGasPrice("10000000")
-                .setSignEventListener(new SignEvent())
+                .setSignEventListener(new SignEventTest())
                 .init();
 
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");

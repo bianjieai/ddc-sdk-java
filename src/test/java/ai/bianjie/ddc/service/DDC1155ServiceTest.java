@@ -1,7 +1,7 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.DDCSdkClient;
-import ai.bianjie.ddc.SignEvent;
+import ai.bianjie.ddc.SignEventTest;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ class DDC1155ServiceTest {
             .setDDC1155Address("0xe5d3b9E7D16E03A4A1060c72b5D1cb7806DD9070")
             .setGasLimit("300000")
             .setGasPrice("10000000")
-            .setSignEventListener(new SignEvent())
+            .setSignEventListener(new SignEventTest())
             .init();
 
     DDC1155Service ddc1155Service = client.getDDC1155Service();

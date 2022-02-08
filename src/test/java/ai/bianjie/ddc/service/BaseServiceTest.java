@@ -3,7 +3,7 @@ package ai.bianjie.ddc.service;
 import ai.bianjie.ddc.DDCSdkClient;
 import ai.bianjie.ddc.dto.Account;
 import ai.bianjie.ddc.dto.TxInfo;
-import ai.bianjie.ddc.SignEvent;
+import ai.bianjie.ddc.SignEventTest;
 import org.bitcoinj.crypto.MnemonicException;
 import org.junit.jupiter.api.Test;
 import org.web3j.protocol.core.methods.response.EthBlock;
@@ -22,7 +22,7 @@ class BaseServiceTest {
             .setDDC1155Address("0xe5d3b9E7D16E03A4A1060c72b5D1cb7806DD9070")
             .setGasLimit("300000")
             .setGasPrice("10000000")
-            .setSignEventListener(new SignEvent())
+            .setSignEventListener(new SignEventTest())
             .init();
 
     BaseService baseService = client.getChargeService();
