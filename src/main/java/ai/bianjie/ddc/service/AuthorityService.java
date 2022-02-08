@@ -58,8 +58,9 @@ public class AuthorityService extends BaseService {
      * 删除账户
      *
      * @param account DDC链账户地址
+     * @param sender 此方法暂不使用
      * @return 返回交易哈希
-     * @throws Exception
+     * @throws Exception 抛出异常
      */
     public String delAccount(String sender, String account) throws Exception {
         throw new DDCException(ErrorMessage.UNKNOWN_ERROR);
