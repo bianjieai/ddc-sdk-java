@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 class AuthorityServiceTest {
 
     DDCSdkClient client = new DDCSdkClient.Builder()
@@ -47,7 +45,6 @@ class AuthorityServiceTest {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
         client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
-        assertNull(authorityService.updateAccState(sender, "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", new BigInteger("0"), true));
         System.out.println(authorityService.updateAccState(sender, "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", new BigInteger("0"), true));
     }
 }

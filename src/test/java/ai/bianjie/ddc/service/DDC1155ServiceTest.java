@@ -10,8 +10,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class DDC1155ServiceTest {
 
     DDCSdkClient client = new DDCSdkClient.Builder()
@@ -33,7 +31,6 @@ class DDC1155ServiceTest {
         client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
         client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
         byte[] data = {10, 10, 10};
-        assertNull(ddc1155Service.safeMint(sender, "918F7F275A6C2D158E5B76F769D3F1678958A334", new BigInteger("3"), "222222", data));
         System.out.println(ddc1155Service.safeMint(sender, "918F7F275A6C2D158E5B76F769D3F1678958A334", new BigInteger("3"), "222222", data));
     }
 
@@ -46,7 +43,6 @@ class DDC1155ServiceTest {
         ;
         ddcInfo.put(new BigInteger("3"), "12");
         byte[] data = {10, 10, 10};
-        assertNull(ddc1155Service.safeMintBatch(sender, "918F7F275A6C2D158E5B76F769D3F1678958A334", ddcInfo, data));
         System.out.println(ddc1155Service.safeMintBatch(sender, "918F7F275A6C2D158E5B76F769D3F1678958A334", ddcInfo, data));
     }
 
@@ -55,7 +51,6 @@ class DDC1155ServiceTest {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
         client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
-        assertNull(ddc1155Service.setApprovalForAll(sender, "918F7F275A6C2D158E5B76F769D3F1678958A334", true));
         System.out.println(ddc1155Service.setApprovalForAll(sender, "918F7F275A6C2D158E5B76F769D3F1678958A334", true));
     }
 
@@ -72,7 +67,6 @@ class DDC1155ServiceTest {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
         client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
-        assertNull(ddc1155Service.burn(sender, "918F7F275A6C2D158E5B76F769D3F1678958A334", new BigInteger("2")));
         System.out.println(ddc1155Service.burn(sender, "918F7F275A6C2D158E5B76F769D3F1678958A334", new BigInteger("2")));
     }
 

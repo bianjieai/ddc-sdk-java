@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class DDC721ServiceTest {
 
     DDCSdkClient client = new DDCSdkClient.Builder()
@@ -29,7 +27,6 @@ class DDC721ServiceTest {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
         client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
-        assertNull(ddc721Service.mint(sender, "0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "11111"));
         System.out.println(ddc721Service.mint(sender, "0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "11111"));
     }
 
@@ -38,7 +35,6 @@ class DDC721ServiceTest {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
         client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
-        assertNull(ddc721Service.approve(sender, "6F561802FDAD741EDA7254C3F5651DAAAB266A90", new BigInteger("11")));
         System.out.println(ddc721Service.approve(sender, "6F561802FDAD741EDA7254C3F5651DAAAB266A90", new BigInteger("11")));
     }
 
