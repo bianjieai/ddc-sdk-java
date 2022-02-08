@@ -534,7 +534,12 @@ BaseService baseService=new BaseService();
     //返回交易哈希
     String Txhash = ddc721Service.mint(toaddr, ddcURI);
     
-    //安全生成（合约未更新）
+    //安全生成
+    
+    //sender 调用者地址
+    //to     接收者账户
+    //ddcURI DDC资源标识符
+    ddc721Service.safeMint(sender, to, ddcURI,data);
     
     //DDC授权
     
@@ -866,7 +871,12 @@ BaseService baseService=new BaseService();
     //返回交易哈希
     String Txhash = ddc721Service.mint(toaddr, ddcURI);
     
-    //安全生成（合约未更新）
+    //安全生成
+
+    //sender 调用者地址
+    //to     接收者账户
+    //ddcURI DDC资源标识符
+    ddc721Service.safeMint(sender, to, ddcURI,data);
     
     //DDC授权
     
@@ -1091,4 +1101,4 @@ BaseService baseService=new BaseService();
 
 [DDC1155ServiceTest.java](/src/test/java/ai/bianjie/ddc/service/DDC1155ServiceTest.java)
 
-[SignEvent.java](/src/test/java/ai/bianjie/ddc/SignEvent.java)
+[SignEventTest.java](/src/test/java/ai/bianjie/ddc/SignEventTest.java)
