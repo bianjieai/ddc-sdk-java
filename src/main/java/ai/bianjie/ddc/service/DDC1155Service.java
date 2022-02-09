@@ -193,15 +193,15 @@ public class DDC1155Service extends BaseService {
 
     /**
      * 批量安全转移
+     * DDC拥有者或DDC授权者可以通过调用该方法进行DDC的批量转移。
      *
      * @param sender 调用者地址
      * @param from   拥有者账户
      * @param to     接收者账户
-     * @param ddcs   拥有者DDCID集合
+     * @param ddcs   拥有者的ddcID集合
      * @param data   附加数据
      * @return 交易哈希
      * @throws Exception Exception
-     * @desc DDC拥有者或DDC授权者可以通过调用该方法进行DDC的批量转移。
      */
     public String safeBatchTransferFrom(String sender, String from, String to, Multimap<BigInteger, BigInteger> ddcs, byte[] data) throws Exception {
         if (!AddressUtils.isValidAddress(sender)) {
