@@ -10,6 +10,9 @@ public class CommonUtils {
 
     /**
      * String转换为BigInteger
+     *
+     * @param val String类型
+     * @return BigInteger类型
      */
     public static BigInteger string2BigInteger(String val) {
         boolean numeric00 = CommonUtils.isNumeric00(val);
@@ -23,8 +26,8 @@ public class CommonUtils {
     /**
      * 判断字符串是否由数字组成
      *
-     * @param str
-     * @return
+     * @param str 字符串
+     * @return 判断结果
      */
     public static boolean isNumeric00(String str) {
         try {
@@ -35,6 +38,12 @@ public class CommonUtils {
         }
     }
 
+    /**
+     * 获取区块信息
+     *
+     * @param num 区块高度
+     * @return 区块信息
+     */
     public static DefaultBlockParameter getDefaultBlockParamter(String num) {
         if (isNumeric00(num)) {
             return DefaultBlockParameter.valueOf(BigInteger.valueOf(Long.parseLong(num)));

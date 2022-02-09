@@ -37,7 +37,9 @@ public class BaseService {
     /**
      * 获取区块信息
      *
+     * @param blockNumber 区块高度
      * @return 区块信息
+     * @throws IOException
      */
     public EthBlock.Block getBlockByNumber(BigInteger blockNumber) throws IOException {
         return Web3jUtils.getWeb3j().ethGetBlockByNumber(CommonUtils.getDefaultBlockParamter(blockNumber.toString()), true).send().getBlock();
@@ -45,6 +47,9 @@ public class BaseService {
 
     /**
      * 获取最新的块高
+     *
+     * @return 区块高度
+     * @throws IOException
      */
     public BigInteger getLatestBlockNumber() throws IOException {
         return Web3jUtils.getWeb3j().ethGetBlockByNumber(DefaultBlockParameterName.LATEST, true).send().getBlock().getNumber();
@@ -55,7 +60,7 @@ public class BaseService {
      *
      * @param hash 交易哈希
      * @return 交易回执
-     * @throws InterruptedException InterruptedException
+     * @throws InterruptedException,ExecutionException
      */
     public TransactionReceipt getTransReceipt(String hash) throws InterruptedException, ExecutionException {
         return Web3jUtils.getWeb3j().ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
@@ -66,6 +71,7 @@ public class BaseService {
      *
      * @param hash 交易哈希
      * @return 交易信息
+     * @throws IOException
      */
     public TxInfo getTransByHash(String hash) throws IOException {
         Transaction transaction = Web3jUtils.getWeb3j().ethGetTransactionByHash(hash).send().getTransaction().get();
@@ -77,6 +83,7 @@ public class BaseService {
      *
      * @param hash 交易哈希
      * @return 交易状态
+     * @throws ExecutionException,InterruptedException
      */
     public Boolean getTransByStatus(String hash) throws ExecutionException, InterruptedException {
         TransactionReceipt txReceipt = Web3jUtils.getWeb3j().ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
@@ -100,6 +107,7 @@ public class BaseService {
      * @param encodedFunction   经过RLP序列化编码的function
      * @param signEventListener 负责签名的实例
      * @return EthSendTransaction 交易的结果
+     * @throws ExecutionException,InterruptedException
      */
     public EthSendTransaction signAndSend(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener, String sender) throws ExecutionException, InterruptedException {
 
@@ -138,7 +146,6 @@ public class BaseService {
      * 平台方或终端用户通过该方法进行离线账户生成。
      *
      * @return 返回 Account
-     * @throws Exception
      */
     public Account createAccountHex() {
         byte[] initialEntropy = new byte[16];
@@ -152,11 +159,23 @@ public class BaseService {
         return new Account(mnemonic, keyPair.getPublicKey().toString(16), keyPair.getPrivateKey().toString(16), addr);
     }
 
+    /**
+     * 平台方或终端用户通过该方法进行HEX格式账户转换。
+     *
+     * @param addr HEX格式账户
+     * @return 返回Bech32格式账户
+     */
     public String accountHexToBech32(String addr) {
         String hrp = "iaa";
         return Bech32Utils.hexToBech32(hrp, addr);
     }
 
+    /**
+     * 平台方或终端用户通过该方法进行Bech32格式账户转换。
+     *
+     * @param addr Bech32格式账户
+     * @return 返回HEX格式账户
+     */
     public String accountBech32ToHex(String addr) {
         return Bech32Utils.bech32ToHex(addr);
     }
