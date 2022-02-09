@@ -60,7 +60,7 @@ public class AuthorityService extends BaseService {
      * @param account DDC链账户地址
      * @param sender 此方法暂不使用
      * @return 返回交易哈希
-     * @throws Exception 抛出异常
+     * @throws Exception
      */
     public String delAccount(String sender, String account) throws Exception {
         throw new DDCException(ErrorMessage.UNKNOWN_ERROR);
