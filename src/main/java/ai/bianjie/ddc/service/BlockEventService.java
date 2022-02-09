@@ -24,7 +24,6 @@ import java.util.List;
 /**
  * @author kuan
  * Created on 21/12/11.
- * @description
  */
 @Slf4j
 public class BlockEventService extends BaseService {
@@ -36,7 +35,7 @@ public class BlockEventService extends BaseService {
      * 3. 遍历交易回执中的事件并解析
      *
      * @param blockNumber blockNumber
-     * @return ArrayList<Object>
+     * @return BlockEventBean
      * @throws IOException IOException
      */
     public BlockEventBean getBlockEvent(BigInteger blockNumber) throws IOException, InterruptedException {
