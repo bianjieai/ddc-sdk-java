@@ -3,6 +3,7 @@ package ai.bianjie.ddc.service;
 import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.dto.Account;
 import ai.bianjie.ddc.dto.TxInfo;
+import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEvent;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.Bech32Utils;
@@ -17,6 +18,7 @@ import org.web3j.crypto.MnemonicUtils;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.Response;
 import org.web3j.protocol.core.methods.response.*;
 import org.web3j.tx.Contract;
 import org.web3j.utils.Strings;
@@ -117,24 +119,27 @@ public class BaseService {
 
         String contractAddr = contract.getContractAddress();//目标合约地址
 
-        //2. 获取调用者的交易笔数
+        // 获取调用者的交易笔数
         EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.LATEST).sendAsync().get();
         BigInteger nonce = ethGetTransactionCount.getTransactionCount();
 
-        //3. 生成待签名的交易
+        // 生成待签名的交易
         RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddr, encodedFunction);
 
-        SignEvent signEvent = new SignEvent();
+        SignEvent signEvent = new SignEvent(sender,rawTransaction);
 
-
-        signEvent.setSender(sender);
-        signEvent.setRawTransaction(rawTransaction);
-
-        //4. 调用签名方法，获取签名后的hexString
+        // 调用签名方法，获取签名后的hexString
         String signedMessage = signEventListener.signEvent(signEvent);
 
-        //5. 返回交易结果
-        return web3j.ethSendRawTransaction(signedMessage).sendAsync().get();
+        // 向链上发送交易
+        EthSendTransaction sendTransaction = web3j.ethSendRawTransaction(signedMessage).sendAsync().get();
+        // 捕获链上返回的异常
+        Response.Error error = sendTransaction.getError();
+        if(error!=null){
+            throw new DDCException(error.getCode(),error.getMessage());
+        }
+        // 返回交易结果
+        return sendTransaction;
     }
 
     /**
