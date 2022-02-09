@@ -60,7 +60,7 @@ public class BaseService {
      *
      * @param hash 交易哈希
      * @return 交易回执
-     * @throws InterruptedException,ExecutionException
+     * @throws InterruptedException
      */
     public TransactionReceipt getTransReceipt(String hash) throws InterruptedException, ExecutionException {
         return Web3jUtils.getWeb3j().ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
@@ -83,7 +83,7 @@ public class BaseService {
      *
      * @param hash 交易哈希
      * @return 交易状态
-     * @throws ExecutionException,InterruptedException
+     * @throws ExecutionException
      */
     public Boolean getTransByStatus(String hash) throws ExecutionException, InterruptedException {
         TransactionReceipt txReceipt = Web3jUtils.getWeb3j().ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
@@ -107,7 +107,7 @@ public class BaseService {
      * @param encodedFunction   经过RLP序列化编码的function
      * @param signEventListener 负责签名的实例
      * @return EthSendTransaction 交易的结果
-     * @throws ExecutionException,InterruptedException
+     * @throws ExecutionException
      */
     public EthSendTransaction signAndSend(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener, String sender) throws ExecutionException, InterruptedException {
 

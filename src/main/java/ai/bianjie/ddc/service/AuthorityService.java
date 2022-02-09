@@ -58,6 +58,7 @@ public class AuthorityService extends BaseService {
      * 删除账户
      *
      * @param account DDC链账户地址
+     * @param sender  此方法暂不使用
      * @return 返回交易哈希
      * @throws Exception
      */
