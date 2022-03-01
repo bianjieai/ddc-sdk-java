@@ -6,6 +6,7 @@ import ai.bianjie.ddc.contract.Charge;
 import ai.bianjie.ddc.contract.DDC1155;
 import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.dto.BlockEventBean;
+import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.util.Web3jUtils;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,7 @@ public class BlockEventService extends BaseService {
                     arrayList.addAll(arr);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    throw new DDCException(404,"get recepit by hash failed");
                 }
             });
         }
