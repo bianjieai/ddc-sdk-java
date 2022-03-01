@@ -27,7 +27,7 @@ jobs:
         server-password: ${{ secrets.OSSRH_PASSWORD }}
         gpg-passphrase:  ${{ secrets.GPG_PASSWORD }}
 
-    - name: Build with Maven
+    - name: 1 Build with Maven
       run: mvn -B package --file pom.xml
 
     - name: Publish to GitHub Packages Apache Maven
