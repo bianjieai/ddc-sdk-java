@@ -1,0 +1,65 @@
+
+`	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(¸Á»‰øÿÿÿÿ
+`	java:S112""FDefine and throw a dedicated exception instead of using a generic one.(ËÙ®ûÿÿÿÿ
+`	java:S112+"FDefine and throw a dedicated exception instead of using a generic one.(¦°ííıÿÿÿÿ
+`	java:S1123"FDefine and throw a dedicated exception instead of using a generic one.(ü§—½øÿÿÿÿ
+`	java:S112;"FDefine and throw a dedicated exception instead of using a generic one.(–õìÿÿÿÿÿ
+[	java:S112C"FDefine and throw a dedicated exception instead of using a generic one.(ŠĞ£˜
+`	java:S112K"FDefine and throw a dedicated exception instead of using a generic one.(šøŸ’úÿÿÿÿ
+[	java:S112S"FDefine and throw a dedicated exception instead of using a generic one.(ï€‡ğ
+`	java:S112["FDefine and throw a dedicated exception instead of using a generic one.(•ü¦Îúÿÿÿÿ
+Z	java:S112c"FDefine and throw a dedicated exception instead of using a generic one.(Æ–ŠJ
+[	java:S112k"FDefine and throw a dedicated exception instead of using a generic one.(Ã˜¦
+`	java:S112s"FDefine and throw a dedicated exception instead of using a generic one.(Ô•ïËøÿÿÿÿ
+[	java:S112{"FDefine and throw a dedicated exception instead of using a generic one.(ŸÒÏõ
+a	java:S112ƒ"FDefine and throw a dedicated exception instead of using a generic one.(æ¥¥ˆüÿÿÿÿ
+a	java:S112‹"FDefine and throw a dedicated exception instead of using a generic one.(™’¢ªıÿÿÿÿ
+a	java:S112“"FDefine and throw a dedicated exception instead of using a generic one.(Ê‘Áüÿÿÿÿ
+[	java:S112›"FDefine and throw a dedicated exception instead of using a generic one.(ê¼«e
+S	java:S106"9Replace this use of System.out or System.err by a logger.(Åèõ–ÿÿÿÿÿ
+M	java:S106'"9Replace this use of System.out or System.err by a logger.(³ˆÈ,
+N	java:S106/"9Replace this use of System.out or System.err by a logger.( ó•Í
+:
+java:S2129/"$Remove this "BigInteger" constructor( ó•Í
+S	java:S1067"9Replace this use of System.out or System.err by a logger.(¤¾õœûÿÿÿÿ
+?
+java:S21297"$Remove this "BigInteger" constructor(¤¾õœûÿÿÿÿ
+S	java:S106?"9Replace this use of System.out or System.err by a logger.(ûğºüÿÿÿÿ
+N	java:S106G"9Replace this use of System.out or System.err by a logger.(»•³µ
+N	java:S106O"9Replace this use of System.out or System.err by a logger.( ÈŒ©
+:
+java:S2129O"$Remove this "BigInteger" constructor( ÈŒ©
+S	java:S106W"9Replace this use of System.out or System.err by a logger.(€æ”‰şÿÿÿÿ
+?
+java:S2129W"$Remove this "BigInteger" constructor(€æ”‰şÿÿÿÿ
+S	java:S106_"9Replace this use of System.out or System.err by a logger.(üè‰ğşÿÿÿÿ
+?
+java:S2129_"$Remove this "BigInteger" constructor(üè‰ğşÿÿÿÿ
+N	java:S106g"9Replace this use of System.out or System.err by a logger.(›ó¶Ğ
+:
+java:S2129g"$Remove this "BigInteger" constructor(›ó¶Ğ
+S	java:S106o"9Replace this use of System.out or System.err by a logger.(˜ì“øÿÿÿÿ
+?
+java:S2129o"$Remove this "BigInteger" constructor(˜ì“øÿÿÿÿ
+S	java:S106w"9Replace this use of System.out or System.err by a logger.(ùéÃûÿÿÿÿ
+S	java:S106"9Replace this use of System.out or System.err by a logger.(¼Ñî–ÿÿÿÿÿ
+?
+java:S2129"$Remove this "BigInteger" constructor(¼Ñî–ÿÿÿÿÿ
+T	java:S106‡"9Replace this use of System.out or System.err by a logger.(˜‹îªşÿÿÿÿ
+T	java:S106"9Replace this use of System.out or System.err by a logger.(ÑøÌ…ùÿÿÿÿ
+O	java:S106—"9Replace this use of System.out or System.err by a logger.(…Ç¹ö
+;
+java:S2129—"$Remove this "BigInteger" constructor(…Ç¹ö
+O	java:S106Ÿ"9Replace this use of System.out or System.err by a logger.(ËãÔö
+;
+java:S2129Ÿ"$Remove this "BigInteger" constructor(ËãÔö
+x
+java:S1192"bDefine a constant instead of duplicating this literal "903f4f9268ab4e2eac717c7200429776" 17 times.(¹Ë‹Ç
+¦
+java:S1192"Define a constant instead of duplicating this literal "https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc" 17 times.(îÔùş
+
+java:S1192/"iDefine a constant instead of duplicating this literal "6F561802FDAD741EDA7254C3F5651DAAAB266A90" 3 times.( ó•Í
+†
+java:S1192"kDefine a constant instead of duplicating this literal "0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721" 6 times.(Åèõ–ÿÿÿÿÿ
+}
+java:S1192"bDefine a constant instead of duplicating this literal "0c1dd14a41b14cfa83048d839a0593ff" 17 times.(©‰›ıÿÿÿÿ
