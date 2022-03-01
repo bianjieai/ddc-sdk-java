@@ -1,19 +1,0 @@
-
-`	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(˜Ô×óıÿÿÿÿ
-`	java:S112#"FDefine and throw a dedicated exception instead of using a generic one.(ìÄÍúÿÿÿÿ
-`	java:S112,"FDefine and throw a dedicated exception instead of using a generic one.(ºƒÛôúÿÿÿÿ
-`	java:S1124"FDefine and throw a dedicated exception instead of using a generic one.(ìª·Èüÿÿÿÿ
-N	java:S106"9Replace this use of System.out or System.err by a logger.(±±ÜÕ
-N	java:S106'"9Replace this use of System.out or System.err by a logger.(ËÊá»
-M	java:S1060"9Replace this use of System.out or System.err by a logger.(Ÿ×ÿG
-9
-java:S21290"$Remove this "BigInteger" constructor(Ÿ×ÿG
-N	java:S1068"9Replace this use of System.out or System.err by a logger.(¾İÖŸ
-
-java:S1192"kDefine a constant instead of duplicating this literal "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39" 3 times.(±±ÜÕ
-w
-java:S1192"aDefine a constant instead of duplicating this literal "903f4f9268ab4e2eac717c7200429776" 4 times.(¹Ë‹Ç
-¥
-java:S1192"Define a constant instead of duplicating this literal "https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc" 4 times.(îÔùş
-|
-java:S1192"aDefine a constant instead of duplicating this literal "0c1dd14a41b14cfa83048d839a0593ff" 4 times.(©‰›ıÿÿÿÿ
