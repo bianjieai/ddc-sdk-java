@@ -62,7 +62,7 @@ public class BlockEventService extends BaseService {
                         arr = analyzeEventsByTxHash(hash);
                     } catch (Exception e) {
                         i++;
-                        break;
+                        continue;
                     }
                     ok = false;
                 }
