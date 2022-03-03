@@ -52,13 +52,22 @@ public class BlockEventService extends BaseService {
             txs.forEach(tx -> {
                 EthBlock.TransactionObject transaction = (EthBlock.TransactionObject) tx.get();
                 String hash = transaction.get().getHash();
-                try {
-                    ArrayList<BaseEventResponse> arr = analyzeEventsByTxHash(hash);
-                    arrayList.addAll(arr);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    throw new DDCException(404,"get recepit by hash failed");
+                ArrayList<BaseEventResponse> arr = null;
+                boolean ok = true;
+                int i = 0;
+                while (ok) {
+                    if (i >= 3) {
+                        throw new DDCException(400,"cannot get recepit by hash:" + hash);
+                    }
+                    try {
+                        arr = analyzeEventsByTxHash(hash);
+                    } catch (Exception e) {
+                        i++;
+                        continue;
+                    }
+                    ok = false;
                 }
+                arrayList.addAll(arr);
             });
         }
 
