@@ -55,7 +55,7 @@ class BaseServiceTest {
     }
 
     @Test
-    void getTransByStatus() throws Exception {
+    void getTransByStatus() throws IOException {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/808fb54ccd604ddd9ebfa4519d112057/evmrpc");
         client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
         client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
