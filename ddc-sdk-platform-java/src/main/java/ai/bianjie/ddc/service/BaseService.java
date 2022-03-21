@@ -83,7 +83,7 @@ public class BaseService {
      *
      * @param hash 交易哈希
      * @return 交易状态
-     * @throws ExecutionException
+     * @throws IOException
      */
     public Boolean getTransByStatus(String hash) throws IOException {
         return Web3jUtils.getWeb3j().ethGetTransactionReceipt(hash).send().getTransactionReceipt().get().isStatusOK();
