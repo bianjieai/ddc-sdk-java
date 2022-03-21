@@ -25,7 +25,7 @@ public class Account {
     public void setPublicKey(String publicKey) {
         this.publicKey = publicKey;
     }
-    
+
     public String getPrivateKey() {
         return privateKey;
     }

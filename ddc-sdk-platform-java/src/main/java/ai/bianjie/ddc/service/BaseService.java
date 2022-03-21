@@ -85,7 +85,7 @@ public class BaseService {
      * @return 交易状态
      * @throws ExecutionException
      */
-    public Boolean getTransByStatus(String hash) throws ExecutionException, InterruptedException {
+    public Boolean getTransByStatus(String hash) throws IOException {
         return Web3jUtils.getWeb3j().ethGetTransactionReceipt(hash).send().getTransactionReceipt().get().isStatusOK();
     }
 
