@@ -86,8 +86,7 @@ public class BaseService {
      * @throws ExecutionException
      */
     public Boolean getTransByStatus(String hash) throws ExecutionException, InterruptedException {
-        TransactionReceipt txReceipt = Web3jUtils.getWeb3j().ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
-        return !Strings.isEmpty(txReceipt.toString());
+        return Web3jUtils.getWeb3j().ethGetTransactionReceipt(hash).send().getTransactionReceipt().get().isStatusOK();
     }
 
     /**
