@@ -88,11 +88,10 @@ public class BaseService {
      *
      * @param hash 交易哈希
      * @return 交易状态
-     * @throws ExecutionException
+     * @throws IOException
      */
-    public Boolean getTransByStatus(String hash) throws ExecutionException, InterruptedException {
-        TransactionReceipt txReceipt = baseSvc.ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
-        return !Strings.isEmpty(txReceipt.toString());
+    public Boolean getTransByStatus(String hash) throws IOException {
+        return baseSvc.ethGetTransactionReceipt(hash).send().getTransactionReceipt().get().isStatusOK();
     }
 
     /**
