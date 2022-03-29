@@ -29,10 +29,10 @@ import java.util.List;
 @Slf4j
 public class BlockEventService extends BaseService {
 
-    Authority authority = Web3jUtils.getAuthority();
-    Charge charge = Web3jUtils.getCharge();
-    DDC721 ddc721 = Web3jUtils.getDDC721();
-    DDC1155 ddc1155 = Web3jUtils.getDDC1155();
+    private Authority authority = Web3jUtils.getAuthority();
+    private Charge charge = Web3jUtils.getCharge();
+    private DDC721 ddc721 = Web3jUtils.getDDC721();
+    private DDC1155 ddc1155 = Web3jUtils.getDDC1155();
 
     /**
      * 获取区块事件并解析
