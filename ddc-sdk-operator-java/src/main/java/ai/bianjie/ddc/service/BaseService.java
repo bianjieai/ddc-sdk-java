@@ -11,7 +11,6 @@ import ai.bianjie.ddc.util.CommonUtils;
 import ai.bianjie.ddc.util.GasProvider;
 import ai.bianjie.ddc.util.Web3jUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.bitcoinj.crypto.*;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.MnemonicUtils;
@@ -33,6 +32,7 @@ import static org.web3j.crypto.Hash.sha256;
 @Slf4j
 public class BaseService {
     protected SignEventListener signEventListener;
+    protected Web3j baseSvc = Web3jUtils.getWeb3j();
 
     /**
      * 获取区块信息
@@ -42,7 +42,7 @@ public class BaseService {
      * @throws IOException
      */
     public EthBlock.Block getBlockByNumber(BigInteger blockNumber) throws IOException {
-        return Web3jUtils.getWeb3j().ethGetBlockByNumber(CommonUtils.getDefaultBlockParamter(blockNumber.toString()), true).send().getBlock();
+        return baseSvc.ethGetBlockByNumber(CommonUtils.getDefaultBlockParamter(blockNumber.toString()), true).send().getBlock();
     }
 
     /**
@@ -52,7 +52,7 @@ public class BaseService {
      * @throws IOException
      */
     public BigInteger getLatestBlockNumber() throws IOException {
-        return Web3jUtils.getWeb3j().ethGetBlockByNumber(DefaultBlockParameterName.LATEST, true).send().getBlock().getNumber();
+        return baseSvc.ethGetBlockByNumber(DefaultBlockParameterName.LATEST, true).send().getBlock().getNumber();
     }
 
     /**
@@ -63,7 +63,7 @@ public class BaseService {
      * @throws InterruptedException
      */
     public TransactionReceipt getTransReceipt(String hash) throws InterruptedException, ExecutionException {
-        return Web3jUtils.getWeb3j().ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
+        return baseSvc.ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
     }
 
     /**
@@ -74,7 +74,7 @@ public class BaseService {
      * @throws IOException
      */
     public TxInfo getTransByHash(String hash) throws IOException {
-        Transaction transaction = Web3jUtils.getWeb3j().ethGetTransactionByHash(hash).send().getTransaction().get();
+        Transaction transaction = baseSvc.ethGetTransactionByHash(hash).send().getTransaction().get();
         return new TxInfo(transaction);
     }
 
@@ -86,7 +86,7 @@ public class BaseService {
      * @throws ExecutionException
      */
     public Boolean getTransByStatus(String hash) throws ExecutionException, InterruptedException {
-        TransactionReceipt txReceipt = Web3jUtils.getWeb3j().ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
+        TransactionReceipt txReceipt = baseSvc.ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
         return !Strings.isEmpty(txReceipt.toString());
     }
 
@@ -111,7 +111,6 @@ public class BaseService {
      */
     public EthSendTransaction signAndSend(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener, String sender) throws ExecutionException, InterruptedException {
 
-        Web3j web3j = Web3jUtils.getWeb3j();
         GasProvider gasProvider = new GasProvider();
 
         BigInteger gasPrice = gasProvider.getGasPrice();
@@ -121,23 +120,23 @@ public class BaseService {
         String contractAddr = contract.getContractAddress();
 
         // 获取调用者的交易笔数
-        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.LATEST).sendAsync().get();
+        EthGetTransactionCount ethGetTransactionCount = baseSvc.ethGetTransactionCount(sender, DefaultBlockParameterName.LATEST).sendAsync().get();
         BigInteger nonce = ethGetTransactionCount.getTransactionCount();
 
         // 生成待签名的交易
         RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddr, encodedFunction);
 
-        SignEvent signEvent = new SignEvent(sender,rawTransaction);
+        SignEvent signEvent = new SignEvent(sender, rawTransaction);
 
         // 调用签名方法，获取签名后的hexString
         String signedMessage = signEventListener.signEvent(signEvent);
 
         // 向链上发送交易
-        EthSendTransaction sendTransaction = web3j.ethSendRawTransaction(signedMessage).sendAsync().get();
+        EthSendTransaction sendTransaction = baseSvc.ethSendRawTransaction(signedMessage).sendAsync().get();
         // 捕获链上返回的异常
         Response.Error error = sendTransaction.getError();
-        if(error!=null){
-            throw new DDCException(error.getCode(),error.getMessage());
+        if (error != null) {
+            throw new DDCException(error.getCode(), error.getMessage());
         }
         // 返回交易结果
         return sendTransaction;
