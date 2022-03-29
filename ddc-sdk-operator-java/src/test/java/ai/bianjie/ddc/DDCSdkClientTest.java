@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -60,22 +61,26 @@ class DDCSdkClientTest {
             BlockEventBean blockEvent = bes.getBlockEvent(latestBlockNumber);
             System.out.println("-------1--------时间:"+blockEvent.getTimeStamp());
             System.out.println("-------2--------块高:"+latestBlockNumber);
-            blockEvent.getList().forEach(res->{
-                String transactionHash = res.log.getTransactionHash();
-                TransactionReceipt receipt = null;
-                try {
-                    receipt = bes.getTransReceipt(transactionHash);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                if (receipt!= null){
-                    System.out.println("-------3--------块高:"+receipt.getBlockNumber());
-                    System.out.println("-------4--------数据-gasused:"+receipt.getGasUsed());
-                }
-            });
-
+            List list = blockEvent.getList();
+            if (list == null || list.isEmpty()){
+               System.out.println("list is null");
+            }else {
+                blockEvent.getList().forEach(res->{
+                    String transactionHash = res.log.getTransactionHash();
+                    TransactionReceipt receipt = null;
+                    try {
+                        receipt = bes.getTransReceipt(transactionHash);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    if (receipt!= null){
+                        System.out.println("-------3--------块高:"+receipt.getBlockNumber());
+                        System.out.println("-------4--------数据-gasused:"+receipt.getGasUsed());
+                    }
+                });
+            }
             Thread.sleep(1000);
         }
     }
