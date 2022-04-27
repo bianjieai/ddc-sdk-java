@@ -11,7 +11,6 @@ import ai.bianjie.ddc.util.CommonUtils;
 import ai.bianjie.ddc.util.GasProvider;
 import ai.bianjie.ddc.util.Web3jUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.bitcoinj.crypto.*;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.MnemonicUtils;
@@ -21,7 +20,6 @@ import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.Response;
 import org.web3j.protocol.core.methods.response.*;
 import org.web3j.tx.Contract;
-import org.web3j.utils.Strings;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -120,7 +118,7 @@ public class BaseService {
         String contractAddr = contract.getContractAddress();
 
         // 获取调用者的交易笔数
-        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.LATEST).sendAsync().get();
+        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.PENDING).sendAsync().get();
         BigInteger nonce = ethGetTransactionCount.getTransactionCount();
 
         // 生成待签名的交易
