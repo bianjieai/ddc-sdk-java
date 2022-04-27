@@ -133,7 +133,7 @@ public class BaseService {
         // 生成待签名的交易
         RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddr, encodedFunction);
 
-        SignEvent signEvent = new SignEvent(sender,rawTransaction);
+        SignEvent signEvent = new SignEvent(sender, rawTransaction);
 
         // 调用签名方法，获取签名后的hexString
         String signedMessage = signEventListener.signEvent(signEvent);
@@ -142,8 +142,8 @@ public class BaseService {
         EthSendTransaction sendTransaction = web3j.ethSendRawTransaction(signedMessage).sendAsync().get();
         // 捕获链上返回的异常
         Response.Error error = sendTransaction.getError();
-        if(error!=null){
-            throw new DDCException(error.getCode(),error.getMessage());
+        if (error != null) {
+            throw new DDCException(error.getCode(), error.getMessage());
         }
         // 返回交易结果
         return sendTransaction;

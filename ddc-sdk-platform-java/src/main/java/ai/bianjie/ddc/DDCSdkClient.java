@@ -28,7 +28,6 @@ public class DDCSdkClient {
         private SignEventListener signEventListener;
 
 
-
         public Builder setGasPrice(String gasPrice) {
             this.gasPrice = gasPrice;
             return this;
