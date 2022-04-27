@@ -60,7 +60,7 @@ public class BlockEventService extends BaseService {
                 int i = 0;
                 while (ok) {
                     if (i >= 3) {
-                        throw new DDCException(400, "cannot get recipient by hash:" + hash);
+                        throw new DDCException(400, "cannot get receipt by hash:" + hash);
                     }
                     try {
                         arr = analyzeEventsByTxHash(hash);
