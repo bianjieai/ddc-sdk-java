@@ -4,7 +4,6 @@ import ai.bianjie.ddc.dto.Account;
 import ai.bianjie.ddc.service.BaseService;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 class DDCSdkClientTest {
 
