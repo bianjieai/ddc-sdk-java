@@ -25,7 +25,6 @@ import org.web3j.protocol.http.HttpService;
 /**
  * 实现Web3jService接口
  *
- * @author dev
  * @date 2022/04/29
  */
 public class HttpServiceEx extends HttpService {
