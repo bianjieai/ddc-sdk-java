@@ -98,6 +98,14 @@ public class DDCSdkClient {
         Web3jUtils.reset();
         return true;
     }
+    public Boolean setConnectTimeout(long timeout) {
+        if (timeout==0) {
+            return false;
+        }
+        ConfigCache.get().setConnectTimeout(timeout);
+        Web3jUtils.reset();
+        return true;
+    }
 
     /**
      * 获取权限管理服务的示例
