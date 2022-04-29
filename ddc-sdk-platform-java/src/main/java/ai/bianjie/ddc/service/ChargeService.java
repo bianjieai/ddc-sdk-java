@@ -14,7 +14,6 @@ import java.math.BigInteger;
 
 public class ChargeService extends BaseService {
     private Charge charge;
-    private String encodedFunction;
 
     public ChargeService(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
@@ -44,10 +43,10 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        if (amount == null || amount.intValue() <= 0) {
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
-        encodedFunction = charge.recharge(to, amount).encodeFunctionCall();
+        String encodedFunction = charge.recharge(to, amount).encodeFunctionCall();
 
         return signAndSend(charge, Charge.FUNC_RECHARGE, encodedFunction, signEventListener, sender).getTransactionHash();
     }

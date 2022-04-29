@@ -12,6 +12,10 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
+/**
+ * web3j工具类，提供对合约的连接管理
+ *
+ */
 public class Web3jUtils {
     private static Web3j web3j;
     private static Authority authority;

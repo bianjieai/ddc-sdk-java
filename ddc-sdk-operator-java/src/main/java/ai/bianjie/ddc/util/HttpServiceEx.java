@@ -18,10 +18,15 @@ import okio.Buffer;
 import okio.BufferedSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.web3j.protocol.Service;
 import org.web3j.protocol.exceptions.ClientConnectionException;
 import org.web3j.protocol.http.HttpService;
 
+
+/**
+ * 实现Web3jService接口
+ *
+ * @date 2022/04/29
+ */
 public class HttpServiceEx extends HttpService {
     private static final CipherSuite[] INFURA_CIPHER_SUITES;
     private static final ConnectionSpec INFURA_CIPHER_SUITE_SPEC;
