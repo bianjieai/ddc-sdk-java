@@ -14,7 +14,6 @@ import java.math.BigInteger;
 
 public class DDC721Service extends BaseService {
     private final DDC721 ddc721;
-    private String encodedFunction;
 
     public DDC721Service(SignEventListener signEventListener) {
         //注册签名事件
@@ -52,7 +51,7 @@ public class DDC721Service extends BaseService {
         }
 
         //5.获取序列化编码后的方法
-        encodedFunction = ddc721.mint(to, ddcURI).encodeFunctionCall();
+        String encodedFunction = ddc721.mint(to, ddcURI).encodeFunctionCall();
         //6.签名并发送，最终返回交易hash
         return signAndSend(ddc721, DDC721.FUNC_MINT, encodedFunction, signEventListener, sender).getTransactionHash();
 
@@ -82,7 +81,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
 
-        encodedFunction = ddc721.safeMint(to, ddcURI, data).encodeFunctionCall();
+        String encodedFunction = ddc721.safeMint(to, ddcURI, data).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_SAFEMINT, encodedFunction, signEventListener, sender).getTransactionHash();
 
     }
@@ -111,7 +110,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        encodedFunction = ddc721.approve(to, ddcId).encodeFunctionCall();
+        String encodedFunction = ddc721.approve(to, ddcId).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_APPROVE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -154,7 +153,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        encodedFunction = ddc721.setApprovalForAll(operator, approved).encodeFunctionCall();
+        String encodedFunction = ddc721.setApprovalForAll(operator, approved).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_SETAPPROVALFORALL, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -213,7 +212,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        encodedFunction = ddc721.safeTransferFrom(from, to, ddcId, data).encodeFunctionCall();
+        String encodedFunction = ddc721.safeTransferFrom(from, to, ddcId, data).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_SAFETRANSFERFROM, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -249,7 +248,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        encodedFunction = ddc721.transferFrom(from, to, ddcId).encodeFunctionCall();
+        String encodedFunction = ddc721.transferFrom(from, to, ddcId).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_TRANSFERFROM, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -272,7 +271,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        encodedFunction = ddc721.freeze(ddcId).encodeFunctionCall();
+        String encodedFunction = ddc721.freeze(ddcId).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_FREEZE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -293,7 +292,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        encodedFunction = ddc721.unFreeze(ddcId).encodeFunctionCall();
+        String encodedFunction = ddc721.unFreeze(ddcId).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_UNFREEZE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -314,7 +313,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        encodedFunction = ddc721.burn(ddcId).encodeFunctionCall();
+        String encodedFunction = ddc721.burn(ddcId).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_BURN, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -412,7 +411,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
 
-        encodedFunction = ddc721.setURI(ddcId, ddcURI).encodeFunctionCall();
+        String encodedFunction = ddc721.setURI(ddcId, ddcURI).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_SETURI, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 }

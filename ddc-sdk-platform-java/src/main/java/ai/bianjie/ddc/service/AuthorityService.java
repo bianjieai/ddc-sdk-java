@@ -15,7 +15,6 @@ import java.math.BigInteger;
 
 public class AuthorityService extends BaseService {
     private Authority authority;
-    private String encodedFunction;
 
     public AuthorityService(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
@@ -68,7 +67,7 @@ public class AuthorityService extends BaseService {
             throw new DDCException(ErrorMessage.ACCOUNT_STASTUS_IS_EMPTY);
         }
 
-        encodedFunction = authority.updateAccountState(account, state, changePlatformState).encodeFunctionCall();
+        String encodedFunction = authority.updateAccountState(account, state, changePlatformState).encodeFunctionCall();
         return signAndSend(authority, Authority.FUNC_UPDATEACCOUNTSTATE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
