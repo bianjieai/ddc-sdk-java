@@ -1,7 +1,10 @@
 package ai.bianjie.ddc.util;
 
 import ai.bianjie.ddc.config.ConfigCache;
-import ai.bianjie.ddc.contract.*;
+import ai.bianjie.ddc.contract.Authority;
+import ai.bianjie.ddc.contract.Charge;
+import ai.bianjie.ddc.contract.DDC1155;
+import ai.bianjie.ddc.contract.DDC721;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
@@ -11,6 +14,11 @@ import org.web3j.utils.Strings;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+
+/**
+ * web3j工具类，提供对合约的连接管理
+ *
+ */
 
 public class Web3jUtils {
     private static Web3j web3j;

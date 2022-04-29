@@ -16,7 +16,6 @@ import java.util.List;
 
 public class DDC1155Service extends BaseService {
     private final DDC1155 ddc1155;
-    private String encodedFunction;
 
     public DDC1155Service(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
@@ -48,7 +47,7 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
         //4.检查需要生成的DDC数量是否大于0
-        if (amount == null || amount.intValue() <= 0) {
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
         //5.检查ddcURI是否为空
@@ -56,7 +55,7 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
 
-        encodedFunction = ddc1155.safeMint(to, amount, ddcURI, data).encodeFunctionCall();
+        String encodedFunction = ddc1155.safeMint(to, amount, ddcURI, data).encodeFunctionCall();
         return signAndSend(ddc1155, DDC1155.FUNC_SAFEMINT, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -87,7 +86,7 @@ public class DDC1155Service extends BaseService {
 
         ddcInfo.forEach((amount, ddcURI) -> {
             //检查生成的DDC数量集合中每个DDC数量是否大于0；
-            if (amount == null || amount.intValue() <= 0) {
+            if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
                 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
             }
             //检查生成的ddcURI集合中每个ddcURI是否为空；
@@ -99,7 +98,7 @@ public class DDC1155Service extends BaseService {
 
         });
 
-        encodedFunction = ddc1155.safeMintBatch(to, amounts, ddcURIS, data).encodeFunctionCall();
+        String encodedFunction = ddc1155.safeMintBatch(to, amounts, ddcURIS, data).encodeFunctionCall();
         return signAndSend(ddc1155, DDC1155.FUNC_SAFEMINTBATCH, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -124,7 +123,7 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        encodedFunction = ddc1155.setApprovalForAll(operator, approved).encodeFunctionCall();
+        String encodedFunction = ddc1155.setApprovalForAll(operator, approved).encodeFunctionCall();
         return signAndSend(ddc1155, DDC1155.FUNC_SETAPPROVALFORALL, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -180,14 +179,14 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(from) || !AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (amount == null || amount.intValue() <= 0) {
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
 
-        encodedFunction = ddc1155.safeTransferFrom(from, to, ddcId, amount, data).encodeFunctionCall();
+        String encodedFunction = ddc1155.safeTransferFrom(from, to, ddcId, amount, data).encodeFunctionCall();
         return signAndSend(ddc1155, DDC1155.FUNC_SAFETRANSFERFROM, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -223,17 +222,17 @@ public class DDC1155Service extends BaseService {
         ArrayList<BigInteger> ddcIds = new ArrayList();
         ArrayList<BigInteger> amounts = new ArrayList();
         ddcs.forEach((ddcId, amount) -> {
-            if (ddcId == null || ddcId.intValue() <= 0) {
+            if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
                 throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
             }
-            if (amount == null || amount.intValue() <= 0) {
+            if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
                 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
             }
             ddcIds.add(ddcId);
             amounts.add(amount);
         });
 
-        encodedFunction = ddc1155.safeBatchTransferFrom(from, to, ddcIds, amounts, data).encodeFunctionCall();
+        String encodedFunction = ddc1155.safeBatchTransferFrom(from, to, ddcIds, amounts, data).encodeFunctionCall();
         return signAndSend(ddc1155, DDC1155.FUNC_SAFEBATCHTRANSFERFROM, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -257,11 +256,11 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(owner)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        encodedFunction = ddc1155.burn(owner, ddcId).encodeFunctionCall();
+        String encodedFunction = ddc1155.burn(owner, ddcId).encodeFunctionCall();
         return signAndSend(ddc1155, DDC1155.FUNC_BURN, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -289,7 +288,7 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        encodedFunction = ddc1155.burnBatch(owner, ddcIds).encodeFunctionCall();
+        String encodedFunction = ddc1155.burnBatch(owner, ddcIds).encodeFunctionCall();
         return signAndSend(ddc1155, DDC1155.FUNC_BURNBATCH, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -310,7 +309,7 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(owner)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -340,7 +339,7 @@ public class DDC1155Service extends BaseService {
             if (!AddressUtils.isValidAddress(owner)) {
                 throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
             }
-            if (ddcId == null || ddcId.intValue() <= 0) {
+            if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
                 throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
             }
             owners.add(owner);
@@ -359,7 +358,7 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      */
     public String ddcURI(BigInteger ddcId) throws Exception {
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -386,7 +385,7 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.OWNER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -394,7 +393,7 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
 
-        encodedFunction = ddc1155.setURI(owner, ddcId, ddcURI).encodeFunctionCall();
+        String encodedFunction = ddc1155.setURI(owner, ddcId, ddcURI).encodeFunctionCall();
         return signAndSend(ddc1155, DDC1155.FUNC_SETURI, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 }
