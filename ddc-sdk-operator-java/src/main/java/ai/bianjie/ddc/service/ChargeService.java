@@ -43,7 +43,7 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        if (amount == null || amount.intValue() <= 0) {
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
         String encodedFunction = charge.recharge(to, amount).encodeFunctionCall();
@@ -114,7 +114,7 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        if (amount == null || amount.intValue() <= 0) {
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
         String encodedFunction = charge.selfRecharge(amount).encodeFunctionCall();
@@ -153,7 +153,7 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
         }
 
-        if (amount == null || amount.intValue() <= 0) {
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
         byte[] sigInByte = Numeric.hexStringToByteArray(sig);

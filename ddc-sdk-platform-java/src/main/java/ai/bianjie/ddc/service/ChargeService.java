@@ -43,7 +43,7 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        if (amount == null || amount.intValue() <= 0) {
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
         String encodedFunction = charge.recharge(to, amount).encodeFunctionCall();

@@ -106,7 +106,7 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -125,7 +125,7 @@ public class DDC721Service extends BaseService {
      */
     public String getApproved(BigInteger ddcId) throws Exception {
 
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -208,7 +208,7 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -244,7 +244,7 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -265,7 +265,7 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -302,7 +302,7 @@ public class DDC721Service extends BaseService {
      */
     public String ownerOf(BigInteger ddcId) throws Exception {
 
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         return Web3jUtils.getDDC721().ownerOf(ddcId).send();
@@ -340,7 +340,7 @@ public class DDC721Service extends BaseService {
      */
     public String ddcURI(BigInteger ddcId) throws Exception {
 
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         return Web3jUtils.getDDC721().ddcURI(ddcId).send();
@@ -360,7 +360,7 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         if (Strings.isEmpty(ddcURI)) {
