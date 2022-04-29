@@ -66,6 +66,8 @@
      client.setGatewayApiKey("x-api-key");
      //设置value
      client.setGatewayValue("xxxxx");
+     //设置连接超时时间（默认为10s）
+     client.setConnectTimeout(20);
     
 
     //可单独为每个方法设置gaslimit
@@ -467,6 +469,8 @@ BaseService baseService=new BaseService();
      client.setGatewayApiKey("x-api-key");
      //设置value
      client.setGatewayValue("xxxxx");
+     //设置连接超时时间（默认为10s）
+     client.setConnectTimeout(20);
     
 
     //可单独为每个方法设置gaslimit
@@ -818,6 +822,8 @@ BaseService baseService=new BaseService();
      client.setGatewayApiKey("x-api-key");
      //设置value
      client.setGatewayValue("xxxxx");
+     //设置连接超时时间（默认为10s）
+     client.setConnectTimeout(20);
     
 
     //可单独为每个方法设置gaslimit
