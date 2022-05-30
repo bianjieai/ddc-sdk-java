@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="39bf4773-512c-46e4-89b4-b44d12e60d32" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/config/ConfigInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/config/ConfigInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/constant/ErrorMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/constant/ErrorMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/Authority.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/Authority.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/Charge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/Charge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/DDC1155.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/DDC1155.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/DDC721.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/DDC721.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/dto/AccountInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/dto/AccountInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/AuthorityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/AuthorityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/BaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/BaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/BlockEventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/BlockEventService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/ChargeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/ChargeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC1155Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC1155Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC721Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC721Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/config/ConfigInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/config/ConfigInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/Authority.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/Authority.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/Charge.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/Charge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/DDC1155.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/DDC1155.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/DDC721.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/DDC721.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/AuthorityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/AuthorityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/BlockEventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/BlockEventService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/ChargeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/ChargeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/DDC1155Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/DDC1155Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/DDC721Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/DDC721Service.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/DDC1155ServiceTest.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC721Service.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/constant/ErrorMessage.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/ChargeServiceTest.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/DDC721ServiceTest.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC1155Service.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/dto/AccountInfo.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/BlockEventService.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/AuthorityService.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectId" id="26pNca1jVbZk8sFr4WojovUagJ2" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="go.formatter.settings.were.checked" value="true" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../ddc-sdk-go" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="ai.bianjie.ddc.dto" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="39bf4773-512c-46e4-89b4-b44d12e60d32" name="Changes" comment="" />
+      <created>1648116648826</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1648116648826</updated>
+      <workItem from="1648116650357" duration="325000" />
+      <workItem from="1648116983304" duration="22000" />
+      <workItem from="1648117045155" duration="38000" />
+      <workItem from="1648457000577" duration="611000" />
+      <workItem from="1648457972539" duration="6429000" />
+      <workItem from="1648518216373" duration="1559000" />
+      <workItem from="1648543194229" duration="759000" />
+      <workItem from="1648543979541" duration="4970000" />
+      <workItem from="1648603327147" duration="1181000" />
+      <workItem from="1652923183969" duration="8514000" />
+      <workItem from="1653273840591" duration="1000" />
+      <workItem from="1653384656250" duration="49000" />
+      <workItem from="1653888959516" duration="7577000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+  </component>
+</project>
