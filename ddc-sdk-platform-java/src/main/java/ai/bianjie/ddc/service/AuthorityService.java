@@ -1,7 +1,6 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.constant.ErrorMessage;
-import ai.bianjie.ddc.contract.Authority;
 import ai.bianjie.ddc.dto.AccountInfo;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;

@@ -1,10 +1,6 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.config.ConfigCache;
-import ai.bianjie.ddc.contract.Authority;
-import ai.bianjie.ddc.contract.Charge;
-import ai.bianjie.ddc.contract.DDC1155;
-import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.dto.BlockEventBean;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.util.Web3jUtils;
