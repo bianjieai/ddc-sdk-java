@@ -42,10 +42,10 @@ public class BaseService {
     protected SignEventListener signEventListener;
 
     /**
-     * 获取区块信息
+     * Get block information
      *
-     * @param blockNumber 区块高度
-     * @return 区块信息
+     * @param blockNumber Block height
+     * @return block information
      * @throws IOException
      */
     public EthBlock.Block getBlockByNumber(BigInteger blockNumber) throws IOException {
@@ -53,9 +53,9 @@ public class BaseService {
     }
 
     /**
-     * 获取最新的块高
+     * Get the latest block height
      *
-     * @return 区块高度
+     * @return Block height
      * @throws IOException
      */
     public BigInteger getLatestBlockNumber() throws IOException {
@@ -63,10 +63,10 @@ public class BaseService {
     }
 
     /**
-     * 查询交易回执
+     * Query transaction receipt
      *
-     * @param hash 交易哈希
-     * @return 交易回执
+     * @param hash Transaction hash
+     * @return Transaction receipt
      * @throws InterruptedException
      */
     public TransactionReceipt getTransReceipt(String hash) throws InterruptedException, ExecutionException {
@@ -74,10 +74,10 @@ public class BaseService {
     }
 
     /**
-     * 查询交易信息
+     * Query transaction information
      *
-     * @param hash 交易哈希
-     * @return 交易信息
+     * @param hash Transaction hash
+     * @return Transaction information
      * @throws IOException
      */
     public TxInfo getTransByHash(String hash) throws IOException {
@@ -86,10 +86,10 @@ public class BaseService {
     }
 
     /**
-     * 查询交易状态
+     * Query transaction status
      *
-     * @param hash 交易哈希
-     * @return 交易状态
+     * @param hash Transaction hash
+     * @return Transaction status
      * @throws IOException
      */
     public Boolean getTransByStatus(String hash) throws IOException {
@@ -97,7 +97,7 @@ public class BaseService {
     }
 
     /**
-     * 初始化gasLimit集合
+     * Initialize the gasLimit collection
      *
      * @param gasLimit
      */
@@ -106,13 +106,13 @@ public class BaseService {
     }
 
     /**
-     * 签名并发送
+     * Sign and send
      *
-     * @param contract          合约实例
-     * @param functionName      调用的方法名
-     * @param encodedFunction   经过RLP序列化编码的function
-     * @param signEventListener 负责签名的实例
-     * @return EthSendTransaction 交易的结果
+     * @param contract Contract instance
+     * @param functionName The method name to call
+     * @param encodedFunction The function encoded by RLP serialization
+     * @param signEventListener Instance responsible for signing
+     * @return EthSendTransaction The result of the transaction
      * @throws ExecutionException
      */
     public EthSendTransaction signAndSend(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener, String sender) throws ExecutionException, InterruptedException {
@@ -150,9 +150,9 @@ public class BaseService {
     }
 
     /**
-     * 平台方或终端用户通过该方法进行离线账户生成。
+     * The platform party or end user uses this method to generate offline accounts.
      *
-     * @return 返回 Account
+     * @return account, Account information
      */
     public Account createAccountHex() {
         sun.security.provider.SecureRandom secureRandom = new SecureRandom();
@@ -175,10 +175,10 @@ public class BaseService {
     }
 
     /**
-     * 平台方或终端用户通过该方法进行HEX格式账户转换。
+     * The platform party or end user converts accounts in HEX format through this method.
      *
-     * @param addr HEX格式账户
-     * @return 返回Bech32格式账户
+     * @param addr HEX format account
+     * @return address, The account in Bech32 format
      */
     public String accountHexToBech32(String addr) {
         String hrp = "iaa";
@@ -186,10 +186,10 @@ public class BaseService {
     }
 
     /**
-     * 平台方或终端用户通过该方法进行Bech32格式账户转换。
+     * The platform party or end user uses this method to convert accounts in Bech32 format.
      *
-     * @param addr Bech32格式账户
-     * @return 返回HEX格式账户
+     * @param addr Bech32 format account
+     * @return address,The account in HEX format
      */
     public String accountBech32ToHex(String addr) {
         return Bech32Utils.bech32ToHex(addr);

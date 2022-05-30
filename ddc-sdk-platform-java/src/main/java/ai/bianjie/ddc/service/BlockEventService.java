@@ -1,6 +1,10 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.config.ConfigCache;
+import ai.bianjie.ddc.contract.Authority;
+import ai.bianjie.ddc.contract.Charge;
+import ai.bianjie.ddc.contract.DDC1155;
+import ai.bianjie.ddc.contract.DDC721;
 import ai.bianjie.ddc.dto.BlockEventBean;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.util.Web3jUtils;
@@ -26,10 +30,10 @@ import java.util.List;
 public class BlockEventService extends BaseService {
 
     /**
-     * 获取区块事件并解析
-     * 1. 根据块高获取区块信息
-     * 2. 根据块中交易获取交易回执
-     * 3. 遍历交易回执中的事件并解析
+     * Get block events and parse
+     * 1. Obtain block information according to block height
+     * 2. Obtain transaction receipts based on transactions in the block
+     * 3. Traverse the events in the transaction receipt and parse
      *
      * @param blockNumber blockNumber
      * @return BlockEventBean

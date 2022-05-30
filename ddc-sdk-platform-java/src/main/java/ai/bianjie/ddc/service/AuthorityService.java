@@ -1,6 +1,7 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.constant.ErrorMessage;
+import ai.bianjie.ddc.contract.Authority;
 import ai.bianjie.ddc.dto.AccountInfo;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
@@ -21,10 +22,10 @@ public class AuthorityService extends BaseService {
     }
 
     /**
-     * 运营方、平台方以及终端用户可以通过调用该方法进行DDC账户信息的查询。
+     * Operators, platform parties and end users can query DDC account information by calling this method.
      *
-     * @param account DDC用户链账户地址
-     * @return 返回DDC账户信息
+     * @param account DDC user chain account address
+     * @return returns DDC account information
      * @throws Exception
      */
     public AccountInfo getAccount(String account) throws Exception {
@@ -40,13 +41,13 @@ public class AuthorityService extends BaseService {
     }
 
     /**
-     * 运营方或平台方可以通过调用该方法对终端用户进行DDC账户信息状态的更改。
+     * The operator or the platform can change the status of the DDC account information for the end user by calling this method.
      *
-     * @param sender              调用者地址
-     * @param account             DDC用户链账户地址
-     * @param state               状态 ：Frozen - 冻结状态 ； Active - 活跃状态
-     * @param changePlatformState 修改平台方状态标识
-     * @return 返回交易哈希
+     * @param sender Caller address
+     * @param account DDC user chain account address
+     * @param state State: Frozen - frozen state; Active - active state
+     * @param changePlatformState Modify the platform state identifier
+     * @return hash, transaction hash
      * @throws Exception
      */
     public String updateAccState(String sender, String account, BigInteger state, boolean changePlatformState) throws Exception {

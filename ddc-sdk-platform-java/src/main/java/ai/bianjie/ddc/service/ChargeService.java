@@ -1,6 +1,7 @@
 package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.constant.ErrorMessage;
+import ai.bianjie.ddc.contract.Charge;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
@@ -21,12 +22,12 @@ public class ChargeService extends BaseService {
 
 
     /**
-     * 运营方、平台方调用该接口为所属同一方的同一级别账户或者下级账户充值；
+     * The operator and the platform party call this interface to recharge the account of the same level or the lower-level account of the same party;
      *
-     * @param sender 调用者地址
-     * @param to     充值账户的地址
-     * @param amount 充值金额
-     * @return 返回交易哈希
+     * @param sender Caller address
+     * @param to     Deposit account address
+     * @param amount Recharge amount
+     * @return hash, transaction hash
      * @throws Exception
      */
     public String recharge(String sender, String to, BigInteger amount) throws Exception {
@@ -42,7 +43,7 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
         String encodedFunction = charge.recharge(to, amount).encodeFunctionCall();
@@ -51,10 +52,10 @@ public class ChargeService extends BaseService {
     }
 
     /**
-     * 查询指定账户的余额。
+     * Query the balance of the specified account.
      *
-     * @param accAddr 查询的账户地址
-     * @return 返回账户所对应的业务费余额
+     * @param accAddr Query account address
+     * @return  balance, Business fee balance corresponding to the account
      * @throws Exception
      */
     public BigInteger balanceOf(String accAddr) throws Exception {
@@ -71,11 +72,11 @@ public class ChargeService extends BaseService {
     }
 
     /**
-     * 查询指定的DDC业务主逻辑合约的方法所对应的调用业务费用。
+     * Query the call business fee corresponding to the method of the specified DDC business main logic contract.
      *
-     * @param ddcAddr DDC业务合约地址
-     * @param sig     Hex格式的合约方法ID
-     * @return 返回查询的DDC合约业务费
+     * @param ddcAddr DDC business contract address
+     * @param sig Hex format Contract method ID
+     * @return fee, The queried DDC contract business fee
      * @throws Exception
      */
     public BigInteger queryFee(String ddcAddr, String sig) throws Exception {
