@@ -18,32 +18,10 @@ import ai.bianjie.ddc.util.Web3jUtils;
 
 public class AuthorityService extends BaseService {
     private Authority authority;
-    private String encodedFunction;
 
     public AuthorityService(SignEventListener signEventListener) {
         super.signEventListener = signEventListener;
         this.authority = Web3jUtils.getAuthority();
-    }
-
-    /**
-     * The operator can set the platform side to add the chain account switch by calling this method.
-     *
-     * @param sender Caller address
-     * @param isOpen Switch identification
-     * @return hash, Transaction hash
-     * @throws Exception
-     */
-    public String setSwitcherStateOfPlatform(String sender, boolean isOpen) throws Exception {
-        if (Strings.isEmpty(sender)) {
-            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
-        }
-
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
-
-        encodedFunction = authority.setSwitcherStateOfPlatform(isOpen).encodeFunctionCall();
-        return signAndSend(authority, Authority.FUNC_SETSWITCHERSTATEOFPLATFORM, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -88,56 +66,8 @@ public class AuthorityService extends BaseService {
             throw new DDCException(ErrorMessage.ACCOUNT_NAME_IS_EMPTY);
         }
 
-        encodedFunction = authority.addAccountByOperator(account, accName, accDID, leaderDID).encodeFunctionCall();
+        String encodedFunction = authority.addAccountByOperator(account, accName, accDID, leaderDID).encodeFunctionCall();
         return signAndSend(authority, Authority.FUNC_ADDACCOUNTBYOPERATOR, encodedFunction, signEventListener, sender).getTransactionHash();
-    }
-
-    /**
-     * The operator can directly create batches for the platform side or the end users of the platform side by calling this method.
-     *
-     * @param sender   Caller address
-     * @param accounts Account Information List
-     * @return hash, Transaction hash
-     * @throws Exception
-     */
-    public String addBatchAccountByOperator(String sender, List<AccountInfo> accounts) throws Exception {
-        if (Strings.isEmpty(sender)) {
-            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
-        }
-
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
-
-        if (accounts.size() <= 0) {
-            throw new DDCException(ErrorMessage.ERR_ACCOUNTS_SIZE);
-        }
-
-        List<String> addresses = new ArrayList<>();
-        List<String> names = new ArrayList<>();
-        List<String> DIDs = new ArrayList<>();
-        List<String> leaderDIDs = new ArrayList<>();
-
-        accounts.forEach((account) -> {
-            if (Strings.isEmpty(account.getAccountName())) {
-                throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
-            }
-
-            if (Strings.isEmpty(account.getAddress())) {
-                throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
-            }
-
-            if (!AddressUtils.isValidAddress(account.getAddress())) {
-                throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-            }
-            addresses.add(account.getAddress());
-            names.add(account.getAccountName());
-            DIDs.add(account.getAccountDID());
-            leaderDIDs.add(account.getLeaderDID());
-        });
-
-        encodedFunction = authority.addBatchAccountByOperator(addresses, names, DIDs, leaderDIDs).encodeFunctionCall();
-        return signAndSend(authority, Authority.FUNC_ADDBATCHACCOUNTBYOPERATOR, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
     /**
@@ -187,74 +117,11 @@ public class AuthorityService extends BaseService {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        encodedFunction = authority.updateAccountState(account, state, changePlatformState).encodeFunctionCall();
+        if (state == null) {
+            throw new DDCException(ErrorMessage.ACCOUNT_STASTUS_IS_EMPTY);
+        }
+
+        String encodedFunction = authority.updateAccountState(account, state, changePlatformState).encodeFunctionCall();
         return signAndSend(authority, Authority.FUNC_UPDATEACCOUNTSTATE, encodedFunction, signEventListener, sender).getTransactionHash();
-    }
-
-    /**
-     * The operator can authorize the cross-platform operation of the DDC by calling this method.
-     *
-     * @param sender   Caller address
-     * @param from     Authorizer
-     * @param to       Recipient
-     * @param approved Authorization ID
-     * @return hash, Transaction hash
-     * @throws Exception
-     */
-    public String crossPlatformApproval(String sender, String from, String to, Boolean approved) throws Exception {
-        if (Strings.isEmpty(sender)) {
-            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
-        }
-
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
-
-        if (Strings.isEmpty(from)) {
-            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
-        }
-
-        if (!AddressUtils.isValidAddress(from)) {
-            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
-
-        if (Strings.isEmpty(to)) {
-            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
-        }
-
-        if (!AddressUtils.isValidAddress(to)) {
-            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
-
-        encodedFunction = authority.crossPlatformApproval(from, to, approved).encodeFunctionCall();
-        return signAndSend(authority, Authority.FUNC_CROSSPLATFORMAPPROVAL, encodedFunction, signEventListener, sender).getTransactionHash();
-    }
-
-    /**
-     * The operator synchronizes the DID corresponding to the old platform party chain account to the chain by calling the API interface.
-     *
-     * @param sender Caller address
-     * @param dids   Platform party collection
-     * @return hash, Transaction hash
-     * @throws Exception
-     */
-    public String syncPlatformDID(String sender, List<String> dids) throws Exception {
-        if (Strings.isEmpty(sender)) {
-            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
-        }
-
-        if (!AddressUtils.isValidAddress(sender)) {
-            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
-
-        dids.forEach((did) -> {
-            if (Strings.isEmpty(did)) {
-                throw new DDCException(ErrorMessage.DID_IS_EMPTY);
-            }
-        });
-
-
-        encodedFunction = authority.syncPlatformDID(dids).encodeFunctionCall();
-        return signAndSend(authority, Authority.FUNC_CROSSPLATFORMAPPROVAL, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 }

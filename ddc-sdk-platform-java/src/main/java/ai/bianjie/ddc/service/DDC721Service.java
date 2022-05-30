@@ -13,7 +13,6 @@ import java.math.BigInteger;
 
 public class DDC721Service extends BaseService {
     private final DDC721 ddc721;
-    private String encodedFunction;
 
     public DDC721Service(SignEventListener signEventListener) {
         //注册签名事件
@@ -51,7 +50,7 @@ public class DDC721Service extends BaseService {
         }
 
         //5.获取序列化编码后的方法
-        encodedFunction = ddc721.mint(to, ddcURI).encodeFunctionCall();
+        String encodedFunction = ddc721.mint(to, ddcURI).encodeFunctionCall();
         //6.签名并发送，最终返回交易hash
         return signAndSend(ddc721, DDC721.FUNC_MINT, encodedFunction, signEventListener, sender).getTransactionHash();
 
@@ -81,7 +80,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
 
-        encodedFunction = ddc721.safeMint(to, ddcURI, data).encodeFunctionCall();
+        String encodedFunction = ddc721.safeMint(to, ddcURI, data).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_SAFEMINT, encodedFunction, signEventListener, sender).getTransactionHash();
 
     }
@@ -106,11 +105,11 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        encodedFunction = ddc721.approve(to, ddcId).encodeFunctionCall();
+        String encodedFunction = ddc721.approve(to, ddcId).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_APPROVE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -119,13 +118,13 @@ public class DDC721Service extends BaseService {
      * DDC授权查询
      * 运营方、平台方或终端用户都可以通过调用该方法查询DDC的授权情况。
      *
-     * @param ddcId   DDC唯一标识
+     * @param ddcId DDC唯一标识
      * @return 授权的账户
      * @throws Exception Exception
      */
     public String getApproved(BigInteger ddcId) throws Exception {
 
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -153,7 +152,7 @@ public class DDC721Service extends BaseService {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        encodedFunction = ddc721.setApprovalForAll(operator, approved).encodeFunctionCall();
+        String encodedFunction = ddc721.setApprovalForAll(operator, approved).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_SETAPPROVALFORALL, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -208,11 +207,11 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        encodedFunction = ddc721.safeTransferFrom(from, to, ddcId, data).encodeFunctionCall();
+        String encodedFunction = ddc721.safeTransferFrom(from, to, ddcId, data).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_SAFETRANSFERFROM, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -244,11 +243,11 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        encodedFunction = ddc721.transferFrom(from, to, ddcId).encodeFunctionCall();
+        String encodedFunction = ddc721.transferFrom(from, to, ddcId).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_TRANSFERFROM, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -265,11 +264,11 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
-        encodedFunction = ddc721.burn(ddcId).encodeFunctionCall();
+        String encodedFunction = ddc721.burn(ddcId).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_BURN, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -302,7 +301,7 @@ public class DDC721Service extends BaseService {
      */
     public String ownerOf(BigInteger ddcId) throws Exception {
 
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         return Web3jUtils.getDDC721().ownerOf(ddcId).send();
@@ -340,7 +339,7 @@ public class DDC721Service extends BaseService {
      */
     public String ddcURI(BigInteger ddcId) throws Exception {
 
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         return Web3jUtils.getDDC721().ddcURI(ddcId).send();
@@ -360,14 +359,14 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.intValue() <= 0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         if (Strings.isEmpty(ddcURI)) {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
 
-        encodedFunction = ddc721.setURI(ddcId, ddcURI).encodeFunctionCall();
+        String encodedFunction = ddc721.setURI(ddcId, ddcURI).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_SETURI, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 }

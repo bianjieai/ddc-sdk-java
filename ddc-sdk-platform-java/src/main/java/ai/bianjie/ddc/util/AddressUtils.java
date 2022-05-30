@@ -1,7 +1,7 @@
 package ai.bianjie.ddc.util;
 
-import org.web3j.crypto.WalletUtils;
 import org.bitcoinj.core.AddressFormatException;
+import org.web3j.crypto.WalletUtils;
 
 import java.io.ByteArrayOutputStream;
 
@@ -23,12 +23,12 @@ public class AddressUtils {
     /**
      * Helper for re-arranging bits into groups.
      *
-     * @param in 数组
-     * @param inStart 开始
-     * @param inLen 数组长度
+     * @param in       数组
+     * @param inStart  开始
+     * @param inLen    数组长度
      * @param fromBits 转换前
-     * @param toBits  转换后
-     * @param pad 是否转换
+     * @param toBits   转换后
+     * @param pad      是否转换
      * @return 返回byte数组
      * @throws AddressFormatException
      */

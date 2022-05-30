@@ -44,6 +44,10 @@ public class BlockEventService extends BaseService {
         // 1. 获取区块信息
         EthBlock.Block blockInfo = getBlockByNumber(blockNumber);
 
+        if (blockInfo == null) {
+            throw new DDCException(400, "cannot get blockInfo by blockNumber:" + blockNumber);
+        }
+
         List<EthBlock.TransactionResult> txs = blockInfo.getTransactions();
 
         // 2. 获取交易
@@ -56,7 +60,7 @@ public class BlockEventService extends BaseService {
                 int i = 0;
                 while (ok) {
                     if (i >= 3) {
-                        throw new DDCException(400, "cannot get recepit by hash:" + hash);
+                        throw new DDCException(400, "cannot get receipt by hash:" + hash);
                     }
                     try {
                         arr = analyzeEventsByTxHash(hash);
