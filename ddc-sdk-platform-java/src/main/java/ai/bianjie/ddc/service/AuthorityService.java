@@ -43,9 +43,9 @@ public class AuthorityService extends BaseService {
     /**
      * The operator or the platform can change the status of the DDC account information for the end user by calling this method.
      *
-     * @param sender Caller address
-     * @param account DDC user chain account address
-     * @param state State: Frozen - frozen state; Active - active state
+     * @param sender              Caller address
+     * @param account             DDC user chain account address
+     * @param state               State: Frozen - frozen state; Active - active state
      * @param changePlatformState Modify the platform state identifier
      * @return hash, transaction hash
      * @throws Exception

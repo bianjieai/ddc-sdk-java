@@ -108,9 +108,9 @@ public class BaseService {
     /**
      * Sign and send
      *
-     * @param contract Contract instance
-     * @param functionName The method name to call
-     * @param encodedFunction The function encoded by RLP serialization
+     * @param contract          Contract instance
+     * @param functionName      The method name to call
+     * @param encodedFunction   The function encoded by RLP serialization
      * @param signEventListener Instance responsible for signing
      * @return EthSendTransaction The result of the transaction
      * @throws ExecutionException
@@ -189,7 +189,7 @@ public class BaseService {
      * The platform party or end user uses this method to convert accounts in Bech32 format.
      *
      * @param addr Bech32 format account
-     * @return address,The account in HEX format
+     * @return address, The account in HEX format
      */
     public String accountBech32ToHex(String addr) {
         return Bech32Utils.bech32ToHex(addr);

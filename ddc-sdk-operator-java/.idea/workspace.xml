@@ -5,30 +5,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39bf4773-512c-46e4-89b4-b44d12e60d32" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/util/HttpServiceEx.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/util/HttpServiceEx.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/DDCSdkClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/DDCSdkClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/config/ConfigInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/config/ConfigInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/constant/ErrorMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/constant/ErrorMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/Authority.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/Authority.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/Charge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/Charge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/DDC1155.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/DDC1155.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/DDC721.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/DDC721.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/dto/AccountInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/dto/AccountInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/dto/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/dto/Account.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/AuthorityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/AuthorityService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/BaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/BaseService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/BlockEventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/BlockEventService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/ChargeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/ChargeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC1155Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC1155Service.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC721Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/service/DDC721Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/util/AddressUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/util/AddressUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/util/Bech32Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/util/Bech32Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/util/GasProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/util/GasProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/util/HexUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/util/HexUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/util/Web3jUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/util/Web3jUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/DDCSdkClientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/DDCSdkClientTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/BaseServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/BaseServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/DDCSdkClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/DDCSdkClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/config/ConfigInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/config/ConfigInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/Authority.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/Authority.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/Charge.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/Charge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/DDC1155.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/DDC1155.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/DDC721.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/contract/DDC721.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/dto/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/dto/Account.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/AuthorityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/AuthorityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/BaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/BaseService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/BlockEventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/BlockEventService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/ChargeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/ChargeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/DDC1155Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/DDC1155Service.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/DDC721Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/service/DDC721Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/util/AddressUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/util/AddressUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/util/Bech32Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/util/Bech32Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/util/GasProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/util/GasProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/util/HexUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/util/HexUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/util/Web3jUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/main/java/ai/bianjie/ddc/util/Web3jUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/test/java/ai/bianjie/ddc/DDCSdkClientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/test/java/ai/bianjie/ddc/DDCSdkClientTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/test/java/ai/bianjie/ddc/service/BaseServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/test/java/ai/bianjie/ddc/service/BaseServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/test/java/ai/bianjie/ddc/service/DDC1155ServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/test/java/ai/bianjie/ddc/service/DDC1155ServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/test/java/ai/bianjie/ddc/service/DDC721ServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ddc-sdk-platform-java/src/test/java/ai/bianjie/ddc/service/DDC721ServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +79,7 @@
     <property name="go.formatter.settings.were.checked" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../ddc-sdk-go" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
@@ -95,7 +110,7 @@
       <workItem from="1652923183969" duration="8514000" />
       <workItem from="1653273840591" duration="1000" />
       <workItem from="1653384656250" duration="49000" />
-      <workItem from="1653888959516" duration="7577000" />
+      <workItem from="1653888959516" duration="8140000" />
     </task>
     <servers />
   </component>

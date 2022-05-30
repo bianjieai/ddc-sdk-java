@@ -269,9 +269,9 @@ public class DDC1155Service extends BaseService {
      * DDC owners can destroy DDC in batches by calling this method.
      *
      * @param sender Caller address
-     * @param owner Owner account
+     * @param owner  Owner account
      * @param ddcIds Collection of DDC unique identifiers
-     * @return hash,Transaction hash
+     * @return hash, Transaction hash
      * @throws Exception Exception
      */
     public String burnBatch(String sender, String owner, List<BigInteger> ddcIds) throws Exception {
@@ -370,8 +370,8 @@ public class DDC1155Service extends BaseService {
      * The DDC owner sets the resource identifier of the DDC by calling this method.
      *
      * @param sender Caller address
-     * @param owner Owner
-     * @param ddcId DDC unique identifier
+     * @param owner  Owner
+     * @param ddcId  DDC unique identifier
      * @param ddcURI DDC resource identifier
      * @return The transaction hash
      * @throws Exception Exception

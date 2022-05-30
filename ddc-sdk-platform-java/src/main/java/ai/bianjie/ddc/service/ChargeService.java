@@ -55,7 +55,7 @@ public class ChargeService extends BaseService {
      * Query the balance of the specified account.
      *
      * @param accAddr Query account address
-     * @return  balance, Business fee balance corresponding to the account
+     * @return balance, Business fee balance corresponding to the account
      * @throws Exception
      */
     public BigInteger balanceOf(String accAddr) throws Exception {
@@ -75,7 +75,7 @@ public class ChargeService extends BaseService {
      * Query the call business fee corresponding to the method of the specified DDC business main logic contract.
      *
      * @param ddcAddr DDC business contract address
-     * @param sig Hex format Contract method ID
+     * @param sig     Hex format Contract method ID
      * @return fee, The queried DDC contract business fee
      * @throws Exception
      */
