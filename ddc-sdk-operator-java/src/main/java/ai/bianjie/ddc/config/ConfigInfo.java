@@ -1,5 +1,10 @@
 package ai.bianjie.ddc.config;
 
+import ai.bianjie.ddc.contract.Authority;
+import ai.bianjie.ddc.contract.Charge;
+import ai.bianjie.ddc.contract.DDC1155;
+import ai.bianjie.ddc.contract.DDC721;
+
 import java.util.HashMap;
 import java.util.Map;
 
