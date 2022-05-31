@@ -111,4 +111,40 @@ public class AuthorityService extends BaseService {
         String encodedFunction = authority.updateAccountState(account, state, changePlatformState).encodeFunctionCall();
         return signAndSend(authority, Authority.FUNC_UPDATEACCOUNTSTATE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
+
+    /**
+     * The operator can authorize the cross-platform operation of DDC by calling this method.
+     *
+     * @param sender caller address
+     * @param from authorizer
+     * @param to receiver
+     * @param approved authorization logo
+     * @return returns the transaction hash
+     * @throws Exception
+     */
+    public String crossPlatformApproval(String sender, String from, String to, Boolean approved) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        if (Strings.isEmpty(from)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
+        if (!AddressUtils.isValidAddress(from)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        String encodedFunction = authority.crossPlatformApproval(from, to, approved).encodeFunctionCall();
+        return signAndSend(authority, Authority.FUNC_CROSSPLATFORMAPPROVAL, encodedFunction, signEventListener, sender).getTransactionHash();
+    }
+
 }
