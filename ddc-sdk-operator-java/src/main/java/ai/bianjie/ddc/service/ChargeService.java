@@ -7,10 +7,13 @@ import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
 import ai.bianjie.ddc.util.HexUtils;
 import ai.bianjie.ddc.util.Web3jUtils;
+import com.google.common.collect.Multimap;
 import org.web3j.utils.Numeric;
 import org.web3j.utils.Strings;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChargeService extends BaseService {
     private Charge charge;
@@ -22,7 +25,8 @@ public class ChargeService extends BaseService {
 
 
     /**
-     * The operator and the platform party call this interface to recharge the account of the same level or the lower-level account of the same party.
+     * The operator and the platform party call this interface to recharge the account of the same level
+     * or the lower-level account of the same party.
      *
      * @param sender Caller address
      * @param to     The address of the top-up account
@@ -47,11 +51,56 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
-        String encodedFunction = charge.recharge(to, amount).encodeFunctionCall();
 
+        String encodedFunction = charge.recharge(to, amount).encodeFunctionCall();
+        return signAndSend(charge, Charge.FUNC_RECHARGE, encodedFunction, signEventListener, sender).getTransactionHash();
+    }
+
+    /**
+     * The operator or the platform party can recharge in batches for the same-level account
+     * or the lower-level account belonging to the same party by calling this method.
+     *
+     * @param sender   Caller address
+     * @param accounts The address of the top-up account
+     * @return hash, Transaction hash
+     * @throws Exception
+     */
+    public String rechargeBatch(String sender, Multimap<String, BigInteger> accounts) throws Exception {
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+        }
+
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        if (accounts == null || accounts.size() <= 0) {
+            throw new DDCException(ErrorMessage.ERR_ACCOUNTS_SIZE);
+        }
+
+        List<String> toList = new ArrayList<>();
+        List<BigInteger> amounts = new ArrayList<>();
+
+        accounts.forEach((account, amount) -> {
+            if (Strings.isEmpty(account)) {
+                throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+            }
+
+            if (!AddressUtils.isValidAddress(account)) {
+                throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+            }
+
+            if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
+                throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
+            }
+            toList.add(account);
+            amounts.add(amount);
+        });
+
+        String encodedFunction = charge.rechargeBatch(toList, amounts).encodeFunctionCall();
         return signAndSend(charge, Charge.FUNC_RECHARGE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
@@ -73,6 +122,32 @@ public class ChargeService extends BaseService {
         }
 
         return Web3jUtils.getCharge().balanceOf(accAddr).send();
+    }
+
+    /**
+     * Operators, platforms or end users can call methods to query account balances in batches.
+     *
+     * @param accAddrs Account address collection
+     * @return balance, The business fee balance corresponding to the account
+     * @throws Exception
+     */
+    public List<BigInteger> balanceOfBatch(List<String> accAddrs) throws Exception {
+
+        if (accAddrs == null || accAddrs.size() <= 0) {
+            throw new DDCException(ErrorMessage.ACC_ADDR_IS_EMPTY);
+        }
+
+        accAddrs.forEach(address -> {
+            if (Strings.isEmpty(address)) {
+                throw new DDCException(ErrorMessage.ACC_ADDR_IS_EMPTY);
+            }
+
+            if (!AddressUtils.isValidAddress(address)) {
+                throw new DDCException(ErrorMessage.ACC_ADDR_IS_NOT_ADDRESS_FORMAT);
+            }
+        });
+
+        return Web3jUtils.getCharge().balanceOfBatch(accAddrs).send();
     }
 
     /**
@@ -114,11 +189,15 @@ public class ChargeService extends BaseService {
      * @throws Exception
      */
     public String selfRecharge(String sender, BigInteger amount) throws Exception {
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
         String encodedFunction = charge.selfRecharge(amount).encodeFunctionCall();
@@ -137,6 +216,11 @@ public class ChargeService extends BaseService {
      * @throws Exception
      */
     public String setFee(String sender, String ddcAddr, String sig, BigInteger amount) throws Exception {
+
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -157,7 +241,7 @@ public class ChargeService extends BaseService {
             throw new DDCException(ErrorMessage.SIG_IS_NOT_4BYTE_HASH);
         }
 
-        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
         byte[] sigInByte = Numeric.hexStringToByteArray(sig);
@@ -176,6 +260,11 @@ public class ChargeService extends BaseService {
      * @throws Exception
      */
     public String delFee(String sender, String ddcAddr, String sig) throws Exception {
+
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -211,6 +300,11 @@ public class ChargeService extends BaseService {
      * @throws Exception
      */
     public String delDDC(String sender, String ddcAddr) throws Exception {
+
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }

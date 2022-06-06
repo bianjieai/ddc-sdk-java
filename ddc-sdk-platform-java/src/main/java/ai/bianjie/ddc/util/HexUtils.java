@@ -9,10 +9,10 @@ public class HexUtils {
     }
 
     /**
-     * 验证传入参数是否为有效的4位Byte的哈希格式字符串
+     * Verify that the incoming parameter is a valid 4-bit Byte hash format string
      *
-     * @param str 验证字符串
-     * @return 返回验证结果， true或者false。
+     * @param str validation string
+     * @return returns the validation result, true or false.
      */
     public static boolean isValid4ByteHash(String str) {
         String strNoPrefix = Numeric.cleanHexPrefix(str);

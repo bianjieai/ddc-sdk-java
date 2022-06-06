@@ -31,17 +31,17 @@ public class BlockEventService extends BaseService {
 
     /**
      * Get block events and parse
-     * 1. Obtain block information according to block height
-     * 2. Obtain transaction receipts based on transactions in the block
+     * 1. Get block information based on block height
+     * 2. Obtain transaction receipts based on transactions in blocks
      * 3. Traverse the events in the transaction receipt and parse
      *
-     * @param blockNumber blockNumber
+     * @param blockNumber Block height
      * @return BlockEventBean
      * @throws IOException IOException
      */
-    public BlockEventBean getBlockEvent(BigInteger blockNumber) throws IOException, InterruptedException {
+    public BlockEventBean getBlockEvent(BigInteger blockNumber) throws IOException {
         ArrayList<BaseEventResponse> arrayList = new ArrayList<>();
-        // 1. 获取区块信息
+        // 1. Get block information
         EthBlock.Block blockInfo = getBlockByNumber(blockNumber);
 
         if (blockInfo == null) {
@@ -50,7 +50,7 @@ public class BlockEventService extends BaseService {
 
         List<EthBlock.TransactionResult> txs = blockInfo.getTransactions();
 
-        // 2. 获取交易
+        // 2. get deal
         if (txs != null) {
             txs.forEach(tx -> {
                 EthBlock.TransactionObject transaction = (EthBlock.TransactionObject) tx.get();
@@ -92,15 +92,23 @@ public class BlockEventService extends BaseService {
                 Authority authority = Web3jUtils.getAuthority();
                 if (log.getTopics().get(0).equals(EventEncoder.encode(Authority.ADDACCOUNT_EVENT))) {
                     list.addAll(authority.getAddAccountEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Authority.ADDBATCHACCOUNT_EVENT))) {
+                    list.addAll(authority.getAddBatchAccountEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Authority.SETSWITCHERSTATEOFPLATFORM_EVENT))) {
+                    list.addAll(authority.getSetSwitcherStateOfPlatformEvents(receipt));
                 } else if (log.getTopics().get(0).equals(EventEncoder.encode(Authority.UPDATEACCOUNTSTATE_EVENT))) {
                     list.addAll(authority.getUpdateAccountStateEvents(receipt));
                 } else if (log.getTopics().get(0).equals(EventEncoder.encode(Authority.CROSSPLATFORMAPPROVAL_EVENT))) {
                     list.addAll(authority.getAdminChangedEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Authority.SYNCPLATFORMDID_EVENT))) {
+                    list.addAll(authority.getSyncPlatformDIDEvents(receipt));
                 }
             } else if (ConfigCache.get().getChargeLogicAddress().equalsIgnoreCase(log.getAddress())) {
                 Charge charge = Web3jUtils.getCharge();
                 if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.RECHARGE_EVENT))) {
                     list.addAll(charge.getRechargeEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.RECHARGEBATCH_EVENT))) {
+                    list.addAll(charge.getRechargeBatchEvents(receipt));
                 } else if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.SETFEE_EVENT))) {
                     list.addAll(charge.getSetFeeEvents(receipt));
                 } else if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.PAY_EVENT))) {
@@ -123,7 +131,9 @@ public class BlockEventService extends BaseService {
                 }
             } else if (ConfigCache.get().getDdc1155Address().equalsIgnoreCase(log.getAddress())) {
                 DDC1155 ddc1155 = Web3jUtils.getDDC1155();
-                if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.TRANSFERBATCH_EVENT))) {
+                if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.TRANSFERSINGLE_EVENT))) {
+                    list.addAll(ddc1155.getTransferSingleEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.TRANSFERBATCH_EVENT))) {
                     list.addAll(ddc1155.getTransferBatchEvents(receipt));
                 } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.TRANSFERSINGLE_EVENT))) {
                     list.addAll(ddc1155.getTransferSingleEvents(receipt));
