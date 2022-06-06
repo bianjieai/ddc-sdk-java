@@ -13,8 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
 /**
- * web3j工具类，提供对合约的连接管理
- *
+ * The web3j tool class provides connection management for contracts
  */
 public class Web3jUtils {
     private static Web3j web3j;

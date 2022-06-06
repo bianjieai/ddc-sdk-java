@@ -98,8 +98,9 @@ public class DDCSdkClient {
         Web3jUtils.reset();
         return true;
     }
+
     public Boolean setConnectTimeout(long timeout) {
-        if (timeout==0) {
+        if (timeout == 0) {
             return false;
         }
         ConfigCache.get().setConnectTimeout(timeout);

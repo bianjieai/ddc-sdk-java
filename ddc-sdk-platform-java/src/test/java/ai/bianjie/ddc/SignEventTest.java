@@ -11,7 +11,7 @@ public class SignEventTest implements SignEventListener {
     @Override
     @Test
     public String signEvent(ai.bianjie.ddc.listener.SignEvent signEvent) {
-        Credentials credentials = Credentials.create("17AAB5FD9E5D21C4ED53B39832723F56A0BC195D2C27566742349A4035406CD8");
+        Credentials credentials = Credentials.create("ED43B9686AB520C896BC33A1461BAF163EDBF0DBC4D3199E77793A49B9BB2568");
         byte[] signMessage = TransactionEncoder.signMessage(signEvent.getRawTransaction(), credentials);
         return Numeric.toHexString(signMessage);
     }
