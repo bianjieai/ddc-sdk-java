@@ -2,9 +2,13 @@ package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.DDCSdkClient;
 import ai.bianjie.ddc.SignEventTest;
+import ai.bianjie.ddc.contract.DDC1155;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.junit.jupiter.api.Test;
+import org.web3j.crypto.Credentials;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.http.HttpService;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -32,8 +36,9 @@ class DDC1155ServiceTest {
             .setChargeLogicAddress("0x3b0512B6521705649bCd8188CB087184E128fC98")
             .setDDC721Address("0x510B0210fF2e3820B0662F7888b97E316c3d9034")
             .setDDC1155Address("0xd4E6Ee8DF49f822e9865ff87dF71f6f804EeCd80")
-            .setGasLimit("300000")
+            .setGasLimit("10000000")
             .setGasPrice("1")
+            .setCredentials("E253AB375A5806FA331E7DB32EDE524BD7D998475A60C957806066F14F479C25")
             .setSignEventListener(new SignEventTest())
             .init();
     DDC1155Service ddc1155Service = client.getDDC1155Service();
