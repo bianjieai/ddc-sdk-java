@@ -23,8 +23,9 @@ import org.web3j.protocol.http.HttpService;
 
 
 /**
- * 实现Web3jService接口
+ * Implement Web3jService interface
  *
+ * @author ysm
  * @date 2022/04/29
  */
 public class HttpServiceEx extends HttpService {
@@ -96,10 +97,11 @@ public class HttpServiceEx extends HttpService {
 
     }
 
+    @Override
     protected InputStream performIO(String request) throws IOException {
         RequestBody requestBody = RequestBody.create(request, JSON_MEDIA_TYPE);
         Headers headers = this.buildHeaders();
-        Request httpRequest = (new Request.Builder()).url(this.url).headers(headers).post(requestBody).build();
+        Request httpRequest = (new okhttp3.Request.Builder()).url(this.url).headers(headers).post(requestBody).build();
         Response response = this.httpClient.newCall(httpRequest).execute();
         this.processHeaders(response.headers());
         ResponseBody responseBody = response.body();
@@ -112,6 +114,7 @@ public class HttpServiceEx extends HttpService {
         }
     }
 
+    @Override
     protected void processHeaders(Headers headers) {
     }
 
@@ -139,30 +142,35 @@ public class HttpServiceEx extends HttpService {
         return Headers.of(this.headers);
     }
 
+    @Override
     public void addHeader(String key, String value) {
         this.headers.put(key, value);
     }
 
+    @Override
     public void addHeaders(Map<String, String> headersToAdd) {
         this.headers.putAll(headersToAdd);
     }
 
+    @Override
     public HashMap<String, String> getHeaders() {
         return this.headers;
     }
 
+    @Override
     public String getUrl() {
         return this.url;
     }
 
+    @Override
     public void close() throws IOException {
     }
 
     static {
         INFURA_CIPHER_SUITES = new CipherSuite[]{CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, CipherSuite.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256, CipherSuite.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256, CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, CipherSuite.TLS_RSA_WITH_AES_128_GCM_SHA256, CipherSuite.TLS_RSA_WITH_AES_256_GCM_SHA384, CipherSuite.TLS_RSA_WITH_AES_128_CBC_SHA, CipherSuite.TLS_RSA_WITH_AES_256_CBC_SHA, CipherSuite.TLS_RSA_WITH_3DES_EDE_CBC_SHA, CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, CipherSuite.TLS_RSA_WITH_AES_128_CBC_SHA256, CipherSuite.TLS_RSA_WITH_AES_256_CBC_SHA256};
-        INFURA_CIPHER_SUITE_SPEC = (new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)).cipherSuites(INFURA_CIPHER_SUITES).build();
+        INFURA_CIPHER_SUITE_SPEC = (new okhttp3.ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)).cipherSuites(INFURA_CIPHER_SUITES).build();
         CONNECTION_SPEC_LIST = Arrays.asList(INFURA_CIPHER_SUITE_SPEC, ConnectionSpec.CLEARTEXT);
         JSON_MEDIA_TYPE = MediaType.parse("application/json; charset=utf-8");
-        log = LoggerFactory.getLogger(HttpService.class);
+        log = LoggerFactory.getLogger(org.web3j.protocol.http.HttpService.class);
     }
 }

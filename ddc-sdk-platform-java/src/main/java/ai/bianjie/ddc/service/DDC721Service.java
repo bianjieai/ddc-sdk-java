@@ -11,20 +11,23 @@ import org.web3j.utils.Strings;
 
 import java.math.BigInteger;
 
-
 public class DDC721Service extends BaseService {
     private final DDC721 ddc721;
 
     public DDC721Service(SignEventListener signEventListener) {
-        //注册签名事件
+        /**
+         * register signature event
+         */
         super.signEventListener = signEventListener;
-        //获取合约实体
+        /**
+         * Get the contract entity
+         */
         this.ddc721 = Web3jUtils.getDDC721();
     }
 
     /**
      * Generate DDC
-     * The platform side or end user can generate DDC by calling this method.
+     * The platform party or end user can generate DDC by calling this method.
      *
      * @param sender Caller address
      * @param to     Recipient account
@@ -33,26 +36,26 @@ public class DDC721Service extends BaseService {
      * @throws Exception Exception
      */
     public String mint(String sender, String to, String ddcURI) throws Exception {
-        //1.检查sender是否为标准备address格式
+
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        //2.检查接收者账户地址是否为空
+
         if (Strings.isEmpty(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
         }
-        //3.检查接收者账户地址格式是否正确
+
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        //4.检查ddcURI是否为空
-        if (Strings.isEmpty(ddcURI)) {
-            throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
-        }
 
-        //5.获取序列化编码后的方法
+        // Get the serialized encoded method
         String encodedFunction = ddc721.mint(to, ddcURI).encodeFunctionCall();
-        //6.签名并发送，最终返回交易hash
+        // Sign and send, and finally return the transaction hash
         return signAndSend(ddc721, DDC721.FUNC_MINT, encodedFunction, signEventListener, sender).getTransactionHash();
 
     }
@@ -64,21 +67,25 @@ public class DDC721Service extends BaseService {
      * @param sender Caller address
      * @param to     Recipient account
      * @param ddcURI DDC resource identifier
+     * @param data   Additional data
      * @return hash, Transaction hash
      * @throws Exception Exception
      */
     public String safeMint(String sender, String to, String ddcURI, byte[] data) throws Exception {
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+
         if (Strings.isEmpty(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
         }
+
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
-        }
-        if (Strings.isEmpty(ddcURI)) {
-            throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }
 
         String encodedFunction = ddc721.safeMint(to, ddcURI, data).encodeFunctionCall();
@@ -97,15 +104,23 @@ public class DDC721Service extends BaseService {
      * @throws Exception Exception
      */
     public String approve(String sender, String to, BigInteger ddcId) throws Exception {
+
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+
         if (Strings.isEmpty(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
         }
+
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+
         if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
@@ -114,13 +129,12 @@ public class DDC721Service extends BaseService {
         return signAndSend(ddc721, DDC721.FUNC_APPROVE, encodedFunction, signEventListener, sender).getTransactionHash();
     }
 
-
     /**
      * DDC authorization query
-     * Operators, platforms or end users can query the authorization status of DDC by calling this method.
+     * The operator, the platform or the end user can query the authorization status of the DDC by calling this method.
      *
      * @param ddcId DDC unique identifier
-     * @return Authorized account
+     * @return Authorized Account
      * @throws Exception Exception
      */
     public String getApproved(BigInteger ddcId) throws Exception {
@@ -138,17 +152,24 @@ public class DDC721Service extends BaseService {
      *
      * @param sender   Caller address
      * @param operator Authorizer account
-     * @param approved Authorization logo
+     * @param approved Authorization ID
      * @return hash, Transaction hash
      * @throws Exception Exception
      */
     public String setApprovalForAll(String sender, String operator, Boolean approved) throws Exception {
+
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+
         if (Strings.isEmpty(operator)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
         }
+
         if (!AddressUtils.isValidAddress(operator)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -171,6 +192,7 @@ public class DDC721Service extends BaseService {
         if (Strings.isEmpty(owner) || Strings.isEmpty(operator)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
         }
+
         if (!AddressUtils.isValidAddress(owner) || !AddressUtils.isValidAddress(operator)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -191,21 +213,31 @@ public class DDC721Service extends BaseService {
      * @throws Exception Exception
      */
     public String safeTransferFrom(String sender, String from, String to, BigInteger ddcId, byte[] data) throws Exception {
+
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+
         if (Strings.isEmpty(from)) {
             throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_EMPTY);
         }
+
         if (Strings.isEmpty(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
         }
+
         if (!AddressUtils.isValidAddress(from)) {
             throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+
         if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
@@ -215,7 +247,7 @@ public class DDC721Service extends BaseService {
     }
 
     /**
-     * transfer
+     * Transfer
      * The DDC owner or authorizer can transfer DDC by calling this method.
      *
      * @param sender Caller address
@@ -226,21 +258,31 @@ public class DDC721Service extends BaseService {
      * @throws Exception Exception
      */
     public String transferFrom(String sender, String from, String to, BigInteger ddcId) throws Exception {
+
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+
         if (Strings.isEmpty(from)) {
             throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_EMPTY);
         }
+
         if (Strings.isEmpty(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
         }
+
         if (!AddressUtils.isValidAddress(from)) {
             throw new DDCException(ErrorMessage.FROM_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+
         if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
@@ -250,8 +292,8 @@ public class DDC721Service extends BaseService {
     }
 
     /**
-     * burn
-     * DDC owner or DDC authorizer can destroy DDC by calling this method.
+     * Burn
+     * DDC owner or DDC authorizer can destroy DDC by calling this method
      *
      * @param sender Caller address
      * @param ddcId  DDC unique identifier
@@ -259,9 +301,15 @@ public class DDC721Service extends BaseService {
      * @throws Exception Exception
      */
     public String burn(String sender, BigInteger ddcId) throws Exception {
+
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+
         if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
@@ -275,13 +323,15 @@ public class DDC721Service extends BaseService {
      * Operators, platform parties and end users can query the number of DDCs owned by the current account by calling this method.
      *
      * @param owner Owner account
-     * @return balance, The number of ddc
+     * @return Number of DDCs
      * @throws Exception Exception
      */
     public BigInteger balanceOf(String owner) throws Exception {
+
         if (Strings.isEmpty(owner)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
         }
+
         if (!AddressUtils.isValidAddress(owner)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
@@ -291,7 +341,7 @@ public class DDC721Service extends BaseService {
 
     /**
      * Query owner
-     * Operators, platforms and end users can query the current DDC owner by calling this method.
+     * Operators, platform parties and end users can query the current DDC owner by calling this method.
      *
      * @param ddcId DDC unique identifier
      * @return Owner account
@@ -307,7 +357,7 @@ public class DDC721Service extends BaseService {
 
     /**
      * Get name
-     * Operators, platforms and end users can query the name of the current DDC by calling this method.
+     * Operators, platform parties and end users can query the name of the current DDC by calling this method.
      *
      * @return DDC operator name
      * @throws Exception Exception
@@ -318,7 +368,7 @@ public class DDC721Service extends BaseService {
 
     /**
      * Get symbol
-     * Operators, platforms and end users can query the current DDC symbol by calling this method.
+     * The operator, the platform and the end user can query the current DDC symbol by calling this method.
      *
      * @return DDC operator symbol
      * @throws Exception Exception
@@ -329,9 +379,9 @@ public class DDC721Service extends BaseService {
 
     /**
      * Get ddcURI
-     * Operators, platforms and end users can query the resource identifier of the current DDC by calling this method.
+     * The operator, the platform and the end user can query the resource identifier of the current DDC by calling this method.
      *
-     * @param ddcId DDC unique identifier
+     * @param ddcId DDC Unique Identifier
      * @return DDC resource identifier
      * @throws Exception Exception
      */
@@ -348,18 +398,25 @@ public class DDC721Service extends BaseService {
      * The DDC owner or DDC authorizer sets the resource identifier of the DDC by calling this method.
      *
      * @param sender Caller address
-     * @param ddcId  DDC unique identifier
+     * @param ddcId  DDC Unique Identifier
      * @param ddcURI DDC resource identifier
      * @return hash, Transaction hash
      * @throws Exception Exception
      */
     public String setURI(String sender, BigInteger ddcId, String ddcURI) throws Exception {
+
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
+
         if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
+
         if (Strings.isEmpty(ddcURI)) {
             throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
         }

@@ -11,6 +11,7 @@
     - [7.BSN-DDC-区块查询](#7bsn-ddc-区块查询)
     - [8.BSN-DDC-数据解析](#8bsn-ddc-数据解析)
     - [9.离线账户创建](#9离线账户创建)
+    - [10.查询Gas余额](#10查询gas余额)
   - [平台方可调用的如下方法：](#平台方可调用的如下方法)
     - [1.初始化Client (连接测试网)](#1初始化client-连接测试网-1)
     - [2.BSN-DDC-权限管理](#2bsn-ddc-权限管理-1)
@@ -21,6 +22,7 @@
     - [7.BSN-DDC-区块查询](#7bsn-ddc-区块查询-1)
     - [8.BSN-DDC-数据解析](#8bsn-ddc-数据解析-1)
     - [9.离线账户创建](#9离线账户创建-1)
+    - [10.查询Gas余额](#10查询gas余额-1)
   - [终端用户可调用的如下方法：](#终端用户可调用的如下方法)
     - [1.初始化Client (连接测试网)](#1初始化client-连接测试网-2)
     - [2.BSN-DDC-权限管理](#2bsn-ddc-权限管理-2)
@@ -29,6 +31,7 @@
     - [5.BSN-DDC-1155](#5bsn-ddc-1155-2)
     - [6.BSN-DDC-数据解析](#6bsn-ddc-数据解析)
     - [9.离线账户创建](#9离线账户创建-2)
+    - [10.查询Gas余额](#10查询gas余额-2)
   - [测试用例](#测试用例)
 
 ## 运营方可调用的如下方法：
@@ -58,6 +61,7 @@
                 .setGasLimit("300000")
                 .setGasPrice("10000000")
                 .setSignEventListener(new sign())
+                .setCredentials("E253AB375A5806FA331E7DB32EDE524BD7D998475A60C957806066F14F479C25")// DDC1155 getLastestDDCId 时需要设置 operator 的 eth 私钥
                 .init();
 
      //设置网关
@@ -82,36 +86,51 @@
 ```
     AuthorityService authorityService = client.getAuthorityService(); 
     
-    //添加下级账户
-    
-    //account DDC链账户地址
-    //accName DDC账户对应的账户名称
-    //accDID  DDC账户对应的DID信息（普通用户可为空）
-    //返回交易哈希
-    String Txhash1 = authorityService.addAccount(account, accName, accDID);
-    
-    //添加终端用户
-    
+    //添加账户
     //account   DDC链账户地址
     //accName   DDC账户对应的账户名称
     //accDID    DDC账户对应的DID信息
     //leaderDID 该普通账户对应的上级账户的DID
     //返回交易哈希
-    String Txhash2 = authorityService.addConsumerByOperator(account, accName, accDID，leaderDID);
+    String Txhash2 = authorityService.addAccountByOperator(account, accName, accDID，leaderDID);
+    
+    //批量添加账户
+    List<AccountInfo> accInfo = new ArrayList<>();
+        AccountInfo acc = new AccountInfo() {
+        };
+        acc.setAddress("账户地址");
+        acc.setAccountName("账户名称");
+        acc.setAccountDID("账户DID");
+        acc.setLeaderDID("上级账户DID");
+        accInfo.add(acc);
+        System.out.println(authorityService.addBatchAccountByOperator("调用者地址", accInfo));
     
     //查询账户
-    
 	//account DDC用户链账户地址
     //返回DDC账户信息
     AccountInfo info = authorityService.getAccount(account);
     
     //更新账户状态
-    
     //account DDC用户链账户地址
     //state   枚举，状态 ：Frozen - 冻结状态 ； Active - 活跃状态
     //changePlatformState
     //返回交易哈希
     String Txhash3 = updateAccState(account, 1， false);
+    
+    //设置平台方添加链账户开关
+    System.out.println(authorityService.setSwitcherStateOfPlatform("调用者地址", true));
+    
+    //查询平台方添加链账户开关状态
+    System.out.println(authorityService.switcherStateOfPlatform());
+    
+    //对 DDC 跨平台操作授权
+    authorityService.crossPlatformApproval("调用者地址", "授权者地址", "接受者地址", true)
+    
+    //同步平台方 DID
+    List<String> dids = new ArrayList<>();
+        dids.add("平台方DID");
+        System.out.println(authorityService.syncPlatformDID("调用者地址", dids));
+    
 ```
 
 ### 3.BSN-DDC-费用管理
@@ -120,33 +139,39 @@
     ChargeService chargeService = client.getChargeService();  
     
     //充值
-    
     //to 充值账户的地址
 	//amount 充值金额
 	//返回交易哈希
     String Txhash1 = chargeService.recharge(to, BigInteger.valueOf(10000));  
     
-    //链账户余额查询
+    //批量充值
+    Multimap<String, BigInteger> accounts = ArrayListMultimap.create();
+        ;
+        accounts.put("被充值账户地址", new BigInteger("10"));
+        System.out.println(chargeService.rechargeBatch("调用者地址", accounts));
     
+    //链账户余额查询
     //accAddr 查询的账户地址
 	//返回账户所对应的业务费余额
     BigInteger balance = chargeService.balanceOf(accAddr);
     
-    //DDC计费规则查询
+    //批量链账户余额查询
+    List<String> accAddrs = new ArrayList<>();
+        accAddrs.add("0x02CEB40D892061D457E7FA346988D0FF329935DF");
+        System.out.println(chargeService.balanceOfBatch(accAddrs));
     
+    //DDC计费规则查询
     //ddcAddr DDC业务主逻辑合约地址
 	//sig Hex格式的合约方法ID
 	//返回DDC合约业务费
     BigInteger fee = queryFee(ddcAddr, "0x36351c7c");
     
     //运营账户充值
-    
     //amount 对运营方账户进行充值的业务费
     //返回交易哈希
     String Txhash2 = chargeService.selfRecharge(BigInteger.valueOf(10000));
 	
 	//设置DDC计费规则
-    
     //ddcAddr DDC业务主逻辑合约地址
     //sig Hex格式的合约方法ID
     //amount 业务费用
@@ -154,7 +179,6 @@
     String Txhash3 = chargeService.setFee(ddcAddr, sig, amount);
     
     //删除DDC计费规则
-    
     //ddcAddr DDC业务主逻辑合约地址
     //sig Hex格式的合约方法ID
     //返回交易哈希
@@ -265,6 +289,13 @@
     //设置ddcURL
     //ddc拥有者或授权者，ddcid，ddcURL
     ddc721Service.setURI(sender,new BigInteger(""),"")
+    
+    //名称符号设置
+    System.out.println(ddc721Service.setNameAndSymbol(sender, "ddc", "ddc721"));
+    
+    //最新DDCID查询
+    System.out.println(ddc721Service.getLatestDDCId());
+    
 ```
 
 ### 5.BSN-DDC-1155
@@ -336,6 +367,9 @@
     //设置ddcURL
     //调用者，ddc拥有者或授权者，ddcid，ddcURL
     ddc721Service.setURI(sender,owner，new BigInteger(""),"")
+    
+    //最新DDCID查询
+    System.out.println(ddc1155Service.getLatestDDCId());
     
 ```
 
@@ -426,12 +460,19 @@
 //创建Hex格式账户
 //返回包含助记词，公钥，私钥，hex格式地址的Account对象
 BaseService baseService=new BaseService();
-        Account acc = baseService.createAccountHex();
+        Account acc = baseService.createAccount();
         System.out.println("================================" + acc.getAddress());
         
 //Hex格式账户转换为Bech32格式账户
         String addHex= baseService.AccountHexToBech32(acc.getAddress());
         System.out.println("================================" + addHex);
+```
+
+### 10.查询Gas余额
+
+```
+//查询链账户Gas余额
+System.out.println(baseService.BalanceOfGas("链账户地址"));
 ```
 
 ## 平台方可调用的如下方法：
@@ -485,6 +526,24 @@ BaseService baseService=new BaseService();
 ```
      AuthorityService authorityService = client.getAuthorityService(); 
      
+    //添加账户
+    //sender   调用者地址
+    //account   DDC链账户地址
+    //accName   DDC账户对应的账户名称
+    //accDID    DDC账户对应的DID信息
+    //返回交易哈希
+    String Txhash2 = authorityService.addAccountByPlatform(sender，account, accName, accDID);
+    
+    //批量添加账户
+    List<AccountInfo> accInfo = new ArrayList<>();
+        AccountInfo acc = new AccountInfo() {
+        };
+        acc.setAddress("账户地址");
+        acc.setAccountName("账户名称");
+        acc.setAccountDID("账户DID");
+        accInfo.add(acc);
+        System.out.println(authorityService.addBatchAccountByPlatform("调用者地址", accInfo));
+     
     //查询账户
     
 	//account DDC用户链账户地址
@@ -512,11 +571,21 @@ BaseService baseService=new BaseService();
 	//返回交易哈希
     String Txhash1 = chargeService.recharge(to, BigInteger.valueOf(10000));  
     
-    //链账户余额查询
+    //批量充值
+    Multimap<String, BigInteger> accounts = ArrayListMultimap.create();
+        ;
+        accounts.put("被充值账户地址", new BigInteger("10"));
+        System.out.println(chargeService.rechargeBatch("调用者地址", accounts));
     
+    //链账户余额查询
     //accAddr 查询的账户地址
 	//返回账户所对应的业务费余额
     BigInteger balance = chargeService.balanceOf(accAddr);
+    
+    //批量链账户余额查询
+    List<String> accAddrs = new ArrayList<>();
+        accAddrs.add("0x02CEB40D892061D457E7FA346988D0FF329935DF");
+        System.out.println(chargeService.balanceOfBatch(accAddrs));
     
     //DDC计费规则查询
     
@@ -779,12 +848,19 @@ BaseService baseService=new BaseService();
 //创建Hex格式账户
 //返回包含助记词，公钥，私钥，hex格式地址的Account对象
 BaseService baseService=new BaseService();
-        Account acc = baseService.createAccountHex();
+        Account acc = baseService.createAccount();
         System.out.println("================================" + acc.getAddress());
         
 //Hex格式账户转换为Bech32格式账户
         String addHex= baseService.AccountHexToBech32(acc.getAddress());
         System.out.println("================================" + addHex);
+```
+
+### 10.查询Gas余额
+
+```
+//查询链账户Gas余额
+System.out.println(baseService.BalanceOfGas("链账户地址"));
 ```
 
 ## 终端用户可调用的如下方法：
@@ -855,6 +931,11 @@ BaseService baseService=new BaseService();
     //accAddr 查询的账户地址
 	//返回账户所对应的业务费余额
     BigInteger balance = chargeService.balanceOf(accAddr);
+    
+    //批量链账户余额查询
+    List<String> accAddrs = new ArrayList<>();
+        accAddrs.add("查询的账户地址");
+        System.out.println(chargeService.balanceOfBatch(accAddrs));
     
     //DDC计费规则查询
     
@@ -1085,12 +1166,19 @@ BaseService baseService=new BaseService();
 //创建Hex格式账户
 //返回包含助记词，公钥，私钥，hex格式地址的Account对象
 BaseService baseService=new BaseService();
-        Account acc = baseService.createAccountHex();
+        Account acc = baseService.createAccount();
         System.out.println("================================" + acc.getAddress());
         
 //Hex格式账户转换为Bech32格式账户
         String addHex= baseService.AccountHexToBech32(acc.getAddress());
         System.out.println("================================" + addHex);
+```
+
+### 10.查询Gas余额
+
+```
+//查询链账户Gas余额
+System.out.println(baseService.BalanceOfGas("链账户地址"));
 ```
 
 ## 测试用例

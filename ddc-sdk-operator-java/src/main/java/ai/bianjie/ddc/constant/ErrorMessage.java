@@ -39,7 +39,7 @@ public enum ErrorMessage {
     SIG_IS_EMPTY(1031, "sig is empty"),
     SIG_IS_NOT_4BYTE_HASH(1032, "sig is not 4 byte hash"),
     REQUEST_FAILED(1033, ""),
-    ERR_ACCOUNTS_SIZE(1034,"accounts size error"),
+    ERR_ACCOUNTS_SIZE(1034, "accounts size error"),
     DID_IS_EMPTY(1035, "did is empty"),
     ;
 

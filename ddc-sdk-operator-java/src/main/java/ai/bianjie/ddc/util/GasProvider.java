@@ -6,14 +6,19 @@ import org.web3j.tx.gas.ContractGasProvider;
 import java.math.BigInteger;
 
 /**
- * 提供gasLimit和gasPrice的管理
+ * Provide management of gasLimit and gasPrice
  *
+ * @author ysm
  */
 public class GasProvider implements ContractGasProvider {
-    //默认值
+    /**
+     * Defaults
+     */
     private String gasPrice = ConfigCache.get().getGasPrice();
     private String gasLimit = ConfigCache.get().getGasLimit();
-    //自定义值
+    /**
+     * custom value
+     */
     private String funcGaslimit = ConfigCache.get().getFuncGasLimit();
 
     @Override
