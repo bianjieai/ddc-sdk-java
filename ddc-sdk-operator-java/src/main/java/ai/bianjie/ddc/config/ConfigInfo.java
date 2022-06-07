@@ -49,6 +49,11 @@ public class ConfigInfo {
     private String ddc1155BIN;
     private String ddc1155Address = "0xf6Bc71043a176114A8E4cfF686D6F417b971d5bA";
 
+    /**
+     * DDC1155 getLastestDDCId
+     */
+    private String credentials = "0xf6Bc71043a176114A8E4cfF686D6F417b971d5bA";
+
     public ConfigInfo() {
         /**
          * default 10s
@@ -165,6 +170,14 @@ public class ConfigInfo {
         map.put(DDC1155.FUNC_UNFREEZE, "0");
         map.put(DDC1155.FUNC_UPGRADETO, "0");
         map.put(DDC1155.FUNC_UPGRADETOANDCALL, "0");
+    }
+
+    public void setCredentials(String credentials) {
+        this.credentials = credentials;
+    }
+
+    public String getCredentials() {
+        return credentials;
     }
 
     public String getOpbGatewayAddress() {

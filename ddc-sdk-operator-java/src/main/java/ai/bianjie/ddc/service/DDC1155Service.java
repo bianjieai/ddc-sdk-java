@@ -1,12 +1,21 @@
 package ai.bianjie.ddc.service;
 
+import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.contract.DDC1155;
 import ai.bianjie.ddc.exception.DDCException;
+import ai.bianjie.ddc.listener.SignEvent;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.util.AddressUtils;
+import ai.bianjie.ddc.util.GasProvider;
 import ai.bianjie.ddc.util.Web3jUtils;
 import com.google.common.collect.Multimap;
+import org.web3j.crypto.Credentials;
+import org.web3j.crypto.RawTransaction;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.utils.Strings;
 
 import java.math.BigInteger;
@@ -537,7 +546,8 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      */
     public BigInteger getLatestDDCId() throws Exception {
-        return Web3jUtils.getDDC1155().getLatestDDCId().send();
+        DDC1155 contract1155 = DDC1155.load(ConfigCache.get().getDdc1155Address(), Web3jUtils.getWeb3j(), Credentials.create(ConfigCache.get().getCredentials()), new GasProvider());
+        return contract1155.getLatestDDCId().send();
     }
 
 }

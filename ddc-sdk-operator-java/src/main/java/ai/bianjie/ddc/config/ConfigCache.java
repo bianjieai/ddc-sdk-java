@@ -12,7 +12,7 @@ public class ConfigCache {
 
     private static final ConcurrentHashMap<String, ConfigInfo> MAP = new ConcurrentHashMap<>();
 
-    public static void initCache(String gasPrice, String gasLimit, String ddc721Address, String ddc1155Address, String authorityLogicAddress, String chargeLogicAddress) {
+    public static void initCache(String gasPrice, String gasLimit, String ddc721Address, String ddc1155Address, String authorityLogicAddress, String chargeLogicAddress, String credentials) {
         ConfigInfo configInfo = new ConfigInfo();
 
         if (!Strings.isEmpty(ddc721Address)) {
@@ -32,6 +32,9 @@ public class ConfigCache {
         }
         if (!Strings.isEmpty(gasLimit)) {
             configInfo.setGasLimit(gasLimit);
+        }
+        if (!Strings.isEmpty(credentials)) {
+            configInfo.setCredentials(credentials);
         }
         MAP.put(DDC_SDK_CACHE_KEY, configInfo);
 

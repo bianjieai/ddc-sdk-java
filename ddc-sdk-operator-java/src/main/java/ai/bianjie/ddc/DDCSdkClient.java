@@ -7,6 +7,7 @@ import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.service.*;
 import ai.bianjie.ddc.util.Web3jUtils;
+import org.web3j.crypto.Credentials;
 
 public class DDCSdkClient {
     private SignEventListener signEventListener;
@@ -26,7 +27,12 @@ public class DDCSdkClient {
         private String authorityLogicAddress;
         private String chargeLogicAddress;
         private SignEventListener signEventListener;
+        private String credentials;
 
+        public Builder setCredentials(String credentials) {
+            this.credentials = credentials;
+            return this;
+        }
 
         public Builder setGasPrice(String gasPrice) {
             this.gasPrice = gasPrice;
@@ -67,7 +73,7 @@ public class DDCSdkClient {
         }
 
         public DDCSdkClient init() {
-            ConfigCache.initCache(gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress);
+            ConfigCache.initCache(gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress,credentials);
             return new DDCSdkClient(this);
         }
     }
