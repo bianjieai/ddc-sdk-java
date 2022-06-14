@@ -159,6 +159,9 @@ public class BaseService {
             throw new DDCException(error.getCode(), error.getMessage());
         }
 
+        // Clear the nonce at the end of the transaction
+        ConfigCache.get().setNonce(new BigInteger("0"));
+
         // return transaction result
         return sendTransaction;
     }
