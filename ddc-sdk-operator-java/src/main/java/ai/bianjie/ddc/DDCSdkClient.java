@@ -8,6 +8,11 @@ import ai.bianjie.ddc.listener.SignEventListener;
 import ai.bianjie.ddc.service.*;
 import ai.bianjie.ddc.util.Web3jUtils;
 import org.web3j.crypto.Credentials;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
+
+import java.math.BigInteger;
 
 public class DDCSdkClient {
     private SignEventListener signEventListener;

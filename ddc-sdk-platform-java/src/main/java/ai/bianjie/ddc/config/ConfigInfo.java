@@ -5,11 +5,17 @@ import ai.bianjie.ddc.contract.Charge;
 import ai.bianjie.ddc.contract.DDC1155;
 import ai.bianjie.ddc.contract.DDC721;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ConfigInfo {
     private Map<String, String> map = new HashMap<>();
+
+    /**
+     * Offline maintenance user nonce
+     */
+    private Map<String, BigInteger> userNonce = new HashMap<>();
 
     private String opbGatewayAddress = "http://192.168.150.43:8545";
 
@@ -165,6 +171,14 @@ public class ConfigInfo {
         map.put(DDC1155.FUNC_UNFREEZE, "0");
         map.put(DDC1155.FUNC_UPGRADETO, "0");
         map.put(DDC1155.FUNC_UPGRADETOANDCALL, "0");
+    }
+
+    public void addUserNonce(String user, BigInteger nonce) {
+        this.userNonce.put(user, nonce);
+    }
+
+    public BigInteger getUserNonce(String user) {
+        return this.userNonce.get(user);
     }
 
     public String getOpbGatewayAddress() {

@@ -122,9 +122,14 @@ public class BaseService {
         // target contract address
         String contractAddr = contract.getContractAddress();
 
-        // Get the caller's transaction count
-        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.PENDING).sendAsync().get();
-        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+        BigInteger nonce = ConfigCache.get().getUserNonce(sender);
+
+        // If there is no user nonce in the cache, go to the chain to query
+        if ((nonce == null) || (nonce.compareTo(BigInteger.ZERO) == 0)) {
+            // Get the caller's transaction count
+            EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.PENDING).sendAsync().get();
+            nonce = ethGetTransactionCount.getTransactionCount();
+        }
 
         // Generate transaction to be signed
         RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddr, encodedFunction);
@@ -142,6 +147,9 @@ public class BaseService {
         if (error != null) {
             throw new DDCException(error.getCode(), error.getMessage());
         }
+
+        // Increase the nonce in the cache by one
+        ConfigCache.get().addUserNonce(sender, nonce.add(new BigInteger("1")));
 
         // return transaction result
         return sendTransaction;
