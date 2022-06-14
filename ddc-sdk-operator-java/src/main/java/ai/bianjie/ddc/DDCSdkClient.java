@@ -8,8 +8,6 @@ import ai.bianjie.ddc.service.*;
 import ai.bianjie.ddc.util.Web3jUtils;
 import org.web3j.crypto.Credentials;
 
-import java.math.BigInteger;
-
 public class DDCSdkClient {
     private SignEventListener signEventListener;
 

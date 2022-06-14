@@ -26,7 +26,7 @@ class DDCSdkClientTest {
         client.setConnectTimeout(20);
         String sender = "0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E"; // platform
         ChargeService chargeService = client.getChargeService();
-        BaseService baseService =new BaseService();
+        BaseService baseService = new BaseService();
 
         baseService.setNonce(new BigInteger("481"));
         String hash = chargeService.recharge(sender, "0xd55172e02723cec9f0a89dbcdc1675098152ac52", new BigInteger("100"));

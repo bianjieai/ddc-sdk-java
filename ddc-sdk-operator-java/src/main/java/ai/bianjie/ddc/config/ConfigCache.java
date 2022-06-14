@@ -2,7 +2,6 @@ package ai.bianjie.ddc.config;
 
 import org.web3j.utils.Strings;
 
-import java.math.BigInteger;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ConfigCache {
