@@ -2,6 +2,7 @@ package ai.bianjie.ddc.config;
 
 import org.web3j.utils.Strings;
 
+import java.math.BigInteger;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ConfigCache {
@@ -36,6 +37,7 @@ public class ConfigCache {
         if (!Strings.isEmpty(credentials)) {
             configInfo.setCredentials(credentials);
         }
+
         MAP.put(DDC_SDK_CACHE_KEY, configInfo);
 
     }

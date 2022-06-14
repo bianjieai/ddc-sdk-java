@@ -102,6 +102,17 @@ public class BaseService {
     }
 
     /**
+     * Offline maintenance user nonce
+     *
+     * @param nonce When each account initiates a transaction from the same node,
+     *              the nonce value starts counting from 0, and sending a nonce corresponds to adding 1.
+     *              The subsequent nonce will be processed only after the previous nonce has been processed.
+     */
+    public void setNonce(BigInteger nonce) {
+        ConfigCache.get().setNonce(nonce);
+    }
+
+    /**
      * Sign and send
      *
      * @param contract          Contract instance
@@ -122,7 +133,7 @@ public class BaseService {
         // target contract address
         String contractAddr = contract.getContractAddress();
 
-        BigInteger nonce = ConfigCache.get().getUserNonce(sender);
+        BigInteger nonce = ConfigCache.get().getNonce();
 
         // If there is no user nonce in the cache, go to the chain to query
         if ((nonce == null) || (nonce.compareTo(BigInteger.ZERO) == 0)) {
@@ -147,9 +158,6 @@ public class BaseService {
         if (error != null) {
             throw new DDCException(error.getCode(), error.getMessage());
         }
-
-        // Increase the nonce in the cache by one
-        ConfigCache.get().addUserNonce(sender, nonce.add(new BigInteger("1")));
 
         // return transaction result
         return sendTransaction;

@@ -12,6 +12,7 @@
     - [8.BSN-DDC-数据解析](#8bsn-ddc-数据解析)
     - [9.离线账户创建](#9离线账户创建)
     - [10.查询Gas余额](#10查询gas余额)
+    - [11.设置账户 nonce](#11设置账户-nonce)
   - [平台方可调用的如下方法：](#平台方可调用的如下方法)
     - [1.初始化Client (连接测试网)](#1初始化client-连接测试网-1)
     - [2.BSN-DDC-权限管理](#2bsn-ddc-权限管理-1)
@@ -23,6 +24,7 @@
     - [8.BSN-DDC-数据解析](#8bsn-ddc-数据解析-1)
     - [9.离线账户创建](#9离线账户创建-1)
     - [10.查询Gas余额](#10查询gas余额-1)
+    - [11.设置账户 nonce](#11设置账户-nonce-1)
   - [终端用户可调用的如下方法：](#终端用户可调用的如下方法)
     - [1.初始化Client (连接测试网)](#1初始化client-连接测试网-2)
     - [2.BSN-DDC-权限管理](#2bsn-ddc-权限管理-2)
@@ -32,6 +34,7 @@
     - [6.BSN-DDC-数据解析](#6bsn-ddc-数据解析)
     - [9.离线账户创建](#9离线账户创建-2)
     - [10.查询Gas余额](#10查询gas余额-2)
+    - [11.设置账户 nonce](#11设置账户-nonce-2)
   - [测试用例](#测试用例)
 
 ## 运营方可调用的如下方法：
@@ -475,6 +478,15 @@ BaseService baseService=new BaseService();
 System.out.println(baseService.BalanceOfGas("链账户地址"));
 ```
 
+### 11.设置账户 nonce
+
+```
+BaseService baseService =new BaseService();
+baseService.setNonce(new BigInteger("481"));
+```
+
+
+
 ## 平台方可调用的如下方法：
 
 ### 1.初始化Client (连接测试网)
@@ -863,6 +875,15 @@ BaseService baseService=new BaseService();
 System.out.println(baseService.BalanceOfGas("链账户地址"));
 ```
 
+### 11.设置账户 nonce
+
+```
+BaseService baseService =new BaseService();
+baseService.setNonce(new BigInteger("481"));
+```
+
+
+
 ## 终端用户可调用的如下方法：
 
 ### 1.初始化Client (连接测试网)
@@ -1181,6 +1202,15 @@ BaseService baseService=new BaseService();
 System.out.println(baseService.BalanceOfGas("链账户地址"));
 ```
 
+### 11.设置账户 nonce
+
+```
+BaseService baseService =new BaseService();
+baseService.setNonce(new BigInteger("481"));
+```
+
+
+
 ## 测试用例
 
 [AuthorityServiceTest.java](/src/test/java/ai/bianjie/ddc/service/AuthorityServiceTest.java)
@@ -1196,3 +1226,6 @@ System.out.println(baseService.BalanceOfGas("链账户地址"));
 [DDC1155ServiceTest.java](/src/test/java/ai/bianjie/ddc/service/DDC1155ServiceTest.java)
 
 [SignEventTest.java](/src/test/java/ai/bianjie/ddc/SignEventTest.java)
+
+[DDCSdkClientTest.java](/src/test/java/ai/bianjie/ddc/DDCSdkClientTest.java)
+

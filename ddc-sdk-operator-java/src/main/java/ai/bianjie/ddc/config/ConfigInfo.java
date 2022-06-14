@@ -15,7 +15,7 @@ public class ConfigInfo {
     /**
      * Offline maintenance user nonce
      */
-    private Map<String, BigInteger> userNonce = new HashMap<>();
+    private BigInteger nonce;
 
     private String opbGatewayAddress = "http://192.168.150.43:8545";
 
@@ -178,12 +178,12 @@ public class ConfigInfo {
         map.put(DDC1155.FUNC_UPGRADETOANDCALL, "0");
     }
 
-    public void addUserNonce(String user, BigInteger nonce) {
-        this.userNonce.put(user, nonce);
+    public BigInteger getNonce() {
+        return nonce;
     }
 
-    public BigInteger getUserNonce(String user) {
-        return this.userNonce.get(user);
+    public void setNonce(BigInteger nonce) {
+        this.nonce = nonce;
     }
 
     public void setCredentials(String credentials) {
