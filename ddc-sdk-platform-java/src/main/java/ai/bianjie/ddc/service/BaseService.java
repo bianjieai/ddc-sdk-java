@@ -160,7 +160,7 @@ public class BaseService {
         }
 
         // Clear the nonce at the end of the transaction
-        ConfigCache.get().setNonce(new BigInteger("0"));
+        ConfigCache.get().setNonce(BigInteger.ZERO);
 
         // return transaction result
         return sendTransaction;
