@@ -102,6 +102,17 @@ public class BaseService {
     }
 
     /**
+     * Offline maintenance user nonce
+     *
+     * @param nonce When each account initiates a transaction from the same node,
+     *              the nonce value starts counting from 0, and sending a nonce corresponds to adding 1.
+     *              The subsequent nonce will be processed only after the previous nonce has been processed.
+     */
+    public void setNonce(BigInteger nonce) {
+        ConfigCache.get().setNonce(nonce);
+    }
+
+    /**
      * Sign and send
      *
      * @param contract          Contract instance
@@ -122,9 +133,14 @@ public class BaseService {
         // target contract address
         String contractAddr = contract.getContractAddress();
 
-        // Get the caller's transaction count
-        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.PENDING).sendAsync().get();
-        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+        BigInteger nonce = ConfigCache.get().getNonce();
+
+        // If there is no user nonce in the cache, go to the chain to query
+        if ((nonce == null) || (nonce.compareTo(BigInteger.ZERO) == 0)) {
+            // Get the caller's transaction count
+            EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.PENDING).sendAsync().get();
+            nonce = ethGetTransactionCount.getTransactionCount();
+        }
 
         // Generate transaction to be signed
         RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddr, encodedFunction);
@@ -142,6 +158,9 @@ public class BaseService {
         if (error != null) {
             throw new DDCException(error.getCode(), error.getMessage());
         }
+
+        // Clear the nonce at the end of the transaction
+        ConfigCache.get().setNonce(BigInteger.ZERO);
 
         // return transaction result
         return sendTransaction;

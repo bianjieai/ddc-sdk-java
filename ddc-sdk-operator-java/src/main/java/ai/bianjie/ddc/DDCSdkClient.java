@@ -1,6 +1,5 @@
 package ai.bianjie.ddc;
 
-
 import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.exception.DDCException;
@@ -73,7 +72,7 @@ public class DDCSdkClient {
         }
 
         public DDCSdkClient init() {
-            ConfigCache.initCache(gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress,credentials);
+            ConfigCache.initCache(gasPrice, gasLimit, ddc721Address, ddc1155Address, authorityLogicAddress, chargeLogicAddress, credentials);
             return new DDCSdkClient(this);
         }
     }
