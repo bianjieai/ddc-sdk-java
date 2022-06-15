@@ -36,6 +36,7 @@ public class ConfigCache {
         if (!Strings.isEmpty(credentials)) {
             configInfo.setCredentials(credentials);
         }
+
         MAP.put(DDC_SDK_CACHE_KEY, configInfo);
 
     }
