@@ -11,6 +11,7 @@
     - [7.BSN-DDC-区块查询](#7bsn-ddc-区块查询)
     - [8.BSN-DDC-数据解析](#8bsn-ddc-数据解析)
     - [9.离线账户创建](#9离线账户创建)
+    - [10.设置账户 nonce](#10设置账户-nonce)
   - [平台方可调用的如下方法：](#平台方可调用的如下方法)
     - [1.初始化Client (连接测试网)](#1初始化client-连接测试网-1)
     - [2.BSN-DDC-权限管理](#2bsn-ddc-权限管理-1)
@@ -21,6 +22,7 @@
     - [7.BSN-DDC-区块查询](#7bsn-ddc-区块查询-1)
     - [8.BSN-DDC-数据解析](#8bsn-ddc-数据解析-1)
     - [9.离线账户创建](#9离线账户创建-1)
+    - [10.设置账户 nonce](#10设置账户-nonce-1)
   - [终端用户可调用的如下方法：](#终端用户可调用的如下方法)
     - [1.初始化Client (连接测试网)](#1初始化client-连接测试网-2)
     - [2.BSN-DDC-权限管理](#2bsn-ddc-权限管理-2)
@@ -29,6 +31,7 @@
     - [5.BSN-DDC-1155](#5bsn-ddc-1155-2)
     - [6.BSN-DDC-数据解析](#6bsn-ddc-数据解析)
     - [9.离线账户创建](#9离线账户创建-2)
+    - [10.设置账户 nonce](#10设置账户-nonce-2)
   - [测试用例](#测试用例)
 
 ## 运营方可调用的如下方法：
@@ -434,6 +437,13 @@ BaseService baseService=new BaseService();
         System.out.println("================================" + addHex);
 ```
 
+### 10.设置账户 nonce
+
+```
+BaseService baseService =new BaseService();
+baseService.setNonce(new BigInteger("481"));
+```
+
 ## 平台方可调用的如下方法：
 
 ### 1.初始化Client (连接测试网)
@@ -787,6 +797,13 @@ BaseService baseService=new BaseService();
         System.out.println("================================" + addHex);
 ```
 
+### 10.设置账户 nonce
+
+```go
+BaseService baseService =new BaseService();
+baseService.setNonce(new BigInteger("481"));
+```
+
 ## 终端用户可调用的如下方法：
 
 ### 1.初始化Client (连接测试网)
@@ -1093,6 +1110,13 @@ BaseService baseService=new BaseService();
         System.out.println("================================" + addHex);
 ```
 
+### 10.设置账户 nonce
+
+```
+BaseService baseService =new BaseService();
+baseService.setNonce(new BigInteger("481"));
+```
+
 ## 测试用例
 
 [AuthorityServiceTest.java](/src/test/java/ai/bianjie/ddc/service/AuthorityServiceTest.java)
@@ -1108,3 +1132,5 @@ BaseService baseService=new BaseService();
 [DDC1155ServiceTest.java](/src/test/java/ai/bianjie/ddc/service/DDC1155ServiceTest.java)
 
 [SignEventTest.java](/src/test/java/ai/bianjie/ddc/SignEventTest.java)
+
+[DDCSdkClientTest.java](/src/test/java/ai/bianjie/ddc/DDCSdkClientTest.java)

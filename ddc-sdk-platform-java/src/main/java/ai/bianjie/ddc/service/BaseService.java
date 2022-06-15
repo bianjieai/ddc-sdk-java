@@ -16,22 +16,18 @@ import org.bitcoinj.crypto.*;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
-import org.web3j.crypto.MnemonicUtils;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.Response;
 import org.web3j.protocol.core.methods.response.*;
 import org.web3j.tx.Contract;
-import org.web3j.utils.Strings;
 import sun.security.provider.SecureRandom;
 
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
-import static org.web3j.crypto.Hash.sha256;
 
 @Slf4j
 public class BaseService {
@@ -106,6 +102,17 @@ public class BaseService {
     }
 
     /**
+     * Offline maintenance user nonce
+     *
+     * @param nonce When each account initiates a transaction from the same node,
+     *              the nonce value starts counting from 0, and sending a nonce corresponds to adding 1.
+     *              The subsequent nonce will be processed only after the previous nonce has been processed.
+     */
+    public void setNonce(BigInteger nonce) {
+        ConfigCache.get().setNonce(nonce);
+    }
+
+    /**
      * 签名并发送
      *
      * @param contract          合约实例
@@ -126,9 +133,14 @@ public class BaseService {
         //目标合约地址
         String contractAddr = contract.getContractAddress();
 
-        // 获取调用者的交易笔数
-        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.PENDING).sendAsync().get();
-        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+        BigInteger nonce = ConfigCache.get().getNonce();
+
+        // If there is no user nonce in the cache, go to the chain to query
+        if ((nonce == null) || (nonce.compareTo(BigInteger.ZERO) == 0)) {
+            // 获取调用者的交易笔数
+            EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(sender, DefaultBlockParameterName.PENDING).sendAsync().get();
+            nonce = ethGetTransactionCount.getTransactionCount();
+        }
 
         // 生成待签名的交易
         RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddr, encodedFunction);
@@ -140,11 +152,16 @@ public class BaseService {
 
         // 向链上发送交易
         EthSendTransaction sendTransaction = web3j.ethSendRawTransaction(signedMessage).sendAsync().get();
+
         // 捕获链上返回的异常
         Response.Error error = sendTransaction.getError();
         if (error != null) {
             throw new DDCException(error.getCode(), error.getMessage());
         }
+
+        // Clear the nonce at the end of the transaction
+        ConfigCache.get().setNonce(BigInteger.ZERO);
+
         // 返回交易结果
         return sendTransaction;
     }
