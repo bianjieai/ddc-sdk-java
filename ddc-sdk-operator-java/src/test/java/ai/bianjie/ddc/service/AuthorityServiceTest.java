@@ -14,13 +14,12 @@ class AuthorityServiceTest {
             .setDDC721Address("0x3B09b7A00271C5d9AE84593850dE3A526b8BF96e")
             .setDDC1155Address("0xe5d3b9E7D16E03A4A1060c72b5D1cb7806DD9070")
             .setGasLimit("300000")
-            .setGasPrice("10000000")
+            .setGasPrice("1")
             .setSignEventListener(new SignEventTest())
             .init();
 
-
     AuthorityService authorityService = client.getAuthorityService();
-    String sender = "0x953488F7E292A7D6CB0BFF81BA806B82E5FD47A2";
+    String sender = "0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E";
 
     @Test
     void addConsumerByOperator() throws Exception {
@@ -29,6 +28,14 @@ class AuthorityServiceTest {
         client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
         System.out.println(authorityService.addAccountByOperator(sender, "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", "test1", "did:wenchangoperator", "did:wenchangoperator"));
 
+    }
+
+    @Test
+    void addAccountByPlatform() throws Exception {
+        client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
+//        client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
+//        client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
+        System.out.println(authorityService.addAccountByPlatform(sender, "0x848EC694657AC2C2EC0D3C67AD18E3B44DDCA9C5", "test1", "did:111"));
     }
 
     @Test

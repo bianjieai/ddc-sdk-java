@@ -72,6 +72,7 @@ public class ConfigInfo {
         map.put(Authority.FUNC_UPGRADETOANDCALL, "0");
         map.put(Authority.FUNC_CROSSPLATFORMAPPROVAL, "0");
         map.put(Authority.FUNC_CROSSPLATFORMCHECK, "0");
+        map.put(Authority.FUNC_ADDACCOUNTBYPLATFORM, "0");
 
         map.put(Charge.FUNC_BALANCEOF, "0");
         map.put(Charge.FUNC_DELDDC, "0");

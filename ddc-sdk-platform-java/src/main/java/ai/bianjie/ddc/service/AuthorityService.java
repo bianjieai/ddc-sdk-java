@@ -22,6 +22,41 @@ public class AuthorityService extends BaseService {
     }
 
     /**
+     * 平台方可以通过调用该方法直接对终端用户进行创建。
+     *
+     * @param sender    调用者地址
+     * @param account   DDC链账户地址
+     * @param accName   DDC账户对应的账户名称
+     * @param accDID    DDC账户对应的DID信息
+     * @return 返回交易哈希
+     * @throws Exception
+     */
+    public String addAccountByPlatform(String sender, String account, String accName, String accDID) throws Exception {
+        if (Strings.isEmpty(sender)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        if (Strings.isEmpty(account)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
+        if (!AddressUtils.isValidAddress(account)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        if (Strings.isEmpty(accName)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_NAME_IS_EMPTY);
+        }
+
+        String encodedFunction = authority.addAccountByPlatform(account, accName, accDID).encodeFunctionCall();
+        return signAndSend(authority, Authority.FUNC_ADDACCOUNTBYPLATFORM, encodedFunction, signEventListener, sender).getTransactionHash();
+    }
+
+    /**
      * 运营方、平台方以及终端用户可以通过调用该方法进行DDC账户信息的查询。
      *
      * @param account DDC用户链账户地址

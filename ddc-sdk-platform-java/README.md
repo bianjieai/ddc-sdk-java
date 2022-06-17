@@ -85,22 +85,21 @@
 ```
     AuthorityService authorityService = client.getAuthorityService(); 
     
-    //添加下级账户
-    
-    //account DDC链账户地址
-    //accName DDC账户对应的账户名称
-    //accDID  DDC账户对应的DID信息（普通用户可为空）
-    //返回交易哈希
-    String Txhash1 = authorityService.addAccount(account, accName, accDID);
-    
-    //添加终端用户
-    
+    //添加账户
+   
     //account   DDC链账户地址
     //accName   DDC账户对应的账户名称
     //accDID    DDC账户对应的DID信息
     //leaderDID 该普通账户对应的上级账户的DID
     //返回交易哈希
-    String Txhash2 = authorityService.addConsumerByOperator(account, accName, accDID，leaderDID);
+    String Txhash2 = authorityService.addAccountByOperator(account, accName, accDID，leaderDID);
+    
+	//平台方添加账户
+    //account DDC链账户地址
+    //accName DDC账户对应的账户名称
+    //accDID  DDC账户对应的DID信息（普通用户可为空）
+    //返回交易哈希
+    String Txhash1 = authorityService.addAccountByPlatform(account, accName, accDID);
     
     //查询账户
     
@@ -494,6 +493,13 @@ baseService.setNonce(new BigInteger("481"));
 
 ```
      AuthorityService authorityService = client.getAuthorityService(); 
+     
+     //平台方添加账户
+    //account DDC链账户地址
+    //accName DDC账户对应的账户名称
+    //accDID  DDC账户对应的DID信息（普通用户可为空）
+    //返回交易哈希
+    String Txhash1 = authorityService.addAccountByPlatform(account, accName, accDID);
      
     //查询账户
     

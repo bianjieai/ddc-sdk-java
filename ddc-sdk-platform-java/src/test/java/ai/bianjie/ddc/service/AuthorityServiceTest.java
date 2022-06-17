@@ -23,6 +23,12 @@ class AuthorityServiceTest {
     String sender = "0x953488F7E292A7D6CB0BFF81BA806B82E5FD47A2";
 
     @Test
+    void addAccountByPlatform() throws Exception {
+        client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
+        System.out.println(authorityService.addAccountByPlatform(sender, "0x848EC694657AC2C2EC0D3C67AD18E3B44DDCA9C5", "test1", "did:111"));
+    }
+
+    @Test
     void getAccount() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
         client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
