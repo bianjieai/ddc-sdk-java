@@ -190,40 +190,5 @@ public class BlockEventService extends BaseService {
         }
         return result;
     }
-
-    public byte[] HexStringToByteArray(String byteStr) {
-        char[] charArray = byteStr.toCharArray();
-        byte[] byteArrayNew = new byte[charArray.length / 2];
-        int high = 0;//十六进制一个字节，高4位
-        int low = 0;//十六进制一个字节，低4位
-
-        for (int i = 0; i < charArray.length; i += 2) {
-            //high
-            if (charArray[i] >= '1' && charArray[i] <= '9') {
-                high = charArray[i] - '0';
-            } else if (charArray[i] >= 'A' && charArray[i] <= 'F') {
-                high = charArray[i] - 'A' + 10;
-            } else if (charArray[i] >= 'a' && charArray[i] <= 'f') {
-                high = charArray[i] - 'a' + 10;
-            }
-            //low
-            if (charArray[i + 1] >= '1' && charArray[i + 1] <= '9') {
-                low = charArray[i + 1] - '0';
-            } else if (charArray[i + 1] >= 'A' && charArray[i + 1] <= 'F') {
-                low = charArray[i + 1] - 'A' + 10;
-            } else if (charArray[i + 1] >= 'a' && charArray[i + 1] <= 'f') {
-                low = charArray[i + 1] - 'a' + 10;
-            }
-            byteArrayNew[i / 2] = (byte) (high * 16 + low);
-        }
-        return byteArrayNew;
-//        for (int i = 0; i < byteArrayNew.length; i++) {
-//            String hex = Integer.toHexString(byteArrayNew[i] & 0xFF);
-//            if (hex.length() == 1) {
-//                hex = '0' + hex;
-//            }
-//            System.out.print(hex.toUpperCase() );
-//        }
-    }
 }
 
