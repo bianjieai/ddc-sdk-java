@@ -98,12 +98,12 @@ class ChargeServiceTest {
 
     @Test
     void rechargeBatch() throws Exception {
-        client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
-        client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
+        client.setGatewayUrl("http://192.168.150.42:8545");
         Multimap<String, BigInteger> accounts = ArrayListMultimap.create();
         ;
-        accounts.put("0xd55172e02723cec9f0a89dbcdc1675098152ac52", new BigInteger("10"));
+        accounts.put("0x0FC4A5613E356A4A58D475004618C0BA43851E7A", new BigInteger("111"));
+        accounts.put("0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E", new BigInteger("222"));
+        accounts.put("0x0FC4A5613E356A4A58D475004618C0BA43851E7A", new BigInteger("333"));
         System.out.println(chargeService.rechargeBatch(sender, accounts));
     }
 

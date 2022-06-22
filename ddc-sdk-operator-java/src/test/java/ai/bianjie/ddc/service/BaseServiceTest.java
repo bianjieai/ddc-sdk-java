@@ -38,10 +38,11 @@ class BaseServiceTest {
 
     @Test
     void getTransReceipt() throws ExecutionException, InterruptedException {
-        client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
-        client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
-        TransactionReceipt transactionReceipt = baseService.getTransReceipt("0x79bc4b5128e4b663876a3d4b097bd160fa512c1c5e93a615df45a86ccf0422ad");
+//        client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
+//        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+//        client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
+        client.setGatewayUrl("http://192.168.150.42:8545");
+        TransactionReceipt transactionReceipt = baseService.getTransReceipt("0x33322525e59242a60a1792164331dfaf80f9cd4f1a22c691b3e5e7d426831b23");
         System.out.println("--------------------------------------" + transactionReceipt);
     }
 
@@ -56,10 +57,11 @@ class BaseServiceTest {
 
     @Test
     void getTransByStatus() throws IOException {
-        client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
-        client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
-        Boolean state = baseService.getTransByStatus("0x7cccfb8c469f59784fc195df21ab31c854f9b320850b22180570e3fec2cb13d4");
+//        client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
+//        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+//        client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
+        client.setGatewayUrl("http://192.168.150.42:8545");
+        Boolean state = baseService.getTransByStatus("0x33322525e59242a60a1792164331dfaf80f9cd4f1a22c691b3e5e7d426831b23");
         System.out.println("--------------------------------------" + state);
     }
 

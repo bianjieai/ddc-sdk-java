@@ -13,30 +13,30 @@ import java.util.concurrent.ExecutionException;
 class AuthorityServiceTest {
 
     // bsn test
-    DDCSdkClient client = new DDCSdkClient.Builder()
-            .setAuthorityLogicAddress("0xa7FC5B0F4A0085c5Ce689b919a866675Ce37B66b")
-            .setChargeLogicAddress("0x3BBb01B38958d4dbF1e004611EbB3c65979B0511")
-            .setDDC721Address("0x3B09b7A00271C5d9AE84593850dE3A526b8BF96e")
-            .setDDC1155Address("0xe5d3b9E7D16E03A4A1060c72b5D1cb7806DD9070")
-            .setGasLimit("300000")
-            .setGasPrice("1")
-            .setSignEventListener(new SignEventTest())
-            .init();
-    AuthorityService authorityService = client.getAuthorityService();
-    String sender = "0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E"; // platform
-
-    // dev
 //    DDCSdkClient client = new DDCSdkClient.Builder()
-//            .setAuthorityLogicAddress("0xfc3041A5Be5B8f7f4326666A3CED1fF926278c98")
-//            .setChargeLogicAddress("0x3b0512B6521705649bCd8188CB087184E128fC98")
-//            .setDDC721Address("0x510B0210fF2e3820B0662F7888b97E316c3d9034")
-//            .setDDC1155Address("0xd4E6Ee8DF49f822e9865ff87dF71f6f804EeCd80")
+//            .setAuthorityLogicAddress("0xa7FC5B0F4A0085c5Ce689b919a866675Ce37B66b")
+//            .setChargeLogicAddress("0x3BBb01B38958d4dbF1e004611EbB3c65979B0511")
+//            .setDDC721Address("0x3B09b7A00271C5d9AE84593850dE3A526b8BF96e")
+//            .setDDC1155Address("0xe5d3b9E7D16E03A4A1060c72b5D1cb7806DD9070")
 //            .setGasLimit("300000")
 //            .setGasPrice("1")
 //            .setSignEventListener(new SignEventTest())
 //            .init();
 //    AuthorityService authorityService = client.getAuthorityService();
-//    String sender = "0x02CEB40D892061D457E7FA346988D0FF329935DF"; // operator
+//    String sender = "0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E"; // platform
+
+    // dev
+    DDCSdkClient client = new DDCSdkClient.Builder()
+            .setAuthorityLogicAddress("0xfc3041A5Be5B8f7f4326666A3CED1fF926278c98")
+            .setChargeLogicAddress("0x3b0512B6521705649bCd8188CB087184E128fC98")
+            .setDDC721Address("0x510B0210fF2e3820B0662F7888b97E316c3d9034")
+            .setDDC1155Address("0xd4E6Ee8DF49f822e9865ff87dF71f6f804EeCd80")
+            .setGasLimit("300000")
+            .setGasPrice("1")
+            .setSignEventListener(new SignEventTest())
+            .init();
+    AuthorityService authorityService = client.getAuthorityService();
+    String sender = "0x02CEB40D892061D457E7FA346988D0FF329935DF"; // operator
 //    String sender = "0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E"; // platform
 
     @Test
@@ -77,7 +77,7 @@ class AuthorityServiceTest {
     @Test
     void addAccountByOperator() throws Exception {
         client.setGatewayUrl("http://192.168.150.42:8545");
-        System.out.println(authorityService.addAccountByOperator(sender, "0xb957edb89c8238640ca91794d1b64b6ee58a6127", "test1", "did:test1", ""));
+        System.out.println(authorityService.addAccountByOperator(sender, "0x0FC4A5613E356A4A58D475004618C0BA43851E7A", "test1", "did:test1", ""));
     }
 
     @Test
@@ -86,11 +86,25 @@ class AuthorityServiceTest {
         List<AccountInfo> accInfo = new ArrayList<>();
         AccountInfo acc = new AccountInfo() {
         };
-        acc.setAddress("0xba65d5b206b7b2594ed19724d434c22a2e5ed5b4");
-        acc.setAccountName("test2");
-        acc.setAccountDID("did:test2");
+        acc.setAddress("0xC6EFFF641C8585AF960F4BB87221656B893DAB03");
+        acc.setAccountName("1");
+        acc.setAccountDID("did:q");
         acc.setLeaderDID("");
         accInfo.add(acc);
+        AccountInfo acc1 = new AccountInfo() {
+        };
+        acc1.setAddress("0xCE22D942EF60A89331CA53773E0A02882227C524");
+        acc1.setAccountName("2");
+        acc1.setAccountDID("did:qs");
+        acc1.setLeaderDID("");
+        accInfo.add(acc1);
+        AccountInfo acc2 = new AccountInfo() {
+        };
+        acc2.setAddress("0x79B12DC40B3DF0316A9A8588A3EBBF818BA086E9");
+        acc2.setAccountName("3");
+        acc2.setAccountDID("did:cccc");
+        acc2.setLeaderDID("");
+        accInfo.add(acc2);
         System.out.println(authorityService.addBatchAccountByOperator(sender, accInfo));
     }
 
