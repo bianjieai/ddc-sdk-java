@@ -37,6 +37,8 @@ public class BaseService {
 
     protected SignEventListener signEventListener;
 
+    private static final ThreadLocal<BigInteger> txNonce = new ThreadLocal<BigInteger>();
+
     /**
      * 获取区块信息
      *
@@ -109,7 +111,7 @@ public class BaseService {
      *              The subsequent nonce will be processed only after the previous nonce has been processed.
      */
     public void setNonce(BigInteger nonce) {
-        ConfigCache.get().setNonce(nonce);
+        txNonce.set(nonce);
     }
 
     /**
@@ -133,7 +135,7 @@ public class BaseService {
         //目标合约地址
         String contractAddr = contract.getContractAddress();
 
-        BigInteger nonce = ConfigCache.get().getNonce();
+        BigInteger nonce = txNonce.get();
 
         // If there is no user nonce in the cache, go to the chain to query
         if ((nonce == null) || (nonce.compareTo(BigInteger.ZERO) == 0)) {
@@ -160,7 +162,7 @@ public class BaseService {
         }
 
         // Clear the nonce at the end of the transaction
-        ConfigCache.get().setNonce(BigInteger.ZERO);
+        txNonce.remove();
 
         // 返回交易结果
         return sendTransaction;

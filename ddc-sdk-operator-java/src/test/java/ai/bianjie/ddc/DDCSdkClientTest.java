@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 
+import static com.google.common.collect.ComparisonChain.start;
+
 
 class DDCSdkClientTest {
 
@@ -28,16 +30,15 @@ class DDCSdkClientTest {
         ChargeService chargeService = client.getChargeService();
         BaseService baseService = new BaseService();
 
-        baseService.setNonce(new BigInteger("484"));
-        String hash = chargeService.recharge(sender, "0xd55172e02723cec9f0a89dbcdc1675098152ac52", new BigInteger("11"));
-        System.out.print(hash);
+        BigInteger initNonce = new BigInteger("496");
 
-        baseService.setNonce(new BigInteger("485"));
-        String hash1 = chargeService.recharge(sender, "0xd55172e02723cec9f0a89dbcdc1675098152ac52", new BigInteger("10"));
-        System.out.print(hash1);
+        chargeService.setNonce(initNonce);
+        String hh = chargeService.rechargeHash(sender, "0xd55172e02723cec9f0a89dbcdc1675098152ac52", new BigInteger("12"));
 
-        baseService.setNonce(new BigInteger("486"));
-        String hash2 = chargeService.recharge(sender, "0xd55172e02723cec9f0a89dbcdc1675098152ac52", new BigInteger("10"));
-        System.out.print(hash2);
+
+        chargeService.setNonce(initNonce);
+        String hash = chargeService.recharge(sender, "0xd55172e02723cec9f0a89dbcdc1675098152ac52", new BigInteger("12"));
+        System.out.println(hh);
+        System.out.println(hash);
     }
 }

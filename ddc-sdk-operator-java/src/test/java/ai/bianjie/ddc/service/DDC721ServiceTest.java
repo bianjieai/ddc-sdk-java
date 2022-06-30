@@ -36,7 +36,7 @@ class DDC721ServiceTest {
         client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
         client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
         byte[] data = {10, 10, 10};
-        System.out.println(ddc721Service.safeMint(sender, "0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "11111",data));
+        System.out.println(ddc721Service.safeMint(sender, "0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "11111", data));
     }
 
     @Test

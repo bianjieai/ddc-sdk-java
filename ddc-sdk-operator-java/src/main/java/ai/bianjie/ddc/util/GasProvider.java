@@ -7,7 +7,6 @@ import java.math.BigInteger;
 
 /**
  * 提供gasLimit和gasPrice的管理
- *
  */
 public class GasProvider implements ContractGasProvider {
     //默认值

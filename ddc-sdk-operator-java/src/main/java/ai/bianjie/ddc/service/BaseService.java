@@ -14,16 +14,12 @@ import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.bitcoinj.crypto.*;
 import org.bitcoinj.wallet.DeterministicSeed;
-import org.web3j.crypto.ECKeyPair;
-import org.web3j.crypto.Keys;
-import org.web3j.crypto.MnemonicUtils;
-import org.web3j.crypto.RawTransaction;
+import org.web3j.crypto.*;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.Response;
 import org.web3j.protocol.core.methods.response.*;
 import org.web3j.tx.Contract;
-import org.web3j.utils.Strings;
 import sun.security.provider.SecureRandom;
 
 import java.io.IOException;
@@ -38,6 +34,8 @@ public class BaseService {
                     ChildNumber.ZERO_HARDENED, ChildNumber.ZERO);
 
     protected SignEventListener signEventListener;
+
+    private static final ThreadLocal<BigInteger> txNonce = new ThreadLocal<BigInteger>();
 
     /**
      * 获取区块信息
@@ -112,7 +110,7 @@ public class BaseService {
      *              The subsequent nonce will be processed only after the previous nonce has been processed.
      */
     public void setNonce(BigInteger nonce) {
-        ConfigCache.get().setNonce(nonce);
+        txNonce.set(nonce);
     }
 
     /**
@@ -136,8 +134,7 @@ public class BaseService {
         //目标合约地址
         String contractAddr = contract.getContractAddress();
 
-        BigInteger nonce = ConfigCache.get().getNonce();
-
+        BigInteger nonce = txNonce.get();
         // If there is no user nonce in the cache, go to the chain to query
         if ((nonce == null) || (nonce.compareTo(BigInteger.ZERO) == 0)) {
             // 获取调用者的交易笔数
@@ -162,7 +159,7 @@ public class BaseService {
         }
 
         // Clear the nonce at the end of the transaction
-        ConfigCache.get().setNonce(BigInteger.ZERO);
+        txNonce.remove();
 
         // 返回交易结果
         return sendTransaction;

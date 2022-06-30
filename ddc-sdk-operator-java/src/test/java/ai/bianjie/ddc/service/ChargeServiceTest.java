@@ -2,32 +2,40 @@ package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.DDCSdkClient;
 import ai.bianjie.ddc.SignEventTest;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 
 class ChargeServiceTest {
-
     DDCSdkClient client = new DDCSdkClient.Builder()
-            .setAuthorityLogicAddress("0xa7FC5B0F4A0085c5Ce689b919a866675Ce37B66b")
-            .setChargeLogicAddress("0x3BBb01B38958d4dbF1e004611EbB3c65979B0511")
-            .setDDC721Address("0x3B09b7A00271C5d9AE84593850dE3A526b8BF96e")
-            .setDDC1155Address("0xe5d3b9E7D16E03A4A1060c72b5D1cb7806DD9070")
+            .setAuthorityLogicAddress("0xfc3041A5Be5B8f7f4326666A3CED1fF926278c98")
+            .setChargeLogicAddress("0x3b0512B6521705649bCd8188CB087184E128fC98")
+            .setDDC721Address("0x510B0210fF2e3820B0662F7888b97E316c3d9034")
+            .setDDC1155Address("0xd4E6Ee8DF49f822e9865ff87dF71f6f804EeCd80")
             .setGasLimit("300000")
-            .setGasPrice("10000000")
+            .setGasPrice("1")
             .setSignEventListener(new SignEventTest())
             .init();
 
+    String sender = "0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E"; // platform
     ChargeService chargeService = client.getChargeService();
-    String sender = "0x953488F7E292A7D6CB0BFF81BA806B82E5FD47A2";
 
     @Test
     void recharge() throws Exception {
-        client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/0e346e1fb134477cafb6c6c2583ce3c4/evmrpc");
-        client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
-        client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
-        String hash = chargeService.recharge(sender, "918F7F275A6C2D158E5B76F769D3F1678958A334", new BigInteger("100000"));
-        System.out.print(hash);
+        client.setGatewayUrl("http://192.168.150.42:8545");
+        client.setConnectTimeout(20);
+        for (int i = 0; i < 2; i++) {
+            int finalI = i;
+            new Thread(new Runnable() {
+                @SneakyThrows
+                public void run() {
+                    chargeService.setNonce(new BigInteger(String.valueOf(finalI)));
+                    String hash = chargeService.recharge(sender, "0xd55172e02723cec9f0a89dbcdc1675098152ac52", new BigInteger("10"));
+                    System.out.print(hash);
+                }
+            }, String.valueOf(finalI)).start();
+        }
     }
 
     @Test

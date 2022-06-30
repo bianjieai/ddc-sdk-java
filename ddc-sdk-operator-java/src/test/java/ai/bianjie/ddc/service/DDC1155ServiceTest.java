@@ -68,7 +68,7 @@ class DDC1155ServiceTest {
         client.setGatewayApiKey("903f4f9268ab4e2eac717c7200429776");
         client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
         byte[] data = {10, 10, 10};
-        System.out.println(ddc1155Service.safeTransferFrom(sender,"0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "918F7F275A6C2D158E5B76F769D3F1678958A334",new BigInteger("1"),new BigInteger("11"),data));
+        System.out.println(ddc1155Service.safeTransferFrom(sender, "0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "918F7F275A6C2D158E5B76F769D3F1678958A334", new BigInteger("1"), new BigInteger("11"), data));
     }
 
     @Test
@@ -79,7 +79,7 @@ class DDC1155ServiceTest {
         Multimap<BigInteger, BigInteger> ddcs = ArrayListMultimap.create();
         ddcs.put(new BigInteger("3"), new BigInteger("3"));
         byte[] data = {10, 10, 10};
-        System.out.println(ddc1155Service.safeBatchTransferFrom(sender,"0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "918F7F275A6C2D158E5B76F769D3F1678958A334",ddcs,data));
+        System.out.println(ddc1155Service.safeBatchTransferFrom(sender, "0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "918F7F275A6C2D158E5B76F769D3F1678958A334", ddcs, data));
     }
 
     @Test
@@ -113,7 +113,7 @@ class DDC1155ServiceTest {
         client.setGatewayApiValue("0c1dd14a41b14cfa83048d839a0593ff");
         List<BigInteger> ddcIds = new ArrayList<>();
         ddcIds.add(BigInteger.valueOf(12));
-        System.out.println(ddc1155Service.burnBatch(sender, "918F7F275A6C2D158E5B76F769D3F1678958A334",ddcIds));
+        System.out.println(ddc1155Service.burnBatch(sender, "918F7F275A6C2D158E5B76F769D3F1678958A334", ddcIds));
     }
 
     @Test

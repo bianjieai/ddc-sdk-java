@@ -798,8 +798,7 @@ BaseService baseService=new BaseService();
 ```
 
 ### 10.设置账户 nonce
-
-```go
+```
 BaseService baseService =new BaseService();
 baseService.setNonce(new BigInteger("481"));
 ```
