@@ -106,7 +106,7 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -125,7 +125,7 @@ public class DDC721Service extends BaseService {
      */
     public String getApproved(BigInteger ddcId) throws Exception {
 
-        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -208,7 +208,7 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -244,7 +244,7 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -265,7 +265,7 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -302,7 +302,7 @@ public class DDC721Service extends BaseService {
      */
     public String ownerOf(BigInteger ddcId) throws Exception {
 
-        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         return Web3jUtils.getDDC721().ownerOf(ddcId).send();
@@ -340,7 +340,7 @@ public class DDC721Service extends BaseService {
      */
     public String ddcURI(BigInteger ddcId) throws Exception {
 
-        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         return Web3jUtils.getDDC721().ddcURI(ddcId).send();
@@ -360,7 +360,7 @@ public class DDC721Service extends BaseService {
         if (!AddressUtils.isValidAddress(sender)) {
             throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
         if (Strings.isEmpty(ddcURI)) {
@@ -369,5 +369,38 @@ public class DDC721Service extends BaseService {
 
         String encodedFunction = ddc721.setURI(ddcId, ddcURI).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_SETURI, encodedFunction, signEventListener, sender).getTransactionHash();
+    }
+
+    /**
+     * 生成DDC方法离线生成哈希
+     *
+     * @param sender 调用者地址
+     * @param to     接收者账户
+     * @param ddcURI DDC资源标识符
+     * @return 交易哈希
+     * @throws Exception Exception
+     */
+    public String mintHash(String sender, String to, String ddcURI) {
+        //1.检查sender是否为标准备address格式
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        //2.检查接收者账户地址是否为空
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+        }
+        //3.检查接收者账户地址格式是否正确
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        //4.检查ddcURI是否为空
+        if (Strings.isEmpty(ddcURI)) {
+            throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
+        }
+
+        //5.获取序列化编码后的方法
+        String encodedFunction = ddc721.mint(to, ddcURI).encodeFunctionCall();
+        //6.签名并发送，最终返回交易hash
+        return generateOfflineHash(ddc721, DDC721.FUNC_MINT, encodedFunction, signEventListener, sender);
     }
 }

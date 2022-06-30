@@ -47,7 +47,7 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
         //4.检查需要生成的DDC数量是否大于0
-        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
         //5.检查ddcURI是否为空
@@ -86,7 +86,7 @@ public class DDC1155Service extends BaseService {
 
         ddcInfo.forEach((amount, ddcURI) -> {
             //检查生成的DDC数量集合中每个DDC数量是否大于0；
-            if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+            if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
                 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
             }
             //检查生成的ddcURI集合中每个ddcURI是否为空；
@@ -179,10 +179,10 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(from) || !AddressUtils.isValidAddress(to)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
-        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
         }
 
@@ -222,10 +222,10 @@ public class DDC1155Service extends BaseService {
         ArrayList<BigInteger> ddcIds = new ArrayList();
         ArrayList<BigInteger> amounts = new ArrayList();
         ddcs.forEach((ddcId, amount) -> {
-            if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+            if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
                 throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
             }
-            if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+            if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
                 throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
             }
             ddcIds.add(ddcId);
@@ -256,7 +256,7 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(owner)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -309,7 +309,7 @@ public class DDC1155Service extends BaseService {
         if (!AddressUtils.isValidAddress(owner)) {
             throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
-        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -339,7 +339,7 @@ public class DDC1155Service extends BaseService {
             if (!AddressUtils.isValidAddress(owner)) {
                 throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
             }
-            if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+            if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
                 throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
             }
             owners.add(owner);
@@ -358,7 +358,7 @@ public class DDC1155Service extends BaseService {
      * @throws Exception Exception
      */
     public String ddcURI(BigInteger ddcId) throws Exception {
-        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -385,7 +385,7 @@ public class DDC1155Service extends BaseService {
             throw new DDCException(ErrorMessage.OWNER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
         }
 
-        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0)))<=0) {
+        if (ddcId == null || ddcId.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
             throw new DDCException(ErrorMessage.DDCID_IS_WRONG);
         }
 
@@ -395,5 +395,41 @@ public class DDC1155Service extends BaseService {
 
         String encodedFunction = ddc1155.setURI(owner, ddcId, ddcURI).encodeFunctionCall();
         return signAndSend(ddc1155, DDC1155.FUNC_SETURI, encodedFunction, signEventListener, sender).getTransactionHash();
+    }
+
+    /**
+     * 安全生成DDC方法离线生成交易哈希
+     *
+     * @param sender 调用者地址
+     * @param to     接收者账户
+     * @param amount DDC数量
+     * @param ddcURI DDCURI
+     * @return 交易哈希
+     * @throws Exception Exception
+     */
+    public String safeMintHash(String sender, String to, BigInteger amount, String ddcURI, byte[] data) {
+        //1.检查sender为标准备address格式
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        //2.检查接收者账户地址是否为空
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+        }
+        //3.检查接收者账户地址是否正确
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        //4.检查需要生成的DDC数量是否大于0
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
+            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
+        }
+        //5.检查ddcURI是否为空
+        if (Strings.isEmpty(ddcURI)) {
+            throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
+        }
+
+        String encodedFunction = ddc1155.safeMint(to, amount, ddcURI, data).encodeFunctionCall();
+        return generateOfflineHash(ddc1155, DDC1155.FUNC_SAFEMINT, encodedFunction, signEventListener, sender);
     }
 }

@@ -223,4 +223,30 @@ public class ChargeService extends BaseService {
 
         return signAndSend(charge, Charge.FUNC_DELDDC, encodedFunction, signEventListener, sender).getTransactionHash();
     }
+
+    /**
+     * 生成充值业务费的离线哈希
+     *
+     * @param sender 调用者地址
+     * @param to     充值账户的地址
+     * @param amount 充值金额
+     * @return 返回离线交易哈希
+     * @throws Exception
+     */
+    public String rechargeHash(String sender, String to, BigInteger amount) {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+        }
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
+            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
+        }
+        String encodedFunction = charge.recharge(to, amount).encodeFunctionCall();
+        return generateOfflineHash(charge, Charge.FUNC_RECHARGE, encodedFunction, signEventListener, sender);
+    }
 }

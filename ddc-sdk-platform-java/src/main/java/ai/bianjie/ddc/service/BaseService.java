@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bitcoinj.crypto.*;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Hash;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
@@ -212,5 +213,24 @@ public class BaseService {
      */
     public String accountBech32ToHex(String addr) {
         return Bech32Utils.bech32ToHex(addr);
+    }
+
+    /**
+     * 生成离线哈希
+     */
+    public String generateOfflineHash(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener, String sender) {
+        GasProvider gasProvider = new GasProvider();
+        BigInteger gasPrice = gasProvider.getGasPrice();
+        BigInteger gasLimit = gasProvider.getGasLimit(functionName);
+        //目标合约地址
+        String contractAddr = contract.getContractAddress();
+        BigInteger nonce = txNonce.get();
+        // 生成待签名的交易
+        RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddr, encodedFunction);
+        // 调用签名方法，获取签名后的hexString
+        SignEvent signEvent = new SignEvent(sender, rawTransaction);
+        String signedMessage = signEventListener.signEvent(signEvent);
+        String txHash = Hash.sha3(signedMessage);
+        return txHash;
     }
 }

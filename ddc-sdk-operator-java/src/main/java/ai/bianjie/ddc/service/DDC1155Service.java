@@ -438,4 +438,40 @@ public class DDC1155Service extends BaseService {
         String encodedFunction = ddc1155.setURI(owner, ddcId, ddcURI).encodeFunctionCall();
         return signAndSend(ddc1155, DDC1155.FUNC_SETURI, encodedFunction, signEventListener, sender).getTransactionHash();
     }
+
+    /**
+     * 安全生成DDC方法离线生成交易哈希
+     *
+     * @param sender 调用者地址
+     * @param to     接收者账户
+     * @param amount DDC数量
+     * @param ddcURI DDCURI
+     * @return 交易哈希
+     * @throws Exception Exception
+     */
+    public String safeMintHash(String sender, String to, BigInteger amount, String ddcURI, byte[] data) {
+        //1.检查sender为标准备address格式
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        //2.检查接收者账户地址是否为空
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+        }
+        //3.检查接收者账户地址是否正确
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        //4.检查需要生成的DDC数量是否大于0
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
+            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
+        }
+        //5.检查ddcURI是否为空
+        if (Strings.isEmpty(ddcURI)) {
+            throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
+        }
+
+        String encodedFunction = ddc1155.safeMint(to, amount, ddcURI, data).encodeFunctionCall();
+        return generateOfflineHash(ddc1155, DDC1155.FUNC_SAFEMINT, encodedFunction, signEventListener, sender);
+    }
 }

@@ -1,12 +1,8 @@
 package ai.bianjie.ddc;
 
-import ai.bianjie.ddc.service.BaseService;
 import ai.bianjie.ddc.service.ChargeService;
 import org.junit.jupiter.api.Test;
-
 import java.math.BigInteger;
-
-import static com.google.common.collect.ComparisonChain.start;
 
 
 class DDCSdkClientTest {
@@ -28,9 +24,8 @@ class DDCSdkClientTest {
         client.setConnectTimeout(20);
         String sender = "0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E"; // platform
         ChargeService chargeService = client.getChargeService();
-        BaseService baseService = new BaseService();
 
-        BigInteger initNonce = new BigInteger("496");
+        BigInteger initNonce = new BigInteger("501");
 
         chargeService.setNonce(initNonce);
         String hh = chargeService.rechargeHash(sender, "0xd55172e02723cec9f0a89dbcdc1675098152ac52", new BigInteger("12"));
