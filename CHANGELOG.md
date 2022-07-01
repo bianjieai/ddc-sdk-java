@@ -5,7 +5,7 @@
 
 ### 优化
 
-- 新增离线维护 Nonce 方法：<service>.setNonce(txNonce)
+- 新增离线维护 Nonce 方法：`<service>.setNonce(txNonce)`
 
 ### 背景
 
