@@ -20,10 +20,10 @@ import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.Response;
 import org.web3j.protocol.core.methods.response.*;
 import org.web3j.tx.Contract;
-import sun.security.provider.SecureRandom;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -171,9 +171,9 @@ public class BaseService {
      * @return 返回 Account
      */
     public Account createAccountHex() {
-        sun.security.provider.SecureRandom secureRandom = new SecureRandom();
+        SecureRandom secureRandom = new SecureRandom();
         byte[] entropy = new byte[DeterministicSeed.DEFAULT_SEED_ENTROPY_BITS / 8];
-        secureRandom.engineNextBytes(entropy);
+        secureRandom.nextBytes(entropy);
         List<String> str = null;
         try {
             str = MnemonicCode.INSTANCE.toMnemonic(entropy);
