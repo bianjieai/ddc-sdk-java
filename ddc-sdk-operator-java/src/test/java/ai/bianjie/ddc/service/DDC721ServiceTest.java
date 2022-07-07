@@ -40,7 +40,7 @@ class DDC721ServiceTest {
     @Test
     void mint() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.mint(sender, "0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E", "11111"));
     }
@@ -48,7 +48,7 @@ class DDC721ServiceTest {
     @Test
     void safeMint() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         byte[] data = {10, 10, 10};
         System.out.println(ddc721Service.safeMint(sender, "0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "11111", data));
@@ -57,7 +57,7 @@ class DDC721ServiceTest {
     @Test
     void approve() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.approve(sender, "6F561802FDAD741EDA7254C3F5651DAAAB266A90", new BigInteger("11")));
     }
@@ -65,7 +65,7 @@ class DDC721ServiceTest {
     @Test
     void getApproved() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.getApproved(new BigInteger("12")));
     }
@@ -73,7 +73,7 @@ class DDC721ServiceTest {
     @Test
     void setApprovalForAll() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.setApprovalForAll(sender, "6F561802FDAD741EDA7254C3F5651DAAAB266A90", true));
     }
@@ -81,7 +81,7 @@ class DDC721ServiceTest {
     @Test
     void isApprovedForAll() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.isApprovedForAll("0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "6F561802FDAD741EDA7254C3F5651DAAAB266A90"));
     }
@@ -89,7 +89,7 @@ class DDC721ServiceTest {
     @Test
     void safeTransferFrom() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.safeTransferFrom(sender, "0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "918F7F275A6C2D158E5B76F769D3F1678958A334", new BigInteger("2"), new byte[]{10}));
     }
@@ -97,7 +97,7 @@ class DDC721ServiceTest {
     @Test
     void transferFrom() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.transferFrom(sender, "0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "918F7F275A6C2D158E5B76F769D3F1678958A334", new BigInteger("2")));
     }
@@ -105,7 +105,7 @@ class DDC721ServiceTest {
     @Test
     void freeze() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.freeze(sender, new BigInteger("2")));
     }
@@ -113,7 +113,7 @@ class DDC721ServiceTest {
     @Test
     void unFreeze() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.unFreeze(sender, new BigInteger("2")));
     }
@@ -121,7 +121,7 @@ class DDC721ServiceTest {
     @Test
     void burn() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.burn(sender, new BigInteger("4")));
     }
@@ -129,7 +129,7 @@ class DDC721ServiceTest {
     @Test
     void balanceOf() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.balanceOf("0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E"));
     }
@@ -137,7 +137,7 @@ class DDC721ServiceTest {
     @Test
     void ownerOf() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.ownerOf(new BigInteger("12")));
     }
@@ -157,7 +157,7 @@ class DDC721ServiceTest {
     @Test
     void ddcURI() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.ddcURI(new BigInteger("12")));
     }
@@ -165,7 +165,7 @@ class DDC721ServiceTest {
     @Test
     void setURI() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc721Service.setURI(sender, new BigInteger("12"), "1234"));
     }

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a6d6130f-b7c1-4f00-9559-8449448f98f1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/AuthorityServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/AuthorityServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/BaseServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/BaseServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/BlockEventServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/BlockEventServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/ChargeServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/ChargeServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/DDC1155ServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/DDC1155ServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/DDC721ServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/DDC721ServiceTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="2Agjf8j0rLCqs14YfZ0sobJDCvi" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.repository.indices" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract" />
+      <recent name="$PROJECT_DIR$/lib" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="ai.bianjie.ddc" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="ai.bianjie.ddc.dto" />
+      <recent name="ai.bianjie.ddc.constant" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.AuthorityServiceTest.addAccountByPlatform">
+    <configuration name="AuthorityServiceTest.addAccountByPlatform" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ddc-sdk-operator-java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ai.bianjie.ddc.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ai.bianjie.ddc.service" />
+      <option name="MAIN_CLASS_NAME" value="ai.bianjie.ddc.service.AuthorityServiceTest" />
+      <option name="METHOD_NAME" value="addAccountByPlatform" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthorityServiceTest.getAccount" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ddc-sdk-operator-java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ai.bianjie.ddc.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ai.bianjie.ddc.service" />
+      <option name="MAIN_CLASS_NAME" value="ai.bianjie.ddc.service.AuthorityServiceTest" />
+      <option name="METHOD_NAME" value="getAccount" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BlockEventServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ddc-sdk-operator-java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ai.bianjie.ddc.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ai.bianjie.ddc.service" />
+      <option name="MAIN_CLASS_NAME" value="ai.bianjie.ddc.service.BlockEventServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BlockEventServiceTest.getBlockEvent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ddc-sdk-operator-java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ai.bianjie.ddc.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ai.bianjie.ddc.service" />
+      <option name="MAIN_CLASS_NAME" value="ai.bianjie.ddc.service.BlockEventServiceTest" />
+      <option name="METHOD_NAME" value="getBlockEvent" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChargeServiceTest.recharge" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ddc-sdk-operator-java" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ai.bianjie.ddc.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ai.bianjie.ddc.service" />
+      <option name="MAIN_CLASS_NAME" value="ai.bianjie.ddc.service.ChargeServiceTest" />
+      <option name="METHOD_NAME" value="recharge" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.AuthorityServiceTest.addAccountByPlatform" />
+        <item itemvalue="JUnit.BlockEventServiceTest.getBlockEvent" />
+        <item itemvalue="JUnit.BlockEventServiceTest" />
+        <item itemvalue="JUnit.ChargeServiceTest.recharge" />
+        <item itemvalue="JUnit.AuthorityServiceTest.getAccount" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a6d6130f-b7c1-4f00-9559-8449448f98f1" name="Changes" comment="" />
+      <created>1655438223650</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1655438223650</updated>
+      <workItem from="1655438225227" duration="14157000" />
+      <workItem from="1655719544000" duration="1413000" />
+      <workItem from="1655776076698" duration="4886000" />
+      <workItem from="1655802880053" duration="16540000" />
+      <workItem from="1655886110636" duration="1037000" />
+      <workItem from="1655887160737" duration="1369000" />
+      <workItem from="1655954110653" duration="1151000" />
+      <workItem from="1656033079289" duration="6467000" />
+      <workItem from="1656040739119" duration="17045000" />
+      <workItem from="1656293685569" duration="4581000" />
+      <workItem from="1656381884654" duration="1268000" />
+      <workItem from="1656413535275" duration="20886000" />
+      <workItem from="1656552953046" duration="3658000" />
+      <workItem from="1656557833837" duration="1914000" />
+      <workItem from="1656654102279" duration="1609000" />
+      <workItem from="1656658468962" duration="7531000" />
+      <workItem from="1656680007338" duration="722000" />
+      <workItem from="1656686031186" duration="507000" />
+      <workItem from="1656989301026" duration="603000" />
+      <workItem from="1657176217619" duration="1585000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ai/bianjie/ddc/contract/DDC1155.java</url>
+          <line>413</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/ai/bianjie/ddc/service/BlockEventServiceTest.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="DlvErrorBreakpoint" />
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="valueList.get(0)" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

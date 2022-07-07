@@ -42,7 +42,7 @@ class AuthorityServiceTest {
     @Test
     void addAccountByPlatform() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(authorityService.addAccountByPlatform(sender, "0xd55172e02723cec9f0a89dbcdc1675098152ac52", "cs", "did:cs"));
     }
@@ -50,7 +50,7 @@ class AuthorityServiceTest {
     @Test
     void addBatchAccountByPlatform() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         List<AccountInfo> accInfo = new ArrayList<>();
         AccountInfo acc = new AccountInfo() {
@@ -97,7 +97,7 @@ class AuthorityServiceTest {
     @Test
     void testGetAccount() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         AccountInfo accountInfo = authorityService.getAccount("0xba65d5b206b7b2594ed19724d434c22a2e5ed5b4");
         System.out.println(accountInfo.getAccountName());
@@ -106,7 +106,7 @@ class AuthorityServiceTest {
     @Test
     void testUpdateAccState() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(authorityService.updateAccState(sender, "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", new BigInteger("0"), true));
     }
@@ -114,7 +114,7 @@ class AuthorityServiceTest {
     @Test
     void testCrossPlatformApproval() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(authorityService.crossPlatformApproval(sender, "0x5804A5F927CE7382AD194FD25BCAA189DAD92A39", "0x918F7F275A6C2D158E5B76F769D3F1678958A334", true));
     }
