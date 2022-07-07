@@ -44,7 +44,7 @@ class DDC1155ServiceTest {
     @Test
     void safeMint() throws Exception {
 //        client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-//        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+//        client.setGatewayApiKey("x-api-key");
 //        client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         client.setGatewayUrl("http://192.168.150.42:8545");
         byte[] data = {10, 10, 10};
@@ -54,7 +54,7 @@ class DDC1155ServiceTest {
     @Test
     void safeMintBatch() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         Multimap<BigInteger, String> ddcInfo = ArrayListMultimap.create();
         ;
@@ -66,7 +66,7 @@ class DDC1155ServiceTest {
     @Test
     void setApprovalForAll() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc1155Service.setApprovalForAll(sender, "0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E", true));
     }
@@ -74,7 +74,7 @@ class DDC1155ServiceTest {
     @Test
     void isApprovedForAll() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc1155Service.isApprovedForAll("0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E"));
     }
@@ -82,7 +82,7 @@ class DDC1155ServiceTest {
     @Test
     void safeTransferFrom() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         byte[] data = {10, 10, 10};
         System.out.println(ddc1155Service.safeTransferFrom(sender, "0x2A14331F1f2D3BA0D750f4c4916E69B1DC38d721", "0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E", new BigInteger("1"), new BigInteger("11"), data));
@@ -91,7 +91,7 @@ class DDC1155ServiceTest {
     @Test
     void safeBatchTransferFrom() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         Multimap<BigInteger, BigInteger> ddcs = ArrayListMultimap.create();
         ddcs.put(new BigInteger("3"), new BigInteger("3"));
@@ -102,7 +102,7 @@ class DDC1155ServiceTest {
     @Test
     void burn() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc1155Service.burn(sender, "0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E", new BigInteger("2")));
     }
@@ -110,7 +110,7 @@ class DDC1155ServiceTest {
     @Test
     void burnBatch() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         List<BigInteger> ddcIds = new ArrayList<>();
         ddcIds.add(BigInteger.valueOf(12));
@@ -120,7 +120,7 @@ class DDC1155ServiceTest {
     @Test
     void balanceOf() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc1155Service.balanceOf("0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E", new BigInteger("2")));
     }
@@ -128,7 +128,7 @@ class DDC1155ServiceTest {
     @Test
     void balanceOfBatch() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         Multimap<String, BigInteger> ddcs = ArrayListMultimap.create();
         ddcs.put("0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E", new BigInteger("1"));
@@ -140,7 +140,7 @@ class DDC1155ServiceTest {
     @Test
     void ddcURI() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc1155Service.ddcURI(new BigInteger("3")));
     }
@@ -148,7 +148,7 @@ class DDC1155ServiceTest {
     @Test
     void setURI() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         System.out.println(ddc1155Service.setURI(sender, "0x7FAF93F524FFDD1FB36BEC0ED6A167E8CE55BC4E", new BigInteger("3"), "1234"));
     }
