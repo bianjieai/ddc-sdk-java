@@ -522,5 +522,4 @@ public class DDC721Service extends BaseService {
     public BigInteger getLatestDDCId() throws Exception {
         return Web3jUtils.getDDC721().getLatestDDCId().send();
     }
-
 }

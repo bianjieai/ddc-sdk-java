@@ -550,4 +550,34 @@ public class DDC1155Service extends BaseService {
         return contract1155.getLatestDDCId().send();
     }
 
+    /**
+     * Generate safely generate DDC
+     *
+     * @param sender Caller address
+     * @param to     Recipient account
+     * @param amount Number of DDCs
+     * @param ddcURI DDC resource identifier
+     * @param data   Additional data
+     * @return hash, Transaction hash
+     * @throws Exception Exception
+     */
+    public String safeMintHash(String sender, String to, BigInteger amount, String ddcURI, byte[] data) {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+        }
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
+            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
+        }
+        if (Strings.isEmpty(ddcURI)) {
+            throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
+        }
+        String encodedFunction = ddc1155.safeMint(to, amount, ddcURI, data).encodeFunctionCall();
+        return generateOfflineHash(ddc1155, DDC1155.FUNC_SAFEMINT, encodedFunction, signEventListener, sender);
+    }
 }
