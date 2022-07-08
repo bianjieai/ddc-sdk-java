@@ -1,0 +1,27 @@
+package ai.bianjie.ddc.model.block;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class ConsensusBlock {
+    @JsonProperty(value = "max_bytes")
+    private String maxBytes;
+    @JsonProperty(value = "max_gas")
+    private String maxGas;
+
+    public void setMaxBytes(String maxBytes) {
+        this.maxBytes = maxBytes;
+    }
+
+    public String getMaxBytes() {
+        return maxBytes;
+    }
+
+    public void setMaxGas(String maxGas) {
+        this.maxGas = maxGas;
+    }
+
+    public String getMaxGas() {
+        return maxGas;
+    }
+
+}
