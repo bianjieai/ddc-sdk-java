@@ -4,7 +4,7 @@ package bianjieai.ddc.token;
 import "gogoproto/gogo.proto";
 import "ddc/ddc.proto";
 
-option java_package = "proto.tx";
+option java_package = "proto.ddc.tx";
 // Msg defines the node Msg service.
 service Msg {
   // Approve defines a method for approving a denom.

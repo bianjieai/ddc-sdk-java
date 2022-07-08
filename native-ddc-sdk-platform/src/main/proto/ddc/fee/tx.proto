@@ -4,7 +4,7 @@ package bianjieai.ddc.fee;
 import "gogoproto/gogo.proto";
 import "ddc/ddc.proto";
 
-option java_package = "proto.fee";
+option java_package = "proto.ddc.fee";
 // Msg defines the node Msg service.
 service Msg {
   // Recharge defines a method for recharging for a account.

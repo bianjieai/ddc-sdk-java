@@ -4,7 +4,7 @@ package bianjieai.ddc.auth;
 import "gogoproto/gogo.proto";
 import "ddc/ddc.proto";
 
-option java_package = "proto.auth";
+option java_package = "proto.ddc.auth";
 // Msg defines the node Msg service.
 service Msg {
   // AddAccount defines a method for creating a account.

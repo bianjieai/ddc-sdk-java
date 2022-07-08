@@ -1,0 +1,48 @@
+package ai.bianjie.ddc.key;
+
+import ai.bianjie.ddc.exception.IritaSDKException;
+import ai.bianjie.ddc.util.Bech32Utils;
+import ai.bianjie.ddc.util.HashUtils;
+import ai.bianjie.ddc.util.SM2Utils;
+import org.bouncycastle.math.ec.ECPoint;
+
+import java.math.BigInteger;
+
+public class Sm2KeyManager extends KeyManager {
+    @Override
+    public void recover(BigInteger privKey) {
+        ECPoint publicKey = SM2Utils.getPublicKeyFromPrivkey(privKey);
+        String address = pubKeyToAddress(publicKey);
+
+        setDefaultKeyDao(privKey, publicKey, address);
+    }
+
+    @Override
+    public String export(String password) {
+        return export(password, getCurrentKeyInfo().getPrivKey().toByteArray());
+    }
+
+    @Override
+    public String export(String name, String password) {
+        if (!keyDAO.has(name)) {
+            throw new IritaSDKException(String.format("name %s hasn't existed", name));
+        }
+        KeyInfo keyInfo = keyDAO.read(name, password);
+
+        byte[] privKeyTemp = keyInfo.getPrivKey().toByteArray();
+        return export(password, privKeyTemp);
+    }
+
+    @Override
+    public AlgoEnum getAlgo() {
+        return AlgoEnum.SM2;
+    }
+
+    private String pubKeyToAddress(ECPoint publicKey) {
+        byte[] encoded = publicKey.getEncoded(true);
+        byte[] hash = HashUtils.sha256(encoded);
+        byte[] pre20 = new byte[20];
+        System.arraycopy(hash, 0, pre20, 0, 20);
+        return Bech32Utils.toBech32(getHrp(), pre20);
+    }
+}
