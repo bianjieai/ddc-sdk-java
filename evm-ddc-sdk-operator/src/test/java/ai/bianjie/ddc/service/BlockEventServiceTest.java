@@ -24,7 +24,7 @@ class BlockEventServiceTest {
     @Test
     void getBlockEvent() throws IOException {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         BlockEventService blockEventService = new BlockEventService();
         BlockEventBean blockEvent = blockEventService.getBlockEvent(new BigInteger("3058179"));

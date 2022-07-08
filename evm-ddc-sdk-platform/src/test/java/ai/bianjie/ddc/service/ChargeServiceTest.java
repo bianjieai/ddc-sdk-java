@@ -43,7 +43,7 @@ class ChargeServiceTest {
     @Test
     void recharge() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         String hash = chargeService.recharge(sender, "0xd55172e02723cec9f0a89dbcdc1675098152ac52", new BigInteger("100000"));
         System.out.print(hash);
@@ -52,7 +52,7 @@ class ChargeServiceTest {
     @Test
     void balanceOf() throws Exception {
 //        client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-//        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+//        client.setGatewayApiKey("x-api-key");
 //        client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         client.setGatewayUrl("http://192.168.150.42:8545");
         BigInteger balance = chargeService.balanceOf("0x02CEB40D892061D457E7FA346988D0FF329935DF");
@@ -62,7 +62,7 @@ class ChargeServiceTest {
     @Test
     void queryFee() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         BigInteger fee = chargeService.queryFee("0x3B09b7A00271C5d9AE84593850dE3A526b8BF96e", "0xe985e9c5");
         System.out.print(fee);
@@ -71,7 +71,7 @@ class ChargeServiceTest {
     @Test
     void rechargeBatch() throws Exception {
         client.setGatewayUrl("https://opbtest.bsngate.com:18602/api/3c7c78de11494f219025f087bbacbd2a/evmrpc");
-        client.setGatewayApiKey("b011c1a9337344a698cf7996d194ec18");
+        client.setGatewayApiKey("x-api-key");
         client.setGatewayApiValue("5823d69e2198453e8662758e11cadacb");
         Multimap<String, BigInteger> accounts = ArrayListMultimap.create();
         ;
