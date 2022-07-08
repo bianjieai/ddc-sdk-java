@@ -179,4 +179,28 @@ public class ChargeService extends BaseService {
         return Web3jUtils.getCharge().queryFee(ddcAddr, sigInByte).send();
     }
 
+    /**
+     * Generate offline hash of top-up business fee
+     *
+     * @param sender Caller address
+     * @param to     The address of the top-up account
+     * @param amount Recharge amount
+     * @throws Exception
+     */
+    public String rechargeHash(String sender, String to, BigInteger amount) {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+        }
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (amount == null || amount.compareTo(new BigInteger(String.valueOf(0))) <= 0) {
+            throw new DDCException(ErrorMessage.AMOUNT_IS_EMPTY);
+        }
+        String encodedFunction = charge.recharge(to, amount).encodeFunctionCall();
+        return generateOfflineHash(charge, Charge.FUNC_RECHARGE, encodedFunction, signEventListener, sender);
+    }
 }

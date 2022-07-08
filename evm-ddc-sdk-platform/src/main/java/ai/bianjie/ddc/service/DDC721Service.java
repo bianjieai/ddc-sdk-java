@@ -424,4 +424,30 @@ public class DDC721Service extends BaseService {
         String encodedFunction = ddc721.setURI(ddcId, ddcURI).encodeFunctionCall();
         return signAndSend(ddc721, DDC721.FUNC_SETURI, encodedFunction, signEventListener, sender).getTransactionHash();
     }
+
+    /**
+     * Generate DDC offline hash
+     *
+     * @param sender Caller address
+     * @param to     Recipient account
+     * @param ddcURI DDC resource identifier
+     * @return hash, Transaction hash
+     * @throws Exception Exception
+     */
+    public String mintHash(String sender, String to, String ddcURI) {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (Strings.isEmpty(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_EMPTY);
+        }
+        if (!AddressUtils.isValidAddress(to)) {
+            throw new DDCException(ErrorMessage.TO_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+        if (Strings.isEmpty(ddcURI)) {
+            throw new DDCException(ErrorMessage.DDCURI_IS_EMPTY);
+        }
+        String encodedFunction = ddc721.mint(to, ddcURI).encodeFunctionCall();
+        return generateOfflineHash(ddc721, DDC721.FUNC_MINT, encodedFunction, signEventListener, sender);
+    }
 }

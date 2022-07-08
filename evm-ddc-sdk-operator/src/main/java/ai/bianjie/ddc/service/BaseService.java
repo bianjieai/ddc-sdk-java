@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bitcoinj.crypto.*;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Hash;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
@@ -36,6 +37,7 @@ public class BaseService {
                     ChildNumber.ZERO_HARDENED, ChildNumber.ZERO);
 
     protected SignEventListener signEventListener;
+    private static final ThreadLocal<BigInteger> txNonce = new ThreadLocal<BigInteger>();
 
     /**
      * Get block information
@@ -109,7 +111,7 @@ public class BaseService {
      *              The subsequent nonce will be processed only after the previous nonce has been processed.
      */
     public void setNonce(BigInteger nonce) {
-        ConfigCache.get().setNonce(nonce);
+        txNonce.set(nonce);
     }
 
     /**
@@ -133,7 +135,7 @@ public class BaseService {
         // target contract address
         String contractAddr = contract.getContractAddress();
 
-        BigInteger nonce = ConfigCache.get().getNonce();
+        BigInteger nonce = txNonce.get();
 
         // If there is no user nonce in the cache, go to the chain to query
         if ((nonce == null) || (nonce.compareTo(BigInteger.ZERO) == 0)) {
@@ -160,7 +162,7 @@ public class BaseService {
         }
 
         // Clear the nonce at the end of the transaction
-        ConfigCache.get().setNonce(BigInteger.ZERO);
+        txNonce.remove();
 
         // return transaction result
         return sendTransaction;
@@ -220,5 +222,30 @@ public class BaseService {
      */
     public BigInteger BalanceOfGas(String account) throws IOException {
         return Web3jUtils.getWeb3j().ethGetBalance(account, DefaultBlockParameterName.LATEST).send().getBalance();
+    }
+
+    /**
+     * Generate Offline Hash
+     *
+     * @param contract          Contract instance
+     * @param functionName      method name to call
+     * @param encodedFunction   Function encoded by RLP serialization
+     * @param signEventListener The instance responsible for signing
+     * @return txHash, Offline Hash
+     */
+    public String generateOfflineHash(Contract contract, String functionName, String encodedFunction, SignEventListener signEventListener, String sender) {
+        GasProvider gasProvider = new GasProvider();
+        BigInteger gasPrice = gasProvider.getGasPrice();
+        BigInteger gasLimit = gasProvider.getGasLimit(functionName);
+        // target contract address
+        String contractAddr = contract.getContractAddress();
+        BigInteger nonce = txNonce.get();
+        // Generate transaction to be signed
+        RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, gasLimit, contractAddr, encodedFunction);
+        // Call the signature method to get the signed hexString
+        SignEvent signEvent = new SignEvent(sender, rawTransaction);
+        String signedMessage = signEventListener.signEvent(signEvent);
+        String txHash = Hash.sha3(signedMessage);
+        return txHash;
     }
 }
