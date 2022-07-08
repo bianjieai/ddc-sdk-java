@@ -485,6 +485,43 @@ BaseService baseService =new BaseService();
 baseService.setNonce(new BigInteger("481"));
 ```
 
+```
+    void nonceTest() throws Exception {
+
+	// 初始化 DDC 客户端      
+        DDCSdkClient client = new DDCSdkClient.Builder()
+                .setAuthorityLogicAddress("0xFa1d2d3EEd20C4E4F5b927D9730d9F4D56314B29") // 官方合约地址
+                .setChargeLogicAddress("0x0B8ae0e1b4a4Eb0a0740A250220eE3642d92dc4D") // 官方合约地址
+                .setDDC721Address("0x354c6aF2cB870BEFEA8Ea0284C76e4A46B8F2870") // 官方合约地址
+                .setDDC1155Address("0x0E762F4D11439B1130D402995328b634cB9c9973") // 官方合约地址
+                .setGasLimit("300000") // 自定义 Gas 上限
+                .setGasPrice("1") // 固定 Gas Price，无需修改
+                .setSignEventListener(new SignEventTest()) // 签名事件示例，建议参考示例自行实现
+                .init();
+
+        client.setGatewayUrl("https://opbningxia.bsngate.com:18602/api/项目ID/evmrpc"); // EVM RPC 地址
+        client.setConnectTimeout(20);// 请求超时时间，自定义
+        String sender = "平台方链账户地址"; // 平台方链账户地址
+
+      	// 以充值接口为例
+        ChargeService chargeService = client.getChargeService();
+
+        // 链上查询最新的 Nonce
+        EthGetTransactionCount ethGetTransactionCount = Web3jUtils.getWeb3j().ethGetTransactionCount(sender, DefaultBlockParameterName.PENDING).sendAsync().get();
+        BigInteger txNonce = ethGetTransactionCount.getTransactionCount();
+
+      	// 循环调用，每调用一次 Nonce 离线加一，不需要重新从链上查询
+        for (int i = 1; i < 10; i++) {
+            // 设置 Nonce
+            chargeService.setNonce(txNonce); 
+            // 发送请求
+            String hash = chargeService.recharge(sender, "被充值的链账户地址", new BigInteger("充值业务费数量"));
+            // Nonce 离线加一
+            txNonce = txNonce.add(new BigInteger("1"));
+        }
+    }
+```
+
 ## 平台方可调用的如下方法：
 
 ### 1.初始化Client (连接测试网)
@@ -880,6 +917,43 @@ BaseService baseService =new BaseService();
 baseService.setNonce(new BigInteger("481"));
 ```
 
+```
+    void nonceTest() throws Exception {
+
+	// 初始化 DDC 客户端      
+        DDCSdkClient client = new DDCSdkClient.Builder()
+                .setAuthorityLogicAddress("0xFa1d2d3EEd20C4E4F5b927D9730d9F4D56314B29") // 官方合约地址
+                .setChargeLogicAddress("0x0B8ae0e1b4a4Eb0a0740A250220eE3642d92dc4D") // 官方合约地址
+                .setDDC721Address("0x354c6aF2cB870BEFEA8Ea0284C76e4A46B8F2870") // 官方合约地址
+                .setDDC1155Address("0x0E762F4D11439B1130D402995328b634cB9c9973") // 官方合约地址
+                .setGasLimit("300000") // 自定义 Gas 上限
+                .setGasPrice("1") // 固定 Gas Price，无需修改
+                .setSignEventListener(new SignEventTest()) // 签名事件示例，建议参考示例自行实现
+                .init();
+
+        client.setGatewayUrl("https://opbningxia.bsngate.com:18602/api/项目ID/evmrpc"); // EVM RPC 地址
+        client.setConnectTimeout(20);// 请求超时时间，自定义
+        String sender = "平台方链账户地址"; // 平台方链账户地址
+
+      	// 以充值接口为例
+        ChargeService chargeService = client.getChargeService();
+
+        // 链上查询最新的 Nonce
+        EthGetTransactionCount ethGetTransactionCount = Web3jUtils.getWeb3j().ethGetTransactionCount(sender, DefaultBlockParameterName.PENDING).sendAsync().get();
+        BigInteger txNonce = ethGetTransactionCount.getTransactionCount();
+
+      	// 循环调用，每调用一次 Nonce 离线加一，不需要重新从链上查询
+        for (int i = 1; i < 10; i++) {
+            // 设置 Nonce
+            chargeService.setNonce(txNonce); 
+            // 发送请求
+            String hash = chargeService.recharge(sender, "被充值的链账户地址", new BigInteger("充值业务费数量"));
+            // Nonce 离线加一
+            txNonce = txNonce.add(new BigInteger("1"));
+        }
+    }
+```
+
 ## 终端用户可调用的如下方法：
 
 ### 1.初始化Client (连接测试网)
@@ -1204,6 +1278,41 @@ System.out.println(baseService.BalanceOfGas("链账户地址"));
 BaseService baseService =new BaseService();
 baseService.setNonce(new BigInteger("481"));
 ```
+
+    void nonceTest() throws Exception {
+    
+    // 初始化 DDC 客户端      
+        DDCSdkClient client = new DDCSdkClient.Builder()
+                .setAuthorityLogicAddress("0xFa1d2d3EEd20C4E4F5b927D9730d9F4D56314B29") // 官方合约地址
+                .setChargeLogicAddress("0x0B8ae0e1b4a4Eb0a0740A250220eE3642d92dc4D") // 官方合约地址
+                .setDDC721Address("0x354c6aF2cB870BEFEA8Ea0284C76e4A46B8F2870") // 官方合约地址
+                .setDDC1155Address("0x0E762F4D11439B1130D402995328b634cB9c9973") // 官方合约地址
+                .setGasLimit("300000") // 自定义 Gas 上限
+                .setGasPrice("1") // 固定 Gas Price，无需修改
+                .setSignEventListener(new SignEventTest()) // 签名事件示例，建议参考示例自行实现
+                .init();
+    
+        client.setGatewayUrl("https://opbningxia.bsngate.com:18602/api/项目ID/evmrpc"); // EVM RPC 地址
+        client.setConnectTimeout(20);// 请求超时时间，自定义
+        String sender = "平台方链账户地址"; // 平台方链账户地址
+    
+      	// 以充值接口为例
+        ChargeService chargeService = client.getChargeService();
+    
+        // 链上查询最新的 Nonce
+        EthGetTransactionCount ethGetTransactionCount = Web3jUtils.getWeb3j().ethGetTransactionCount(sender, DefaultBlockParameterName.PENDING).sendAsync().get();
+        BigInteger txNonce = ethGetTransactionCount.getTransactionCount();
+    
+      	// 循环调用，每调用一次 Nonce 离线加一，不需要重新从链上查询
+        for (int i = 1; i < 10; i++) {
+            // 设置 Nonce
+            chargeService.setNonce(txNonce); 
+            // 发送请求
+            String hash = chargeService.recharge(sender, "被充值的链账户地址", new BigInteger("充值业务费数量"));
+            // Nonce 离线加一
+            txNonce = txNonce.add(new BigInteger("1"));
+        }
+    }
 
 ## 测试用例
 
