@@ -67,7 +67,7 @@ public class BaseService {
      * @return receipt, Transaction receipt
      * @throws InterruptedException
      */
-    public TransactionReceipt getTransReceipt(String hash) throws InterruptedException, ExecutionException {
+    public static TransactionReceipt getTransReceipt(String hash) throws InterruptedException, ExecutionException {
         return Web3jUtils.getWeb3j().ethGetTransactionReceipt(hash).sendAsync().get().getTransactionReceipt().get();
     }
 

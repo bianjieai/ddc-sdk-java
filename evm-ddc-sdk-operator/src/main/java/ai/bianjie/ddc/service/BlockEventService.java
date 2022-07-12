@@ -50,35 +50,44 @@ public class BlockEventService extends BaseService {
 
         List<EthBlock.TransactionResult> txs = blockInfo.getTransactions();
 
-        // 2. get deal
-        if (txs != null) {
-            txs.forEach(tx -> {
-                EthBlock.TransactionObject transaction = (EthBlock.TransactionObject) tx.get();
-                String hash = transaction.get().getHash();
-                ArrayList<BaseEventResponse> arr = null;
-                boolean ok = true;
-                int i = 0;
-                while (ok) {
-                    if (i >= 3) {
-                        throw new DDCException(400, "cannot get receipt by hash:" + hash);
-                    }
-                    try {
-                        arr = analyzeEventsByTxHash(hash);
-                    } catch (Exception e) {
-                        i++;
-                        continue;
-                    }
-                    ok = false;
-                }
-                arrayList.addAll(arr);
-            });
+        GetBlockEvent g = new GetBlockEvent();
+        g.txs = txs;
+        for (int i = 0; i < 10; i++) {
+            Thread t = new Thread(g);
+            t.start();
         }
+        arrayList = g.arrayList;
+
+
+        // 2. get deal
+//        if (txs != null) {
+//            txs.forEach(tx -> {
+//                EthBlock.TransactionObject transaction = (EthBlock.TransactionObject) tx.get();
+//                String hash = transaction.get().getHash();
+//                ArrayList<BaseEventResponse> arr = null;
+//                boolean ok = true;
+//                int i = 0;
+//                while (ok) {
+//                    if (i >= 3) {
+//                        throw new DDCException(400, "cannot get receipt by hash:" + hash);
+//                    }
+//                    try {
+//                        arr = analyzeEventsByTxHash(hash);
+//                    } catch (Exception e) {
+//                        i++;
+//                        continue;
+//                    }
+//                    ok = false;
+//                }
+//                arrayList.addAll(arr);
+//            });
+//        }
 
         log.info("块高 {} 解析到区块事件 {}", blockNumber, JSON.toJSONString(arrayList));
         return new BlockEventBean(arrayList, blockInfo.getTimestamp().toString());
     }
 
-    public ArrayList<BaseEventResponse> analyzeEventsByTxHash(String hash) throws Exception {
+    public static ArrayList<BaseEventResponse> analyzeEventsByTxHash(String hash) throws Exception {
         ArrayList<BaseEventResponse> result = new ArrayList<>();
         //hash获取receipt
         TransactionReceipt receipt = getTransReceipt(hash);
@@ -149,5 +158,37 @@ public class BlockEventService extends BaseService {
 
         }
         return result;
+    }
+}
+
+class GetBlockEvent extends BaseService implements Runnable {
+    List<EthBlock.TransactionResult> txs;
+    ArrayList<BaseEventResponse> arrayList;
+
+    public void run(){
+        if (this.txs != null) {
+            for (int i = 0; i < this.txs.size(); i++) {
+                EthBlock.TransactionResult tx = txs.get(i);
+                EthBlock.TransactionObject transaction = (EthBlock.TransactionObject) tx.get();
+                String hash = transaction.get().getHash();
+                ArrayList<BaseEventResponse> arr = null;
+                boolean ok = true;
+                int count = 0;
+                while (ok) {
+                    if (count >= 3) {
+                        throw new DDCException(400, "cannot get receipt by hash:" + hash);
+                    }
+                    try {
+                        arr = BlockEventService.analyzeEventsByTxHash(hash);
+                    } catch (Exception e) {
+                        count++;
+                        continue;
+                    }
+                    ok = false;
+                }
+                this.txs.remove(tx);
+                this.arrayList.addAll(arr);
+            }
+        }
     }
 }
