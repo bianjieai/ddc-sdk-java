@@ -163,7 +163,7 @@ public class BlockEventService extends BaseService {
 
 class GetBlockEvent extends BaseService implements Runnable {
     List<EthBlock.TransactionResult> txs;
-    ArrayList<BaseEventResponse> arrayList;
+    ArrayList<BaseEventResponse> arrayList = new ArrayList<>();
 
     public void run(){
         if (this.txs != null) {
