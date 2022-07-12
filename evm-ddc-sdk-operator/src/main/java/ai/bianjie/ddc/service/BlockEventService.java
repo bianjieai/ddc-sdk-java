@@ -20,6 +20,7 @@ import org.web3j.utils.Strings;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -51,9 +52,15 @@ public class BlockEventService extends BaseService {
         List<EthBlock.TransactionResult> txs = blockInfo.getTransactions();
 
         GetBlockEvent g = new GetBlockEvent();
-        g.txs = txs;
+        int len = txs.size()/10 +1;
         for (int i = 0; i < 10; i++) {
             Thread t = new Thread(g);
+            if (i == 9) {
+                g.txs = txs.subList(i*len,txs.size());
+                t.start();
+                break;
+            }
+            g.txs = txs.subList(i*len,(i+1)*len);
             t.start();
         }
         arrayList = g.arrayList;
