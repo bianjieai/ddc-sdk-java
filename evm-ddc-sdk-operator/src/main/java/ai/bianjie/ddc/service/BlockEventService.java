@@ -64,13 +64,12 @@ public class BlockEventService extends BaseService {
             if (i == threadCount - 1) {
                 g.txs = txs.subList(i*len,txs.size());
                 t.start();
-                arrayList.addAll(g.arrayList);
                 break;
             }
             g.txs = txs.subList(i*len,(i+1)*len);
             t.start();
-            arrayList.addAll(g.arrayList);
         }
+        arrayList = g.arrayList;
 
 
 //        if (txs != null) {
