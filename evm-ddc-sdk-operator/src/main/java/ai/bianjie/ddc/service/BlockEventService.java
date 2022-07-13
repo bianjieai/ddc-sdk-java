@@ -22,6 +22,10 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
 
 /**
  * @author kuan
@@ -40,7 +44,7 @@ public class BlockEventService extends BaseService {
      * @return BlockEventBean
      * @throws IOException IOException
      */
-    public BlockEventBean getBlockEvent(BigInteger blockNumber) throws IOException, InterruptedException {
+    public BlockEventBean getBlockEvent(BigInteger blockNumber) throws IOException {
         ArrayList<BaseEventResponse> arrayList = new ArrayList<>();
         // 1. Get block information
         EthBlock.Block blockInfo = getBlockByNumber(blockNumber);
@@ -51,46 +55,47 @@ public class BlockEventService extends BaseService {
 
         List<EthBlock.TransactionResult> txs = blockInfo.getTransactions();
 
-//        GetBlockEvent g = new GetBlockEvent();
-//        int threadCount = 10;
-//        int len = txs.size()/threadCount +1;
-//        for (int i = 0; i < threadCount; i++) {
-//            Thread t = new Thread(g);
-//            if (i == threadCount - 1) {
-//                g.txs = txs.subList(i*len,txs.size());
-//                t.start();
-//                t.join();
-//                break;
-//            }
-//            g.txs = txs.subList(i*len,(i+1)*len);
-//            t.start();
-//            t.join();
-//        }
-//        arrayList = g.arrayList;
 
-        if (txs != null) {
-            txs.stream().parallel().forEach(tx->{
-                EthBlock.TransactionObject transaction = (EthBlock.TransactionObject) tx.get();
-                String hash = transaction.get().getHash();
-                ArrayList<BaseEventResponse> arr = null;
-                boolean ok = true;
-                int i = 0;
-                while (ok) {
-                    if (i >= 3) {
-                        throw new DDCException(400, "cannot get receipt by hash:" + hash);
-                    }
-                    try {
-                        arr = analyzeEventsByTxHash(hash);
-                    } catch (Exception e) {
-                        i++;
-                        continue;
-                    }
-                    ok = false;
-                }
-                arrayList.addAll(arr);
-            });
+        int threadCount = 3;
+        int len = txs.size()/threadCount +1;
+        GetBlockEvent g = new GetBlockEvent();
+        for (int i = 0; i < threadCount; i++) {
+            Thread t = new Thread(g);
+            if (i == threadCount - 1) {
+                g.txs = txs.subList(i*len,txs.size());
+                t.start();
+                arrayList.addAll(g.arrayList);
+                break;
+            }
+            g.txs = txs.subList(i*len,(i+1)*len);
+            t.start();
+            arrayList.addAll(g.arrayList);
         }
 
+
+//        if (txs != null) {
+//            txs.stream().parallel().forEach(tx->{
+//                EthBlock.TransactionObject transaction = (EthBlock.TransactionObject) tx.get();
+//                String hash = transaction.get().getHash();
+//                ArrayList<BaseEventResponse> arr = null;
+//                boolean ok = true;
+//                int i = 0;
+//                while (ok) {
+//                    if (i >= 3) {
+//                        throw new DDCException(400, "cannot get receipt by hash:" + hash);
+//                    }
+//                    try {
+//                        arr = analyzeEventsByTxHash(hash);
+//                    } catch (Exception e) {
+//                        System.out.println("----------------"+e);
+//                        i++;
+//                        continue;
+//                    }
+//                    ok = false;
+//                }
+//                arrayList.addAll(arr);
+//            });
+//        }
 
         // 2. get deal
 //        if (txs != null) {
@@ -214,7 +219,6 @@ class GetBlockEvent extends BaseService implements Runnable {
                     try {
                         arr = BlockEventService.analyzeEventsByTxHash(hash);
                     } catch (Exception e) {
-                        System.out.println("ssssssssssssss"+e);
                         count++;
                         continue;
                     }
