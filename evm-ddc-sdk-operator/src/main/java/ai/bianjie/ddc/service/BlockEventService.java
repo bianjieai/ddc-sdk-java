@@ -1,5 +1,6 @@
 package ai.bianjie.ddc.service;
 
+import ai.bianjie.ddc.config.ConfigCache;
 import ai.bianjie.ddc.contract.*;
 import ai.bianjie.ddc.dto.BlockEventBean;
 import ai.bianjie.ddc.exception.DDCException;
@@ -36,12 +37,18 @@ public class BlockEventService extends BaseService {
         this.executorService = executorService;
     }
 
-    public BlockEventBean getLogs(BigInteger blockNumber, List<String> address) throws IOException, ExecutionException, InterruptedException {
+    public BlockEventBean getBlockEvent(BigInteger blockNumber) throws IOException, ExecutionException, InterruptedException {
         EthBlock.Block blockInfo = getBlockByNumber(blockNumber);
 
         if (blockInfo == null) {
             throw new DDCException(400, "cannot get blockInfo by blockNumber:" + blockNumber);
         }
+
+        List<String> address = new ArrayList<String>();
+        address.add(ConfigCache.get().getAuthorityLogicAddress());
+        address.add(ConfigCache.get().getChargeLogicAddress());
+        address.add(ConfigCache.get().getDdc721Address());
+        address.add(ConfigCache.get().getDdc1155Address());
 
         EthFilter filter = new EthFilter(new DefaultBlockParameterNumber(blockNumber), new DefaultBlockParameterNumber(blockNumber), address)
                 .addOptionalTopics(EventEncoder.encode(Authority.ADDACCOUNT_EVENT),
