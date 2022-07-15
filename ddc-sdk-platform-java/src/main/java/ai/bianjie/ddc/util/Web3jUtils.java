@@ -1,10 +1,7 @@
 package ai.bianjie.ddc.util;
 
 import ai.bianjie.ddc.config.ConfigCache;
-import ai.bianjie.ddc.contract.Authority;
-import ai.bianjie.ddc.contract.Charge;
-import ai.bianjie.ddc.contract.DDC1155;
-import ai.bianjie.ddc.contract.DDC721;
+import ai.bianjie.ddc.contract.*;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
@@ -16,16 +13,18 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
 /**
- * web3j工具类，提供对合约的连接管理
- *
+ * The web3j tool class provides connection management for contracts
  */
-
 public class Web3jUtils {
     private static Web3j web3j;
     private static Authority authority;
     private static Charge charge;
     private static DDC721 ddc721;
     private static DDC1155 ddc1155;
+    private static AuthorityOver authorityOver;
+    private static ChargeOver chargeOver;
+    private static DDC721Over ddc721Over;
+    private static DDC1155Over ddc1155Over;
 
     private static ECKeyPair ecKeyPair;
 
@@ -38,6 +37,34 @@ public class Web3jUtils {
     }
 
     private Web3jUtils() {
+    }
+
+    public static AuthorityOver getAuthorityOver() {
+        if (authorityOver == null) {
+            authorityOver = AuthorityOver.load(ConfigCache.get().getAuthorityLogicAddress(), Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
+        }
+        return authorityOver;
+    }
+
+    public static ChargeOver getChargeOver() {
+        if (chargeOver == null) {
+            chargeOver = ChargeOver.load(ConfigCache.get().getAuthorityLogicAddress(), Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
+        }
+        return chargeOver;
+    }
+
+    public static DDC721Over getDDC721Over() {
+        if (ddc721Over == null) {
+            ddc721Over = DDC721Over.load(ConfigCache.get().getAuthorityLogicAddress(), Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
+        }
+        return ddc721Over;
+    }
+
+    public static DDC1155Over getDDC1155Over() {
+        if (ddc1155Over == null) {
+            ddc1155Over = DDC1155Over.load(ConfigCache.get().getAuthorityLogicAddress(), Web3jUtils.getWeb3j(), Credentials.create(ecKeyPair), new GasProvider());
+        }
+        return ddc1155Over;
     }
 
     public static Authority getAuthority() {
@@ -88,5 +115,9 @@ public class Web3jUtils {
         charge = null;
         ddc721 = null;
         ddc1155 = null;
+        authorityOver = null;
+        chargeOver = null;
+        ddc721Over = null;
+        ddc1155Over = null;
     }
 }
