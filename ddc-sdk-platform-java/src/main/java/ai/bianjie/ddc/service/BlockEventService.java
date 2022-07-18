@@ -11,10 +11,8 @@ import org.web3j.abi.EventEncoder;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterNumber;
 import org.web3j.protocol.core.methods.request.EthFilter;
-import org.web3j.protocol.core.methods.response.BaseEventResponse;
-import org.web3j.protocol.core.methods.response.EthBlock;
-import org.web3j.protocol.core.methods.response.EthLog;
-import org.web3j.protocol.core.methods.response.Log;
+import org.web3j.protocol.core.methods.response.*;
+import org.web3j.utils.Strings;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -35,6 +33,69 @@ public class BlockEventService extends BaseService {
                 queue,
                 policy);
         this.executorService = executorService;
+    }
+
+    public ArrayList<BaseEventResponse> analyzeEventsByTxHash(String hash) throws Exception {
+        ArrayList<BaseEventResponse> result = new ArrayList<>();
+        //hash获取receipt
+        TransactionReceipt receipt = getTransReceipt(hash);
+        for (int i = 0; i < receipt.getLogs().size(); i++) {
+            List<BaseEventResponse> list = new ArrayList<>();
+            Log log = receipt.getLogs().get(i);
+            if (Strings.isEmpty(log.getAddress())) {
+                continue;
+            }
+            if (ConfigCache.get().getAuthorityLogicAddress().equalsIgnoreCase(log.getAddress())) {
+                Authority authority = Web3jUtils.getAuthority();
+                if (log.getTopics().get(0).equals(EventEncoder.encode(Authority.ADDACCOUNT_EVENT))) {
+                    list.addAll(authority.getAddAccountEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Authority.UPDATEACCOUNTSTATE_EVENT))) {
+                    list.addAll(authority.getUpdateAccountStateEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Authority.CROSSPLATFORMAPPROVAL_EVENT))) {
+                    list.addAll(authority.getAdminChangedEvents(receipt));
+                }
+            } else if (ConfigCache.get().getChargeLogicAddress().equalsIgnoreCase(log.getAddress())) {
+                Charge charge = Web3jUtils.getCharge();
+                if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.RECHARGE_EVENT))) {
+                    list.addAll(charge.getRechargeEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.SETFEE_EVENT))) {
+                    list.addAll(charge.getSetFeeEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.PAY_EVENT))) {
+                    list.addAll(charge.getPayEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.DELDDC_EVENT))) {
+                    list.addAll(charge.getDelDDCEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(Charge.DELFEE_EVENT))) {
+                    list.addAll(charge.getDelFeeEvents(receipt));
+                }
+            } else if (ConfigCache.get().getDdc721Address().equalsIgnoreCase(log.getAddress())) {
+                DDC721 ddc721 = Web3jUtils.getDDC721();
+                if (log.getTopics().get(0).equals(EventEncoder.encode(DDC721.TRANSFER_EVENT))) {
+                    list.addAll(ddc721.getTransferEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC721.ENTERBLACKLIST_EVENT))) {
+                    list.addAll(ddc721.getEnterBlacklistEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC721.EXITBLACKLIST_EVENT))) {
+                    list.addAll(ddc721.getExitBlacklistEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC721.SETURI_EVENT))) {
+                    list.addAll(ddc721.getSetURIEvents(receipt));
+                }
+            } else if (ConfigCache.get().getDdc1155Address().equalsIgnoreCase(log.getAddress())) {
+                DDC1155 ddc1155 = Web3jUtils.getDDC1155();
+                if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.TRANSFERBATCH_EVENT))) {
+                    list.addAll(ddc1155.getTransferBatchEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.TRANSFERSINGLE_EVENT))) {
+                    list.addAll(ddc1155.getTransferSingleEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.ENTERBLACKLIST_EVENT))) {
+                    list.addAll(ddc1155.getEnterBlacklistEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.EXITBLACKLIST_EVENT))) {
+                    list.addAll(ddc1155.getExitBlacklistEvents(receipt));
+                } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.SETURI_EVENT))) {
+                    list.addAll(ddc1155.getSetURIEvents(receipt));
+                }
+            }
+            result.addAll(list);
+
+        }
+        return result;
     }
 
     public BlockEventBean getBlockEvent(BigInteger blockNumber) throws IOException, ExecutionException, InterruptedException {
