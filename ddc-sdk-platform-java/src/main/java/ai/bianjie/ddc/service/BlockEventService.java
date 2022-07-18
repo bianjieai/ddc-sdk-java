@@ -65,7 +65,6 @@ public class BlockEventService extends BaseService {
                         EventEncoder.encode(DDC721.SETURI_EVENT),
                         EventEncoder.encode(DDC1155.TRANSFERSINGLE_EVENT),
                         EventEncoder.encode(DDC1155.TRANSFERBATCH_EVENT),
-                        EventEncoder.encode(DDC1155.TRANSFERSINGLE_EVENT),
                         EventEncoder.encode(DDC1155.ENTERBLACKLIST_EVENT),
                         EventEncoder.encode(DDC1155.EXITBLACKLIST_EVENT),
                         EventEncoder.encode(DDC1155.SETURI_EVENT));
@@ -138,8 +137,6 @@ public class BlockEventService extends BaseService {
                 return ddc1155Over.transferSingleEventFlowable(log);
             } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.TRANSFERBATCH_EVENT))) {
                 return ddc1155Over.transferBatchEventFlowable(log);
-            } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.TRANSFERSINGLE_EVENT))) {
-                return ddc1155Over.transferSingleEventFlowable(log);
             } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.ENTERBLACKLIST_EVENT))) {
                 return ddc1155Over.enterBlacklistEventFlowable(log);
             } else if (log.getTopics().get(0).equals(EventEncoder.encode(DDC1155.EXITBLACKLIST_EVENT))) {

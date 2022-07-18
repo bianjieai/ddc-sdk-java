@@ -2,6 +2,7 @@ package ai.bianjie.ddc.service;
 
 import ai.bianjie.ddc.constant.ErrorMessage;
 import ai.bianjie.ddc.contract.Authority;
+import ai.bianjie.ddc.contract.Charge;
 import ai.bianjie.ddc.dto.AccountInfo;
 import ai.bianjie.ddc.exception.DDCException;
 import ai.bianjie.ddc.listener.SignEventListener;
@@ -51,6 +52,27 @@ public class AuthorityService extends BaseService {
 
         String encodedFunction = authority.addAccountByOperator(account, accName, accDID, leaderDID).encodeFunctionCall();
         return signAndSend(authority, Authority.FUNC_ADDACCOUNTBYOPERATOR, encodedFunction, signEventListener, sender).getTransactionHash();
+    }
+
+    public String addAccountByOperatorHash(String sender, String account, String accName, String accDID, String leaderDID) throws Exception {
+        if (!AddressUtils.isValidAddress(sender)) {
+            throw new DDCException(ErrorMessage.SENDER_ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        if (Strings.isEmpty(account)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_EMPTY);
+        }
+
+        if (!AddressUtils.isValidAddress(account)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_IS_NOT_ADDRESS_FORMAT);
+        }
+
+        if (Strings.isEmpty(accName)) {
+            throw new DDCException(ErrorMessage.ACCOUNT_NAME_IS_EMPTY);
+        }
+
+        String encodedFunction = authority.addAccountByOperator(account, accName, accDID, leaderDID).encodeFunctionCall();
+        return generateOfflineHash(authority, authority.FUNC_ADDACCOUNTBYOPERATOR, encodedFunction, signEventListener, sender);
     }
 
     /**
