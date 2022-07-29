@@ -209,8 +209,7 @@ public class BlockEventService extends BaseService {
     }
 
     public ExecutorService newExecutorService() {
-        int poolSize = 20;
-        BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(200000);
+        BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(maxTaskSize);
         RejectedExecutionHandler policy = new ThreadPoolExecutor.AbortPolicy();
         ExecutorService executorService = new ThreadPoolExecutor(poolSize, poolSize,
                 0, TimeUnit.SECONDS,

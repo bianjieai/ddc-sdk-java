@@ -22,17 +22,12 @@ import java.util.concurrent.*;
 
 @Slf4j
 public class BlockEventService extends BaseService {
+    private static int poolSize = 20;
+    private static int maxTaskSize = 200000;
     ExecutorService executorService;
 
     public BlockEventService() {
-        int poolSize = 20;
-        BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(20000);
-        RejectedExecutionHandler policy = new ThreadPoolExecutor.AbortPolicy();
-        ExecutorService executorService = new ThreadPoolExecutor(poolSize, poolSize,
-                0, TimeUnit.SECONDS,
-                queue,
-                policy);
-        this.executorService = executorService;
+        this.executorService = newExecutorService();
     }
 
     public ArrayList<BaseEventResponse> analyzeEventsByTxHash(String hash) throws Exception {
@@ -207,5 +202,16 @@ public class BlockEventService extends BaseService {
             }
             return null;
         }
+    }
+
+    public ExecutorService newExecutorService() {
+        int poolSize = 20;
+        BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(200000);
+        RejectedExecutionHandler policy = new ThreadPoolExecutor.AbortPolicy();
+        ExecutorService executorService = new ThreadPoolExecutor(poolSize, poolSize,
+                0, TimeUnit.SECONDS,
+                queue,
+                policy);
+        return executorService;
     }
 }
