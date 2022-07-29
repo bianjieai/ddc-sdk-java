@@ -132,6 +132,10 @@ public class BlockEventService extends BaseService {
         logs.forEach(l -> {
             Log log = (Log) l;
             Parse parse = new Parse(log);
+            // 增加isShutdown()判断
+            if (executorService.isShutdown()) {
+                executorService = newExecutorService();
+            }
             Future<BaseEventResponse> submit = executorService.submit(parse);
             futureList.add(submit);
         });
@@ -148,7 +152,7 @@ public class BlockEventService extends BaseService {
         }
 
         log.info("块高 {} 解析到区块事件 {}", blockNumber, JSON.toJSONString(list));
-        executorService.shutdown();
+//        executorService.shutdown();
         return new BlockEventBean(list, blockInfo.getTimestamp().toString());
     }
 
